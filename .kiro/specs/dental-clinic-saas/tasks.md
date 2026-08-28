@@ -10,15 +10,15 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
 
 ## Tasks
 
-- [ ] 1. Configuración de infraestructura base del proyecto
-  - [ ] 1.1 Inicializar proyecto Next.js 14 con TypeScript y configurar estructura de carpetas
+- [x] 1. Configuración de infraestructura base del proyecto
+  - [x] 1.1 Inicializar proyecto Next.js 14 con TypeScript y configurar estructura de carpetas
     - Crear proyecto con `create-next-app` usando App Router y TypeScript estricto
     - Configurar `tsconfig.json` con rutas absolutas (`@/`)
     - Crear estructura de carpetas: `app/`, `app/(auth)/`, `app/(dashboard)/`, `app/api/`, `lib/`, `types/`, `components/`, `__tests__/`
     - Instalar dependencias: `@supabase/supabase-js`, `@supabase/ssr`, `zod`, `vitest`, `fast-check`, `@vitejs/plugin-react`
     - _Requisitos: 1.1_
 
-  - [ ] 1.2 Configurar variables de entorno y cliente Supabase para servidor y cliente
+  - [x] 1.2 Configurar variables de entorno y cliente Supabase para servidor y cliente
     - Crear `.env.local` con `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` y `SUPABASE_SERVICE_ROLE_KEY`
     - Implementar `lib/supabase/server.ts` con `createServerClient` usando `@supabase/ssr` (cookies)
     - Implementar `lib/supabase/client.ts` con `createBrowserClient` (solo `anon key`)
@@ -26,19 +26,19 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Verificar que `SUPABASE_SERVICE_ROLE_KEY` no esté prefijada con `NEXT_PUBLIC_`
     - _Requisitos: 8.2, 8.3_
 
-  - [ ] 1.3 Configurar headers de seguridad HTTP en `next.config.ts`
+  - [x] 1.3 Configurar headers de seguridad HTTP en `next.config.ts`
     - Implementar función `headers()` en `next.config.ts` con: `Content-Security-Policy`, `Strict-Transport-Security`, `X-Content-Type-Options` y `Referrer-Policy`
     - Configurar CSP con `connect-src` apuntando a `*.supabase.co`
     - Configurar HSTS con `max-age=63072000; includeSubDomains; preload`
     - _Requisitos: 3.6, 3.7_
 
-  - [ ]* 1.4 Escribir prueba de propiedad P25: Headers de seguridad HTTP
+  - [x] 1.4 Escribir prueba de propiedad P25: Headers de seguridad HTTP
     - **Propiedad 25: Headers de Seguridad HTTP Presentes en Todas las Respuestas**
     - **Valida: Requisito 3.7**
     - Crear `__tests__/properties/security-headers.property.test.ts`
     - Verificar con fast-check que todas las rutas incluyen los cuatro headers requeridos con sus valores configurados
 
-  - [ ] 1.5 Implementar middleware de autenticación
+  - [x] 1.5 Implementar middleware de autenticación
     - Crear `middleware.ts` en la raíz del proyecto
     - Verificar sesión válida para todas las rutas bajo `/(dashboard)`
     - Redirigir a `/login` si no hay sesión o está expirada
@@ -47,12 +47,12 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Configurar `matcher` para excluir rutas estáticas y `/(auth)/*`
     - _Requisitos: 2.7, 2.8, 3.1, 3.5_
 
-  - [ ] 1.6 Crear tipos de dominio TypeScript compartidos
+  - [x] 1.6 Crear tipos de dominio TypeScript compartidos
     - Crear `types/domain.ts` con: `UserRole`, `AppointmentStatus`, `ClinicalEntryType`, `ToothSurface`, `ToothStatus`, `AuditAction`, `JWTClaims`, `AuditRecord`
     - Crear `errors/domain.ts` con la jerarquía de errores: `DentalClinicError`, `TenantIsolationError`, `RoleAuthorizationError`, `UniqueDocumentError`, `AppointmentConflictError`, `ConcurrencyConflictError`, `ImmutableRecordError`, `ValidationError`, `ReportRangeLimitError`
     - _Requisitos: 1.1, 2.1_
 
-  - [ ] 1.7 Implementar wrapper genérico de Server Actions con manejo de errores
+  - [x] 1.7 Implementar wrapper genérico de Server Actions con manejo de errores
     - Crear `lib/server-action-wrapper.ts` con función `withErrorHandling`
     - Capturar errores de dominio (`DentalClinicError`) y errores inesperados
     - Registrar log de auditoría para errores HTTP 403 automáticamente
