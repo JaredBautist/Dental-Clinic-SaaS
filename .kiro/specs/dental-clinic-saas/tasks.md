@@ -116,8 +116,8 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/tenant-isolation.property.test.ts`
     - Generar con fast-check pares `(userClinicId, registros con clinic_ids mixtos)` y verificar que la función de filtrado por RLS solo retorna filas del `clinic_id` del usuario
 
-- [ ] 3. Autenticación y control de sesiones
-  - [ ] 3.1 Implementar páginas de login con validación de intentos fallidos
+- [x] 3. Autenticación y control de sesiones
+  - [x] 3.1 Implementar páginas de login con validación de intentos fallidos
     - Crear `app/(auth)/login/page.tsx` con formulario de email + contraseña
     - Implementar Server Action `loginAction` que usa `supabase.auth.signInWithPassword`
     - Implementar contador de intentos fallidos: tras 5 intentos consecutivos, bloquear durante 15 minutos y enviar notificación al email del administrador del consultorio
@@ -125,13 +125,13 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Mostrar mensajes de error específicos sin revelar si la cuenta existe
     - _Requisitos: 3.1, 3.2, 10.3_
 
-  - [ ]* 3.2 Escribir prueba de propiedad P22: Validación de contraseñas
+  - [x]* 3.2 Escribir prueba de propiedad P22: Validación de contraseñas
     - **Propiedad 22: Validación de Contraseñas**
     - **Valida: Requisito 3.3**
     - Crear `__tests__/properties/password-validation.property.test.ts`
     - Usar fast-check para generar cadenas válidas e inválidas; verificar que la función de validación acepta exactamente las contraseñas que cumplen ≥10 chars + mayúscula + minúscula + dígito + especial, y rechaza todas las demás indicando los requisitos incumplidos
 
-  - [ ] 3.3 Implementar flujo de configuración y verificación MFA
+  - [x] 3.3 Implementar flujo de configuración y verificación MFA
     - Crear `app/(auth)/setup-mfa/page.tsx` con flujo TOTP obligatorio para `administrador` y `odontologo`
     - Implementar `supabase.auth.mfa.enroll()` para configuración inicial
     - Crear `app/(auth)/verify-mfa/page.tsx` para verificación TOTP en cada inicio de sesión
@@ -140,13 +140,13 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Actualizar campo `mfa_enabled = true` en tabla `users` al completar la configuración
     - _Requisitos: 2.7, 2.8_
 
-  - [ ]* 3.4 Escribir prueba de propiedad P24: Integridad del JWT emitido
+  - [x]* 3.4 Escribir prueba de propiedad P24: Integridad del JWT emitido
     - **Propiedad 24: Integridad del JWT Emitido**
     - **Valida: Requisito 2.9**
     - Crear `__tests__/properties/jwt-claims.property.test.ts`
     - Verificar con fast-check que para cualquier usuario autenticado correctamente, el JWT contiene `clinic_id`, `user_id` y `role` con valores idénticos a los almacenados en `users`
 
-  - [ ] 3.5 Implementar cierre de sesión por inactividad (SessionTimer) y expiración de sesión
+  - [x] 3.5 Implementar cierre de sesión por inactividad (SessionTimer) y expiración de sesión
     - Crear `components/session/SessionTimer.tsx` como Client Component
     - Escuchar eventos `click`, `keydown`, `mousemove`, `touchstart` para reiniciar timer
     - Al cumplir 30 minutos sin eventos: ejecutar `supabase.auth.signOut()` y redirigir a `/login`
@@ -154,7 +154,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Implementar manejo de token expirado/revocado: redirigir a login y limpiar datos de sesión del navegador
     - _Requisitos: 3.4, 3.5_
 
-  - [ ] 3.6 Implementar Route Handler `GET /api/health` para verificación de disponibilidad
+  - [x] 3.6 Implementar Route Handler `GET /api/health` para verificación de disponibilidad
     - Crear `app/api/health/route.ts` que retorna `{ status: 'ok' }` con HTTP 200
     - Usar para verificar conectividad antes de login y desde el detector offline
     - _Requisitos: 10.3_

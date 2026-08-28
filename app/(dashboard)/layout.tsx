@@ -1,3 +1,5 @@
+import { SessionTimer } from '@/components/session/SessionTimer';
+
 export default function DashboardLayout({
   children,
 }: {
@@ -5,6 +7,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
+      <SessionTimer />
       <header className="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
         <div className="font-semibold text-lg text-teal-700">🦷 Dental Clinic SaaS</div>
       </header>
