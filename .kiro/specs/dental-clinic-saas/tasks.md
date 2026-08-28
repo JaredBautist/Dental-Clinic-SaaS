@@ -59,20 +59,20 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - No exponer detalles de error interno al cliente
     - _Requisitos: 8.4_
 
-- [ ] 2. Migraciones de base de datos y políticas RLS
-  - [ ] 2.1 Crear migración SQL para tablas base: `clinics` y `users`
+- [x] 2. Migraciones de base de datos y políticas RLS
+  - [x] 2.1 Crear migración SQL para tablas base: `clinics` y `users`
     - Crear `supabase/migrations/001_create_clinics.sql` con tabla `clinics`, trigger `set_clinics_updated_at` y función `update_updated_at_column()`
     - Crear `supabase/migrations/002_create_users.sql` con tabla `users` (extiende `auth.users`), índices `idx_users_clinic_id` e `idx_users_clinic_role`
     - _Requisitos: 1.3, 2.1_
 
-  - [ ] 2.2 Crear migración SQL para tabla `patients` con índice GIN de búsqueda full-text
+  - [x] 2.2 Crear migración SQL para tabla `patients` con índice GIN de búsqueda full-text
     - Crear `supabase/migrations/003_create_patients.sql`
     - Incluir constraint `UNIQUE (clinic_id, document_type, document_number)`
     - Crear índice `idx_patients_search` usando `GIN(to_tsvector('spanish', ...))`
     - Crear índices `idx_patients_clinic_id` e `idx_patients_document`
     - _Requisitos: 4.3, 4.7_
 
-  - [ ] 2.3 Crear migración SQL para tabla `appointments` con exclusion constraint
+  - [x] 2.3 Crear migración SQL para tabla `appointments` con exclusion constraint
     - Crear `supabase/migrations/004_create_appointments.sql`
     - Habilitar extensión `btree_gist` con `CREATE EXTENSION IF NOT EXISTS btree_gist`
     - Crear columna generada `ends_at GENERATED ALWAYS AS (scheduled_at + (duration_min * interval '1 minute')) STORED`
@@ -80,7 +80,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear índices necesarios
     - _Requisitos: 5.1, 5.4_
 
-  - [ ] 2.4 Crear migraciones SQL para tablas clínicas e historial del odontograma
+  - [x] 2.4 Crear migraciones SQL para tablas clínicas e historial del odontograma
     - Crear `supabase/migrations/005_create_clinical_records.sql` con `clinical_records` (constraint `UNIQUE(clinic_id, patient_id)`)
     - Crear `supabase/migrations/006_create_clinical_entries.sql` con `clinical_entries` (sin `updated_at`, constraint de consistencia `correction_entry_consistency`)
     - Crear `supabase/migrations/007_create_clinical_attachments.sql` con `clinical_attachments`
@@ -88,14 +88,14 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `supabase/migrations/009_create_custom_tooth_statuses.sql` con `custom_tooth_statuses`
     - _Requisitos: 6.1, 6.2, 6.3, 7.2, 7.3_
 
-  - [ ] 2.5 Crear migración SQL para tabla `audit_logs` (inmutable)
+  - [x] 2.5 Crear migración SQL para tabla `audit_logs` (inmutable)
     - Crear `supabase/migrations/010_create_audit_logs.sql`
     - Sin claves foráneas en `clinic_id` ni `user_id` (preservar si entidad se elimina)
     - Sin `updated_at` intencional
     - Crear índices `idx_audit_clinic_timestamp`, `idx_audit_entity`, `idx_audit_user`
     - _Requisitos: 8.4, 8.5_
 
-  - [ ] 2.6 Crear migración SQL con todas las políticas RLS
+  - [x] 2.6 Crear migración SQL con todas las políticas RLS
     - Crear `supabase/migrations/011_rls_policies.sql`
     - Habilitar RLS en todas las tablas: `clinics`, `users`, `patients`, `appointments`, `clinical_records`, `clinical_entries`, `clinical_attachments`, `odontogram_states`, `custom_tooth_statuses`, `audit_logs`
     - Implementar políticas SELECT/INSERT/UPDATE diferenciadas por rol para cada tabla según el diseño
@@ -103,14 +103,14 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Denegar DELETE sobre `users` (se desactiva, no se elimina)
     - _Requisitos: 2.10, 6.3, 7.7, 8.1, 8.5_
 
-  - [ ] 2.7 Configurar bucket privado de Supabase Storage y sus políticas
+  - [x] 2.7 Configurar bucket privado de Supabase Storage y sus políticas
     - Crear `supabase/migrations/012_storage_policies.sql`
     - Crear bucket `clinical-files` como privado (no público)
     - Implementar política `storage_insert_clinical`: solo `administrador` u `odontologo` del mismo `clinic_id`
     - Implementar política `storage_select_clinical`: misma restricción de rol y `clinic_id`
     - _Requisitos: 6.8, 8.1_
 
-  - [ ]* 2.8 Escribir prueba de propiedad P1: Aislamiento completo de tenants
+  - [x]* 2.8 Escribir prueba de propiedad P1: Aislamiento completo de tenants
     - **Propiedad 1: Aislamiento Completo de Tenants**
     - **Valida: Requisitos 1.4, 2.4, 4.8, 5.11, 7.8, 8.1, 9.6**
     - Crear `__tests__/properties/tenant-isolation.property.test.ts`
