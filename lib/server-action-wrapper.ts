@@ -1,5 +1,10 @@
 import { ZodError } from 'zod';
 import { DentalClinicError, ValidationError } from '@/errors/domain';
+import {
+  persistAuthorizationFailure,
+  type AuthorizationFailureRecorder,
+  type AuthorizationSecurityContext,
+} from '@/lib/audit/authorization-failure';
 
 export type ServerActionResult<T> =
   | { success: true; data: T; error?: never }
@@ -14,12 +19,18 @@ export type ServerActionResult<T> =
       data?: never;
     };
 
+export interface ErrorHandlingOptions {
+  securityContext?: AuthorizationSecurityContext;
+  recordAuthorizationFailure?: AuthorizationFailureRecorder;
+}
+
 /**
  * Wrapper de alto orden para Server Actions con manejo robusto y seguro de errores.
  * Garantiza que nunca se expongan stack traces o errores internos no controlados al cliente.
  */
 export async function withErrorHandling<T>(
-  action: () => Promise<T>
+  action: () => Promise<T>,
+  options?: ErrorHandlingOptions
 ): Promise<ServerActionResult<T>> {
   try {
     const data = await action();
@@ -50,6 +61,19 @@ export async function withErrorHandling<T>(
 
     // Manejo de errores de dominio conocidos
     if (err instanceof DentalClinicError) {
+      const securityContext = options?.securityContext ?? err.authorizationContext;
+      if (err.statusCode === 403 && securityContext) {
+        const recorder = options?.recordAuthorizationFailure ?? persistAuthorizationFailure;
+        try {
+          await recorder({
+            ...securityContext,
+            errorCode: err.code,
+          });
+        } catch (auditError: unknown) {
+          console.error('[Authorization Audit Error]:', auditError);
+        }
+      }
+
       return {
         success: false,
         error: {

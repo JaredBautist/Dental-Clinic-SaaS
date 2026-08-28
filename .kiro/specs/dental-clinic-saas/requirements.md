@@ -28,7 +28,7 @@ El sistema centraliza la información operativa y clínica de múltiples consult
 - **RLS**: Row Level Security — mecanismo de PostgreSQL/Supabase que restringe el acceso a filas según políticas definidas, aplicado en la capa de base de datos.
 - **MFA**: Autenticación multifactor — capa adicional de verificación de identidad al iniciar sesión.
 - **Registro_Auditoria**: Entrada inmutable que documenta una acción realizada por un usuario sobre una entidad del sistema, con campos: `id`, `clinic_id`, `user_id`, `role`, `entity_type`, `entity_id`, `action`, `timestamp` y `result`.
-- **JWT**: JSON Web Token — token firmado que identifica a un usuario autenticado y transporta su `clinic_id`, `user_id` y `role` como claims verificables.
+- **JWT**: JSON Web Token — token firmado que identifica a un usuario autenticado y transporta `clinic_id`, `user_id` y `user_role` como claims verificables. El claim reservado `role` conserva el rol técnico de Supabase (`authenticated`).
 - **URL_Firmada**: URL temporal generada por Supabase Storage con tiempo de expiración máximo de 15 minutos, que permite acceso controlado a archivos en buckets privados.
 - **Marcas_De_Tiempo**: Campos `created_at` y `version` presentes en entidades sujetas a control de concurrencia (Historia_Clínica, Odontograma), usados para detectar escrituras conflictivas.
 - **Conflicto_De_Concurrencia**: Situación en la que dos escrituras sobre el mismo registro ocurren con el mismo valor de `version`, indicando modificación simultánea no coordinada.
@@ -68,7 +68,7 @@ El sistema centraliza la información operativa y clínica de múltiples consult
 6. IF el Administrador intenta eliminar o desactivar el único usuario con rol `administrador` del consultorio, THEN THE Sistema SHALL rechazar la operación con un mensaje que indique que el consultorio debe conservar al menos un administrador activo.
 7. WHEN un usuario con rol `administrador` u `odontologo` inicia sesión por primera vez tras la activación de su cuenta, THE Sistema SHALL redirigirlo al flujo de configuración de MFA antes de conceder acceso a cualquier funcionalidad del sistema.
 8. IF un usuario abandona o falla el flujo de configuración de MFA, THEN THE Sistema SHALL cerrar la sesión activa e impedir el acceso hasta que el usuario complete la configuración de MFA en un inicio de sesión posterior.
-9. WHEN un usuario completa la autenticación correctamente, THE Sistema SHALL emitir un JWT que incluye `clinic_id`, `user_id` y `role` como claims verificables.
+9. WHEN un usuario completa la autenticación correctamente, THE Sistema SHALL emitir un JWT que incluye `clinic_id`, `user_id` y `user_role` como claims verificables; `user_role` SHALL coincidir con `users.role` y el claim reservado `role` SHALL conservar el valor técnico requerido por Supabase.
 10. THE Sistema SHALL aplicar políticas RLS para los roles `administrador`, `odontologo` y `recepcionista` en todas las operaciones SELECT, INSERT, UPDATE y DELETE de todas las tablas de negocio.
 
 ---

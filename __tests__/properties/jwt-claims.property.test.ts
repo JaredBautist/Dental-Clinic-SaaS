@@ -4,7 +4,7 @@
  * Valida: Requisito 2.9
  *
  * Propiedad: Para cualquier usuario autenticado correctamente en el sistema:
- * 1. El token / claims emitidos contienen exactamente: clinic_id, user_id y role.
+ * 1. El token / claims emitidos contienen: clinic_id, user_id y user_role.
  * 2. Los valores en las claims coinciden de manera idéntica e inmutable con los
  *    datos registrados en la tabla users.
  * 3. El rol extraído pertenece exclusivamente al conjunto {'administrador', 'odontologo', 'recepcionista'}.
@@ -29,7 +29,7 @@ function buildJWTClaims(user: {
   return {
     clinic_id: user.clinic_id,
     user_id: user.id,
-    role: user.role,
+    user_role: user.role,
   };
 }
 
@@ -40,7 +40,7 @@ function parseAndVerifyClaims(
   return (
     claims.clinic_id === expectedUser.clinic_id &&
     claims.user_id === expectedUser.id &&
-    claims.role === expectedUser.role
+    claims.user_role === expectedUser.role
   );
 }
 
@@ -66,10 +66,10 @@ describe('Propiedad P24: Integridad del JWT Emitido', () => {
         // 2. Coincidencia exacta de cada campo
         expect(claims.user_id).toBe(user.id);
         expect(claims.clinic_id).toBe(user.clinic_id);
-        expect(claims.role).toBe(user.role);
+        expect(claims.user_role).toBe(user.role);
 
         // 3. Tipado estricto del rol
-        expect(['administrador', 'odontologo', 'recepcionista']).toContain(claims.role);
+        expect(['administrador', 'odontologo', 'recepcionista']).toContain(claims.user_role);
 
         // 4. Formato UUID válido
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

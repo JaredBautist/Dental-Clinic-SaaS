@@ -49,8 +49,13 @@ export default function SetupMfaPage() {
     try {
       const res = await verifyMfaSetupAction({ factorId, code });
       if (res.success && res.data) {
-        router.push(res.data.redirectTo);
+        router.replace(res.data.redirectTo);
+        router.refresh();
       } else {
+        if (res.error?.code === 'MFA_VERIFICATION_FAILED') {
+          router.replace('/login?reason=mfa_failed');
+          return;
+        }
         setErrorMsg(res.error?.message || 'Código inválido. Intente de nuevo.');
         setIsVerifying(false);
       }
@@ -61,8 +66,12 @@ export default function SetupMfaPage() {
   }
 
   async function handleCancel() {
-    await cancelMfaAction();
-    router.push('/login');
+    const result = await cancelMfaAction();
+    if (!result.success) {
+      setErrorMsg(result.error.message);
+      return;
+    }
+    router.replace('/login');
   }
 
   return (

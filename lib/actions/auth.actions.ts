@@ -5,16 +5,106 @@ import { createClient as createServerSupabaseClient } from '@/lib/supabase/serve
 import { createAdminClient } from '@/lib/supabase/admin';
 import { withErrorHandling, ServerActionResult } from '@/lib/server-action-wrapper';
 import {
-  checkLockout,
-  recordFailedAttempt,
-  clearFailedAttempts,
-} from '@/lib/auth/login-limiter';
+  createLoginAttemptStore,
+  type RpcInvoker,
+} from '@/lib/auth/login-attempt-store';
+import { terminateSession } from '@/lib/auth/session-termination';
+import {
+  AccountLockedError,
+  DentalClinicError,
+  InvalidCredentialsError,
+  RoleAuthorizationError,
+} from '@/errors/domain';
 import { UserRole } from '@/types/domain';
 
+const USER_ROLES = new Set<UserRole>(['administrador', 'odontologo', 'recepcionista']);
+
 const loginSchema = z.object({
-  email: z.string().email('El formato del correo electrónico no es válido'),
-  password: z.string().min(1, 'La contraseña es obligatoria'),
+  email: z.string().email('El formato del correo electrónico no es válido').max(254),
+  password: z.string().min(1, 'La contraseña es obligatoria').max(256),
 });
+
+function createPersistentAttemptStore() {
+  const admin = createAdminClient();
+  const invokeRpc: RpcInvoker = async (functionName, parameters) => {
+    const { data, error } = await admin.rpc(functionName, parameters);
+    return {
+      data,
+      error: error ? { message: error.message } : null,
+    };
+  };
+  return createLoginAttemptStore(invokeRpc);
+}
+
+async function requireClinicalUser() {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new DentalClinicError('Debe iniciar sesión nuevamente.', 'AUTHENTICATION_REQUIRED', 401);
+  }
+
+  const { data: profile, error } = await supabase
+    .from('users')
+    .select('id, clinic_id, role, is_active')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (
+    error ||
+    !profile ||
+    typeof profile.id !== 'string' ||
+    typeof profile.clinic_id !== 'string' ||
+    !USER_ROLES.has(profile.role as UserRole)
+  ) {
+    throw new DentalClinicError(
+      'No fue posible validar el perfil de acceso.',
+      'AUTH_PROFILE_UNAVAILABLE',
+      401
+    );
+  }
+
+  const role = profile.role as UserRole;
+  const authorizationContext = {
+    clinicId: profile.clinic_id,
+    userId: profile.id,
+    role,
+    entityType: 'usuario' as const,
+    entityId: profile.id,
+    action: 'access_denied' as const,
+  };
+
+  if (profile.is_active !== true) {
+    throw new DentalClinicError(
+      'Su cuenta está desactivada. Comuníquese con el administrador del consultorio.',
+      'ACCOUNT_INACTIVE',
+      403,
+      authorizationContext
+    );
+  }
+
+  if (role !== 'administrador' && role !== 'odontologo') {
+    throw new RoleAuthorizationError(
+      'El rol actual no puede completar este flujo MFA.',
+      authorizationContext
+    );
+  }
+
+  return { supabase, user };
+}
+
+async function failMfaVerification(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  message: string
+): Promise<never> {
+  await terminateSession(
+    () => supabase.auth.signOut(),
+    'No fue posible cerrar la sesión después del fallo MFA.'
+  );
+  throw new DentalClinicError(message, 'MFA_VERIFICATION_FAILED', 401);
+}
 
 export interface LoginResult {
   redirectTo: string;
@@ -35,12 +125,11 @@ export async function loginAction(
     // 1. Validar esquema de entrada
     const { email, password } = loginSchema.parse(formData);
 
-    // 2. Verificar si la cuenta está bloqueada por intentos fallidos
-    const lockout = checkLockout(email);
+    // 2. Verificar el bloqueo persistente antes de enviar credenciales a Auth.
+    const attemptStore = createPersistentAttemptStore();
+    const lockout = await attemptStore.check(email);
     if (lockout.isLocked) {
-      throw new Error(
-        `Demasiados intentos fallidos. Su cuenta ha sido bloqueada temporalmente por ${lockout.remainingMinutes} minutos.`
-      );
+      throw new AccountLockedError(Math.max(1, Math.ceil(lockout.remainingSeconds / 60)));
     }
 
     const supabase = await createServerSupabaseClient();
@@ -52,66 +141,71 @@ export async function loginAction(
     });
 
     if (authError || !authData.user) {
-      // Registrar intento fallido
-      const attemptResult = recordFailedAttempt(email);
+      const attemptResult = await attemptStore.recordFailure(email);
 
       if (attemptResult.triggeredLockout) {
-        // Enviar notificación al admin o registrar auditoría
+        // Transactional Outbox: no afirmar entrega hasta que un worker la procese.
         try {
-          const admin = createAdminClient();
-          await admin.from('audit_logs').insert({
-            clinic_id: '00000000-0000-0000-0000-000000000000',
-            user_id: '00000000-0000-0000-0000-000000000000',
-            role: 'administrador',
-            entity_type: 'usuario',
-            entity_id: '00000000-0000-0000-0000-000000000000',
-            action: 'update',
-            result: 'failure',
-            metadata: {
-              reason: 'ACCOUNT_LOCKED_FAILED_ATTEMPTS',
-              targetEmail: email,
-              lockoutMinutes: 15,
-            },
-          });
-        } catch {
-          // No detener el flujo si falla el log de auditoría
+          await attemptStore.enqueueLockoutNotification(email);
+        } catch (notificationError: unknown) {
+          console.error('[Login Lockout Outbox Error]:', notificationError);
         }
 
-        throw new Error(
-          'Ha superado el límite de 5 intentos fallidos. Su cuenta ha sido bloqueada por 15 minutos.'
-        );
+        throw new AccountLockedError(15);
       }
 
-      const attemptsWarning =
-        attemptResult.attemptsLeft > 0
-          ? ` (${attemptResult.attemptsLeft} intentos restantes antes de bloqueo temporal)`
-          : '';
-
-      throw new Error(`Credenciales inválidas. Por favor verifique su correo y contraseña${attemptsWarning}.`);
+      throw new InvalidCredentialsError(attemptResult.attemptsLeft);
     }
 
-    // 4. Limpiar intentos fallidos tras login exitoso
-    clearFailedAttempts(email);
-
-    // 5. Consultar información del usuario en la tabla users
-    const admin = createAdminClient();
-    const { data: userProfile, error: profileError } = await admin
+    // 4. Consultar el perfil con la sesión del usuario y RLS activo.
+    const { data: userProfile, error: profileError } = await supabase
       .from('users')
       .select('id, clinic_id, role, full_name, is_active, mfa_enabled')
       .eq('id', authData.user.id)
       .single();
 
-    if (profileError || !userProfile) {
-      await supabase.auth.signOut();
-      throw new Error('El perfil de usuario asociado no existe en este consultorio.');
-    }
-
-    if (!userProfile.is_active) {
-      await supabase.auth.signOut();
-      throw new Error('Su cuenta ha sido desactivada. Comuníquese con el administrador del consultorio.');
+    if (
+      profileError ||
+      !userProfile ||
+      typeof userProfile.id !== 'string' ||
+      typeof userProfile.clinic_id !== 'string' ||
+      !USER_ROLES.has(userProfile.role as UserRole)
+    ) {
+      await terminateSession(
+        () => supabase.auth.signOut(),
+        'No fue posible cerrar la sesión con un perfil inválido.'
+      );
+      throw new DentalClinicError(
+        'No fue posible validar el perfil de acceso.',
+        'AUTH_PROFILE_UNAVAILABLE',
+        401
+      );
     }
 
     const role = userProfile.role as UserRole;
+    if (!userProfile.is_active) {
+      await terminateSession(
+        () => supabase.auth.signOut(),
+        'No fue posible cerrar la sesión de la cuenta desactivada.'
+      );
+      throw new DentalClinicError(
+        'Su cuenta está desactivada. Comuníquese con el administrador del consultorio.',
+        'ACCOUNT_INACTIVE',
+        403,
+        {
+          clinicId: userProfile.clinic_id,
+          userId: userProfile.id,
+          role,
+          entityType: 'usuario',
+          entityId: userProfile.id,
+          action: 'access_denied',
+        }
+      );
+    }
+
+    // 5. Limpiar intentos únicamente después de validar la cuenta completa.
+    await attemptStore.clear(email);
+
     const isClinicalRole = role === 'administrador' || role === 'odontologo';
 
     let redirectTo = '/dashboard';
@@ -144,7 +238,10 @@ export async function loginAction(
 export async function logoutAction(): Promise<ServerActionResult<{ success: boolean }>> {
   return withErrorHandling(async () => {
     const supabase = await createServerSupabaseClient();
-    await supabase.auth.signOut();
+    await terminateSession(
+      () => supabase.auth.signOut(),
+      'No fue posible cerrar la sesión de forma segura.'
+    );
     return { success: true };
   });
 }
@@ -161,14 +258,18 @@ export async function enrollMfaAction(): Promise<
   }>
 > {
   return withErrorHandling(async () => {
-    const supabase = await createServerSupabaseClient();
+    const { supabase } = await requireClinicalUser();
     const { data, error } = await supabase.auth.mfa.enroll({
       factorType: 'totp',
       issuer: 'Dental Clinic SaaS',
     });
 
     if (error || !data) {
-      throw new Error(error?.message || 'Error al inicializar la configuración de MFA.');
+      throw new DentalClinicError(
+        'No fue posible iniciar la configuración MFA.',
+        'MFA_ENROLLMENT_FAILED',
+        503
+      );
     }
 
     return {
@@ -191,11 +292,11 @@ export async function verifyMfaSetupAction(formData: {
     const { factorId, code } = z
       .object({
         factorId: z.string().min(1, 'El ID de factor es obligatorio'),
-        code: z.string().length(6, 'El código debe tener exactamente 6 dígitos'),
+        code: z.string().regex(/^\d{6}$/, 'El código debe tener exactamente 6 dígitos'),
       })
       .parse(formData);
 
-    const supabase = await createServerSupabaseClient();
+    const { supabase, user } = await requireClinicalUser();
 
     // 1. Crear challenge y verificar
     const { data: challengeData, error: challengeError } = await supabase.auth.mfa.challenge({
@@ -203,7 +304,10 @@ export async function verifyMfaSetupAction(formData: {
     });
 
     if (challengeError || !challengeData) {
-      throw new Error('No se pudo generar el desafío de verificación MFA.');
+      return failMfaVerification(
+        supabase,
+        'No fue posible generar el desafío MFA. Inicie sesión nuevamente.'
+      );
     }
 
     const { error: verifyError } = await supabase.auth.mfa.verify({
@@ -213,17 +317,32 @@ export async function verifyMfaSetupAction(formData: {
     });
 
     if (verifyError) {
-      throw new Error('Código de autenticación incorrecto o expirado. Intente nuevamente.');
+      return failMfaVerification(
+        supabase,
+        'El código MFA es incorrecto o expiró. Inicie sesión nuevamente.'
+      );
     }
 
-    // 2. Marcar mfa_enabled = true en la base de datos
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    // 2. Marcar mfa_enabled solo después de alcanzar AAL2.
+    const { data: assurance, error: assuranceError } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError || assurance.currentLevel !== 'aal2') {
+      return failMfaVerification(
+        supabase,
+        'Supabase no confirmó el segundo factor. Inicie sesión nuevamente.'
+      );
+    }
 
-    if (user) {
-      const admin = createAdminClient();
-      await admin.from('users').update({ mfa_enabled: true }).eq('id', user.id);
+    const admin = createAdminClient();
+    const { error: profileUpdateError } = await admin
+      .from('users')
+      .update({ mfa_enabled: true })
+      .eq('id', user.id);
+    if (profileUpdateError) {
+      return failMfaVerification(
+        supabase,
+        'No fue posible guardar la configuración MFA. Inicie sesión nuevamente.'
+      );
     }
 
     return {
@@ -242,16 +361,19 @@ export async function verifyMfaLoginAction(formData: {
   return withErrorHandling(async () => {
     const { code } = z
       .object({
-        code: z.string().length(6, 'El código debe tener exactamente 6 dígitos'),
+        code: z.string().regex(/^\d{6}$/, 'El código debe tener exactamente 6 dígitos'),
       })
       .parse(formData);
 
-    const supabase = await createServerSupabaseClient();
+    const { supabase } = await requireClinicalUser();
 
     // Obtener los factores autenticados del usuario
     const { data: factors, error: factorsError } = await supabase.auth.mfa.listFactors();
     if (factorsError || !factors.totp || factors.totp.length === 0) {
-      throw new Error('No se encontró un factor de autenticación TOTP configurado.');
+      return failMfaVerification(
+        supabase,
+        'No existe un factor TOTP válido. Inicie sesión nuevamente.'
+      );
     }
 
     const factor = factors.totp[0];
@@ -261,7 +383,10 @@ export async function verifyMfaLoginAction(formData: {
     });
 
     if (challengeError || !challengeData) {
-      throw new Error('No se pudo generar el desafío de verificación MFA.');
+      return failMfaVerification(
+        supabase,
+        'No fue posible generar el desafío MFA. Inicie sesión nuevamente.'
+      );
     }
 
     const { error: verifyError } = await supabase.auth.mfa.verify({
@@ -271,7 +396,19 @@ export async function verifyMfaLoginAction(formData: {
     });
 
     if (verifyError) {
-      throw new Error('Código de autenticación incorrecto o expirado.');
+      return failMfaVerification(
+        supabase,
+        'El código MFA es incorrecto o expiró. Inicie sesión nuevamente.'
+      );
+    }
+
+    const { data: assurance, error: assuranceError } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError || assurance.currentLevel !== 'aal2') {
+      return failMfaVerification(
+        supabase,
+        'Supabase no confirmó el segundo factor. Inicie sesión nuevamente.'
+      );
     }
 
     return {
@@ -287,7 +424,10 @@ export async function verifyMfaLoginAction(formData: {
 export async function cancelMfaAction(): Promise<ServerActionResult<{ success: boolean }>> {
   return withErrorHandling(async () => {
     const supabase = await createServerSupabaseClient();
-    await supabase.auth.signOut();
+    await terminateSession(
+      () => supabase.auth.signOut(),
+      'No fue posible cancelar el flujo MFA de forma segura.'
+    );
     return { success: true };
   });
 }

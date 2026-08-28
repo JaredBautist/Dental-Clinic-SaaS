@@ -38,13 +38,13 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/security-headers.property.test.ts`
     - Verificar con fast-check que todas las rutas incluyen los cuatro headers requeridos con sus valores configurados
 
-  - [x] 1.5 Implementar middleware de autenticación
-    - Crear `middleware.ts` en la raíz del proyecto
+  - [x] 1.5 Implementar boundary de autenticación (Proxy de Next.js 16)
+    - Crear `proxy.ts` en la raíz del proyecto (reemplazo vigente de `middleware.ts`)
     - Verificar sesión válida para todas las rutas bajo `/(dashboard)`
     - Redirigir a `/login` si no hay sesión o está expirada
     - Verificar estado MFA para roles `administrador` y `odontologo`; redirigir a `/setup-mfa` o `/verify-mfa` según corresponda
-    - Inyectar `clinic_id`, `user_id` y `role` del JWT en headers para Server Components
-    - Configurar `matcher` para excluir rutas estáticas y `/(auth)/*`
+    - Inyectar `clinic_id`, `user_id` y `user_role` verificados en headers internos para Server Components
+    - Configurar `matcher` para excluir recursos estáticos; las rutas públicas y de autenticación se deciden explícitamente en la política de acceso
     - _Requisitos: 2.7, 2.8, 3.1, 3.5_
 
   - [x] 1.6 Crear tipos de dominio TypeScript compartidos
@@ -116,13 +116,21 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/tenant-isolation.property.test.ts`
     - Generar con fast-check pares `(userClinicId, registros con clinic_ids mixtos)` y verificar que la función de filtrado por RLS solo retorna filas del `clinic_id` del usuario
 
-- [x] 3. Autenticación y control de sesiones
-  - [x] 3.1 Implementar páginas de login con validación de intentos fallidos
+  - [x] 2.9 Validar migraciones y garantías de seguridad contra PostgreSQL real
+    - Crear un bootstrap mínimo de los esquemas `auth` y `storage` requeridos por las migraciones
+    - Aplicar secuencialmente las migraciones `001` a `013` sobre PostgreSQL 15 desechable
+    - Verificar con aserciones SQL el aislamiento RLS, las claves compuestas entre tenants, los permisos clínicos, la inmutabilidad, el lockout persistente y el Custom Access Token Hook
+    - Ejecutar mediante `npm run test:db`, eliminando siempre el contenedor al finalizar
+    - _Requisitos: 1.4, 2.4, 2.9, 2.10, 3.2, 6.3, 8.1, 8.5_
+
+- [ ] 3. Autenticación y control de sesiones
+  - [ ] 3.1 Implementar páginas de login con validación de intentos fallidos
     - Crear `app/(auth)/login/page.tsx` con formulario de email + contraseña
     - Implementar Server Action `loginAction` que usa `supabase.auth.signInWithPassword`
     - Implementar contador de intentos fallidos: tras 5 intentos consecutivos, bloquear durante 15 minutos y enviar notificación al email del administrador del consultorio
     - Verificar disponibilidad del servidor via `GET /api/health` antes de procesar credenciales
     - Mostrar mensajes de error específicos sin revelar si la cuenta existe
+    - Estado: lockout persistente implementado; falta conectar un worker/proveedor de correo que procese `private.security_notification_outbox`
     - _Requisitos: 3.1, 3.2, 10.3_
 
   - [x]* 3.2 Escribir prueba de propiedad P22: Validación de contraseñas
@@ -135,21 +143,22 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `app/(auth)/setup-mfa/page.tsx` con flujo TOTP obligatorio para `administrador` y `odontologo`
     - Implementar `supabase.auth.mfa.enroll()` para configuración inicial
     - Crear `app/(auth)/verify-mfa/page.tsx` para verificación TOTP en cada inicio de sesión
-    - Implementar `supabase.auth.mfa.challengeAndVerify()` para validar código
+    - Implementar `supabase.auth.mfa.challenge()` + `supabase.auth.mfa.verify()` y confirmar AAL2 para validar el código
     - Si usuario abandona o falla el flujo MFA: cerrar sesión con `supabase.auth.signOut()` y redirigir a login
     - Actualizar campo `mfa_enabled = true` en tabla `users` al completar la configuración
     - _Requisitos: 2.7, 2.8_
 
-  - [x]* 3.4 Escribir prueba de propiedad P24: Integridad del JWT emitido
+  - [ ]* 3.4 Escribir prueba de propiedad P24: Integridad del JWT emitido
     - **Propiedad 24: Integridad del JWT Emitido**
     - **Valida: Requisito 2.9**
     - Crear `__tests__/properties/jwt-claims.property.test.ts`
-    - Verificar con fast-check que para cualquier usuario autenticado correctamente, el JWT contiene `clinic_id`, `user_id` y `role` con valores idénticos a los almacenados en `users`
+    - Verificar con fast-check que para cualquier usuario autenticado correctamente, el JWT contiene `clinic_id`, `user_id` y `user_role`, con valores idénticos a `users.clinic_id`, `users.id` y `users.role`
+    - Estado: hook SQL validado localmente; falta aplicar la migración en el proyecto Supabase alojado, habilitar allí el Custom Access Token Hook y validarlo contra un JWT real
 
   - [x] 3.5 Implementar cierre de sesión por inactividad (SessionTimer) y expiración de sesión
     - Crear `components/session/SessionTimer.tsx` como Client Component
     - Escuchar eventos `click`, `keydown`, `mousemove`, `touchstart` para reiniciar timer
-    - Al cumplir 30 minutos sin eventos: ejecutar `supabase.auth.signOut()` y redirigir a `/login`
+    - Al cumplir 30 minutos sin eventos: ejecutar una Server Action que confirme `supabase.auth.signOut()` antes de redirigir a `/login`
     - Almacenar timestamp de última actividad en estado React (no en `localStorage`)
     - Implementar manejo de token expirado/revocado: redirigir a login y limpiar datos de sesión del navegador
     - _Requisitos: 3.4, 3.5_

@@ -45,7 +45,8 @@ export type AuditAction =
   | 'cancel'
   | 'reschedule'
   | 'correccion'
-  | 'delete_attempt';
+  | 'delete_attempt'
+  | 'access_denied';
 
 export type AuditEntityType =
   | 'consultorio'
@@ -57,10 +58,19 @@ export type AuditEntityType =
 
 export type AuditResult = 'success' | 'failure';
 
+export interface AuthorizationSecurityContext {
+  clinicId: string;
+  userId: string;
+  role: UserRole;
+  entityType: AuditEntityType;
+  entityId: string;
+  action: AuditAction;
+}
+
 export interface JWTClaims {
   clinic_id: string; // UUID del consultorio
   user_id: string;   // UUID del usuario
-  role: UserRole;
+  user_role: UserRole; // Rol de negocio; `role` está reservado por Supabase
 }
 
 export interface AuditRecord {

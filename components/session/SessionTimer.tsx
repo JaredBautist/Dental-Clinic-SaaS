@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
+import { logoutAction } from '@/lib/actions/auth.actions';
 import { Clock, AlertTriangle, LogOut } from 'lucide-react';
 
 const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutos
@@ -19,16 +19,24 @@ export function SessionTimer() {
   const [lastActivity, setLastActivity] = useState<number>(() => Date.now());
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
   const isLoggingOutRef = useRef<boolean>(false);
 
   const handleLogout = useCallback(async () => {
     if (isLoggingOutRef.current) return;
     isLoggingOutRef.current = true;
     try {
-      const supabase = createClient();
-      await supabase.auth.signOut();
-    } finally {
-      router.push('/login?reason=inactivity');
+      const result = await logoutAction();
+      if (!result.success) {
+        setLogoutError(result.error.message);
+        isLoggingOutRef.current = false;
+        return;
+      }
+      router.replace('/login?reason=inactivity');
+      router.refresh();
+    } catch {
+      setLogoutError('No fue posible cerrar la sesión. Verifique su conexión e intente nuevamente.');
+      isLoggingOutRef.current = false;
     }
   }, [router]);
 
@@ -36,6 +44,7 @@ export function SessionTimer() {
     if (isLoggingOutRef.current) return;
     setLastActivity(Date.now());
     setShowWarning(false);
+    setLogoutError(null);
   }, []);
 
   // Escuchar eventos de actividad del usuario
@@ -76,7 +85,7 @@ export function SessionTimer() {
     return () => clearInterval(interval);
   }, [lastActivity, handleLogout]);
 
-  if (!showWarning) return null;
+  if (!showWarning && !logoutError) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-slate-900/95 border border-amber-500/40 text-white p-4 rounded-2xl shadow-2xl backdrop-blur-xl animate-fade-in">
@@ -90,7 +99,15 @@ export function SessionTimer() {
             Cierre por inactividad
           </h4>
           <p className="text-xs text-slate-300 mt-1">
-            Su sesión expirará en <span className="font-mono font-bold text-amber-400">{remainingSeconds}s</span> por falta de actividad.
+            {logoutError ? (
+              logoutError
+            ) : (
+              <>
+                Su sesión expirará en{' '}
+                <span className="font-mono font-bold text-amber-400">{remainingSeconds}s</span>{' '}
+                por falta de actividad.
+              </>
+            )}
           </p>
           <div className="flex items-center gap-2 mt-3">
             <button

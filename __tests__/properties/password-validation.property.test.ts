@@ -35,16 +35,13 @@ const validPasswordArb = fc
       minLength: 6,
       maxLength: 30,
     }),
+    fc.nat(33),
   )
-  .map(([upper, lower, digit, special, rest]) => {
-    // Mezclar los caracteres requeridos con el resto para que no estén en orden predecible
+  .map(([upper, lower, digit, special, rest, rotation]) => {
+    // Rotar usando un valor generado por fast-check mantiene el caso reproducible y reducible.
     const allChars = [upper, lower, digit, special, ...rest];
-    // Shuffle
-    for (let i = allChars.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [allChars[i], allChars[j]] = [allChars[j], allChars[i]];
-    }
-    return allChars.join('');
+    const offset = rotation % allChars.length;
+    return [...allChars.slice(offset), ...allChars.slice(0, offset)].join('');
   });
 
 describe('Propiedad P22: Validación de Contraseñas', () => {

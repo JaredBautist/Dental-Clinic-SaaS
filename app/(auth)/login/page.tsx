@@ -66,7 +66,7 @@ export default function LoginPage() {
       }
 
       router.push(res.data.redirectTo);
-    } catch (err: unknown) {
+    } catch {
       setErrorMsg('Ocurrió un error al intentar iniciar sesión. Por favor intente nuevamente.');
       setIsLoading(false);
     }

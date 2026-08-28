@@ -1,16 +1,24 @@
 /**
  * Jerarquía de Errores de Dominio para Dental Clinic SaaS
  */
+import type { AuthorizationSecurityContext } from '@/types/domain';
 
 export class DentalClinicError extends Error {
   public readonly code: string;
   public readonly statusCode: number;
+  public readonly authorizationContext?: AuthorizationSecurityContext;
 
-  constructor(message: string, code = 'DENTAL_CLINIC_ERROR', statusCode = 400) {
+  constructor(
+    message: string,
+    code = 'DENTAL_CLINIC_ERROR',
+    statusCode = 400,
+    authorizationContext?: AuthorizationSecurityContext
+  ) {
     super(message);
     this.name = this.constructor.name;
     this.code = code;
     this.statusCode = statusCode;
+    this.authorizationContext = authorizationContext;
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }
@@ -22,8 +30,11 @@ export class TenantIsolationError extends DentalClinicError {
 }
 
 export class RoleAuthorizationError extends DentalClinicError {
-  constructor(message = 'Acceso denegado: Rol no autorizado para esta operación') {
-    super(message, 'ROLE_AUTHORIZATION_ERROR', 403);
+  constructor(
+    message = 'Acceso denegado: Rol no autorizado para esta operación',
+    authorizationContext?: AuthorizationSecurityContext
+  ) {
+    super(message, 'ROLE_AUTHORIZATION_ERROR', 403, authorizationContext);
   }
 }
 
@@ -94,5 +105,29 @@ export class ReportRangeLimitError extends DentalClinicError {
     message = 'El rango de fechas no puede exceder el límite de 12 meses (365 días)'
   ) {
     super(message, 'REPORT_RANGE_LIMIT_ERROR', 400);
+  }
+}
+
+export class InvalidCredentialsError extends DentalClinicError {
+  constructor(attemptsLeft?: number) {
+    const suffix =
+      typeof attemptsLeft === 'number'
+        ? ` Quedan ${attemptsLeft} ${attemptsLeft === 1 ? 'intento' : 'intentos'}.`
+        : '';
+    super(
+      `Credenciales inválidas. Verifique los datos e intente nuevamente.${suffix}`,
+      'INVALID_CREDENTIALS',
+      401
+    );
+  }
+}
+
+export class AccountLockedError extends DentalClinicError {
+  constructor(remainingMinutes: number) {
+    super(
+      `La cuenta está bloqueada temporalmente. Intente nuevamente en ${remainingMinutes} minutos.`,
+      'ACCOUNT_LOCKED',
+      423
+    );
   }
 }

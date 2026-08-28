@@ -45,7 +45,7 @@ graph TB
     NSA -->|"Consultas con RLS\n(anon key + JWT)"| PG
     NSA -->|"URLs Firmadas ≤15 min"| ST
     EF -->|"Transición automática de estados\ncita programada→en_curso"| PG
-    SA -->|"JWT con clinic_id, user_id, role"| NSA
+    SA -->|"JWT con clinic_id, user_id, user_role"| NSA
 ```
 
 ### Diagrama de Flujo de Solicitud
@@ -59,7 +59,7 @@ sequenceDiagram
 
     Browser->>SA: Solicitud HTTP (cookie de sesión)
     SA->>Auth: Verificar JWT / sesión
-    Auth-->>SA: JWT validado {clinic_id, user_id, role}
+    Auth-->>SA: JWT validado {clinic_id, user_id, user_role}
     SA->>DB: Query con contexto de usuario (RLS activo)
     DB-->>SA: Datos filtrados por clinic_id + permisos de rol
     SA-->>Browser: Respuesta (JSON / HTML renderizado)
@@ -148,7 +148,7 @@ app/
 // Verifica sesión válida en todas las rutas (dashboard)
 // Redirige a /login si no hay sesión o está expirada
 // Verifica estado MFA para roles admin/odontólogo
-// Inyecta clinic_id, user_id, role en headers para Server Components
+// Inyecta clinic_id, user_id y user_role verificados en headers internos
 ```
 
 ---
@@ -259,12 +259,12 @@ export type ToothStatus =
 
 export type AuditAction =
   | 'create' | 'update' | 'cancel' | 'reschedule'
-  | 'correccion' | 'delete_attempt';
+  | 'correccion' | 'delete_attempt' | 'access_denied';
 
 export interface JWTClaims {
   clinic_id: string;   // UUID del consultorio
   user_id: string;     // UUID del usuario
-  role: UserRole;
+  user_role: UserRole; // rol de negocio; `role` está reservado por Supabase
 }
 
 export interface AuditRecord {
@@ -906,7 +906,7 @@ flowchart TD
     J -- Sí --> N
     N --> O{¿Código válido?}
     O -- No --> M
-    O -- Sí --> P[Emitir JWT\n{clinic_id, user_id, role}]
+    O -- Sí --> P[Emitir JWT\n{clinic_id, user_id, user_role}]
     D -- No\nRecepcionista --> P
     P --> Q[Dashboard del consultorio]
 ```
@@ -1221,7 +1221,7 @@ Antes de definir las propiedades finales, se identificaron y consolidaron las si
 
 ### Property 24: Integridad del JWT Emitido
 
-*Para cualquier* usuario que completa exitosamente el flujo de autenticación (credenciales válidas + MFA cuando aplica), el JWT emitido debe contener los claims `clinic_id`, `user_id` y `role` con valores exactamente iguales a los almacenados en la tabla `users` para ese usuario, sin modificación ni omisión de ninguno de los tres campos.
+*Para cualquier* usuario que completa exitosamente el flujo de autenticación (credenciales válidas + MFA cuando aplica), el JWT emitido debe contener los claims `clinic_id`, `user_id` y `user_role`; `clinic_id`, `user_id` y `user_role` deben coincidir exactamente con `users.clinic_id`, `users.id` y `users.role`. El claim reservado `role` debe permanecer como rol técnico de Supabase.
 
 **Validates: Requirements 2.9**
 
@@ -1475,4 +1475,3 @@ Las pruebas de propiedades no realizan llamadas reales a Supabase. Se mockea el 
 ```
 
 Las pruebas de integración sí usan Supabase CLI local (`supabase start`) con migraciones aplicadas.
-

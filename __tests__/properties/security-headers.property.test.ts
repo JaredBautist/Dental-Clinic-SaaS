@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
-import nextConfig, { securityHeaders } from '@/next.config';
+import nextConfig, {
+  createSecurityHeaders,
+  securityHeaders,
+} from '@/next.config';
 
 /**
  * Propiedad 25: Headers de Seguridad HTTP Presentes en Todas las Respuestas
@@ -23,6 +26,13 @@ describe('P25: Propiedad de Headers de Seguridad HTTP', () => {
     for (const key of requiredHeaderKeys) {
       expect(configuredKeys).toContain(key);
     }
+
+    const productionCsp = createSecurityHeaders('production').find(
+      (header) => header.key === 'Content-Security-Policy'
+    )?.value;
+    expect(productionCsp).toBeDefined();
+    expect(productionCsp).not.toContain("'unsafe-eval'");
+    expect(productionCsp).toContain("frame-ancestors 'none'");
 
     const headersFn = nextConfig.headers;
     expect(headersFn).toBeDefined();
@@ -50,7 +60,8 @@ describe('P25: Propiedad de Headers de Seguridad HTTP', () => {
     fc.assert(
       fc.property(
         fc.webPath(),
-        (path) => {
+        (generatedPath) => {
+          expect(generatedPath).toBeTypeOf('string');
           // La regla global /:path* cubre cualquier ruta
           expect(globalRule).toBeDefined();
           const headerMap = new Map(
