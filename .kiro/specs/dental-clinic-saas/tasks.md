@@ -169,7 +169,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - _Requisitos: 10.3_
 
 - [ ] 4. Gestión de consultorios (multitenencia)
-  - [ ] 4.1 Implementar Server Action para registro de consultorio y creación de admin inicial
+  - [x] 4.1 Implementar Server Action para registro de consultorio y creación de admin inicial
     - Crear `lib/actions/clinic.actions.ts` con `registerClinicAction`
     - Crear `clinic` + usuario administrador en una transacción (usando RPC de Supabase)
     - Asignar `clinic_id` único generado por el servidor (UUID)
@@ -204,7 +204,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
   - Preguntar al usuario si hay dudas antes de continuar.
 
 - [ ] 6. Gestión de usuarios y roles
-  - [ ] 6.1 Implementar CRUD de usuarios (solo administrador)
+  - [x] 6.1 Implementar CRUD de usuarios (solo administrador)
     - Crear `lib/actions/users.actions.ts` con `createUserAction`, `updateUserAction`, `deactivateUserAction`
     - `createUserAction`: asociar usuario al `clinic_id` del administrador, asignar exactamente un rol válido, rechazar roles inválidos con lista de roles aceptados
     - `updateUserAction`: solo administrador puede modificar usuarios del mismo consultorio
@@ -212,7 +212,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Registrar `Registro_Auditoria` en cada operación (`create`, `update`)
     - _Requisitos: 2.2, 2.3_
 
-  - [ ] 6.2 Implementar desactivación de usuario con protección del último administrador
+  - [x] 6.2 Implementar desactivación de usuario con protección del último administrador
     - En `deactivateUserAction`: verificar que no es el único `administrador` activo del consultorio antes de desactivar
     - Si es el único admin activo: rechazar con mensaje "el consultorio debe conservar al menos un administrador activo"
     - Al desactivar: revocar sesión activa via `supabase.auth.admin.signOut(userId)` en plazo máximo de 60 segundos
@@ -239,7 +239,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - _Requisitos: 2.1, 2.2, 2.3_
 
 - [ ] 7. Gestión de pacientes
-  - [ ] 7.1 Implementar Server Actions CRUD de pacientes con validación Zod
+  - [x] 7.1 Implementar Server Actions CRUD de pacientes con validación Zod
     - Crear `lib/actions/patients.actions.ts` con `createPatientAction` y `updatePatientAction`
     - Validar campos obligatorios: `full_name` ≤200 chars, `document_type` de lista predefinida (`CC`, `TI`, `CE`, `PA`, `RC`, `NIT`), `document_number` ≤20 chars alfanuméricos, `birth_date` no futura, `biological_sex` de lista predefinida, `phone_primary` 7-15 dígitos
     - Verificar unicidad de `(clinic_id, document_type, document_number)` antes de insertar; si duplicado, rechazar mostrando nombre e ID del paciente existente
@@ -259,7 +259,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/clinical-entities-roundtrip.property.test.ts`
     - Verificar que datos de paciente, cita, entrada clínica y estado de odontograma recuperados son idénticos a los insertados
 
-  - [ ] 7.4 Implementar búsqueda full-text de pacientes
+  - [x] 7.4 Implementar búsqueda full-text de pacientes
     - Crear `lib/actions/patients.actions.ts` función `searchPatientsAction`
     - Usar índice GIN `idx_patients_search` con `to_tsvector('spanish', ...)` para búsqueda por nombre o documento
     - Activar búsqueda con ≥2 caracteres; retornar hasta 50 coincidencias ordenadas por `full_name`
@@ -273,7 +273,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - _Requisitos: 4.1, 4.7_
 
 - [ ] 8. Gestión de citas
-  - [ ] 8.1 Implementar Server Action para creación de citas con detección de conflictos
+  - [x] 8.1 Implementar Server Action para creación de citas con detección de conflictos
     - Crear `lib/actions/appointments.actions.ts` con `createAppointmentAction`
     - Validar campos obligatorios con Zod: `paciente_id`, `odontologo_id`, `fecha` no anterior a hoy, `hora_inicio`, `duration_min` entre 15 y 480, `reason` ≤500 chars
     - Verificar conflicto de horario consultando citas activas del odontólogo (`programada`, `confirmada`, `en_curso`) que se solapen con `tstzrange`
@@ -288,7 +288,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/appointment-no-overlap.property.test.ts`
     - Usar fast-check para generar colecciones de citas activas del mismo odontólogo y verificar que para todo par `(A, B)`: `A.scheduled_at ≥ B.ends_at OR B.scheduled_at ≥ A.ends_at`
 
-  - [ ] 8.3 Implementar reprogramación y cancelación de citas
+  - [x] 8.3 Implementar reprogramación y cancelación de citas
     - Crear `rescheduleAppointmentAction`: verificar estado `programada` o `confirmada`, verificar disponibilidad nueva franja, actualizar estado a `reprogramada`, registrar `rescheduled_from`
     - Crear `cancelAppointmentAction`: requerir `cancel_reason` ≤255 chars, actualizar estado a `cancelada`, registrar `cancelled_by` y `cancelled_at`
     - Registrar `Registro_Auditoria` con `action = 'reschedule'` o `'cancel'` según corresponda
@@ -300,7 +300,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/appointment-cancellation.property.test.ts`
     - Usar fast-check para generar citas y motivos de cancelación; verificar que el registro resultante tiene `status = 'cancelada'`, `cancel_reason` correcto, `cancelled_by` del solicitante y `cancelled_at` no nulo
 
-  - [ ] 8.5 Implementar Edge Function para transición automática de estados de citas
+  - [x] 8.5 Implementar Edge Function para transición automática de estados de citas
     - Crear `supabase/functions/auto-transition-appointments/index.ts`
     - Función cron (cada minuto o mediante pg_cron) que actualiza citas con `status IN ('programada','confirmada')` y `scheduled_at <= now()` a `status = 'en_curso'`
     - Usar `supabaseAdmin` con `service_role_key` para operar sin restricciones de RLS
@@ -321,7 +321,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
   - Preguntar al usuario si hay dudas antes de continuar.
 
 - [ ] 10. Historia clínica odontológica
-  - [ ] 10.1 Implementar Server Action para registro de entradas clínicas con control de concurrencia
+  - [x] 10.1 Implementar Server Action para registro de entradas clínicas con control de concurrencia
     - Crear `lib/actions/clinical.actions.ts` con `saveClinicalEntryAction`
     - Crear automáticamente `clinical_records` si no existe para el paciente (UPSERT con `UNIQUE(clinic_id, patient_id)`)
     - Validar campos: `entry_type` de lista predefinida, `content` entre 1 y 5000 chars, `corrects_entry_id` solo para tipo `correccion`
@@ -354,7 +354,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/clinical-chronological-order.property.test.ts`
     - Usar fast-check para generar listas de entradas con timestamps variados y verificar que el listado retornado cumple `E_i.created_at ≤ E_{i+1}.created_at` para todo par consecutivo
 
-  - [ ] 10.6 Implementar gestión de archivos adjuntos a entradas clínicas
+  - [x] 10.6 Implementar gestión de archivos adjuntos a entradas clínicas
     - Crear `lib/actions/attachments.actions.ts` con `uploadAttachmentAction`
     - Validar tipo de archivo en servidor: solo `JPEG`, `PNG`, `PDF`, `DICOM`; tamaño máximo 20 MB (20 971 520 bytes)
     - Verificar que la entrada no tiene ya 10 adjuntos antes de aceptar uno nuevo
@@ -369,7 +369,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/attachment-validation.property.test.ts`
     - Usar fast-check para generar archivos con tipos y tamaños arbitrarios; verificar que los inválidos son rechazados con error específico y que no se puede exceder el límite de 10 adjuntos por entrada
 
-  - [ ] 10.8 Implementar Route Handler para generación de URLs firmadas de Storage
+  - [x] 10.8 Implementar Route Handler para generación de URLs firmadas de Storage
     - Crear `app/api/storage/signed-url/route.ts` (POST)
     - Usar `supabaseAdmin.storage.from('clinical-files').createSignedUrl(storagePath, 900)` exactamente 900 segundos
     - Verificar que el `storage_path` pertenece al `clinic_id` del usuario autenticado antes de generar URL
@@ -405,7 +405,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Al hacer clic en superficie: abrir modal `ToothForm` con `pieza_id` y `superficie` pre-cargados
     - _Requisitos: 7.1, 7.5_
 
-  - [ ] 11.2 Implementar Server Action para registro de estados del odontograma (append-only)
+  - [x] 11.2 Implementar Server Action para registro de estados del odontograma (append-only)
     - Crear `lib/actions/odontogram.actions.ts` con `saveToothStateAction`
     - Validar `tooth_code` contra los 32 códigos FDI válidos, `surface` de lista predefinida, `status` de lista predefinida o estados personalizados del consultorio (máx. 20 por consultorio)
     - Verificar `version`: si `expected_version` no coincide → rechazar con `CONCURRENCY_CONFLICT` indicando la pieza en conflicto
@@ -419,7 +419,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - Crear `__tests__/properties/odontogram-append-only.property.test.ts`
     - Usar fast-check para generar secuencias de actualizaciones sobre `(tooth_code, surface)` y verificar que el conteo de registros crece en exactamente 1 por operación y los anteriores permanecen sin cambios
 
-  - [ ] 11.4 Implementar consulta de estado vigente del odontograma y gestión de estados personalizados
+  - [x] 11.4 Implementar consulta de estado vigente del odontograma y gestión de estados personalizados
     - Crear `getOdontogramStateAction` que retorna el registro de `created_at` máximo por combinación `(pieza_id, superficie)` usando `idx_odontogram_latest`
     - Implementar CRUD de estados personalizados (`custom_tooth_statuses`) con límite de 20 por consultorio
     - Implementar `ToothForm` (Client Component) con campos `tratamiento_propuesto` y `tratamiento_realizado` mostrados con etiquetas distintas
@@ -433,7 +433,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - _Requisitos: 7.7, 7.8_
 
 - [ ] 12. Seguridad, auditoría y conectividad offline
-  - [ ] 12.1 Implementar función centralizada de registro de auditoría
+  - [x] 12.1 Implementar función centralizada de registro de auditoría
     - Crear `lib/audit.ts` con función `createAuditLog(params: AuditRecord)` que inserta en `audit_logs` usando `supabaseAdmin` (service_role)
     - La función garantiza los 9 campos obligatorios: `id`, `clinic_id`, `user_id`, `role`, `entity_type`, `entity_id`, `action`, `timestamp`, `result`
     - Integrar en todas las Server Actions existentes que aún no llamen a esta función
@@ -478,7 +478,7 @@ Stack: Next.js 14+ con TypeScript (App Router), Supabase (Auth, PostgreSQL, RLS,
     - _Requisitos: 8.9, 10.1_
 
 - [ ] 13. Reportes operativos
-  - [ ] 13.1 Implementar Server Actions para reportes de pacientes atendidos y distribución de citas
+  - [x] 13.1 Implementar Server Actions para reportes de pacientes atendidos y distribución de citas
     - Crear `lib/actions/reports.actions.ts` con `getAttendedPatientsReportAction` y `getAppointmentStatusReportAction`
     - `getAttendedPatientsReportAction`: COUNT de citas con `status = 'completada'` en `[fecha_inicio, fecha_fin]`, con filtro opcional por `dentist_id`, solo datos del `clinic_id` del usuario
     - `getAppointmentStatusReportAction`: GROUP BY `status` en el rango de fechas, retornar distribución de todos los estados

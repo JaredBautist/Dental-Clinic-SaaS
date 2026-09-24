@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>/ — graphify tree viewer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      margin: 20px 0 0 24px;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1e3a56;
+    }
+    .controls {
+      margin: 20px 0 15px 24px;
+    }
+    button {
+      margin-right: 10px;
+      padding: 8px 18px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button:active {
+      background: #004085;
+    }
+    #tree-container {
+      width: calc(100vw - 48px); /* Adjust for body margin/padding */
+      height: 85vh;
+      overflow: auto;
+      border-radius: 8px;
+      background: #fff;
+      margin-left: 24px;
+      margin-right: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #ddd;
+    }
+    svg {
+      background: #fff;
+      border-radius: 8px;
+      display: block; /* Important for D3 */
+    }
+    .node circle {
+      stroke-width: 2.5px;
+    }
+    .node text { /* Base style for the <text> container */
+      font: 13px 'Segoe UI', sans-serif;
+      paint-order: stroke fill; /* Ensures text is readable over lines */
+      stroke: #fff; /* White halo */
+      stroke-width: 3px; /* Halo thickness */
+      stroke-linejoin: round;
+      stroke-opacity: 0.85; /* Halo opacity */
+    }
+    .link {
+      fill: none;
+      stroke-opacity: 0.7;
+      stroke-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>/ — Knowledge Graph</h1>
+  <div class="controls">
+    <button onclick="expandAll()">Expand All</button>
+    <button onclick="collapseAll()">Collapse All</button>
+    <button onclick="resetView()">Reset View</button>
+  </div>
+  <div id="tree-container">
+    <svg id="tree-svg" width="6000" height="8000"></svg>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    const initialJsonData = {"name":"/","total_count":431,"children":[{"name":".agents","total_count":4,"children":[{"name":"rules","total_count":2,"children":[{"name":"graphify.md","total_count":2,"children":[{"name":"graphify","total_count":1,"children":[]},{"name":"rules/graphify.md","total_count":1,"children":[]}]}]},{"name":"workflows","total_count":2,"children":[{"name":"graphify.md","total_count":2,"children":[{"name":"Workflow: graphify","total_count":1,"children":[]},{"name":"workflows/graphify.md","total_count":1,"children":[]}]}]}]},{"name":".kiro","total_count":130,"children":[{"name":"specs","total_count":130,"children":[{"name":"dental-clinic-saas","total_count":130,"children":[{"name":"adr-001-auth-context-and-rls-fix.md","total_count":9,"children":[{"name":"adr-001-auth-context-and-rls-fix.md","total_count":1,"children":[]},{"name":"ADR-001: Contexto de autorizaci\u00f3n, MFA y RLS","total_count":1,"children":[]},{"name":"Consecuencias","total_count":1,"children":[]},{"name":"Contexto","total_count":1,"children":[]},{"name":"Criterios de regresi\u00f3n","total_count":1,"children":[]},{"name":"Decisi\u00f3n","total_count":1,"children":[]},{"name":"Estado","total_count":1,"children":[]},{"name":"Opciones consideradas","total_count":1,"children":[]},{"name":"Referencias","total_count":1,"children":[]}]},{"name":"design.md","total_count":90,"children":[{"name":"1. Pruebas de Propiedades (Property-Based Tests) \u2014 `fast-check`","total_count":1,"children":[]},{"name":"2. Pruebas de Ejemplo (Unit Tests) \u2014 Vitest","total_count":1,"children":[]},{"name":"3. Pruebas de Integraci\u00f3n \u2014 Supabase local (docker)","total_count":1,"children":[]},{"name":"4. Pruebas de Humo (Smoke Tests)","total_count":1,"children":[]},{"name":"`appointments`","total_count":1,"children":[]},{"name":"`audit_logs` (inmutables)","total_count":1,"children":[]},{"name":"`clinical_entries` (inmutables)","total_count":1,"children":[]},{"name":"`clinical_records`","total_count":1,"children":[]},{"name":"`clinics`","total_count":1,"children":[]},{"name":"`odontogram_states` (inmutables \u2014 append only)","total_count":1,"children":[]},{"name":"`patients`","total_count":1,"children":[]},{"name":"`users`","total_count":1,"children":[]},{"name":"Architecture","total_count":1,"children":[]},{"name":"Categor\u00edas de Pruebas","total_count":1,"children":[]},{"name":"Clasificaci\u00f3n de Errores","total_count":1,"children":[]},{"name":"Components and Interfaces","total_count":1,"children":[]},{"name":"Configuraci\u00f3n de fast-check","total_count":1,"children":[]},{"name":"Control de Concurrencia Optimista","total_count":1,"children":[]},{"name":"Correctness Properties","total_count":1,"children":[]},{"name":"Data Models","total_count":1,"children":[]},{"name":"Decisiones de Arquitectura Clave","total_count":1,"children":[]},{"name":"design.md","total_count":1,"children":[]},{"name":"Detecci\u00f3n de Conectividad","total_count":1,"children":[]},{"name":"Diagrama de Componentes","total_count":1,"children":[]},{"name":"Diagrama de Flujo de Autenticaci\u00f3n","total_count":1,"children":[]},{"name":"Diagrama de Flujo de Solicitud","total_count":1,"children":[]},{"name":"Diagrama Entidad-Relaci\u00f3n","total_count":1,"children":[]},{"name":"Dise\u00f1o del Odontograma SVG","total_count":1,"children":[]},{"name":"Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS","total_count":1,"children":[]},{"name":"Enfoque Dual","total_count":1,"children":[]},{"name":"Error Handling","total_count":1,"children":[]},{"name":"Esquema PostgreSQL Completo","total_count":1,"children":[]},{"name":"Estrategia de Mocks para Supabase","total_count":1,"children":[]},{"name":"Estrategia Server Actions vs Route Handlers","total_count":1,"children":[]},{"name":"Estructura de Buckets","total_count":1,"children":[]},{"name":"Estructura de Componentes Principales","total_count":1,"children":[]},{"name":"Estructura de Rutas (Next.js App Router)","total_count":1,"children":[]},{"name":"Flujo de Autenticaci\u00f3n y Manejo de Sesiones","total_count":1,"children":[]},{"name":"Flujo de Manejo de Errores en el Cliente","total_count":1,"children":[]},{"name":"Funci\u00f3n de Trigger `updated_at`","total_count":1,"children":[]},{"name":"Headers de Seguridad HTTP","total_count":1,"children":[]},{"name":"Interfaces TypeScript Principales","total_count":1,"children":[]},{"name":"Jerarqu\u00eda de Errores del Sistema","total_count":1,"children":[]},{"name":"Manejo de Errores en Server Actions","total_count":1,"children":[]},{"name":"Manejo de Errores y Conectividad","total_count":1,"children":[]},{"name":"Manejo de Inactividad (30 minutos)","total_count":1,"children":[]},{"name":"Middleware de Autenticaci\u00f3n","total_count":1,"children":[]},{"name":"Overview","total_count":1,"children":[]},{"name":"Pol\u00edticas de Storage","total_count":1,"children":[]},{"name":"Pol\u00edticas RLS","total_count":1,"children":[]},{"name":"Principios de Dise\u00f1o","total_count":1,"children":[]},{"name":"Property 10: Unicidad de Historia Cl\u00ednica por Paciente","total_count":1,"children":[]},{"name":"Property 11: Inmutabilidad de Registros Cl\u00ednicos y de Auditor\u00eda","total_count":1,"children":[]},{"name":"Property 12: Trazabilidad de Correcciones Cl\u00ednicas","total_count":1,"children":[]},{"name":"Property 13: Ordenamiento Cronol\u00f3gico de la Historia Cl\u00ednica","total_count":1,"children":[]},{"name":"Property 14: Validaci\u00f3n de Archivos Adjuntos","total_count":1,"children":[]},{"name":"Property 15: Control de Concurrencia Optimista","total_count":1,"children":[]},{"name":"Property 16: Inmutabilidad del Historial del Odontograma (Append-Only)","total_count":1,"children":[]},{"name":"Property 17: Expiraci\u00f3n M\u00e1xima de URLs Firmadas","total_count":1,"children":[]},{"name":"Property 18: Preservaci\u00f3n de Estado de UI ante Fallo del Servidor","total_count":1,"children":[]},{"name":"Property 19: Correcci\u00f3n de Filtros en Reportes Operativos","total_count":1,"children":[]},{"name":"Property 1: Aislamiento Completo de Tenants","total_count":1,"children":[]},{"name":"Property 20: Validaci\u00f3n del Rango de Fechas en Reportes","total_count":1,"children":[]},{"name":"Property 21: Round-Trip de Conectividad (Offline \u2192 Online)","total_count":1,"children":[]},{"name":"Property 22: Validaci\u00f3n de Contrase\u00f1as","total_count":1,"children":[]},{"name":"Property 23: Protecci\u00f3n del \u00daltimo Administrador Activo","total_count":1,"children":[]},{"name":"Property 24: Integridad del JWT Emitido","total_count":1,"children":[]},{"name":"Property 25: Headers de Seguridad HTTP Presentes en Todas las Respuestas","total_count":1,"children":[]},{"name":"Property 2: Round-Trip de Datos del Consultorio","total_count":1,"children":[]},{"name":"Property 3: Rechazo de Datos Obligatorios Ausentes o Inv\u00e1lidos","total_count":1,"children":[]},{"name":"Property 4: Unicidad de Documento de Paciente por Consultorio","total_count":1,"children":[]},{"name":"Property 5: Round-Trip de Datos de Entidades Cl\u00ednicas","total_count":1,"children":[]},{"name":"Property 6: Completitud e Integridad del Registro de Auditor\u00eda","total_count":1,"children":[]},{"name":"Property 7: Control de Acceso por Rol","total_count":1,"children":[]},{"name":"Property 8: Invariante de No Solapamiento de Citas","total_count":1,"children":[]},{"name":"Property 9: Integridad de Datos de Cancelaci\u00f3n de Citas","total_count":1,"children":[]},{"name":"Prop\u00f3sito del Sistema","total_count":1,"children":[]},{"name":"Reflexi\u00f3n de Propiedades (Eliminaci\u00f3n de Redundancias)","total_count":1,"children":[]},{"name":"Supabase Storage","total_count":1,"children":[]},{"name":"Tabla: `appointments` (Citas)","total_count":1,"children":[]},{"name":"Tabla: `audit_logs` (Registros de Auditor\u00eda \u2014 inmutables)","total_count":1,"children":[]},{"name":"Tabla: `clinical_attachments` (Adjuntos de Entradas Cl\u00ednicas)","total_count":1,"children":[]},{"name":"Tabla: `clinical_entries` (Entradas Cl\u00ednicas \u2014 inmutables)","total_count":1,"children":[]},{"name":"Tabla: `clinical_records` (Historias Cl\u00ednicas \u2014 cabecera)","total_count":1,"children":[]},{"name":"Tabla: `clinics` (Consultorios)","total_count":1,"children":[]},{"name":"Tabla: `custom_tooth_statuses` (Estados Personalizados del Odontograma)","total_count":1,"children":[]},{"name":"Tabla: `odontogram_states` (Estados del Odontograma)","total_count":1,"children":[]},{"name":"Tabla: `patients` (Pacientes)","total_count":1,"children":[]},{"name":"Tabla: `users` (Usuarios)","total_count":1,"children":[]},{"name":"Testing Strategy","total_count":1,"children":[]}]},{"name":"requirements.md","total_count":25,"children":[{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Criterios de Aceptaci\u00f3n","total_count":1,"children":[]},{"name":"Glossary","total_count":1,"children":[]},{"name":"Introduction","total_count":1,"children":[]},{"name":"Requirements","total_count":1,"children":[]},{"name":"Requirements Document","total_count":1,"children":[]},{"name":"requirements.md","total_count":1,"children":[]},{"name":"Requisito 10: Estrategia de Conectividad y Sincronizaci\u00f3n","total_count":1,"children":[]},{"name":"Requisito 1: Gesti\u00f3n de Consultorios (Multitenencia)","total_count":1,"children":[]},{"name":"Requisito 2: Gesti\u00f3n de Usuarios y Roles","total_count":1,"children":[]},{"name":"Requisito 3: Autenticaci\u00f3n y Control de Sesiones","total_count":1,"children":[]},{"name":"Requisito 4: Gesti\u00f3n de Pacientes","total_count":1,"children":[]},{"name":"Requisito 5: Gesti\u00f3n de Citas","total_count":1,"children":[]},{"name":"Requisito 6: Historia Cl\u00ednica Odontol\u00f3gica","total_count":1,"children":[]},{"name":"Requisito 7: Odontograma Digital","total_count":1,"children":[]},{"name":"Requisito 8: Seguridad y Trazabilidad","total_count":1,"children":[]},{"name":"Requisito 9: Reportes Operativos B\u00e1sicos","total_count":1,"children":[]}]},{"name":"tasks.md","total_count":6,"children":[{"name":"Implementation Plan: Dental Clinic SaaS","total_count":1,"children":[]},{"name":"Notes","total_count":1,"children":[]},{"name":"Overview","total_count":1,"children":[]},{"name":"Task Dependency Graph","total_count":1,"children":[]},{"name":"Tasks","total_count":1,"children":[]},{"name":"tasks.md","total_count":1,"children":[]}]}]}]}]},{"name":"__tests__","total_count":27,"children":[{"name":"properties","total_count":16,"children":[{"name":"jwt-claims.property.test.ts","total_count":5,"children":[{"name":"activeUserArb","total_count":1,"children":[]},{"name":"buildJWTClaims()","total_count":1,"children":[]},{"name":"parseAndVerifyClaims()","total_count":1,"children":[]},{"name":"roleArb","total_count":1,"children":[]},{"name":"uuidArb","total_count":1,"children":[]}]},{"name":"password-validation.property.test.ts","total_count":6,"children":[{"name":"alphanumericArb","total_count":1,"children":[]},{"name":"digitCharArb","total_count":1,"children":[]},{"name":"lowerCharArb","total_count":1,"children":[]},{"name":"specialCharArb","total_count":1,"children":[]},{"name":"upperCharArb","total_count":1,"children":[]},{"name":"validPasswordArb","total_count":1,"children":[]}]},{"name":"tenant-isolation.property.test.ts","total_count":4,"children":[{"name":"filterByTenant()","total_count":1,"children":[]},{"name":"TenantRecord","total_count":1,"children":[]},{"name":"tenantRecordArb()","total_count":1,"children":[]},{"name":"uuidArb","total_count":1,"children":[]}]},{"name":"security-headers.property.test.ts","total_count":1,"children":[]}]},{"name":"smoke","total_count":1,"children":[{"name":"security-migrations.smoke.test.ts","total_count":1,"children":[{"name":"migrationPath","total_count":1,"children":[]}]}]},{"name":"unit","total_count":9,"children":[{"name":"access-policy.test.ts","total_count":1,"children":[{"name":"activeAdmin","total_count":1,"children":[]}]},{"name":"auth-actions.test.ts","total_count":2,"children":[{"name":"createMfaClient()","total_count":1,"children":[]},{"name":"mocks","total_count":1,"children":[]}]},{"name":"proxy.test.ts","total_count":2,"children":[{"name":"mockedCreateServerClient","total_count":1,"children":[]},{"name":"mockGetUserResult()","total_count":1,"children":[]}]},{"name":"login-attempt-store.test.ts","total_count":1,"children":[]},{"name":"server-action-wrapper.test.ts","total_count":1,"children":[]},{"name":"session-termination.test.ts","total_count":1,"children":[]},{"name":"verified-headers.test.ts","total_count":1,"children":[]}]},{"name":"setup.ts","total_count":1,"children":[]}]},{"name":"app","total_count":22,"children":[{"name":"(auth)","total_count":10,"children":[{"name":"login","total_count":3,"children":[{"name":"page.tsx","total_count":3,"children":[{"name":"checkHealth()","total_count":1,"children":[]},{"name":"handleSubmit()","total_count":1,"children":[]},{"name":"LoginPage()","total_count":1,"children":[]}]}]},{"name":"setup-mfa","total_count":4,"children":[{"name":"page.tsx","total_count":4,"children":[{"name":"handleCancel()","total_count":1,"children":[]},{"name":"handleVerify()","total_count":1,"children":[]},{"name":"loadMfaData()","total_count":1,"children":[]},{"name":"SetupMfaPage()","total_count":1,"children":[]}]}]},{"name":"verify-mfa","total_count":3,"children":[{"name":"page.tsx","total_count":3,"children":[{"name":"handleCancel()","total_count":1,"children":[]},{"name":"handleVerify()","total_count":1,"children":[]},{"name":"VerifyMfaPage()","total_count":1,"children":[]}]}]}]},{"name":"(dashboard)","total_count":8,"children":[{"name":"citas","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"AppointmentsPage()","total_count":1,"children":[]}]}]},{"name":"clinica","total_count":1,"children":[{"name":"configuracion","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"ClinicConfigPage()","total_count":1,"children":[]}]}]}]},{"name":"dashboard","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"DashboardPage()","total_count":1,"children":[]}]}]},{"name":"layout.tsx","total_count":1,"children":[{"name":"DashboardLayout()","total_count":1,"children":[]}]},{"name":"pacientes","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"PatientsPage()","total_count":1,"children":[]}]}]},{"name":"reportes","total_count":2,"children":[{"name":"estado-citas","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"AppointmentStatusReportPage()","total_count":1,"children":[]}]}]},{"name":"pacientes-atendidos","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"AttendedPatientsReportPage()","total_count":1,"children":[]}]}]}]},{"name":"usuarios","total_count":1,"children":[{"name":"page.tsx","total_count":1,"children":[{"name":"UsersPage()","total_count":1,"children":[]}]}]}]},{"name":"api","total_count":1,"children":[{"name":"health","total_count":1,"children":[{"name":"route.ts","total_count":1,"children":[{"name":"GET()","total_count":1,"children":[]}]}]}]},{"name":"layout.tsx","total_count":2,"children":[{"name":"metadata","total_count":1,"children":[]},{"name":"RootLayout()","total_count":1,"children":[]}]},{"name":"page.tsx","total_count":1,"children":[{"name":"Home()","total_count":1,"children":[]}]}]},{"name":"components","total_count":1,"children":[{"name":"session","total_count":1,"children":[{"name":"SessionTimer.tsx","total_count":1,"children":[{"name":"SessionTimer()","total_count":1,"children":[]}]}]}]},{"name":"errors","total_count":22,"children":[{"name":"domain.ts","total_count":22,"children":[{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":".constructor()","total_count":1,"children":[]},{"name":"AccountLockedError","total_count":1,"children":[]},{"name":"AppointmentConflictError","total_count":1,"children":[]},{"name":"ConcurrencyConflictError","total_count":1,"children":[]},{"name":"DentalClinicError","total_count":1,"children":[]},{"name":"ImmutableRecordError","total_count":1,"children":[]},{"name":"InvalidCredentialsError","total_count":1,"children":[]},{"name":"ReportRangeLimitError","total_count":1,"children":[]},{"name":"RoleAuthorizationError","total_count":1,"children":[]},{"name":"TenantIsolationError","total_count":1,"children":[]},{"name":"UniqueDocumentError","total_count":1,"children":[]},{"name":"ValidationError","total_count":1,"children":[]}]}]},{"name":"eslint.config.mjs","total_count":1,"children":[{"name":"eslintConfig","total_count":1,"children":[]}]},{"name":"lib","total_count":52,"children":[{"name":"actions","total_count":12,"children":[{"name":"auth.actions.ts","total_count":12,"children":[{"name":"cancelMfaAction()","total_count":1,"children":[]},{"name":"createPersistentAttemptStore()","total_count":1,"children":[]},{"name":"enrollMfaAction()","total_count":1,"children":[]},{"name":"failMfaVerification()","total_count":1,"children":[]},{"name":"loginAction()","total_count":1,"children":[]},{"name":"LoginResult","total_count":1,"children":[]},{"name":"loginSchema","total_count":1,"children":[]},{"name":"logoutAction()","total_count":1,"children":[]},{"name":"requireClinicalUser()","total_count":1,"children":[]},{"name":"USER_ROLES","total_count":1,"children":[]},{"name":"verifyMfaLoginAction()","total_count":1,"children":[]},{"name":"verifyMfaSetupAction()","total_count":1,"children":[]}]}]},{"name":"audit","total_count":3,"children":[{"name":"authorization-failure.ts","total_count":3,"children":[{"name":"AuthorizationFailureEvent","total_count":1,"children":[]},{"name":"AuthorizationFailureRecorder","total_count":1,"children":[]},{"name":"persistAuthorizationFailure()","total_count":1,"children":[]}]}]},{"name":"auth","total_count":31,"children":[{"name":"access-policy.ts","total_count":10,"children":[{"name":"AccessDecision","total_count":1,"children":[]},{"name":"AccessInput","total_count":1,"children":[]},{"name":"AccessProfile","total_count":1,"children":[]},{"name":"AuthenticationErrorLike","total_count":1,"children":[]},{"name":"AuthenticatorAssuranceLevel","total_count":1,"children":[]},{"name":"clinicalMfaDestination()","total_count":1,"children":[]},{"name":"decideAccess()","total_count":1,"children":[]},{"name":"isClinicalRole()","total_count":1,"children":[]},{"name":"isUnauthenticatedError()","total_count":1,"children":[]},{"name":"PUBLIC_PATHS","total_count":1,"children":[]}]},{"name":"login-attempt-store.ts","total_count":11,"children":[{"name":"assertRpcSucceeded()","total_count":1,"children":[]},{"name":"createLoginAttemptStore()","total_count":1,"children":[]},{"name":"FailedAttemptRow","total_count":1,"children":[]},{"name":"FailedAttemptStatus","total_count":1,"children":[]},{"name":"firstRow()","total_count":1,"children":[]},{"name":"hashLoginIdentifier()","total_count":1,"children":[]},{"name":"LockoutRow","total_count":1,"children":[]},{"name":"LockoutStatus","total_count":1,"children":[]},{"name":"RpcError","total_count":1,"children":[]},{"name":"RpcInvoker","total_count":1,"children":[]},{"name":"RpcResult","total_count":1,"children":[]}]},{"name":"password-validator.ts","total_count":3,"children":[{"name":"PASSWORD_REQUIREMENTS","total_count":1,"children":[]},{"name":"PasswordValidationResult","total_count":1,"children":[]},{"name":"validatePassword()","total_count":1,"children":[]}]},{"name":"session-termination.ts","total_count":3,"children":[{"name":"SignOutOperation","total_count":1,"children":[]},{"name":"SignOutResult","total_count":1,"children":[]},{"name":"terminateSession()","total_count":1,"children":[]}]},{"name":"verified-headers.ts","total_count":4,"children":[{"name":"AUTH_CONTEXT_HEADERS","total_count":1,"children":[]},{"name":"buildVerifiedRequestHeaders()","total_count":1,"children":[]},{"name":"stripUntrustedAuthHeaders()","total_count":1,"children":[]},{"name":"VerifiedClaims","total_count":1,"children":[]}]}]},{"name":"server-action-wrapper.ts","total_count":3,"children":[{"name":"ErrorHandlingOptions","total_count":1,"children":[]},{"name":"ServerActionResult","total_count":1,"children":[]},{"name":"withErrorHandling()","total_count":1,"children":[]}]},{"name":"supabase","total_count":3,"children":[{"name":"admin.ts","total_count":1,"children":[{"name":"createAdminClient()","total_count":1,"children":[]}]},{"name":"client.ts","total_count":1,"children":[{"name":"createClient()","total_count":1,"children":[]}]},{"name":"server.ts","total_count":1,"children":[{"name":"createClient()","total_count":1,"children":[]}]}]}]},{"name":"next.config.ts","total_count":3,"children":[{"name":"createSecurityHeaders()","total_count":1,"children":[]},{"name":"nextConfig","total_count":1,"children":[]},{"name":"securityHeaders","total_count":1,"children":[]}]},{"name":"package.json","total_count":49,"children":[{"name":"@supabase/ssr","total_count":1,"children":[]},{"name":"@supabase/ssr","total_count":1,"children":[]},{"name":"@supabase/supabase-js","total_count":1,"children":[]},{"name":"@supabase/supabase-js","total_count":1,"children":[]},{"name":"@tailwindcss/postcss","total_count":1,"children":[]},{"name":"@tailwindcss/postcss","total_count":1,"children":[]},{"name":"@types/node","total_count":1,"children":[]},{"name":"@types/node","total_count":1,"children":[]},{"name":"@types/react","total_count":1,"children":[]},{"name":"@types/react","total_count":1,"children":[]},{"name":"@types/react-dom","total_count":1,"children":[]},{"name":"@types/react-dom","total_count":1,"children":[]},{"name":"@vitejs/plugin-react","total_count":1,"children":[]},{"name":"@vitejs/plugin-react","total_count":1,"children":[]},{"name":"build","total_count":1,"children":[]},{"name":"dependencies","total_count":1,"children":[]},{"name":"dev","total_count":1,"children":[]},{"name":"devDependencies","total_count":1,"children":[]},{"name":"eslint","total_count":1,"children":[]},{"name":"eslint","total_count":1,"children":[]},{"name":"eslint-config-next","total_count":1,"children":[]},{"name":"eslint-config-next","total_count":1,"children":[]},{"name":"fast-check","total_count":1,"children":[]},{"name":"fast-check","total_count":1,"children":[]},{"name":"lint","total_count":1,"children":[]},{"name":"lucide-react","total_count":1,"children":[]},{"name":"lucide-react","total_count":1,"children":[]},{"name":"name","total_count":1,"children":[]},{"name":"next","total_count":1,"children":[]},{"name":"next","total_count":1,"children":[]},{"name":"private","total_count":1,"children":[]},{"name":"react","total_count":1,"children":[]},{"name":"react","total_count":1,"children":[]},{"name":"react-dom","total_count":1,"children":[]},{"name":"react-dom","total_count":1,"children":[]},{"name":"scripts","total_count":1,"children":[]},{"name":"start","total_count":1,"children":[]},{"name":"tailwindcss","total_count":1,"children":[]},{"name":"tailwindcss","total_count":1,"children":[]},{"name":"test","total_count":1,"children":[]},{"name":"test:db","total_count":1,"children":[]},{"name":"test:run","total_count":1,"children":[]},{"name":"typescript","total_count":1,"children":[]},{"name":"typescript","total_count":1,"children":[]},{"name":"version","total_count":1,"children":[]},{"name":"vitest","total_count":1,"children":[]},{"name":"vitest","total_count":1,"children":[]},{"name":"zod","total_count":1,"children":[]},{"name":"zod","total_count":1,"children":[]}]},{"name":"postcss.config.mjs","total_count":1,"children":[{"name":"config","total_count":1,"children":[]}]},{"name":"proxy.ts","total_count":7,"children":[{"name":"config","total_count":1,"children":[]},{"name":"copyResponseCookies()","total_count":1,"children":[]},{"name":"createRedirect()","total_count":1,"children":[]},{"name":"isUserRole()","total_count":1,"children":[]},{"name":"proxy()","total_count":1,"children":[]},{"name":"unavailableResponse()","total_count":1,"children":[]},{"name":"USER_ROLES","total_count":1,"children":[]}]},{"name":"README.md","total_count":37,"children":[{"name":"Controles implementados","total_count":1,"children":[]},{"name":"Headers de seguridad HTTP","total_count":1,"children":[]},{"name":"Instalaci\u00f3n","total_count":1,"children":[]},{"name":"Prerrequisitos","total_count":1,"children":[]},{"name":"Property-Based Testing (fast-check)","total_count":1,"children":[]},{"name":"Pruebas de humo","total_count":1,"children":[]},{"name":"README.md","total_count":1,"children":[]},{"name":"Restricciones cr\u00edticas de dise\u00f1o","total_count":1,"children":[]},{"name":"Tablas principales","total_count":1,"children":[]},{"name":"\u2699\ufe0f Configuraci\u00f3n del Entorno","total_count":1,"children":[]},{"name":"\ud83c\udfd7\ufe0f Arquitectura","total_count":1,"children":[]},{"name":"\ud83c\udfe2 1. Gesti\u00f3n de Consultorios (Multitenencia)","total_count":1,"children":[]},{"name":"\ud83c\udfe5 6. Historia Cl\u00ednica Odontol\u00f3gica","total_count":1,"children":[]},{"name":"\ud83d\udc64 Roles y Permisos","total_count":1,"children":[]},{"name":"\ud83d\udc65 2. Gesti\u00f3n de Usuarios y Roles","total_count":1,"children":[]},{"name":"\ud83d\udcc1 Estructura del Proyecto","total_count":1,"children":[]},{"name":"\ud83d\udcc5 5. Gesti\u00f3n de Citas","total_count":1,"children":[]},{"name":"\ud83d\udcca 9. Reportes Operativos B\u00e1sicos","total_count":1,"children":[]},{"name":"\ud83d\udccb Plan de Implementaci\u00f3n","total_count":1,"children":[]},{"name":"\ud83d\udccb Tabla de Contenidos","total_count":1,"children":[]},{"name":"\ud83d\udccd Contexto del Proyecto","total_count":1,"children":[]},{"name":"\ud83d\udcd0 Propiedades de Correcci\u00f3n","total_count":1,"children":[]},{"name":"\ud83d\udce1 Conectividad y Sincronizaci\u00f3n","total_count":1,"children":[]},{"name":"\ud83d\udce6 M\u00f3dulos del Sistema","total_count":1,"children":[]},{"name":"\ud83d\udd0d Problem\u00e1tica que Resuelve","total_count":1,"children":[]},{"name":"\ud83d\udd10 3. Autenticaci\u00f3n y Control de Sesiones","total_count":1,"children":[]},{"name":"\ud83d\udd10 Seguridad","total_count":1,"children":[]},{"name":"\ud83d\udd12 8. Seguridad y Trazabilidad","total_count":1,"children":[]},{"name":"\ud83d\udd27 Variables de Entorno","total_count":1,"children":[]},{"name":"\ud83d\uddc4\ufe0f Modelo de Base de Datos","total_count":1,"children":[]},{"name":"\ud83d\udeab Fuera del Alcance (MVP)","total_count":1,"children":[]},{"name":"\ud83d\udee0\ufe0f Stack Tecnol\u00f3gico","total_count":1,"children":[]},{"name":"\ud83e\uddb7 7. Odontograma Digital","total_count":1,"children":[]},{"name":"\ud83e\uddb7 Dental Clinic SaaS","total_count":1,"children":[]},{"name":"\ud83e\uddb7 Descripci\u00f3n General","total_count":1,"children":[]},{"name":"\ud83e\uddd1\u200d\u2695\ufe0f 4. Gesti\u00f3n de Pacientes","total_count":1,"children":[]},{"name":"\ud83e\uddea Testing","total_count":1,"children":[]}]},{"name":"supabase","total_count":34,"children":[{"name":"migrations","total_count":26,"children":[{"name":"001_create_clinics.sql","total_count":3,"children":[{"name":"clinics","total_count":1,"children":[]},{"name":"set_clinics_updated_at","total_count":1,"children":[]},{"name":"update_updated_at_column()","total_count":1,"children":[]}]},{"name":"002_create_users.sql","total_count":2,"children":[{"name":"set_users_updated_at","total_count":1,"children":[]},{"name":"users","total_count":1,"children":[]}]},{"name":"003_create_patients.sql","total_count":2,"children":[{"name":"patients","total_count":1,"children":[]},{"name":"set_patients_updated_at","total_count":1,"children":[]}]},{"name":"004_create_appointments.sql","total_count":2,"children":[{"name":"appointments","total_count":1,"children":[]},{"name":"calc_ends_at()","total_count":1,"children":[]}]},{"name":"005_create_clinical_records.sql","total_count":2,"children":[{"name":"clinical_records","total_count":1,"children":[]},{"name":"set_clinical_records_updated_at","total_count":1,"children":[]}]},{"name":"006_create_clinical_entries.sql","total_count":1,"children":[{"name":"clinical_entries","total_count":1,"children":[]}]},{"name":"007_create_clinical_attachments.sql","total_count":1,"children":[{"name":"clinical_attachments","total_count":1,"children":[]}]},{"name":"008_create_odontogram_states.sql","total_count":1,"children":[{"name":"odontogram_states","total_count":1,"children":[]}]},{"name":"009_create_custom_tooth_statuses.sql","total_count":1,"children":[{"name":"custom_tooth_statuses","total_count":1,"children":[]}]},{"name":"010_create_audit_logs.sql","total_count":1,"children":[{"name":"audit_logs","total_count":1,"children":[]}]},{"name":"013_fix_security_foundation.sql","total_count":8,"children":[{"name":"private.current_clinic_id()","total_count":1,"children":[]},{"name":"private.current_user_role()","total_count":1,"children":[]},{"name":"private.enforce_clinical_record_version_update()","total_count":1,"children":[]},{"name":"public.check_login_lockout()","total_count":1,"children":[]},{"name":"public.clear_login_attempts()","total_count":1,"children":[]},{"name":"public.custom_access_token_hook()","total_count":1,"children":[]},{"name":"public.enqueue_login_lockout_notification()","total_count":1,"children":[]},{"name":"public.record_failed_login_attempt()","total_count":1,"children":[]}]},{"name":"011_rls_policies.sql","total_count":1,"children":[]},{"name":"012_storage_policies.sql","total_count":1,"children":[]}]},{"name":"tests","total_count":8,"children":[{"name":"bootstrap_supabase.sql","total_count":5,"children":[{"name":"auth.uid()","total_count":1,"children":[]},{"name":"auth.users","total_count":1,"children":[]},{"name":"storage.buckets","total_count":1,"children":[]},{"name":"storage.foldername()","total_count":1,"children":[]},{"name":"storage.objects","total_count":1,"children":[]}]},{"name":"run_migrations.sh","total_count":2,"children":[{"name":"cleanup()","total_count":1,"children":[]},{"name":"run_migrations.sh script","total_count":1,"children":[]}]},{"name":"security_foundation.integration.sql","total_count":1,"children":[]}]}]},{"name":"tsconfig.json","total_count":18,"children":[{"name":"allowJs","total_count":1,"children":[]},{"name":"compilerOptions","total_count":1,"children":[]},{"name":"esModuleInterop","total_count":1,"children":[]},{"name":"exclude","total_count":1,"children":[]},{"name":"include","total_count":1,"children":[]},{"name":"incremental","total_count":1,"children":[]},{"name":"isolatedModules","total_count":1,"children":[]},{"name":"jsx","total_count":1,"children":[]},{"name":"lib","total_count":1,"children":[]},{"name":"module","total_count":1,"children":[]},{"name":"moduleResolution","total_count":1,"children":[]},{"name":"noEmit","total_count":1,"children":[]},{"name":"paths","total_count":1,"children":[]},{"name":"plugins","total_count":1,"children":[]},{"name":"resolveJsonModule","total_count":1,"children":[]},{"name":"skipLibCheck","total_count":1,"children":[]},{"name":"strict","total_count":1,"children":[]},{"name":"target","total_count":1,"children":[]}]},{"name":"types","total_count":22,"children":[{"name":"domain.ts","total_count":22,"children":[{"name":"Appointment","total_count":1,"children":[]},{"name":"AppointmentStatus","total_count":1,"children":[]},{"name":"AuditAction","total_count":1,"children":[]},{"name":"AuditEntityType","total_count":1,"children":[]},{"name":"AuditRecord","total_count":1,"children":[]},{"name":"AuditResult","total_count":1,"children":[]},{"name":"AuthorizationSecurityContext","total_count":1,"children":[]},{"name":"BiologicalSex","total_count":1,"children":[]},{"name":"Clinic","total_count":1,"children":[]},{"name":"ClinicalAttachment","total_count":1,"children":[]},{"name":"ClinicalEntry","total_count":1,"children":[]},{"name":"ClinicalEntryType","total_count":1,"children":[]},{"name":"ClinicalRecord","total_count":1,"children":[]},{"name":"CustomToothStatus","total_count":1,"children":[]},{"name":"DocumentType","total_count":1,"children":[]},{"name":"JWTClaims","total_count":1,"children":[]},{"name":"OdontogramState","total_count":1,"children":[]},{"name":"Patient","total_count":1,"children":[]},{"name":"ToothStatus","total_count":1,"children":[]},{"name":"ToothSurface","total_count":1,"children":[]},{"name":"UserProfile","total_count":1,"children":[]},{"name":"UserRole","total_count":1,"children":[]}]}]},{"name":"vitest.config.mts","total_count":1,"children":[{"name":"projectRoot","total_count":1,"children":[]}]}]};
+
+    function transformData(jsonData) {
+        // Helper function to recursively build the children structure
+        function processNode(node, parentL1StageName) {
+            let displayName = node.name;
+            // Append total_count if it exists and is not already in the name
+            if (node.total_count !== undefined) {
+                if (!/\(Total Count: \d+\)$/.test(displayName)) {
+                    displayName += ` (Total Count: ${node.total_count})`;
+                }
+            }
+
+            const newNode = { name: displayName };
+
+            if (parentL1StageName === "Root") {
+                 newNode.originalStageName = node.name;
+            } else {
+                newNode.originalStageName = parentL1StageName;
+            }
+
+            if (node.children && node.children.length > 0) {
+                const stageNameToPass = (parentL1StageName === "Root") ? node.name : parentL1StageName;
+                newNode.children = node.children.map(child => processNode(child, stageNameToPass));
+            }
+
+            return newNode;
+        }
+
+        let rootDisplayName = jsonData.name;
+        if (jsonData.total_count !== undefined && !/\(Total Count: \d+\)$/.test(rootDisplayName)) {
+            rootDisplayName += ` (Total Count: ${jsonData.total_count})`;
+        }
+
+        return {
+            name: rootDisplayName,
+            originalStageName: "Root",
+            children: (jsonData.children || []).map(child => processNode(child, "Root"))
+        };
+    }
+
+    const treeData = transformData(initialJsonData);
+
+    // Auto-populated phaseColors: every depth-1 child of the root gets
+    // a stable colour from a bigger palette so all top-level dirs are
+    // distinguishable.
+    const PALETTE = [
+      ["#3498DB","#2980B9","#AED6F1"], ["#2ECC71","#27AE60","#A9DFBF"],
+      ["#E74C3C","#C0392B","#F5B7B1"], ["#9B59B6","#8E44AD","#D7BDE2"],
+      ["#F39C12","#D68910","#FAD7A0"], ["#1ABC9C","#117864","#A2D9CE"],
+      ["#34495E","#1B2631","#ABB2B9"], ["#E67E22","#BA4A00","#F5CBA7"],
+      ["#16A085","#0E6655","#A2D9CE"], ["#D35400","#A04000","#EDBB99"],
+      ["#7F8C8D","#566573","#D5DBDB"], ["#C0392B","#7B241C","#F5B7B1"],
+      ["#2E86C1","#1B4F72","#A9CCE3"], ["#28B463","#196F3D","#A9DFBF"],
+      ["#AF7AC5","#6C3483","#D2B4DE"],
+    ];
+    const phaseColors = { "Root": { fill: "#4A4A4A", stroke: "#333333", collapsedFill: "#6C757D" },
+                          "Default": { fill: "#BDC3C7", stroke: "#95A5A6", collapsedFill: "#ECF0F1" } };
+    (initialJsonData.children || []).forEach((c, i) => {
+      const pal = PALETTE[i % PALETTE.length];
+      phaseColors[c.name] = { fill: pal[0], stroke: pal[1], collapsedFill: pal[2] };
+    });
+
+    const levelSpecificPalettes = {
+      0: { fill: "#4A4A4A", stroke: "#333333", collapsedFill: "#6C757D" },
+      2: { fill: "#6ab04c", stroke: "#508a38", collapsedFill: "#a3d391" },
+      3: { fill: "#f0932b", stroke: "#d0730f", collapsedFill: "#f6c07e" },
+      4: { fill: "#be2edd", stroke: "#a01cb3", collapsedFill: "#e08bf2" },
+      5: { fill: "#00a8ff", stroke: "#007ac1", collapsedFill: "#74d2ff" },
+      6: { fill: "#e55039", stroke: "#c23620", collapsedFill: "#f09a8d" },
+      default: { fill: "#747d8c", stroke: "#57606f", collapsedFill: "#a4b0be" }
+    };
+
+    const svgElement = d3.select("#tree-svg");
+    const initialSvgWidth = +svgElement.attr("width");
+    const initialSvgHeight = +svgElement.attr("height");
+    const margin = { top: 40, right: 120, bottom: 80, left: 450 };
+    let width = initialSvgWidth - margin.left - margin.right;
+    let height = initialSvgHeight - margin.top - margin.bottom;
+    const duration = 500;
+    let nodeCounter = 0;
+    const g = svgElement.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    const treemap = d3.tree().nodeSize([40, 0]);
+    let rootNode = d3.hierarchy(treeData, d => d.children);
+    rootNode.x0 = 0;
+    rootNode.y0 = 0;
+
+    if (rootNode.children) {
+      rootNode.children.forEach(d_child => {
+        if (d_child.children) { collapseBranch(d_child); }
+      });
+    }
+    updateTree(rootNode);
+
+    function collapseBranch(d) { if (d.children) { d._children = d.children; d._children.forEach(collapseBranch); d.children = null; } }
+    function expandBranch(d) { if (d._children) { d.children = d._children; d._children = null; } if (d.children) { d.children.forEach(expandBranch); } }
+    window.expandAll = () => { expandBranch(rootNode); updateTree(rootNode); };
+    window.collapseAll = () => { if (rootNode.children) { rootNode.children.forEach(collapseBranch); } updateTree(rootNode); };
+    window.resetView = () => { if (rootNode.children) { rootNode.children.forEach(d_child => { if (d_child.children || d_child._children) { collapseBranch(d_child); } }); } if (rootNode._children && !rootNode.children) { rootNode.children = rootNode._children; rootNode._children = null; } updateTree(rootNode); };
+
+    function updateTree(source) {
+      const treeLayoutData = treemap(rootNode);
+      let nodes = treeLayoutData.descendants();
+      let links = treeLayoutData.descendants().slice(1);
+
+      let minX = 0;
+      let maxX = 0;
+      if (nodes.length > 0) {
+        minX = d3.min(nodes, d => d.x);
+        maxX = d3.max(nodes, d => d.x);
+      }
+
+      let neededHeight = Math.max(initialSvgHeight, maxX - minX + margin.top + margin.bottom + 100);
+      svgElement.transition().duration(duration / 2).attr("height", neededHeight);
+      g.transition().duration(duration / 2).attr("transform", `translate(${margin.left},${margin.top - minX + 40})`);
+
+      nodes.forEach(d => { d.y = d.depth * 400; }); // Adjust horizontal separation if needed
+
+      const node = g.selectAll('g.node').data(nodes, d => d.id || (d.id = ++nodeCounter));
+      const nodeEnter = node.enter().append('g')
+        .attr('class', d => "node" + (d.children || d._children ? " node--internal" : " node--leaf") + (d._children ? " _children" : ""))
+        .attr('transform', d => `translate(${source.y0},${source.x0})`)
+        .on('click', (event, d) => { if (d.children) { d._children = d.children; d.children = null; } else if (d._children) { d.children = d._children; d._children = null; } updateTree(d); })
+        .style('cursor', d => (d.children || d._children) ? 'pointer' : 'default');
+
+      nodeEnter.append('circle').attr('r', 1e-6);
+
+      nodeEnter.append('text')
+        .attr('dy', '.35em')
+        .attr('x', d => d.children || d._children ? -14 : 14)
+        .attr('text-anchor', d => d.children || d._children ? 'end' : 'start')
+        .style("fill-opacity", 1e-6)
+        .call(wrapText, 380);
+
+      const nodeUpdate = nodeEnter.merge(node);
+      nodeUpdate.transition().duration(duration)
+        .attr('transform', d => `translate(${d.y},${d.x})`)
+        .attr('class', d => "node" + (d.children ? " node--internal" : " node--leaf") + (d._children ? " node--internal _children" : ""));
+
+      nodeUpdate.select('circle').attr('r', 8.5)
+        .style('fill', d => {
+            let palette;
+            if (d.depth === 0) {
+                palette = levelSpecificPalettes[0];
+            } else if (d.depth === 1) {
+                palette = phaseColors[d.data.originalStageName] || phaseColors.Default;
+            } else {
+                palette = levelSpecificPalettes[d.depth] || levelSpecificPalettes.default;
+            }
+            if (d._children) return palette.collapsedFill;
+            if (d.children) return palette.fill;
+            return "#fff";
+        })
+        .style('stroke', d => {
+            let palette;
+            if (d.depth === 0) {
+                palette = levelSpecificPalettes[0];
+            } else if (d.depth === 1) {
+                palette = phaseColors[d.data.originalStageName] || phaseColors.Default;
+            } else {
+                palette = levelSpecificPalettes[d.depth] || levelSpecificPalettes.default;
+            }
+            return palette.stroke;
+        });
+      nodeUpdate.select('text').style("fill-opacity", 1).call(wrapText, 380);
+
+      const nodeExit = node.exit().transition().duration(duration).attr('transform', d => `translate(${source.y},${source.x})`).remove();
+      nodeExit.select('circle').attr('r', 1e-6);
+      nodeExit.select('text').style('fill-opacity', 1e-6);
+
+      const link = g.selectAll('path.link').data(links, d => d.id);
+      const linkEnter = link.enter().insert('path', "g").attr('class', 'link').attr('d', d => { const o = { x: source.x0, y: source.y0 }; return diagonal(o, o); });
+
+      linkEnter.merge(link).transition().duration(duration).attr('d', d => diagonal(d, d.parent))
+        .style('stroke', d => {
+            const sourceNode = d.parent;
+            if (!sourceNode) return phaseColors.Default.stroke;
+            const l1AncestorName = sourceNode.data.originalStageName;
+            const colorPalette = phaseColors[l1AncestorName] || phaseColors.Default;
+            return colorPalette.stroke;
+        });
+      link.exit().transition().duration(duration).attr('d', d => { const o = { x: source.x, y: source.y }; return diagonal(o, o); }).remove();
+      nodes.forEach(d => { d.x0 = d.x; d.y0 = d.y; });
+    }
+
+    function diagonal(s, d) { return `M ${s.y} ${s.x} C ${(s.y + d.y) / 2} ${s.x}, ${(s.y + d.y) / 2} ${d.x}, ${d.y} ${d.x}`; }
+
+    function wrapText(textElements, maxWidth) {
+        const textPartColors = {
+            name: '#343a40',
+            count: '#0056b3'
+        };
+        const countRegex = /(\s\(Total Count: \d+\))$/;
+
+        textElements.each(function () {
+            const textD3 = d3.select(this);
+            const originalNodeText = textD3.datum().data.name;
+            const x = parseFloat(textD3.attr("x") || 0);
+            const initialDy = textD3.attr("dy");
+            const textAnchor = textD3.attr("text-anchor");
+            const lineHeight = 1.1;
+
+            textD3.text(null);
+
+            let namePart = originalNodeText;
+            let countPartText = "";
+
+            const countMatch = originalNodeText.match(countRegex);
+            if (countMatch && originalNodeText.endsWith(countMatch[0])) {
+                namePart = originalNodeText.substring(0, originalNodeText.length - countMatch[0].length).trim();
+                countPartText = countMatch[0].trim();
+            }
+
+            const tokens = [];
+            namePart.split(/\s+/).filter(Boolean).forEach(word => {
+                tokens.push({ text: word, type: 'name' });
+            });
+            if (countPartText) {
+                tokens.push({ text: countPartText, type: 'count' });
+            }
+
+            if (tokens.length === 0 && originalNodeText) {
+                tokens.push({ text: originalNodeText, type: 'name' });
+            }
+
+            let currentTspan = textD3.append("tspan").attr("x", x).attr("dy", initialDy);
+            if (textAnchor === "end") currentTspan.attr("text-anchor", "end");
+
+            let lineTokens = [];
+
+            for (let i = 0; i < tokens.length; i++) {
+                const tokenObj = tokens[i];
+
+                lineTokens.push(tokenObj);
+                currentTspan.text(lineTokens.map(t => t.text).join(" "));
+
+                if (currentTspan.node().getComputedTextLength() > maxWidth && lineTokens.length > 1) {
+                    lineTokens.pop();
+
+                    currentTspan.text(null);
+                    lineTokens.forEach((prevToken, idx) => {
+                        currentTspan.append("tspan")
+                            .text((idx > 0 ? " " : "") + prevToken.text)
+                            .style("fill", textPartColors[prevToken.type] || textPartColors.name)
+                            .style("font-weight", prevToken.type === 'count' ? "bold" : "normal");
+                    });
+
+                    lineTokens = [tokenObj];
+                    currentTspan = textD3.append("tspan").attr("x", x).attr("dy", lineHeight + "em");
+                    if (textAnchor === "end") currentTspan.attr("text-anchor", "end");
+                }
+            }
+
+            currentTspan.text(null);
+            lineTokens.forEach((token, idx) => {
+                currentTspan.append("tspan")
+                    .text((idx > 0 ? " " : "") + token.text)
+                    .style("fill", textPartColors[token.type] || textPartColors.name)
+                    .style("font-weight", token.type === 'count' ? "bold" : "normal");
+            });
+
+            if (textD3.selectAll("tspan > tspan").empty() && textD3.select("tspan").text().length === 0 && originalNodeText) {
+                let t = textD3.select("tspan");
+                let displayText = originalNodeText;
+                t.text(displayText).style("fill", textPartColors.name);
+                if (t.node() && t.node().getComputedTextLength() > maxWidth && displayText.length > 20) {
+                    let estimatedChars = Math.floor(maxWidth / (t.node().getComputedTextLength()/displayText.length) );
+                    displayText = displayText.substring(0, Math.max(0, estimatedChars - 3)) + "...";
+                    t.text(displayText);
+                }
+            }
+        });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,3293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENTAL CLINIC — Complete Call Flow &amp; Architecture Documentation</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --border: #334155;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+  --warn: #fbbf24; --err: #f87171; --ok: #34d399;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+h1 { font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h2 { font-size: 1.7rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.25rem; margin: 32px 0 12px; color: var(--accent); }
+h4 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--warn); }
+p { margin: 8px 0; color: var(--muted); }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 32px; }
+.mermaid { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; position: relative; }
+.mermaid.is-enhanced { padding: 0; overflow: hidden; min-height: 260px; }
+.mermaid-viewport { padding: 54px 24px 24px; overflow: hidden; cursor: grab; touch-action: none; min-height: 260px; }
+.mermaid-viewport.is-dragging { cursor: grabbing; }
+.mermaid-viewport svg { max-width: none !important; height: auto; transform-origin: 0 0; transition: transform 120ms ease; }
+.mermaid-toolbar { position: absolute; top: 10px; right: 10px; z-index: 3; display: flex; align-items: center; gap: 6px; padding: 6px; background: rgba(15,23,42,0.92); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.mermaid-toolbar button, .mermaid-toolbar .zoom-level { height: 28px; min-width: 32px; border: 1px solid var(--border); border-radius: 6px; background: #1e293b; color: var(--text); font: 600 0.78rem system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; }
+.mermaid-toolbar button { cursor: pointer; }
+.mermaid-toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+.mermaid-toolbar .zoom-level { min-width: 52px; color: var(--muted); background: transparent; }
+.call-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+.call-table th { background: #1a2744; color: var(--accent); text-align: left; padding: 10px 14px; border: 1px solid var(--border); }
+.call-table td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
+.call-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.tag-async { background: #7c3aed33; color: #a78bfa; }
+.tag-class { background: #05966933; color: var(--ok); }
+.tag-func { background: #2563eb33; color: var(--accent); }
+.tag-cmd { background: #d9770633; color: var(--warn); }
+.tag-endpoint { background: #dc262633; color: var(--err); }
+.tag-hook { background: #db277733; color: #f472b6; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+.arrow-chain { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); padding: 10px; background: rgba(56,189,248,0.06); border-radius: 6px; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+ul, ol { margin: 8px 0 8px 24px; color: var(--muted); }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.nav { position: sticky; top: 0; background: var(--bg); z-index: 10; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; }
+.nav a { text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+@media (max-width: 768px) { .container { padding: 16px; } h1 { font-size: 1.8rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>DENTAL CLINIC — Complete Call Flow &amp; Architecture Documentation</h1>
+<p class="subtitle">Generated from graphify knowledge graph: 585 nodes, 1016 edges, 37 communities. Commit: 8312b01</p>
+
+<div class="nav">
+    <a href="#overview">Architecture Overview</a>
+    <a href="#build-graph">Graph Build</a>
+    <a href="#cli-skills">CLI &amp; Skill Installers</a>
+    <a href="#ingest-cache-update">Ingestion &amp; Updates</a>
+    <a href="#serve-api">Serving API</a>
+    <a href="#security-global">Security &amp; Global Graph</a>
+    <a href="#tests-fixtures">Tests &amp; Fixtures</a>
+    <a href="#dental-clinic-saas">🦷 Dental Clinic SaaS</a>
+    <a href="#clinics">clinics</a>
+    <a href="#citas-page-tsx">citas/page.tsx</a>
+    <a href="#configuracion-page-tsx">configuracion/page.tsx</a>
+    <a href="#dashboard-page-tsx">dashboard/page.tsx</a>
+    <a href="#pacientes-page-tsx">pacientes/page.tsx</a>
+    <a href="#estado-citas-page-tsx">estado-citas/page.tsx</a>
+    <a href="#pacientes-atendidos-page-tsx">pacientes-atendidos/page.tsx</a>
+    <a href="#other">Other</a>
+</div>
+
+<!-- ====== Architecture Overview ====== -->
+<h2 id="overview">1. Architecture Overview</h2>
+
+<div class="mermaid">
+
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>64 nodes</small>")
+    class BUILD_GRAPH_321CBB04 module;
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>130 nodes</small>")
+    class CLI_SKILLS_9964CBB8 module;
+    INGEST_CACHE_UPDATE_FF457338("Ingestion &amp; Updates<br/><small>73 nodes</small>")
+    class INGEST_CACHE_UPDATE_FF457338 module;
+    SERVE_API_35EC8E86("Serving API<br/><small>2 nodes</small>")
+    class SERVE_API_35EC8E86 module;
+    SECURITY_GLOBAL_5B9C6A04("Security &amp; Global Graph<br/><small>11 nodes</small>")
+    class SECURITY_GLOBAL_5B9C6A04 module;
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>213 nodes</small>")
+    class TESTS_FIXTURES_B84B1DCC module;
+    DENTAL_CLINIC_SAAS_CDF4B39D("🦷 Dental Clinic SaaS<br/><small>37 nodes</small>")
+    class DENTAL_CLINIC_SAAS_CDF4B39D module;
+    CLINICS_27BE7725("clinics<br/><small>26 nodes</small>")
+    class CLINICS_27BE7725 module;
+    CITAS_PAGE_TSX_2F75CE85("citas/page.tsx<br/><small>2 nodes</small>")
+    class CITAS_PAGE_TSX_2F75CE85 module;
+    CONFIGURACION_PAGE_TSX_15C34F9E("configuracion/page.tsx<br/><small>2 nodes</small>")
+    class CONFIGURACION_PAGE_TSX_15C34F9E module;
+    DASHBOARD_PAGE_TSX_04E20A76("dashboard/page.tsx<br/><small>2 nodes</small>")
+    class DASHBOARD_PAGE_TSX_04E20A76 module;
+    PACIENTES_PAGE_TSX_C84AEAA3("pacientes/page.tsx<br/><small>2 nodes</small>")
+    class PACIENTES_PAGE_TSX_C84AEAA3 module;
+    ESTADO_CITAS_PAGE_TSX_BE53B795("estado-citas/page.tsx<br/><small>2 nodes</small>")
+    class ESTADO_CITAS_PAGE_TSX_BE53B795 module;
+    PACIENTES_ATENDIDOS_PAGE_TSX_85A95965("pacientes-atendidos/page.tsx<br/><small>2 nodes</small>")
+    class PACIENTES_ATENDIDOS_PAGE_TSX_85A95965 module;
+    OTHER_D0941E68("Other<br/><small>17 nodes</small>")
+    class OTHER_D0941E68 module;
+    INGEST_CACHE_UPDATE_FF457338 -->|imports x71| TESTS_FIXTURES_B84B1DCC
+    TESTS_FIXTURES_B84B1DCC -->|imports x54| INGEST_CACHE_UPDATE_FF457338
+    BUILD_GRAPH_321CBB04 -->|imports x5| TESTS_FIXTURES_B84B1DCC
+    BUILD_GRAPH_321CBB04 -->|imports x2| INGEST_CACHE_UPDATE_FF457338
+    INGEST_CACHE_UPDATE_FF457338 -->|imports| BUILD_GRAPH_321CBB04
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h4>Architecture Layers</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
+      <tr><td>Graph Build</td><td>64</td><td><code>2, 6</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>130</td><td><code>9, 29, 30, 31, 32, 33</code></td></tr><tr><td>Ingestion &amp; Updates</td><td>73</td><td><code>4</code></td></tr><tr><td>Serving API</td><td>2</td><td><code>13</code></td></tr><tr><td>Security &amp; Global Graph</td><td>11</td><td><code>10, 27</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>213</td><td><code>7, 0, 3, 1, 8, 11, 12</code></td></tr><tr><td>🦷 Dental Clinic SaaS</td><td>37</td><td><code>28</code></td></tr><tr><td>clinics</td><td>26</td><td><code>5</code></td></tr><tr><td>citas/page.tsx</td><td>2</td><td><code>14</code></td></tr><tr><td>configuracion/page.tsx</td><td>2</td><td><code>15</code></td></tr><tr><td>dashboard/page.tsx</td><td>2</td><td><code>16</code></td></tr><tr><td>pacientes/page.tsx</td><td>2</td><td><code>17</code></td></tr><tr><td>estado-citas/page.tsx</td><td>2</td><td><code>18</code></td></tr><tr><td>pacientes-atendidos/page.tsx</td><td>2</td><td><code>19</code></td></tr><tr><td>Other</td><td>17</td><td><code>20, 21, 22, 23, 24, 34, 35, 25, 26, 36</code></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Core Flow</h4>
+    <div class="arrow-chain">CLI &amp; Skill Installers -&gt; Graph Build -&gt; Tests &amp; Fixtures -&gt; Ingestion &amp; Updates -&gt; Serving API -&gt; Security &amp; Global Graph -&gt; 🦷 Dental Clinic SaaS</div>
+  </div>
+</div>
+<div class="grid">
+  <div class="card">
+    <h4>Graph Report Highlights</h4>
+    <ul>
+      <li>585 nodes · 1016 edges · 37 communities (18 shown, 6 thin omitted)</li>
+      <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS</li>
+      <li>Token cost: 0 input · 0 output</li>
+      <li>1. `DentalClinicError` - 56 edges</li>
+      <li>2. `withErrorHandling()` - 43 edges</li>
+      <li>3. `requireRole()` - 37 edges</li>
+    </ul>
+  </div>
+</div>
+<hr>
+<!-- ====== 2. Graph Build ====== -->
+<h2 id="build-graph">2. Graph Build</h2>
+<p>Graph Build groups implementation around packagejson, tsconfigjson, react, types, mostly in package.json, tsconfig.json, vitest.config.mts. This section covers 64 nodes and 62 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Graph Build (64 nodes, 62 edges)
+    subgraph build_graph_package_json_4e40bfbd["package.json"]
+        package_582681c2("package.json")
+        ref_supabase_supabase_js_135d18c5("@supabase/supabase-js<br/><small>package.json</small>")
+        ref_react_dom_61ea372d("react-dom<br/><small>package.json</small>")
+        ref_tailwindcss_postcss_086d2a2c("@tailwindcss/postcss<br/><small>package.json</small>")
+        ref_types_node_4b20becf("@types/node<br/><small>package.json</small>")
+        ref_types_react_1bb250f2("@types/react<br/><small>package.json</small>")
+        ref_types_react_dom_2cfa9575("@types/react-dom<br/><small>package.json</small>")
+        ref_vitejs_plugin_react_2811e448("@vitejs/plugin-react<br/><small>package.json</small>")
+        ref_eslint_91e66023("eslint<br/><small>package.json</small>")
+        ref_eslint_config_next_ad6b61f7("eslint-config-next<br/><small>package.json</small>")
+        ref_tailwindcss_34b78b9c("tailwindcss<br/><small>package.json</small>")
+        ref_typescript_d5a01309("typescript<br/><small>package.json</small>")
+        package_dependencies_supabase_ssr_f53841fd("@supabase/ssr<br/><small>package.json</small>")
+        package_dependencies_supabase_supabase_js_5f3eefaf("@supabase/supabase-js<br/><small>package.json</small>")
+        package_devdependencies_tailwindcss_postcss_b2e87847("@tailwindcss/postcss<br/><small>package.json</small>")
+        package_devdependencies_types_node_04b141e9("@types/node<br/><small>package.json</small>")
+        package_devdependencies_types_react_327092bf("@types/react<br/><small>package.json</small>")
+    end
+    vitest_config_27695d99("vitest.config.mts")
+    package_582681c2 -->|imports| ref_supabase_supabase_js_135d18c5
+    package_582681c2 -->|imports| ref_react_dom_61ea372d
+    package_582681c2 -->|imports| ref_tailwindcss_postcss_086d2a2c
+    package_582681c2 -->|imports| ref_types_node_4b20becf
+    package_582681c2 -->|imports| ref_types_react_1bb250f2
+    package_582681c2 -->|imports| ref_types_react_dom_2cfa9575
+    package_582681c2 -->|imports| ref_vitejs_plugin_react_2811e448
+    package_582681c2 -->|imports| ref_eslint_91e66023
+    package_582681c2 -->|imports| ref_eslint_config_next_ad6b61f7
+    package_582681c2 -->|imports| ref_tailwindcss_34b78b9c
+    package_582681c2 -->|imports| ref_typescript_d5a01309
+    vitest_config_27695d99 -->|imports| ref_vitejs_plugin_react_2811e448
+    %% Omitted for readability: 46 nodes, 0 edges
+    class package_582681c2 function;
+    class ref_supabase_supabase_js_135d18c5 function;
+    class ref_react_dom_61ea372d function;
+    class ref_tailwindcss_postcss_086d2a2c function;
+    class ref_types_node_4b20becf function;
+    class ref_types_react_1bb250f2 function;
+    class ref_types_react_dom_2cfa9575 function;
+    class ref_vitejs_plugin_react_2811e448 function;
+    class ref_eslint_91e66023 function;
+    class ref_eslint_config_next_ad6b61f7 function;
+    class ref_tailwindcss_34b78b9c function;
+    class ref_typescript_d5a01309 function;
+    class package_dependencies_supabase_ssr_f53841fd function;
+    class package_dependencies_supabase_supabase_js_5f3eefaf function;
+    class package_devdependencies_tailwindcss_postcss_b2e87847 function;
+    class package_devdependencies_types_node_04b141e9 function;
+    class package_devdependencies_types_react_327092bf function;
+    class vitest_config_27695d99 test;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>package.json</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>@supabase/ssr</code><br><small style="color:var(--muted)">package.json</small><br><code>@supabase/supabase-js</code><br><small style="color:var(--muted)">package.json</small><br><code>@tailwindcss/postcss</code><br><small style="color:var(--muted)">package.json</small><br>+15 more</td>
+  <td>package.json node in package.json.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>dependencies</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>dependencies node in package.json.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>lucide-react</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>lucide-react node in package.json.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>next</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>next node in package.json.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>react</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>react node in package.json.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>react-dom</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>react-dom node in package.json.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>@supabase/ssr</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@supabase/ssr node in package.json.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>@supabase/supabase-js</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@supabase/supabase-js node in package.json.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>zod</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>zod node in package.json.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>devDependencies</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>devDependencies node in package.json.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>eslint</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>eslint node in package.json.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>eslint-config-next</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>fast-check</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>fast-check node in package.json.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>tailwindcss</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>tailwindcss node in package.json.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>@tailwindcss/postcss</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@tailwindcss/postcss node in package.json.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>@types/node</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@types/node node in package.json.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>@types/react</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@types/react node in package.json.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>@types/react-dom</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@types/react-dom node in package.json.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>typescript</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>typescript node in package.json.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>@vitejs/plugin-react</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@vitejs/plugin-react node in package.json.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>vitest</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>name</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>name node in package.json.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>private</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>private node in package.json.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>scripts</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>scripts node in package.json.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>build</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>build node in package.json.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>dev</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>dev node in package.json.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>lint</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>lint node in package.json.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>start</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>start node in package.json.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>test</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>test:db</code><br><small style="color:var(--muted)">package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>package.json</code></td><td>43 nodes</td></tr>
+<tr><td><code>tsconfig.json</code></td><td>19 nodes</td></tr>
+<tr><td><code>vitest.config.mts</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x50, imports x11, imports x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 3. CLI & Skill Installers ====== -->
+<h2 id="cli-skills">3. CLI &amp; Skill Installers</h2>
+<p>CLI &amp; Skill Installers groups implementation around dental, clinic, saas, kiro, mostly in specs/dental-clinic-saas/design.md, specs/dental-clinic-saas/requirements.md, specs/dental-clinic-saas/adr-001-auth-context-and-rls-fix.md. This section covers 130 nodes and 126 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: CLI &amp; Skill Installers (130 nodes, 126 edges)
+    subgraph cli_skills_specs_dental_clinic_saas_design_md_96053b9b["specs/dental-clinic-saas/design.md"]
+        kiro_specs_dental_clinic_saas_design_correctness_808cf037("Correctness Properties<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_esquema_pos_19e1d551("Esquema PostgreSQL Completo<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_documento_d_23391cfe("Documento de Diseño Técnico: Dental Cli...<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_pol_ticas_r_ddb0d61c("Políticas RLS<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_categor_as_65e7d070("Categorías de Pruebas<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_components_a577e2e5("Components and Interfaces<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_data_models_6f83de3e("Data Models<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea("Testing Strategy<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_architectur_4dcdcf81("Architecture<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_error_handl_b1da96d7("Error Handling<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_flujo_de_au_7cffcdef("Flujo de Autenticación y Manejo de Sesi...<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_manejo_de_e_768c2c29("Manejo de Errores y Conectividad<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_overview_1b5bd61d("Overview<br/><small>specs/dental-clinic-saas/design.md</small>")
+        kiro_specs_dental_clinic_saas_design_supabase_st_ff867bbc("Supabase Storage<br/><small>specs/dental-clinic-saas/design.md</small>")
+    end
+    subgraph cli_skills_specs_dental_clinic_saas_requirements_330ba372["specs/dental-clinic-saas/requirements.md"]
+        kiro_specs_dental_clinic_saas_requirements_requi_897b125b("Requirements<br/><small>specs/dental-clinic-saas/requirements.md</small>")
+        kiro_specs_dental_clinic_saas_requirements_requi_42126ec2("Requirements Document<br/><small>specs/dental-clinic-saas/requirements.md</small>")
+    end
+    kiro_specs_dental_clinic_saas_adr_001_auth_conte_8d5f8e95("ADR-001: Contexto de autorización, MFA...<br/><small>specs/dental-clinic-saas/adr-001-auth-context-and-rls-fix.md</small>")
+    kiro_specs_dental_clinic_saas_tasks_implementati_66af352c("Implementation Plan: Dental Clinic SaaS<br/><small>specs/dental-clinic-saas/tasks.md</small>")
+    kiro_specs_dental_clinic_saas_design_data_models_6f83de3e -->|contains| kiro_specs_dental_clinic_saas_design_esquema_pos_19e1d551
+    kiro_specs_dental_clinic_saas_design_data_models_6f83de3e -->|contains| kiro_specs_dental_clinic_saas_design_pol_ticas_r_ddb0d61c
+    kiro_specs_dental_clinic_saas_design_data_models_6f83de3e -->|contains| kiro_specs_dental_clinic_saas_design_supabase_st_ff867bbc
+    kiro_specs_dental_clinic_saas_requirements_requi_42126ec2 -->|contains| kiro_specs_dental_clinic_saas_requirements_requi_897b125b
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_correctness_808cf037
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_error_handl_b1da96d7
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_components_a577e2e5
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_architectur_4dcdcf81
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_overview_1b5bd61d
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_data_models_6f83de3e
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_flujo_de_au_7cffcdef
+    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_manejo_de_e_768c2c29
+    kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea -->|contains| kiro_specs_dental_clinic_saas_design_categor_as_65e7d070
+    %% Omitted for readability: 112 nodes, 0 edges
+    class kiro_specs_dental_clinic_saas_design_correctness_808cf037 concept;
+    class kiro_specs_dental_clinic_saas_design_esquema_pos_19e1d551 concept;
+    class kiro_specs_dental_clinic_saas_design_documento_d_23391cfe concept;
+    class kiro_specs_dental_clinic_saas_design_pol_ticas_r_ddb0d61c concept;
+    class kiro_specs_dental_clinic_saas_design_categor_as_65e7d070 concept;
+    class kiro_specs_dental_clinic_saas_design_components_a577e2e5 concept;
+    class kiro_specs_dental_clinic_saas_design_data_models_6f83de3e concept;
+    class kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea concept;
+    class kiro_specs_dental_clinic_saas_design_architectur_4dcdcf81 concept;
+    class kiro_specs_dental_clinic_saas_design_error_handl_b1da96d7 concept;
+    class kiro_specs_dental_clinic_saas_design_flujo_de_au_7cffcdef concept;
+    class kiro_specs_dental_clinic_saas_design_manejo_de_e_768c2c29 concept;
+    class kiro_specs_dental_clinic_saas_design_overview_1b5bd61d concept;
+    class kiro_specs_dental_clinic_saas_design_supabase_st_ff867bbc concept;
+    class kiro_specs_dental_clinic_saas_requirements_requi_897b125b concept;
+    class kiro_specs_dental_clinic_saas_requirements_requi_42126ec2 concept;
+    class kiro_specs_dental_clinic_saas_adr_001_auth_conte_8d5f8e95 concept;
+    class kiro_specs_dental_clinic_saas_tasks_implementati_66af352c concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>design.md</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing design.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>1. Pruebas de Propiedades (Property-Based Tests) — `fast-check`</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 1. Pruebas de Propiedades (Property-Based Tests) — `fast-check`.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>2. Pruebas de Ejemplo (Unit Tests) — Vitest</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2. Pruebas de Ejemplo (Unit Tests) — Vitest.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>3. Pruebas de Integración — Supabase local (docker)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 3. Pruebas de Integración — Supabase local (docker).</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>4. Pruebas de Humo (Smoke Tests)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 4. Pruebas de Humo (Smoke Tests).</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>Architecture</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Architecture.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>Categorías de Pruebas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Categorías de Pruebas.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>Clasificación de Errores</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Clasificación de Errores.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>Components and Interfaces</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Components and Interfaces.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Configuración de fast-check</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Configuración de fast-check.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>Control de Concurrencia Optimista</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Control de Concurrencia Optimista.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>Decisiones de Arquitectura Clave</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Decisiones de Arquitectura Clave.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>Detección de Conectividad</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Detección de Conectividad.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>Diagrama de Componentes</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Diagrama de Componentes.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>Diagrama de Flujo de Autenticación</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Diagrama de Flujo de Autenticación.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>Diagrama de Flujo de Solicitud</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Diagrama de Flujo de Solicitud.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>Diseño del Odontograma SVG</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Diseño del Odontograma SVG.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>Documento de Diseño Técnico: Dental Clinic SaaS</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Documento de Diseño Técnico: Dental Clinic SaaS.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>Enfoque Dual</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Enfoque Dual.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>Error Handling</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Error Handling.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>Estrategia de Mocks para Supabase</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Estrategia de Mocks para Supabase.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>Estrategia Server Actions vs Route Handlers</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Estrategia Server Actions vs Route Handlers.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>Estructura de Componentes Principales</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Estructura de Componentes Principales.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>Estructura de Rutas (Next.js App Router)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Estructura de Rutas (Next.js App Router).</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>Flujo de Autenticación y Manejo de Sesiones</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Flujo de Autenticación y Manejo de Sesiones.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>Flujo de Manejo de Errores en el Cliente</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Flujo de Manejo de Errores en el Cliente.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>Headers de Seguridad HTTP</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Headers de Seguridad HTTP.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>Interfaces TypeScript Principales</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Interfaces TypeScript Principales.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>Jerarquía de Errores del Sistema</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Jerarquía de Errores del Sistema.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>Manejo de Errores en Server Actions</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Manejo de Errores en Server Actions.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>specs/dental-clinic-saas/design.md</code></td><td>90 nodes</td></tr>
+<tr><td><code>specs/dental-clinic-saas/requirements.md</code></td><td>25 nodes</td></tr>
+<tr><td><code>specs/dental-clinic-saas/adr-001-auth-context-and-rls-fix.md</code></td><td>9 nodes</td></tr>
+<tr><td><code>specs/dental-clinic-saas/tasks.md</code></td><td>6 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x126. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 4. Ingestion & Updates ====== -->
+<h2 id="ingest-cache-update">4. Ingestion &amp; Updates</h2>
+<p>Ingestion &amp; Updates groups implementation around actions, types, domaints, patientsactionsts, mostly in types/domain.ts, lib/actions/patients.actions.ts, lib/actions/clinic.actions.ts. This section covers 73 nodes and 155 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Ingestion &amp; Updates (73 nodes, 155 edges)
+    subgraph ingest_cache_update_lib_supabase_admin_ts_8aa1e0a6["lib/supabase/admin.ts"]
+        lib_supabase_admin_createadminclient_55f1af20("createAdminClient()<br/><small>lib/supabase/admin.ts</small>")
+        lib_supabase_admin_2b2da909("admin.ts")
+    end
+    subgraph ingest_cache_update_lib_supabase_server_ts_c5dc05cc["lib/supabase/server.ts"]
+        lib_supabase_server_createclient_7a8cb9f3("createClient()<br/><small>lib/supabase/server.ts</small>")
+        lib_supabase_server_e6aaad96("server.ts")
+    end
+    subgraph ingest_cache_update_storage_signed_url_route_ts_52d3cfbc["storage/signed-url/route.ts"]
+        app_api_storage_signed_url_route_post_2cce10d6("POST()<br/><small>storage/signed-url/route.ts</small>")
+        app_api_storage_signed_url_route_05d19d9c("route.ts")
+    end
+    subgraph ingest_cache_update_types_domain_ts_dc792d3b["types/domain.ts"]
+        types_domain_clinicalattachment_689158da("ClinicalAttachment<br/><small>types/domain.ts</small>")
+        types_domain_bd4304cd("domain.ts")
+    end
+    lib_actions_attachments_actions_722b0f3b("attachments.actions.ts")
+    lib_actions_clinic_actions_3a146ea9("clinic.actions.ts")
+    lib_actions_clinical_actions_d5706bc3("clinical.actions.ts")
+    lib_actions_patients_actions_2652ea0b("patients.actions.ts")
+    lib_actions_reports_actions_558ebeb7("reports.actions.ts")
+    lib_actions_users_actions_fe6141c3("users.actions.ts")
+    lib_audit_authorization_failure_persistauthoriza_f3ae041e("persistAuthorizationFailure()<br/><small>lib/audit/authorization-failure.ts</small>")
+    lib_auth_require_user_28b6d58d("require-user.ts")
+    lib_server_action_wrapper_serveractionresult_2241e3a6("ServerActionResult<br/><small>lib/server-action-wrapper.ts</small>")
+    ref_zod_60c5f9f5("zod<br/><small>package.json</small>")
+    app_api_storage_signed_url_route_post_2cce10d6 -->|calls| lib_supabase_admin_createadminclient_55f1af20
+    lib_audit_authorization_failure_persistauthoriza_f3ae041e -->|calls| lib_supabase_admin_createadminclient_55f1af20
+    app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_admin_createadminclient_55f1af20
+    app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_server_createclient_7a8cb9f3
+    app_api_storage_signed_url_route_05d19d9c -->|imports| ref_zod_60c5f9f5
+    app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_admin_2b2da909
+    app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_server_e6aaad96
+    app_api_storage_signed_url_route_05d19d9c -->|imports| lib_auth_require_user_28b6d58d
+    lib_actions_attachments_actions_722b0f3b -->|imports| types_domain_clinicalattachment_689158da
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_admin_createadminclient_55f1af20
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_server_createclient_7a8cb9f3
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_server_action_wrapper_serveractionresult_2241e3a6
+    lib_actions_attachments_actions_722b0f3b -->|imports| types_domain_bd4304cd
+    lib_actions_attachments_actions_722b0f3b -->|imports| ref_zod_60c5f9f5
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_admin_2b2da909
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_server_e6aaad96
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_auth_require_user_28b6d58d
+    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_admin_createadminclient_55f1af20
+    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_server_createclient_7a8cb9f3
+    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_server_action_wrapper_serveractionresult_2241e3a6
+    lib_actions_clinic_actions_3a146ea9 -->|imports| types_domain_bd4304cd
+    lib_actions_clinic_actions_3a146ea9 -->|imports| ref_zod_60c5f9f5
+    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_admin_2b2da909
+    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_server_e6aaad96
+    %% Omitted for readability: 55 nodes, 30 edges
+    class lib_supabase_admin_createadminclient_55f1af20 entry;
+    class lib_supabase_admin_2b2da909 module;
+    class lib_supabase_server_createclient_7a8cb9f3 entry;
+    class lib_supabase_server_e6aaad96 module;
+    class app_api_storage_signed_url_route_post_2cce10d6 function;
+    class app_api_storage_signed_url_route_05d19d9c api;
+    class types_domain_clinicalattachment_689158da entry;
+    class types_domain_bd4304cd module;
+    class lib_actions_attachments_actions_722b0f3b module;
+    class lib_actions_clinic_actions_3a146ea9 entry;
+    class lib_actions_clinical_actions_d5706bc3 entry;
+    class lib_actions_patients_actions_2652ea0b module;
+    class lib_actions_reports_actions_558ebeb7 module;
+    class lib_actions_users_actions_fe6141c3 module;
+    class lib_audit_authorization_failure_persistauthoriza_f3ae041e function;
+    class lib_auth_require_user_28b6d58d module;
+    class lib_server_action_wrapper_serveractionresult_2241e3a6 klass;
+    class ref_zod_60c5f9f5 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>UploadAttachmentInput</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>UploadAttachmentInput node in lib/actions/attachments.actions.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>RegisterClinicInput</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>RegisterClinicInput node in lib/actions/clinic.actions.ts.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>UpdateClinicInput</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>UpdateClinicInput node in lib/actions/clinic.actions.ts.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>SaveClinicalEntryInput</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>SaveClinicalEntryInput node in lib/actions/clinical.actions.ts.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>PatientInput</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PatientInput node in lib/actions/patients.actions.ts.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>UpdatePatientInput</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>UpdatePatientInput node in lib/actions/patients.actions.ts.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>AppointmentStatusReportResult</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AppointmentStatusReportResult node in lib/actions/reports.actions.ts.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>AttendedPatientsReportResult</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AttendedPatientsReportResult node in lib/actions/reports.actions.ts.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>ReportFilterInput</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>ReportFilterInput node in lib/actions/reports.actions.ts.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>CreateUserInput</code><br><small style="color:var(--muted)">lib/actions/users.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CreateUserInput node in lib/actions/users.actions.ts.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>UpdateUserInput</code><br><small style="color:var(--muted)">lib/actions/users.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>UpdateUserInput node in lib/actions/users.actions.ts.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>AuthorizationFailureEvent</code><br><small style="color:var(--muted)">lib/audit/authorization-failure.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AuthorizationFailureEvent node in lib/audit/authorization-failure.ts.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>AuthorizationFailureRecorder</code><br><small style="color:var(--muted)">lib/audit/authorization-failure.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>server-action-wrapper.ts</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AuthorizationFailureRecorder node in lib/audit/authorization-failure.ts.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>ErrorHandlingOptions</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>ErrorHandlingOptions node in lib/server-action-wrapper.ts.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>ServerActionResult</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>attachments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small><br><code>auth.actions.ts</code><br><small style="color:var(--muted)">lib/actions/auth.actions.ts</small><br>+6 more</td>
+  <td>No direct outbound edge</td>
+  <td>ServerActionResult node in lib/server-action-wrapper.ts.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>AppointmentStatus</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>reports.actions.ts</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AppointmentStatus node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>AuditAction</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>require-user.ts</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AuditAction node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>AuditEntityType</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>require-user.ts</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AuditEntityType node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>AuditRecord</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>audit.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/audit.test.ts</small><br><code>audit.ts</code><br><small style="color:var(--muted)">lib/audit.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AuditRecord node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>AuditResult</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AuditResult node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>AuthorizationSecurityContext</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>domain.ts</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>server-action-wrapper.ts</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AuthorizationSecurityContext node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>BiologicalSex</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>patients.actions.ts</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>BiologicalSex node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>Clinic</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinic.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>Clinic node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>ClinicalAttachment</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>attachments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>ClinicalAttachment node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>ClinicalEntry</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>ClinicalEntry node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>ClinicalEntryType</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>ClinicalEntryType node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>ClinicalRecord</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>ClinicalRecord node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>CustomToothStatus</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>odontogram.actions.ts</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>CustomToothStatus node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>DocumentType</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>patients.actions.ts</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>DocumentType node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>OdontogramState</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>odontogram.actions.ts</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>OdontogramState node in types/domain.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>types/domain.ts</code></td><td>20 nodes</td></tr>
+<tr><td><code>lib/actions/patients.actions.ts</code></td><td>6 nodes</td></tr>
+<tr><td><code>lib/actions/clinic.actions.ts</code></td><td>5 nodes</td></tr>
+<tr><td><code>lib/actions/reports.actions.ts</code></td><td>5 nodes</td></tr>
+<tr><td><code>lib/actions/users.actions.ts</code></td><td>5 nodes</td></tr>
+<tr><td><code>lib/actions/attachments.actions.ts</code></td><td>4 nodes</td></tr>
+<tr><td><code>lib/actions/clinical.actions.ts</code></td><td>4 nodes</td></tr>
+<tr><td><code>lib/audit/authorization-failure.ts</code></td><td>4 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x54, contains x53, imports x37, references x5. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 5. Serving API ====== -->
+<h2 id="serve-api">5. Serving API</h2>
+<p>Serving API groups implementation around health, routets, app, api, mostly in api/health/route.ts. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Serving API (2 nodes, 1 edges)
+    app_api_health_route_30b83110("route.ts")
+    app_api_health_route_get_1d12ecd0("GET()<br/><small>api/health/route.ts</small>")
+    app_api_health_route_30b83110 -->|contains| app_api_health_route_get_1d12ecd0
+    class app_api_health_route_30b83110 api;
+    class app_api_health_route_get_1d12ecd0 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>GET()</code><br><small style="color:var(--muted)">api/health/route.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>GET() node in api/health/route.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>health/route.ts</code><br><small style="color:var(--muted)">api/health/route.ts</small></td>
+  <td><span class="tag tag-endpoint">API</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in api/health/route.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>api/health/route.ts</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 6. Security & Global Graph ====== -->
+<h2 id="security-global">6. Security &amp; Global Graph</h2>
+<p>Security &amp; Global Graph groups implementation around security, 013, fix, foundationsql, mostly in supabase/migrations/013_fix_security_foundation.sql, supabase/tests/security_foundation.integration.sql. This section covers 11 nodes and 10 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Security &amp; Global Graph (11 nodes, 10 edges)
+    subgraph security_global_supabase_migrations_013_fix_secu_3c0ad58f["supabase/migrations/013_fix_security_foundation.sql"]
+        supabase_migrations_013_fix_security_foundation_05270550("fix security foundation.sql<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_5225ad4d("private.current_clinic_id()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_fb1284dc("private.current_user_role()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_bec6ffe6("record version update()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_555e2b24("access token hook()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_097c32b3("public.check_login_lockout()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_8128c8a1("failed login attempt()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_d513bab7("public.clear login attempts()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+        supabase_migrations_013_fix_security_foundation_06564cbe("login lockout notification()<br/><small>supabase/migrations/013_fix_security_foundation.sql</small>")
+    end
+    public_users_56f568c5("public.users")
+    supabase_tests_security_foundation_integration_60a3a5d1("security foundation.integration.sql<br/><small>supabase/tests/security_foundation.integration.sql</small>")
+    supabase_migrations_013_fix_security_foundation_5225ad4d -->|reads from| public_users_56f568c5
+    supabase_migrations_013_fix_security_foundation_fb1284dc -->|reads from| public_users_56f568c5
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_5225ad4d
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_fb1284dc
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_bec6ffe6
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_555e2b24
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_097c32b3
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_8128c8a1
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_d513bab7
+    supabase_migrations_013_fix_security_foundation_05270550 -->|contains| supabase_migrations_013_fix_security_foundation_06564cbe
+    class supabase_migrations_013_fix_security_foundation_05270550 function;
+    class supabase_migrations_013_fix_security_foundation_5225ad4d entry;
+    class supabase_migrations_013_fix_security_foundation_fb1284dc function;
+    class supabase_migrations_013_fix_security_foundation_bec6ffe6 entry;
+    class supabase_migrations_013_fix_security_foundation_555e2b24 ui;
+    class supabase_migrations_013_fix_security_foundation_097c32b3 function;
+    class supabase_migrations_013_fix_security_foundation_8128c8a1 function;
+    class supabase_migrations_013_fix_security_foundation_d513bab7 function;
+    class supabase_migrations_013_fix_security_foundation_06564cbe function;
+    class public_users_56f568c5 function;
+    class supabase_tests_security_foundation_integration_60a3a5d1 test;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>public.users</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>public.users node in project.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>013_fix_security_foundation.sql</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>013_fix_security_foundation.sql node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>private.current_clinic_id()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>private.current_clinic_id() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>private.current_user_role()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>private.current_user_role() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>private.enforce_clinical_record_version_update()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>private.enforce_clinical_record_version_update() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>public.check_login_lockout()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>public.check_login_lockout() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>public.clear_login_attempts()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>public.clear_login_attempts() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>public.custom_access_token_hook()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>public.custom_access_token_hook() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>public.enqueue_login_lockout_notification()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>public.enqueue_login_lockout_notification() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>public.record_failed_login_attempt()</code><br><small style="color:var(--muted)">supabase/migrations/013_fix_security_foundation.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>public.record_failed_login_attempt() node in supabase/migrations/013_fix_security_foundation.sql.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>security_foundation.integration.sql</code><br><small style="color:var(--muted)">supabase/tests/security_foundation.integration.sql</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>security_foundation.integration.sql node in supabase/tests/security_foundation.integration.sql.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>supabase/migrations/013_fix_security_foundation.sql</code></td><td>9 nodes</td></tr>
+<tr><td><code>supabase/tests/security_foundation.integration.sql</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x8, reads from x2. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 7. Tests & Fixtures ====== -->
+<h2 id="tests-fixtures">7. Tests &amp; Fixtures</h2>
+<p>Tests &amp; Fixtures groups implementation around auth, tests, actions, unit, mostly in errors/domain.ts, lib/actions/auth.actions.ts, lib/actions/appointments.actions.ts. This section covers 213 nodes and 439 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Tests &amp; Fixtures (213 nodes, 439 edges)
+    subgraph tests_fixtures_errors_domain_ts_3dfc988a["errors/domain.ts"]
+        errors_domain_accountlockederror_cf000f85("AccountLockedError<br/><small>errors/domain.ts</small>")
+        errors_domain_accountlockederror_constructor_b3dbf0b6("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_immutablerecorderror_22f29b44("ImmutableRecordError<br/><small>errors/domain.ts</small>")
+        errors_domain_immutablerecorderror_constructor_b99301a5("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_invalidcredentialserror_9f6817e7("InvalidCredentialsError<br/><small>errors/domain.ts</small>")
+        errors_domain_invalidcredentialserror_constructo_a3a3d3d3("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_tenantisolationerror_10fb5fb1("TenantIsolationError<br/><small>errors/domain.ts</small>")
+        errors_domain_tenantisolationerror_constructor_8ebfcd4c("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_uniquedocumenterror_4b9bd196("UniqueDocumentError<br/><small>errors/domain.ts</small>")
+        errors_domain_uniquedocumenterror_constructor_2c3dc59f("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_validationerror_0bd717f5("ValidationError<br/><small>errors/domain.ts</small>")
+        errors_domain_validationerror_constructor_2cdded06("constructor()<br/><small>errors/domain.ts</small>")
+    end
+    subgraph tests_fixtures_proxy_ts_761f7878["proxy.ts"]
+        proxy_d799bae6("proxy.ts")
+        proxy_proxy_eb598c8a("proxy()<br/><small>proxy.ts</small>")
+    end
+    app_auth_setup_mfa_page_92bb53de("page.tsx")
+    tests_unit_server_action_wrapper_test_ff302f45("server-action-wrapper.test.ts")
+    lib_actions_appointments_actions_6f1765b2("appointments.actions.ts")
+    lib_actions_auth_actions_d4c2da90("auth.actions.ts")
+    errors_domain_accountlockederror_cf000f85 -->|method| errors_domain_accountlockederror_constructor_b3dbf0b6
+    errors_domain_immutablerecorderror_22f29b44 -->|method| errors_domain_immutablerecorderror_constructor_b99301a5
+    errors_domain_invalidcredentialserror_9f6817e7 -->|method| errors_domain_invalidcredentialserror_constructo_a3a3d3d3
+    errors_domain_tenantisolationerror_10fb5fb1 -->|method| errors_domain_tenantisolationerror_constructor_8ebfcd4c
+    errors_domain_uniquedocumenterror_4b9bd196 -->|method| errors_domain_uniquedocumenterror_constructor_2c3dc59f
+    errors_domain_validationerror_0bd717f5 -->|method| errors_domain_validationerror_constructor_2cdded06
+    app_auth_setup_mfa_page_92bb53de -->|imports| lib_actions_auth_actions_d4c2da90
+    lib_actions_auth_actions_d4c2da90 -->|imports| errors_domain_accountlockederror_cf000f85
+    lib_actions_auth_actions_d4c2da90 -->|imports| errors_domain_invalidcredentialserror_9f6817e7
+    tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_accountlockederror_cf000f85
+    tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_invalidcredentialserror_9f6817e7
+    tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_tenantisolationerror_10fb5fb1
+    tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_uniquedocumenterror_4b9bd196
+    %% Omitted for readability: 195 nodes, 0 edges
+    class errors_domain_accountlockederror_cf000f85 klass;
+    class errors_domain_accountlockederror_constructor_b3dbf0b6 function;
+    class errors_domain_immutablerecorderror_22f29b44 klass;
+    class errors_domain_immutablerecorderror_constructor_b99301a5 function;
+    class errors_domain_invalidcredentialserror_9f6817e7 klass;
+    class errors_domain_invalidcredentialserror_constructo_a3a3d3d3 function;
+    class errors_domain_tenantisolationerror_10fb5fb1 klass;
+    class errors_domain_tenantisolationerror_constructor_8ebfcd4c function;
+    class errors_domain_uniquedocumenterror_4b9bd196 klass;
+    class errors_domain_uniquedocumenterror_constructor_2c3dc59f function;
+    class errors_domain_validationerror_0bd717f5 klass;
+    class errors_domain_validationerror_constructor_2cdded06 function;
+    class proxy_d799bae6 module;
+    class proxy_proxy_eb598c8a function;
+    class app_auth_setup_mfa_page_92bb53de ui;
+    class tests_unit_server_action_wrapper_test_ff302f45 test;
+    class lib_actions_appointments_actions_6f1765b2 module;
+    class lib_actions_auth_actions_d4c2da90 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>AppointmentConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>createAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>rescheduleAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><code>constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>AppointmentConflictError node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small><br><code>odontogram.actions.ts</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small><br><code>saveClinicalEntryAction()</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small><br>+1 more</td>
+  <td><code>constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>ConcurrencyConflictError node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>attachments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small><br><code>auth.actions.ts</code><br><small style="color:var(--muted)">lib/actions/auth.actions.ts</small><br>+40 more</td>
+  <td><code>constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>DentalClinicError node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>ReportRangeLimitError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>reports.actions.ts</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small><br><code>validateDateRangeLimit()</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><code>constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>ReportRangeLimitError node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>CancelAppointmentInput</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CancelAppointmentInput node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>CreateAppointmentInput</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CreateAppointmentInput node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>RescheduleAppointmentInput</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>RescheduleAppointmentInput node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>CreateCustomStatusInput</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CreateCustomStatusInput node in lib/actions/odontogram.actions.ts.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>SaveToothStateInput</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>SaveToothStateInput node in lib/actions/odontogram.actions.ts.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Appointment</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>Appointment node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>AppointmentConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.constructor() node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.constructor() node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>ReportRangeLimitError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.constructor() node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>calculateSuggestedSlots()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>createAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>calculateSuggestedSlots() node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>cancelAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>appointments-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/appointments-actions.test.ts</small></td>
+  <td><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br>+1 more</td>
+  <td>cancelAppointmentAction() node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>createAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>appointments-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/appointments-actions.test.ts</small></td>
+  <td><code>AppointmentConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>calculateSuggestedSlots()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br>+3 more</td>
+  <td>createAppointmentAction() node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>listAppointmentsAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>listAppointmentsAction() node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>rescheduleAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>AppointmentConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+2 more</td>
+  <td>rescheduleAppointmentAction() node in lib/actions/appointments.actions.ts.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>listEntryAttachmentsAction()</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>listEntryAttachmentsAction() node in lib/actions/attachments.actions.ts.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>uploadAttachmentAction()</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>createAdminClient()</code><br><small style="color:var(--muted)">lib/supabase/admin.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+2 more</td>
+  <td>uploadAttachmentAction() node in lib/actions/attachments.actions.ts.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>getClinicAction()</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinic-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinic-actions.test.ts</small></td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>getClinicAction() node in lib/actions/clinic.actions.ts.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>registerClinicAction()</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinic-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinic-actions.test.ts</small></td>
+  <td><code>createAdminClient()</code><br><small style="color:var(--muted)">lib/supabase/admin.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+1 more</td>
+  <td>registerClinicAction() node in lib/actions/clinic.actions.ts.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>updateClinicAction()</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinic-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinic-actions.test.ts</small></td>
+  <td><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br>+1 more</td>
+  <td>updateClinicAction() node in lib/actions/clinic.actions.ts.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>getClinicalHistoryAction()</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinical-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinical-actions.test.ts</small></td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>getClinicalHistoryAction() node in lib/actions/clinical.actions.ts.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>saveClinicalEntryAction()</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>clinical-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinical-actions.test.ts</small></td>
+  <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+2 more</td>
+  <td>saveClinicalEntryAction() node in lib/actions/clinical.actions.ts.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>createCustomToothStatusAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>odontogram-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/odontogram-actions.test.ts</small></td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>createCustomToothStatusAction() node in lib/actions/odontogram.actions.ts.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>getOdontogramStateAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>getOdontogramStateAction() node in lib/actions/odontogram.actions.ts.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>listCustomToothStatusesAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td>listCustomToothStatusesAction() node in lib/actions/odontogram.actions.ts.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>saveToothStateAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>odontogram-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/odontogram-actions.test.ts</small></td>
+  <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+2 more</td>
+  <td>saveToothStateAction() node in lib/actions/odontogram.actions.ts.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>createPatientAction()</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>patients-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/patients-actions.test.ts</small></td>
+  <td><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br>+2 more</td>
+  <td>createPatientAction() node in lib/actions/patients.actions.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>errors/domain.ts</code></td><td>21 nodes</td></tr>
+<tr><td><code>lib/actions/auth.actions.ts</code></td><td>13 nodes</td></tr>
+<tr><td><code>lib/actions/appointments.actions.ts</code></td><td>12 nodes</td></tr>
+<tr><td><code>lib/auth/login-attempt-store.ts</code></td><td>12 nodes</td></tr>
+<tr><td><code>lib/actions/odontogram.actions.ts</code></td><td>11 nodes</td></tr>
+<tr><td><code>lib/auth/access-policy.ts</code></td><td>11 nodes</td></tr>
+<tr><td><code>proxy.ts</code></td><td>8 nodes</td></tr>
+<tr><td><code>__tests__/properties/password-validation.property.test.ts</code></td><td>7 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: calls x146, contains x133, imports x75, imports x58. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 8. 🦷 Dental Clinic SaaS ====== -->
+<h2 id="dental-clinic-saas">8. 🦷 Dental Clinic SaaS</h2>
+<p>🦷 Dental Clinic SaaS groups implementation around readmemd, del, gestión, seguridad, mostly in README.md. This section covers 37 nodes and 36 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: 🦷 Dental Clinic SaaS (37 nodes, 36 edges)
+    readme_dental_clinic_saas_f427c5ba("🦷 Dental Clinic SaaS<br/><small>README.md</small>")
+    readme_m_dulos_del_sistema_cba6b2c1("📦 Módulos del Sistema<br/><small>README.md</small>")
+    readme_configuraci_n_del_entorno_0d5f45d0("⚙️ Configuración del Entorno<br/><small>README.md</small>")
+    readme_modelo_de_base_de_datos_49a2f11c("🗄️ Modelo de Base de Datos<br/><small>README.md</small>")
+    readme_seguridad_7a868e3f("🔐 Seguridad<br/><small>README.md</small>")
+    readme_testing_1f61e34a("🧪 Testing<br/><small>README.md</small>")
+    readme_controles_implementados_bfafabeb("Controles implementados<br/><small>README.md</small>")
+    readme_headers_de_seguridad_http_3cfa9c6a("Headers de seguridad HTTP<br/><small>README.md</small>")
+    readme_instalaci_n_c203dfda("Instalación<br/><small>README.md</small>")
+    readme_prerrequisitos_d3a4e672("Prerrequisitos<br/><small>README.md</small>")
+    readme_property_based_testing_fast_check_c0196994("Property-Based Testing (fast-check)<br/><small>README.md</small>")
+    readme_pruebas_de_humo_fc870a47("Pruebas de humo<br/><small>README.md</small>")
+    readme_f78a71af("README.md")
+    readme_restricciones_cr_ticas_de_dise_o_01793c1d("Restricciones críticas de diseño<br/><small>README.md</small>")
+    readme_tablas_principales_a3d8ff21("Tablas principales<br/><small>README.md</small>")
+    readme_arquitectura_ba1e3ed1("🏗️ Arquitectura<br/><small>README.md</small>")
+    readme_1_gesti_n_de_consultorios_multitenencia_9ecbbf5b("🏢 1. Gestión de Consultorios (Multitene...<br/><small>README.md</small>")
+    readme_6_historia_cl_nica_odontol_gica_48d22892("🏥 6. Historia Clínica Odontológica<br/><small>README.md</small>")
+    readme_f78a71af -->|contains| readme_dental_clinic_saas_f427c5ba
+    readme_configuraci_n_del_entorno_0d5f45d0 -->|contains| readme_prerrequisitos_d3a4e672
+    readme_configuraci_n_del_entorno_0d5f45d0 -->|contains| readme_instalaci_n_c203dfda
+    readme_dental_clinic_saas_f427c5ba -->|contains| readme_arquitectura_ba1e3ed1
+    readme_dental_clinic_saas_f427c5ba -->|contains| readme_modelo_de_base_de_datos_49a2f11c
+    readme_dental_clinic_saas_f427c5ba -->|contains| readme_seguridad_7a868e3f
+    readme_dental_clinic_saas_f427c5ba -->|contains| readme_configuraci_n_del_entorno_0d5f45d0
+    readme_dental_clinic_saas_f427c5ba -->|contains| readme_testing_1f61e34a
+    readme_dental_clinic_saas_f427c5ba -->|contains| readme_m_dulos_del_sistema_cba6b2c1
+    readme_modelo_de_base_de_datos_49a2f11c -->|contains| readme_tablas_principales_a3d8ff21
+    readme_modelo_de_base_de_datos_49a2f11c -->|contains| readme_restricciones_cr_ticas_de_dise_o_01793c1d
+    readme_m_dulos_del_sistema_cba6b2c1 -->|contains| readme_6_historia_cl_nica_odontol_gica_48d22892
+    readme_m_dulos_del_sistema_cba6b2c1 -->|contains| readme_1_gesti_n_de_consultorios_multitenencia_9ecbbf5b
+    readme_seguridad_7a868e3f -->|contains| readme_controles_implementados_bfafabeb
+    readme_seguridad_7a868e3f -->|contains| readme_headers_de_seguridad_http_3cfa9c6a
+    readme_testing_1f61e34a -->|contains| readme_property_based_testing_fast_check_c0196994
+    readme_testing_1f61e34a -->|contains| readme_pruebas_de_humo_fc870a47
+    %% Omitted for readability: 19 nodes, 0 edges
+    class readme_dental_clinic_saas_f427c5ba concept;
+    class readme_m_dulos_del_sistema_cba6b2c1 concept;
+    class readme_configuraci_n_del_entorno_0d5f45d0 concept;
+    class readme_modelo_de_base_de_datos_49a2f11c concept;
+    class readme_seguridad_7a868e3f concept;
+    class readme_testing_1f61e34a concept;
+    class readme_controles_implementados_bfafabeb concept;
+    class readme_headers_de_seguridad_http_3cfa9c6a concept;
+    class readme_instalaci_n_c203dfda concept;
+    class readme_prerrequisitos_d3a4e672 concept;
+    class readme_property_based_testing_fast_check_c0196994 concept;
+    class readme_pruebas_de_humo_fc870a47 concept;
+    class readme_f78a71af concept;
+    class readme_restricciones_cr_ticas_de_dise_o_01793c1d concept;
+    class readme_tablas_principales_a3d8ff21 concept;
+    class readme_arquitectura_ba1e3ed1 concept;
+    class readme_1_gesti_n_de_consultorios_multitenencia_9ecbbf5b concept;
+    class readme_6_historia_cl_nica_odontol_gica_48d22892 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>README.md</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing README.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>🏢 1. Gestión de Consultorios (Multitenencia)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🏢 1. Gestión de Consultorios (Multitenencia).</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>👥 2. Gestión de Usuarios y Roles</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 👥 2. Gestión de Usuarios y Roles.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>🔐 3. Autenticación y Control de Sesiones</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🔐 3. Autenticación y Control de Sesiones.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>🧑‍⚕️ 4. Gestión de Pacientes</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🧑‍⚕️ 4. Gestión de Pacientes.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>📅 5. Gestión de Citas</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📅 5. Gestión de Citas.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>🏥 6. Historia Clínica Odontológica</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🏥 6. Historia Clínica Odontológica.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>🦷 7. Odontograma Digital</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🦷 7. Odontograma Digital.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>🔒 8. Seguridad y Trazabilidad</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🔒 8. Seguridad y Trazabilidad.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>📊 9. Reportes Operativos Básicos</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📊 9. Reportes Operativos Básicos.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>🏗️ Arquitectura</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🏗️ Arquitectura.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>📡 Conectividad y Sincronización</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📡 Conectividad y Sincronización.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>⚙️ Configuración del Entorno</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing ⚙️ Configuración del Entorno.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>📍 Contexto del Proyecto</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📍 Contexto del Proyecto.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>Controles implementados</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Controles implementados.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>🦷 Dental Clinic SaaS</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🦷 Dental Clinic SaaS.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>🦷 Descripción General</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🦷 Descripción General.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>📁 Estructura del Proyecto</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📁 Estructura del Proyecto.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>🚫 Fuera del Alcance (MVP)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🚫 Fuera del Alcance (MVP).</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>Headers de seguridad HTTP</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Headers de seguridad HTTP.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>Instalación</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Instalación.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>🗄️ Modelo de Base de Datos</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🗄️ Modelo de Base de Datos.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>📦 Módulos del Sistema</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📦 Módulos del Sistema.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>📋 Plan de Implementación</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📋 Plan de Implementación.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>Prerrequisitos</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Prerrequisitos.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>🔍 Problemática que Resuelve</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🔍 Problemática que Resuelve.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>Property-Based Testing (fast-check)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Property-Based Testing (fast-check).</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>📐 Propiedades de Corrección</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📐 Propiedades de Corrección.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>Pruebas de humo</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Pruebas de humo.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>Restricciones críticas de diseño</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Restricciones críticas de diseño.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>README.md</code></td><td>37 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x36. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 9. clinics ====== -->
+<h2 id="clinics">9. clinics</h2>
+<p>clinics groups implementation around create, supabase, migrations, clinical, mostly in supabase/migrations/001_create_clinics.sql, supabase/migrations/002_create_users.sql, supabase/migrations/003_create_patients.sql. This section covers 26 nodes and 41 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: clinics (26 nodes, 41 edges)
+    subgraph clinics_supabase_migrations_001_create_clinics_s_6e20a3e5["supabase/migrations/001_create_clinics.sql"]
+        supabase_migrations_001_create_clinics_267efdcf("001_create_clinics.sql")
+        supabase_migrations_001_create_clinics_set_clini_d797ad8a("set_clinics_updated_at<br/><small>supabase/migrations/001_create_clinics.sql</small>")
+        supabase_migrations_001_create_clinics_update_up_5f4a5077("update_updated_at_column()<br/><small>supabase/migrations/001_create_clinics.sql</small>")
+        supabase_migrations_001_create_clinics_clinics_7ae4ef04("clinics<br/><small>supabase/migrations/001_create_clinics.sql</small>")
+    end
+    subgraph clinics_supabase_migrations_002_create_users_sql_3c7c1483["supabase/migrations/002_create_users.sql"]
+        supabase_migrations_002_create_users_ef79b8f1("002_create_users.sql")
+        supabase_migrations_002_create_users_set_users_u_04743126("set_users_updated_at<br/><small>supabase/migrations/002_create_users.sql</small>")
+        supabase_migrations_002_create_users_users_43bcc57e("users<br/><small>supabase/migrations/002_create_users.sql</small>")
+    end
+    subgraph clinics_External_generated_f55acee3["External / generated"]
+        auth_66a36e77("auth")
+        auth_users_ae52c1e4("auth.users")
+    end
+    subgraph clinics_supabase_migrations_003_create_patients_15f80853["supabase/migrations/003_create_patients.sql"]
+        supabase_migrations_003_create_patients_patients_15f67bc7("patients<br/><small>supabase/migrations/003_create_patients.sql</small>")
+        supabase_migrations_003_create_patients_set_pati_a70e0e3c("set_patients_updated_at<br/><small>supabase/migrations/003_create_patients.sql</small>")
+    end
+    subgraph clinics_supabase_migrations_005_create_clinical_45a00c6e["supabase/migrations/005_create_clinical_records.sql"]
+        supabase_migrations_005_create_clinical_records_0bbf8ea8("clinical_records<br/><small>supabase/migrations/005_create_clinical_records.sql</small>")
+        supabase_migrations_005_create_clinical_records_d99ece06("records updated at<br/><small>supabase/migrations/005_create_clinical_records.sql</small>")
+    end
+    supabase_migrations_004_create_appointments_appo_4c7b67b7("appointments<br/><small>supabase/migrations/004_create_appointments.sql</small>")
+    supabase_migrations_006_create_clinical_entries_90ecea42("clinical_entries<br/><small>supabase/migrations/006_create_clinical_entries.sql</small>")
+    supabase_migrations_007_create_clinical_attachme_177fc10f("clinical_attachments<br/><small>supabase/migrations/007_create_clinical_attachments.sql</small>")
+    supabase_migrations_008_create_odontogram_states_8fae9976("odontogram_states<br/><small>supabase/migrations/008_create_odontogram_states.sql</small>")
+    supabase_migrations_009_create_custom_tooth_stat_d6e1ff10("custom_tooth_statuses<br/><small>supabase/migrations/009_create_custom_tooth_statuses.sql</small>")
+    supabase_migrations_001_create_clinics_set_clini_d797ad8a -->|triggers| supabase_migrations_001_create_clinics_update_up_5f4a5077
+    supabase_migrations_002_create_users_set_users_u_04743126 -->|triggers| supabase_migrations_001_create_clinics_update_up_5f4a5077
+    supabase_migrations_002_create_users_users_43bcc57e -->|references| auth_66a36e77
+    supabase_migrations_002_create_users_users_43bcc57e -->|references| auth_users_ae52c1e4
+    supabase_migrations_002_create_users_users_43bcc57e -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_003_create_patients_patients_15f67bc7 -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_003_create_patients_set_pati_a70e0e3c -->|triggers| supabase_migrations_001_create_clinics_update_up_5f4a5077
+    supabase_migrations_004_create_appointments_appo_4c7b67b7 -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_004_create_appointments_appo_4c7b67b7 -->|references| supabase_migrations_002_create_users_users_43bcc57e
+    supabase_migrations_004_create_appointments_appo_4c7b67b7 -->|references| supabase_migrations_003_create_patients_patients_15f67bc7
+    supabase_migrations_004_create_appointments_appo_4c7b67b7 -->|references| supabase_migrations_004_create_appointments_appo_4c7b67b7
+    supabase_migrations_005_create_clinical_records_0bbf8ea8 -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_005_create_clinical_records_0bbf8ea8 -->|references| supabase_migrations_003_create_patients_patients_15f67bc7
+    supabase_migrations_005_create_clinical_records_d99ece06 -->|triggers| supabase_migrations_001_create_clinics_update_up_5f4a5077
+    supabase_migrations_006_create_clinical_entries_90ecea42 -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_006_create_clinical_entries_90ecea42 -->|references| supabase_migrations_002_create_users_users_43bcc57e
+    supabase_migrations_006_create_clinical_entries_90ecea42 -->|references| supabase_migrations_003_create_patients_patients_15f67bc7
+    supabase_migrations_006_create_clinical_entries_90ecea42 -->|references| supabase_migrations_005_create_clinical_records_0bbf8ea8
+    supabase_migrations_006_create_clinical_entries_90ecea42 -->|references| supabase_migrations_006_create_clinical_entries_90ecea42
+    supabase_migrations_007_create_clinical_attachme_177fc10f -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_007_create_clinical_attachme_177fc10f -->|references| supabase_migrations_003_create_patients_patients_15f67bc7
+    supabase_migrations_007_create_clinical_attachme_177fc10f -->|references| supabase_migrations_006_create_clinical_entries_90ecea42
+    supabase_migrations_008_create_odontogram_states_8fae9976 -->|references| supabase_migrations_001_create_clinics_clinics_7ae4ef04
+    supabase_migrations_008_create_odontogram_states_8fae9976 -->|references| supabase_migrations_002_create_users_users_43bcc57e
+    %% Omitted for readability: 8 nodes, 7 edges
+    class supabase_migrations_001_create_clinics_267efdcf entry;
+    class supabase_migrations_001_create_clinics_set_clini_d797ad8a entry;
+    class supabase_migrations_001_create_clinics_update_up_5f4a5077 function;
+    class supabase_migrations_001_create_clinics_clinics_7ae4ef04 entry;
+    class supabase_migrations_002_create_users_ef79b8f1 function;
+    class supabase_migrations_002_create_users_set_users_u_04743126 function;
+    class supabase_migrations_002_create_users_users_43bcc57e function;
+    class auth_66a36e77 function;
+    class auth_users_ae52c1e4 function;
+    class supabase_migrations_003_create_patients_patients_15f67bc7 function;
+    class supabase_migrations_003_create_patients_set_pati_a70e0e3c function;
+    class supabase_migrations_005_create_clinical_records_0bbf8ea8 entry;
+    class supabase_migrations_005_create_clinical_records_d99ece06 entry;
+    class supabase_migrations_004_create_appointments_appo_4c7b67b7 function;
+    class supabase_migrations_006_create_clinical_entries_90ecea42 entry;
+    class supabase_migrations_007_create_clinical_attachme_177fc10f entry;
+    class supabase_migrations_008_create_odontogram_states_8fae9976 function;
+    class supabase_migrations_009_create_custom_tooth_stat_d6e1ff10 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>auth</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>auth node in project.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>auth.users</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>auth.users node in project.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>001_create_clinics.sql</code><br><small style="color:var(--muted)">supabase/migrations/001_create_clinics.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>001_create_clinics.sql node in supabase/migrations/001_create_clinics.sql.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>clinics</code><br><small style="color:var(--muted)">supabase/migrations/001_create_clinics.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>clinics node in supabase/migrations/001_create_clinics.sql.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>set_clinics_updated_at</code><br><small style="color:var(--muted)">supabase/migrations/001_create_clinics.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>set_clinics_updated_at node in supabase/migrations/001_create_clinics.sql.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>update_updated_at_column()</code><br><small style="color:var(--muted)">supabase/migrations/001_create_clinics.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>update_updated_at_column() node in supabase/migrations/001_create_clinics.sql.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>002_create_users.sql</code><br><small style="color:var(--muted)">supabase/migrations/002_create_users.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>002_create_users.sql node in supabase/migrations/002_create_users.sql.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>set_users_updated_at</code><br><small style="color:var(--muted)">supabase/migrations/002_create_users.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>set_users_updated_at node in supabase/migrations/002_create_users.sql.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>users</code><br><small style="color:var(--muted)">supabase/migrations/002_create_users.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>users node in supabase/migrations/002_create_users.sql.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>003_create_patients.sql</code><br><small style="color:var(--muted)">supabase/migrations/003_create_patients.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>003_create_patients.sql node in supabase/migrations/003_create_patients.sql.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>patients</code><br><small style="color:var(--muted)">supabase/migrations/003_create_patients.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>patients node in supabase/migrations/003_create_patients.sql.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>set_patients_updated_at</code><br><small style="color:var(--muted)">supabase/migrations/003_create_patients.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>set_patients_updated_at node in supabase/migrations/003_create_patients.sql.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>004_create_appointments.sql</code><br><small style="color:var(--muted)">supabase/migrations/004_create_appointments.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>004_create_appointments.sql node in supabase/migrations/004_create_appointments.sql.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>appointments</code><br><small style="color:var(--muted)">supabase/migrations/004_create_appointments.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>appointments node in supabase/migrations/004_create_appointments.sql.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>calc_ends_at()</code><br><small style="color:var(--muted)">supabase/migrations/004_create_appointments.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>calc_ends_at() node in supabase/migrations/004_create_appointments.sql.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>005_create_clinical_records.sql</code><br><small style="color:var(--muted)">supabase/migrations/005_create_clinical_records.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>005_create_clinical_records.sql node in supabase/migrations/005_create_clinical_records.sql.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>clinical_records</code><br><small style="color:var(--muted)">supabase/migrations/005_create_clinical_records.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>clinical_records node in supabase/migrations/005_create_clinical_records.sql.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>set_clinical_records_updated_at</code><br><small style="color:var(--muted)">supabase/migrations/005_create_clinical_records.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>set_clinical_records_updated_at node in supabase/migrations/005_create_clinical_records.sql.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>006_create_clinical_entries.sql</code><br><small style="color:var(--muted)">supabase/migrations/006_create_clinical_entries.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>006_create_clinical_entries.sql node in supabase/migrations/006_create_clinical_entries.sql.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>clinical_entries</code><br><small style="color:var(--muted)">supabase/migrations/006_create_clinical_entries.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>clinical_entries node in supabase/migrations/006_create_clinical_entries.sql.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>007_create_clinical_attachments.sql</code><br><small style="color:var(--muted)">supabase/migrations/007_create_clinical_attachments.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>007_create_clinical_attachments.sql node in supabase/migrations/007_create_clinical_attachments.sql.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>clinical_attachments</code><br><small style="color:var(--muted)">supabase/migrations/007_create_clinical_attachments.sql</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>clinical_attachments node in supabase/migrations/007_create_clinical_attachments.sql.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>008_create_odontogram_states.sql</code><br><small style="color:var(--muted)">supabase/migrations/008_create_odontogram_states.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>008_create_odontogram_states.sql node in supabase/migrations/008_create_odontogram_states.sql.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>odontogram_states</code><br><small style="color:var(--muted)">supabase/migrations/008_create_odontogram_states.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>odontogram_states node in supabase/migrations/008_create_odontogram_states.sql.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>009_create_custom_tooth_statuses.sql</code><br><small style="color:var(--muted)">supabase/migrations/009_create_custom_tooth_statuses.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>009_create_custom_tooth_statuses.sql node in supabase/migrations/009_create_custom_tooth_statuses.sql.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>custom_tooth_statuses</code><br><small style="color:var(--muted)">supabase/migrations/009_create_custom_tooth_statuses.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>custom_tooth_statuses node in supabase/migrations/009_create_custom_tooth_statuses.sql.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>supabase/migrations/001_create_clinics.sql</code></td><td>4 nodes</td></tr>
+<tr><td><code>supabase/migrations/002_create_users.sql</code></td><td>3 nodes</td></tr>
+<tr><td><code>supabase/migrations/003_create_patients.sql</code></td><td>3 nodes</td></tr>
+<tr><td><code>supabase/migrations/004_create_appointments.sql</code></td><td>3 nodes</td></tr>
+<tr><td><code>supabase/migrations/005_create_clinical_records.sql</code></td><td>3 nodes</td></tr>
+<tr><td><code>supabase/migrations/006_create_clinical_entries.sql</code></td><td>2 nodes</td></tr>
+<tr><td><code>supabase/migrations/007_create_clinical_attachments.sql</code></td><td>2 nodes</td></tr>
+<tr><td><code>supabase/migrations/008_create_odontogram_states.sql</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: references x22, contains x15, triggers x4. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 10. citas/page.tsx ====== -->
+<h2 id="citas-page-tsx">10. citas/page.tsx</h2>
+<p>citas/page.tsx groups implementation around citas, pagetsx, app, dashboard, mostly in (dashboard)/citas/page.tsx. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: citas/page.tsx (2 nodes, 1 edges)
+    app_dashboard_citas_page_27df07f5("page.tsx")
+    app_dashboard_citas_page_appointmentspage_54793bd0("AppointmentsPage()<br/><small>(dashboard)/citas/page.tsx</small>")
+    app_dashboard_citas_page_27df07f5 -->|contains| app_dashboard_citas_page_appointmentspage_54793bd0
+    class app_dashboard_citas_page_27df07f5 ui;
+    class app_dashboard_citas_page_appointmentspage_54793bd0 ui;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>AppointmentsPage()</code><br><small style="color:var(--muted)">(dashboard)/citas/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>citas/page.tsx</code><br><small style="color:var(--muted)">(dashboard)/citas/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in (dashboard)/citas/page.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>(dashboard)/citas/page.tsx</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 11. configuracion/page.tsx ====== -->
+<h2 id="configuracion-page-tsx">11. configuracion/page.tsx</h2>
+<p>configuracion/page.tsx groups implementation around configuracion, pagetsx, app, dashboard, mostly in clinica/configuracion/page.tsx. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: configuracion/page.tsx (2 nodes, 1 edges)
+    app_dashboard_clinica_configuracion_page_5d978ede("page.tsx")
+    app_dashboard_clinica_configuracion_page_clinicc_1fad6232("ClinicConfigPage()<br/><small>clinica/configuracion/page.tsx</small>")
+    app_dashboard_clinica_configuracion_page_5d978ede -->|contains| app_dashboard_clinica_configuracion_page_clinicc_1fad6232
+    class app_dashboard_clinica_configuracion_page_5d978ede ui;
+    class app_dashboard_clinica_configuracion_page_clinicc_1fad6232 entry;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>ClinicConfigPage()</code><br><small style="color:var(--muted)">clinica/configuracion/page.tsx</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>configuracion/page.tsx</code><br><small style="color:var(--muted)">clinica/configuracion/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in clinica/configuracion/page.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>clinica/configuracion/page.tsx</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 12. dashboard/page.tsx ====== -->
+<h2 id="dashboard-page-tsx">12. dashboard/page.tsx</h2>
+<p>dashboard/page.tsx groups implementation around dashboard, pagetsx, app, dashboardpage, mostly in (dashboard)/dashboard/page.tsx. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: dashboard/page.tsx (2 nodes, 1 edges)
+    app_dashboard_dashboard_page_415dc153("page.tsx")
+    app_dashboard_dashboard_page_dashboardpage_7ee8b5ee("DashboardPage()<br/><small>(dashboard)/dashboard/page.tsx</small>")
+    app_dashboard_dashboard_page_415dc153 -->|contains| app_dashboard_dashboard_page_dashboardpage_7ee8b5ee
+    class app_dashboard_dashboard_page_415dc153 ui;
+    class app_dashboard_dashboard_page_dashboardpage_7ee8b5ee ui;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>DashboardPage()</code><br><small style="color:var(--muted)">(dashboard)/dashboard/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>dashboard/page.tsx</code><br><small style="color:var(--muted)">(dashboard)/dashboard/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in (dashboard)/dashboard/page.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>(dashboard)/dashboard/page.tsx</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 13. pacientes/page.tsx ====== -->
+<h2 id="pacientes-page-tsx">13. pacientes/page.tsx</h2>
+<p>pacientes/page.tsx groups implementation around pacientes, pagetsx, app, dashboard, mostly in (dashboard)/pacientes/page.tsx. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: pacientes/page.tsx (2 nodes, 1 edges)
+    app_dashboard_pacientes_page_0c03f626("page.tsx")
+    app_dashboard_pacientes_page_patientspage_ef4936cd("PatientsPage()<br/><small>(dashboard)/pacientes/page.tsx</small>")
+    app_dashboard_pacientes_page_0c03f626 -->|contains| app_dashboard_pacientes_page_patientspage_ef4936cd
+    class app_dashboard_pacientes_page_0c03f626 ui;
+    class app_dashboard_pacientes_page_patientspage_ef4936cd ui;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>PatientsPage()</code><br><small style="color:var(--muted)">(dashboard)/pacientes/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>pacientes/page.tsx</code><br><small style="color:var(--muted)">(dashboard)/pacientes/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in (dashboard)/pacientes/page.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>(dashboard)/pacientes/page.tsx</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 14. estado-citas/page.tsx ====== -->
+<h2 id="estado-citas-page-tsx">14. estado-citas/page.tsx</h2>
+<p>estado-citas/page.tsx groups implementation around estado, citas, pagetsx, app, mostly in reportes/estado-citas/page.tsx. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: estado-citas/page.tsx (2 nodes, 1 edges)
+    app_dashboard_reportes_estado_citas_page_6f22db2c("page.tsx")
+    app_dashboard_reportes_estado_citas_page_appoint_8c4c1726("AppointmentStatusReportPage()<br/><small>reportes/estado-citas/page.tsx</small>")
+    app_dashboard_reportes_estado_citas_page_6f22db2c -->|contains| app_dashboard_reportes_estado_citas_page_appoint_8c4c1726
+    class app_dashboard_reportes_estado_citas_page_6f22db2c ui;
+    class app_dashboard_reportes_estado_citas_page_appoint_8c4c1726 ui;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>AppointmentStatusReportPage()</code><br><small style="color:var(--muted)">reportes/estado-citas/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>estado-citas/page.tsx</code><br><small style="color:var(--muted)">reportes/estado-citas/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in reportes/estado-citas/page.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>reportes/estado-citas/page.tsx</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 15. pacientes-atendidos/page.tsx ====== -->
+<h2 id="pacientes-atendidos-page-tsx">15. pacientes-atendidos/page.tsx</h2>
+<p>pacientes-atendidos/page.tsx groups implementation around pacientes, atendidos, pagetsx, app, mostly in reportes/pacientes-atendidos/page.tsx. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: pacientes-atendidos/page.tsx (2 nodes, 1 edges)
+    app_dashboard_reportes_pacientes_atendidos_page_9a3cbb11("page.tsx")
+    app_dashboard_reportes_pacientes_atendidos_page_06526fb7("AttendedPatientsReportPage()<br/><small>reportes/pacientes-atendidos/page.tsx</small>")
+    app_dashboard_reportes_pacientes_atendidos_page_9a3cbb11 -->|contains| app_dashboard_reportes_pacientes_atendidos_page_06526fb7
+    class app_dashboard_reportes_pacientes_atendidos_page_9a3cbb11 ui;
+    class app_dashboard_reportes_pacientes_atendidos_page_06526fb7 ui;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>AttendedPatientsReportPage()</code><br><small style="color:var(--muted)">reportes/pacientes-atendidos/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>pacientes-atendidos/page.tsx</code><br><small style="color:var(--muted)">reportes/pacientes-atendidos/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in reportes/pacientes-atendidos/page.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>reportes/pacientes-atendidos/page.tsx</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 16. Other ====== -->
+<h2 id="other">16. Other</h2>
+<p>Other groups implementation around pagetsx, graphifymd, app, supabase, mostly in (dashboard)/usuarios/page.tsx, app/page.tsx, eslint.config.mjs. This section covers 17 nodes and 7 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Other (17 nodes, 7 edges)
+    subgraph other_dashboard_usuarios_page_tsx_7d14aa7d["(dashboard)/usuarios/page.tsx"]
+        app_dashboard_usuarios_page_4f6a1d88("page.tsx")
+        app_dashboard_usuarios_page_userspage_3f9fc475("UsersPage()<br/><small>(dashboard)/usuarios/page.tsx</small>")
+    end
+    subgraph other_agents_rules_graphify_md_46085eba[".agents/rules/graphify.md"]
+        agents_rules_graphify_8193478b("rules/graphify.md")
+        agents_rules_graphify_graphify_dd1d4f66("graphify<br/><small>.agents/rules/graphify.md</small>")
+    end
+    subgraph other_agents_workflows_graphify_md_fa0cc363[".agents/workflows/graphify.md"]
+        agents_workflows_graphify_08a1cc26("workflows/graphify.md")
+        agents_workflows_graphify_workflow_graphify_87f5fa2b("Workflow: graphify<br/><small>.agents/workflows/graphify.md</small>")
+    end
+    subgraph other_app_page_tsx_57eabe9a["app/page.tsx"]
+        app_page_c77e992c("page.tsx")
+        app_page_home_8cd6c4cc("Home()<br/><small>app/page.tsx</small>")
+    end
+    subgraph other_eslint_config_mjs_2d8a3a4c["eslint.config.mjs"]
+        eslint_config_80901414("eslint.config.mjs")
+        eslint_config_eslintconfig_96927dc4("eslintConfig<br/><small>eslint.config.mjs</small>")
+    end
+    subgraph other_postcss_config_mjs_8a50bb24["postcss.config.mjs"]
+        postcss_config_bfe60bb8("postcss.config.mjs")
+        postcss_config_config_b5a26879("config<br/><small>postcss.config.mjs</small>")
+    end
+    subgraph other_supabase_migrations_010_create_audit_logs_dbb8b2ea["supabase/migrations/010_create_audit_logs.sql"]
+        supabase_migrations_010_create_audit_logs_2075f587("010_create_audit_logs.sql")
+        supabase_migrations_010_create_audit_logs_audit_419b32ba("audit_logs<br/><small>supabase/migrations/010_create_audit_logs.sql</small>")
+    end
+    supabase_functions_auto_transition_appointments_614b0221("index.ts")
+    supabase_migrations_011_rls_policies_f6d2000a("011_rls_policies.sql")
+    supabase_migrations_012_storage_policies_5e0567fb("012_storage_policies.sql")
+    app_dashboard_usuarios_page_4f6a1d88 -->|contains| app_dashboard_usuarios_page_userspage_3f9fc475
+    app_page_c77e992c -->|contains| app_page_home_8cd6c4cc
+    eslint_config_80901414 -->|contains| eslint_config_eslintconfig_96927dc4
+    postcss_config_bfe60bb8 -->|contains| postcss_config_config_b5a26879
+    supabase_migrations_010_create_audit_logs_2075f587 -->|contains| supabase_migrations_010_create_audit_logs_audit_419b32ba
+    agents_rules_graphify_8193478b -->|contains| agents_rules_graphify_graphify_dd1d4f66
+    agents_workflows_graphify_08a1cc26 -->|contains| agents_workflows_graphify_workflow_graphify_87f5fa2b
+    class app_dashboard_usuarios_page_4f6a1d88 ui;
+    class app_dashboard_usuarios_page_userspage_3f9fc475 ui;
+    class agents_rules_graphify_8193478b concept;
+    class agents_rules_graphify_graphify_dd1d4f66 concept;
+    class agents_workflows_graphify_08a1cc26 concept;
+    class agents_workflows_graphify_workflow_graphify_87f5fa2b concept;
+    class app_page_c77e992c ui;
+    class app_page_home_8cd6c4cc ui;
+    class eslint_config_80901414 function;
+    class eslint_config_eslintconfig_96927dc4 function;
+    class postcss_config_bfe60bb8 function;
+    class postcss_config_config_b5a26879 function;
+    class supabase_migrations_010_create_audit_logs_2075f587 function;
+    class supabase_migrations_010_create_audit_logs_audit_419b32ba function;
+    class supabase_functions_auto_transition_appointments_614b0221 module;
+    class supabase_migrations_011_rls_policies_f6d2000a function;
+    class supabase_migrations_012_storage_policies_5e0567fb function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>UsersPage()</code><br><small style="color:var(--muted)">(dashboard)/usuarios/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>usuarios/page.tsx</code><br><small style="color:var(--muted)">(dashboard)/usuarios/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in (dashboard)/usuarios/page.tsx.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Home()</code><br><small style="color:var(--muted)">app/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Home() node in app/page.tsx.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>app/page.tsx</code><br><small style="color:var(--muted)">app/page.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in app/page.tsx.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>eslint.config.mjs</code><br><small style="color:var(--muted)">eslint.config.mjs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>eslintConfig</code><br><small style="color:var(--muted)">eslint.config.mjs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>postcss.config.mjs</code><br><small style="color:var(--muted)">postcss.config.mjs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>config</code><br><small style="color:var(--muted)">postcss.config.mjs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>010_create_audit_logs.sql</code><br><small style="color:var(--muted)">supabase/migrations/010_create_audit_logs.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>010_create_audit_logs.sql node in supabase/migrations/010_create_audit_logs.sql.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>audit_logs</code><br><small style="color:var(--muted)">supabase/migrations/010_create_audit_logs.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>audit_logs node in supabase/migrations/010_create_audit_logs.sql.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>rules/graphify.md</code><br><small style="color:var(--muted)">.agents/rules/graphify.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing rules/graphify.md.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>graphify</code><br><small style="color:var(--muted)">.agents/rules/graphify.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing graphify.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>workflows/graphify.md</code><br><small style="color:var(--muted)">.agents/workflows/graphify.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing workflows/graphify.md.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>Workflow: graphify</code><br><small style="color:var(--muted)">.agents/workflows/graphify.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Workflow: graphify.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>011_rls_policies.sql</code><br><small style="color:var(--muted)">supabase/migrations/011_rls_policies.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>011_rls_policies.sql node in supabase/migrations/011_rls_policies.sql.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>012_storage_policies.sql</code><br><small style="color:var(--muted)">supabase/migrations/012_storage_policies.sql</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Supports retrieval-augmented Q&amp;A or streaming chat.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>index.ts</code><br><small style="color:var(--muted)">functions/auto-transition-appointments/index.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in functions/auto-transition-appointments/index.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>.agents/rules/graphify.md</code></td><td>2 nodes</td></tr>
+<tr><td><code>.agents/workflows/graphify.md</code></td><td>2 nodes</td></tr>
+<tr><td><code>(dashboard)/usuarios/page.tsx</code></td><td>2 nodes</td></tr>
+<tr><td><code>app/page.tsx</code></td><td>2 nodes</td></tr>
+<tr><td><code>eslint.config.mjs</code></td><td>2 nodes</td></tr>
+<tr><td><code>postcss.config.mjs</code></td><td>2 nodes</td></tr>
+<tr><td><code>supabase/migrations/010_create_audit_logs.sql</code></td><td>2 nodes</td></tr>
+<tr><td><code>functions/auto-transition-appointments/index.ts</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x7. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<h2 id="stats">Project Statistics</h2>
+
+<div class="grid">
+  <div class="card">
+    <h4>Graph</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>Nodes</td><td>585</td></tr>
+      <tr><td>Edges</td><td>1016</td></tr>
+      <tr><td>Hyperedges</td><td>0</td></tr>
+      <tr><td>Communities</td><td>37</td></tr>
+      <tr><td>Documented Sections</td><td>15</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Edge Confidence</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>EXTRACTED</td><td>1016</td></tr>
+      <tr><td>INFERRED</td><td>0</td></tr>
+      <tr><td>AMBIGUOUS</td><td>0</td></tr>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
+  <p>DENTAL CLINIC — Architecture Documentation</p>
+  <p>Generated: 2026-09-24 04:35 UTC · graphify callflow-html</p>
+</div>
+
+</div><!-- .container -->
+
+<script>
+(function () {
+  const mermaidConfig = {
+    startOnLoad: false,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: { htmlLabels: true, useMaxWidth: true },
+    themeVariables: {
+      primaryColor: '#1e293b',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#38bdf8',
+      secondaryColor: '#0f172a',
+      tertiaryColor: '#334155',
+      lineColor: '#64748b',
+      textColor: '#e2e8f0',
+    }
+  };
+
+  mermaid.initialize(mermaidConfig);
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function enhanceMermaidDiagrams() {
+    document.querySelectorAll('.mermaid').forEach((container) => {
+      if (container.dataset.zoomReady === 'true') return;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      container.dataset.zoomReady = 'true';
+      container.classList.add('is-enhanced');
+
+      const viewport = document.createElement('div');
+      viewport.className = 'mermaid-viewport';
+      svg.parentNode.insertBefore(viewport, svg);
+      viewport.appendChild(svg);
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'mermaid-toolbar';
+      toolbar.innerHTML = [
+        '<button type="button" data-action="zoom-out" title="Zoom out">-</button>',
+        '<span class="zoom-level" data-role="level">100%</span>',
+        '<button type="button" data-action="zoom-in" title="Zoom in">+</button>',
+        '<button type="button" data-action="fit" title="Fit width">Fit</button>',
+        '<button type="button" data-action="reset" title="Reset view">Reset</button>'
+      ].join('');
+      container.insertBefore(toolbar, viewport);
+
+      const state = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 };
+      const level = toolbar.querySelector('[data-role="level"]');
+
+      function applyTransform() {
+        svg.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        level.textContent = `${Math.round(state.scale * 100)}%`;
+      }
+
+      function zoomBy(delta) {
+        state.scale = clamp(state.scale + delta, 0.25, 3);
+        applyTransform();
+      }
+
+      function reset() {
+        state.scale = 1;
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      function fitWidth() {
+        const rawWidth = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width
+          ? svg.viewBox.baseVal.width
+          : svg.getBoundingClientRect().width / state.scale;
+        if (!rawWidth) {
+          reset();
+          return;
+        }
+        state.scale = clamp((viewport.clientWidth - 48) / rawWidth, 0.25, 1.4);
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      toolbar.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+        const action = button.dataset.action;
+        if (action === 'zoom-in') zoomBy(0.15);
+        if (action === 'zoom-out') zoomBy(-0.15);
+        if (action === 'fit') fitWidth();
+        if (action === 'reset') reset();
+      });
+
+      viewport.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 0.1 : -0.1);
+      }, { passive: false });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0) return;
+        state.dragging = true;
+        state.startX = event.clientX;
+        state.startY = event.clientY;
+        state.originX = state.x;
+        state.originY = state.y;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (!state.dragging) return;
+        state.x = state.originX + event.clientX - state.startX;
+        state.y = state.originY + event.clientY - state.startY;
+        applyTransform();
+      });
+
+      function endDrag(event) {
+        if (!state.dragging) return;
+        state.dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      applyTransform();
+    });
+  }
+
+  function renderMermaid() {
+    const result = mermaid.run
+      ? mermaid.run({ querySelector: '.mermaid' })
+      : Promise.resolve();
+    Promise.resolve(result)
+      .then(enhanceMermaidDiagrams)
+      .catch((error) => {
+        console.error('Mermaid render failed:', error);
+        enhanceMermaidDiagrams();
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaid);
+  } else {
+    renderMermaid();
+  }
+})();
+</script>
+
+</body>
+</html>
