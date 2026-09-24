@@ -259,6 +259,18 @@ export async function enrollMfaAction(): Promise<
 > {
   return withErrorHandling(async () => {
     const { supabase } = await requireClinicalUser();
+
+    // Limpiar factores previos no verificados (p. ej. por recarga de página o StrictMode de React)
+    // para evitar el error de conflicto 'mfa_factor_name_conflict'
+    const { data: factorList } = await supabase.auth.mfa.listFactors();
+    if (factorList?.all) {
+      for (const factor of factorList.all) {
+        if (factor.status === 'unverified') {
+          await supabase.auth.mfa.unenroll({ factorId: factor.id });
+        }
+      }
+    }
+
     const { data, error } = await supabase.auth.mfa.enroll({
       factorType: 'totp',
       issuer: 'Dental Clinic SaaS',

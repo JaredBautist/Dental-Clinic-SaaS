@@ -1,11 +1,11 @@
 # Graph Report - DENTAL CLINIC  (2026-09-24)
 
 ## Corpus Check
-- 93 files · ~58,772 words
+- 93 files · ~56,626 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 648 nodes · 1078 edges · 49 communities (30 shown, 6 thin omitted)
+- 635 nodes · 1065 edges · 50 communities (31 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
@@ -39,18 +39,19 @@
 - Implementation Plan: Dental Clinic SaaS
 - rules/graphify.md
 - workflows/graphify.md
-- 9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)
-- Categorías de Pruebas
-- Components and Interfaces
-- Architecture
-- Flujo de Autenticación y Manejo de Sesiones
-- Error Handling
-- 8. Estado Actual del Desarrollo y Siguientes Pasos
+- odontogram.actions.ts
+- withErrorHandling
+- patients.actions.ts
+- server-action-wrapper.ts
+- reports.actions.ts
+- clinic.actions.ts
+- requireRole
 - 6.1 Esquema `public` (Tablas de Negocio)
 - 7. Estructura del Proyecto y Desglose Archivo por Archivo
 - Dental Clinic SaaS — Documentación Técnica Integral y Contexto del Proyecto
 - 4. Requisitos Funcionales Detallados
 - 6. Arquitectura de Base de Datos y Supabase
+- 2. Objetivos del Sistema
 
 ## God Nodes (most connected - your core abstractions)
 1. `DentalClinicError` - 56 edges
@@ -79,27 +80,27 @@
 ## Import Cycles
 - None detected.
 
-## Communities (49 total, 6 thin omitted)
+## Communities (50 total, 6 thin omitted)
 
 ### Community 0 - "auth.actions.ts"
-Cohesion: 0.07
-Nodes (34): LoginPage(), handleSubmit(), SetupMfaPage(), handleCancel(), handleVerify(), loadMfaData(), VerifyMfaPage(), handleCancel() (+26 more)
+Cohesion: 0.08
+Nodes (33): LoginPage(), handleSubmit(), SetupMfaPage(), handleCancel(), handleVerify(), loadMfaData(), VerifyMfaPage(), handleCancel() (+25 more)
 
 ### Community 1 - "proxy.ts"
-Cohesion: 0.11
-Nodes (26): LoginResult, AccessDecision, AccessInput, AccessProfile, AuthenticationErrorLike, AuthenticatorAssuranceLevel, clinicalMfaDestination(), decideAccess() (+18 more)
+Cohesion: 0.10
+Nodes (27): LoginResult, AccessDecision, AccessInput, AccessProfile, AuthenticationErrorLike, AuthenticatorAssuranceLevel, clinicalMfaDestination(), decideAccess() (+19 more)
 
 ### Community 2 - "package.json"
-Cohesion: 0.05
-Nodes (42): dependencies, lucide-react, next, react, react-dom, @supabase/ssr, @supabase/supabase-js, zod (+34 more)
+Cohesion: 0.04
+Nodes (43): dependencies, lucide-react, next, react, react-dom, @supabase/ssr, @supabase/supabase-js, zod (+35 more)
 
 ### Community 3 - "password-validation.property.test.ts"
 Cohesion: 0.07
 Nodes (21): metadata, PASSWORD_REQUIREMENTS, PasswordValidationResult, validatePassword(), createSecurityHeaders(), nextConfig, securityHeaders, fast-check (+13 more)
 
 ### Community 4 - "types/domain.ts"
-Cohesion: 0.06
-Nodes (49): POST(), signedUrlRequestSchema, ALLOWED_FILE_TYPES, UploadAttachmentInput, uploadAttachmentSchema, RegisterClinicInput, registerClinicSchema, UpdateClinicInput (+41 more)
+Cohesion: 0.15
+Nodes (14): ENTRY_TYPES, getClinicalHistoryAction(), SaveClinicalEntryInput, saveClinicalEntrySchema, vitest, migrationPath, mocks, AuditRecord (+6 more)
 
 ### Community 5 - "clinics"
 Cohesion: 0.13
@@ -110,16 +111,16 @@ Cohesion: 0.11
 Nodes (18): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+10 more)
 
 ### Community 7 - "DentalClinicError"
-Cohesion: 0.06
-Nodes (64): AppointmentConflictError, ConcurrencyConflictError, DentalClinicError, ReportRangeLimitError, UniqueDocumentError, ValidationError, appointmentSchema, calculateSuggestedSlots() (+56 more)
+Cohesion: 0.18
+Nodes (15): AppointmentConflictError, DentalClinicError, appointmentSchema, calculateSuggestedSlots(), cancelAppointmentAction(), CancelAppointmentInput, cancelSchema, createAppointmentAction() (+7 more)
 
 ### Community 8 - "login-attempt-store.ts"
 Cohesion: 0.21
 Nodes (8): FailedAttemptRow, FailedAttemptStatus, hashLoginIdentifier(), LockoutRow, LockoutStatus, RpcError, RpcInvoker, RpcResult
 
 ### Community 9 - "Documento de Diseño Técnico: Dental Clinic SaaS"
-Cohesion: 0.18
-Nodes (10): Clasificación de Errores, Control de Concurrencia Optimista, Detección de Conectividad, Documento de Diseño Técnico: Dental Clinic SaaS, Estructura de Rutas (Next.js App Router), Manejo de Errores y Conectividad, Middleware de Autenticación, Overview (+2 more)
+Cohesion: 0.05
+Nodes (36): 1. Pruebas de Propiedades (Property-Based Tests) — `fast-check`, 2. Pruebas de Ejemplo (Unit Tests) — Vitest, 3. Pruebas de Integración — Supabase local (docker), 4. Pruebas de Humo (Smoke Tests), Architecture, Categorías de Pruebas, Clasificación de Errores, Components and Interfaces (+28 more)
 
 ### Community 10 - "013_fix_security_foundation.sql"
 Cohesion: 0.22
@@ -153,33 +154,33 @@ Nodes (8): ADR-001: Contexto de autorización, MFA y RLS, Consecuencias, Context
 Cohesion: 0.33
 Nodes (5): Implementation Plan: Dental Clinic SaaS, Notes, Overview, Task Dependency Graph, Tasks
 
-### Community 37 - "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)"
+### Community 37 - "odontogram.actions.ts"
+Cohesion: 0.12
+Nodes (16): ConcurrencyConflictError, saveClinicalEntryAction(), CreateCustomStatusInput, createCustomToothStatusAction(), customStatusSchema, FDI_TOOTH_CODES, getOdontogramStateAction(), listCustomToothStatusesAction() (+8 more)
+
+### Community 38 - "withErrorHandling"
 Cohesion: 0.15
-Nodes (13): 9.10 Fase 9: Cierre de Cita y Registro Inmutable de Auditoría, 9.11 Fase 10: Inteligencia Operativa y Reportes Gerenciales, 9.12 Fase 11: Escenarios de Ciberseguridad y Resiliencia, 9.1 Actores y Roles Participantes, 9.2 Fase 1: Onboarding y Registro del Consultorio (Tenant Onboarding), 9.3 Fase 2: Primer Inicio de Sesión y Configuración Obligatoria de MFA, 9.4 Fase 3: Gestión de Equipo Médico y Asignación de Roles (RBAC), 9.5 Fase 4: Recepción, Registro del Paciente y Apertura de Historia Clínica (+5 more)
+Nodes (16): ALLOWED_FILE_TYPES, listEntryAttachmentsAction(), uploadAttachmentAction(), UploadAttachmentInput, uploadAttachmentSchema, createUserAction(), CreateUserInput, createUserSchema (+8 more)
 
-### Community 38 - "Categorías de Pruebas"
-Cohesion: 0.22
-Nodes (9): 1. Pruebas de Propiedades (Property-Based Tests) — `fast-check`, 2. Pruebas de Ejemplo (Unit Tests) — Vitest, 3. Pruebas de Integración — Supabase local (docker), 4. Pruebas de Humo (Smoke Tests), Categorías de Pruebas, Configuración de fast-check, Enfoque Dual, Estrategia de Mocks para Supabase (+1 more)
+### Community 39 - "patients.actions.ts"
+Cohesion: 0.15
+Nodes (14): UniqueDocumentError, BIOLOGICAL_SEXES, createPatientAction(), DOCUMENT_TYPES, getPatientByIdAction(), PatientInput, patientSchema, searchPatientsAction() (+6 more)
 
-### Community 39 - "Components and Interfaces"
-Cohesion: 0.40
-Nodes (5): Components and Interfaces, Diseño del Odontograma SVG, Estrategia Server Actions vs Route Handlers, Estructura de Componentes Principales, Interfaces TypeScript Principales
+### Community 40 - "server-action-wrapper.ts"
+Cohesion: 0.23
+Nodes (8): ValidationError, AuthorizationFailureEvent, AuthorizationFailureRecorder, persistAuthorizationFailure(), ErrorHandlingOptions, createAdminClient(), zod, AuthorizationSecurityContext
 
-### Community 40 - "Architecture"
-Cohesion: 0.50
-Nodes (4): Architecture, Decisiones de Arquitectura Clave, Diagrama de Componentes, Diagrama de Flujo de Solicitud
+### Community 41 - "reports.actions.ts"
+Cohesion: 0.21
+Nodes (11): ReportRangeLimitError, AppointmentStatusReportResult, AttendedPatientsReportResult, getAppointmentStatusReportAction(), getAttendedPatientsReportAction(), ReportFilterInput, reportFilterSchema, validateDateRangeLimit() (+3 more)
 
-### Community 41 - "Flujo de Autenticación y Manejo de Sesiones"
-Cohesion: 0.50
-Nodes (4): Diagrama de Flujo de Autenticación, Flujo de Autenticación y Manejo de Sesiones, Headers de Seguridad HTTP, Manejo de Inactividad (30 minutos)
+### Community 42 - "clinic.actions.ts"
+Cohesion: 0.24
+Nodes (10): getClinicAction(), registerClinicAction(), RegisterClinicInput, registerClinicSchema, updateClinicAction(), UpdateClinicInput, updateClinicSchema, createAuditLog() (+2 more)
 
-### Community 42 - "Error Handling"
-Cohesion: 0.50
-Nodes (4): Error Handling, Flujo de Manejo de Errores en el Cliente, Jerarquía de Errores del Sistema, Manejo de Errores en Server Actions
-
-### Community 43 - "8. Estado Actual del Desarrollo y Siguientes Pasos"
-Cohesion: 0.67
-Nodes (3): 8. Estado Actual del Desarrollo y Siguientes Pasos, Estado Actual:, Siguientes Pasos Recomendados:
+### Community 43 - "requireRole"
+Cohesion: 0.29
+Nodes (8): POST(), signedUrlRequestSchema, requireAuthUser(), requireRole(), VALID_ROLES, createClient(), AuditAction, AuditEntityType
 
 ### Community 44 - "6.1 Esquema `public` (Tablas de Negocio)"
 Cohesion: 0.18
@@ -191,7 +192,7 @@ Nodes (11): 7.1 Raíz del Proyecto, 7.2 Directorio `app/` (Next.js App Router), 
 
 ### Community 46 - "Dental Clinic SaaS — Documentación Técnica Integral y Contexto del Proyecto"
 Cohesion: 0.20
-Nodes (9): 1. Visión General del Proyecto, 2.1 Objetivo General, 2.2 Objetivos Específicos, 2. Objetivos del Sistema, 3. Stack Tecnológico y Herramientas, 5. Requisitos No Funcionales y Arquitectura de Seguridad, Dental Clinic SaaS — Documentación Técnica Integral y Contexto del Proyecto, Modelo Multi-Tenant (+1 more)
+Nodes (9): 1. Visión General del Proyecto, 3. Stack Tecnológico y Herramientas, 5. Requisitos No Funcionales y Arquitectura de Seguridad, 8. Estado Actual del Desarrollo y Siguientes Pasos, Dental Clinic SaaS — Documentación Técnica Integral y Contexto del Proyecto, Estado Actual:, Modelo Multi-Tenant, Siguientes Pasos Recomendados: (+1 more)
 
 ### Community 47 - "4. Requisitos Funcionales Detallados"
 Cohesion: 0.20
@@ -201,25 +202,29 @@ Nodes (10): 4.1 Módulo 1: Registro y Gestión de Consultorios (Tenants), 4.2 M�
 Cohesion: 0.40
 Nodes (5): 6.2 Esquema `private` (Seguridad Interna y Bloqueos), 6.3 Funciones SQL y Triggers, 6.4 Políticas RLS (Row Level Security), 6.5 Supabase Storage, 6. Arquitectura de Base de Datos y Supabase
 
+### Community 49 - "2. Objetivos del Sistema"
+Cohesion: 0.67
+Nodes (3): 2.1 Objetivo General, 2.2 Objetivos Específicos, 2. Objetivos del Sistema
+
 ## Knowledge Gaps
-- **314 isolated node(s):** `roleArb`, `uuidArb`, `activeUserArb`, `upperCharArb`, `lowerCharArb` (+309 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 385 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **302 isolated node(s):** `roleArb`, `uuidArb`, `activeUserArb`, `upperCharArb`, `lowerCharArb` (+297 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 373 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `vitest` connect `DentalClinicError` to `auth.actions.ts`, `proxy.ts`, `package.json`, `password-validation.property.test.ts`, `types/domain.ts`, `login-attempt-store.ts`?**
-  _High betweenness centrality (0.052) - this node is a cross-community bridge._
-- **Why does `zod` connect `types/domain.ts` to `auth.actions.ts`, `package.json`, `DentalClinicError`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `DentalClinicError` connect `DentalClinicError` to `auth.actions.ts`, `types/domain.ts`?**
-  _High betweenness centrality (0.021) - this node is a cross-community bridge._
+- **Why does `vitest` connect `types/domain.ts` to `auth.actions.ts`, `proxy.ts`, `package.json`, `password-validation.property.test.ts`, `odontogram.actions.ts`, `withErrorHandling`, `DentalClinicError`, `login-attempt-store.ts`, `patients.actions.ts`, `clinic.actions.ts`, `reports.actions.ts`?**
+  _High betweenness centrality (0.054) - this node is a cross-community bridge._
+- **Why does `zod` connect `server-action-wrapper.ts` to `auth.actions.ts`, `package.json`, `types/domain.ts`, `odontogram.actions.ts`, `withErrorHandling`, `DentalClinicError`, `patients.actions.ts`, `reports.actions.ts`, `clinic.actions.ts`, `requireRole`?**
+  _High betweenness centrality (0.036) - this node is a cross-community bridge._
+- **Why does `DentalClinicError` connect `DentalClinicError` to `auth.actions.ts`, `types/domain.ts`, `odontogram.actions.ts`, `withErrorHandling`, `patients.actions.ts`, `server-action-wrapper.ts`, `reports.actions.ts`, `clinic.actions.ts`, `requireRole`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **What connects `roleArb`, `uuidArb`, `activeUserArb` to the rest of the system?**
-  _314 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _302 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `auth.actions.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.0746606334841629 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07607843137254902 - nodes in this community are weakly interconnected._
 - **Should `proxy.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.11174242424242424 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._

@@ -1,0 +1,554 @@
+{
+  "communities": {
+    "0": [
+      "app_auth_login_page",
+      "app_auth_login_page_loginpage",
+      "app_auth_login_page_loginpage_checkhealth",
+      "app_auth_login_page_loginpage_handlesubmit",
+      "app_auth_setup_mfa_page",
+      "app_auth_setup_mfa_page_setupmfapage",
+      "app_auth_setup_mfa_page_setupmfapage_handlecancel",
+      "app_auth_setup_mfa_page_setupmfapage_handleverify",
+      "app_auth_setup_mfa_page_setupmfapage_loadmfadata",
+      "app_auth_verify_mfa_page",
+      "app_auth_verify_mfa_page_verifymfapage",
+      "app_auth_verify_mfa_page_verifymfapage_handlecancel",
+      "app_auth_verify_mfa_page_verifymfapage_handleverify",
+      "app_dashboard_layout",
+      "app_dashboard_layout_dashboardlayout",
+      "components_session_sessiontimer",
+      "components_session_sessiontimer_sessiontimer",
+      "errors_domain",
+      "errors_domain_accountlockederror",
+      "errors_domain_accountlockederror_constructor",
+      "errors_domain_appointmentconflicterror",
+      "errors_domain_appointmentconflicterror_constructor",
+      "errors_domain_concurrencyconflicterror",
+      "errors_domain_concurrencyconflicterror_constructor",
+      "errors_domain_dentalclinicerror",
+      "errors_domain_immutablerecorderror",
+      "errors_domain_immutablerecorderror_constructor",
+      "errors_domain_invalidcredentialserror",
+      "errors_domain_invalidcredentialserror_constructor",
+      "errors_domain_reportrangelimiterror",
+      "errors_domain_reportrangelimiterror_constructor",
+      "errors_domain_roleauthorizationerror",
+      "errors_domain_tenantisolationerror",
+      "errors_domain_tenantisolationerror_constructor",
+      "errors_domain_uniquedocumenterror",
+      "errors_domain_uniquedocumenterror_constructor",
+      "errors_domain_validationerror",
+      "errors_domain_validationerror_constructor",
+      "lib_actions_auth_actions",
+      "lib_actions_auth_actions_cancelmfaaction",
+      "lib_actions_auth_actions_createpersistentattemptstore",
+      "lib_actions_auth_actions_enrollmfaaction",
+      "lib_actions_auth_actions_failmfaverification",
+      "lib_actions_auth_actions_loginaction",
+      "lib_actions_auth_actions_loginschema",
+      "lib_actions_auth_actions_logoutaction",
+      "lib_actions_auth_actions_requireclinicaluser",
+      "lib_actions_auth_actions_user_roles",
+      "lib_actions_auth_actions_verifymfaloginaction",
+      "lib_actions_auth_actions_verifymfasetupaction",
+      "lib_auth_login_attempt_store_createloginattemptstore",
+      "lib_auth_session_termination",
+      "lib_auth_session_termination_signoutoperation",
+      "lib_auth_session_termination_signoutresult",
+      "lib_auth_session_termination_terminatesession",
+      "lib_server_action_wrapper_witherrorhandling",
+      "lib_supabase_server",
+      "lib_supabase_server_createclient",
+      "ref_lucide_react",
+      "ref_react",
+      "tests_unit_auth_actions_test",
+      "tests_unit_auth_actions_test_createmfaclient",
+      "tests_unit_auth_actions_test_mocks",
+      "tests_unit_server_action_wrapper_test",
+      "tests_unit_session_termination_test"
+    ],
+    "1": [
+      "lib_actions_auth_actions_loginresult",
+      "lib_auth_access_policy",
+      "lib_auth_access_policy_accessdecision",
+      "lib_auth_access_policy_accessinput",
+      "lib_auth_access_policy_accessprofile",
+      "lib_auth_access_policy_authenticationerrorlike",
+      "lib_auth_access_policy_authenticatorassurancelevel",
+      "lib_auth_access_policy_clinicalmfadestination",
+      "lib_auth_access_policy_decideaccess",
+      "lib_auth_access_policy_isclinicalrole",
+      "lib_auth_access_policy_isunauthenticatederror",
+      "lib_auth_access_policy_public_paths",
+      "lib_auth_verified_headers",
+      "lib_auth_verified_headers_auth_context_headers",
+      "lib_auth_verified_headers_buildverifiedrequestheaders",
+      "lib_auth_verified_headers_stripuntrustedauthheaders",
+      "lib_auth_verified_headers_verifiedclaims",
+      "lib_supabase_client",
+      "lib_supabase_client_createclient",
+      "proxy",
+      "proxy_config",
+      "proxy_copyresponsecookies",
+      "proxy_createredirect",
+      "proxy_isuserrole",
+      "proxy_proxy",
+      "proxy_unavailableresponse",
+      "proxy_user_roles",
+      "ref_supabase_ssr",
+      "tests_unit_access_policy_test",
+      "tests_unit_access_policy_test_activeadmin",
+      "tests_unit_proxy_test",
+      "tests_unit_proxy_test_mockedcreateserverclient",
+      "tests_unit_proxy_test_mockgetuserresult",
+      "tests_unit_verified_headers_test",
+      "types_domain_userrole"
+    ],
+    "2": [
+      "package",
+      "package_dependencies",
+      "package_dependencies_lucide_react",
+      "package_dependencies_next",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_supabase_ssr",
+      "package_dependencies_supabase_supabase_js",
+      "package_dependencies_zod",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_scripts_test",
+      "package_scripts_test_db",
+      "package_scripts_test_run",
+      "package_version",
+      "ref_eslint",
+      "ref_eslint_config_next",
+      "ref_react_dom",
+      "ref_tailwindcss",
+      "ref_tailwindcss_postcss",
+      "ref_types_node",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript",
+      "ref_vitejs_plugin_react",
+      "vitest_config",
+      "vitest_config_projectroot"
+    ],
+    "3": [
+      "app_layout",
+      "app_layout_metadata",
+      "app_layout_rootlayout",
+      "lib_auth_password_validator",
+      "lib_auth_password_validator_password_requirements",
+      "lib_auth_password_validator_passwordvalidationresult",
+      "lib_auth_password_validator_validatepassword",
+      "next_config",
+      "next_config_createsecurityheaders",
+      "next_config_nextconfig",
+      "next_config_securityheaders",
+      "ref_fast_check",
+      "ref_next",
+      "ref_vitest",
+      "tests_properties_password_validation_property_test",
+      "tests_properties_password_validation_property_test_alphanumericarb",
+      "tests_properties_password_validation_property_test_digitchararb",
+      "tests_properties_password_validation_property_test_lowerchararb",
+      "tests_properties_password_validation_property_test_specialchararb",
+      "tests_properties_password_validation_property_test_upperchararb",
+      "tests_properties_password_validation_property_test_validpasswordarb",
+      "tests_properties_security_headers_property_test",
+      "tests_properties_tenant_isolation_property_test",
+      "tests_properties_tenant_isolation_property_test_filterbytenant",
+      "tests_properties_tenant_isolation_property_test_tenantrecord",
+      "tests_properties_tenant_isolation_property_test_tenantrecordarb",
+      "tests_properties_tenant_isolation_property_test_uuidarb",
+      "tests_setup",
+      "tests_smoke_security_migrations_smoke_test",
+      "tests_smoke_security_migrations_smoke_test_migrationpath"
+    ],
+    "4": [
+      "tests_properties_jwt_claims_property_test",
+      "tests_properties_jwt_claims_property_test_activeuserarb",
+      "tests_properties_jwt_claims_property_test_buildjwtclaims",
+      "tests_properties_jwt_claims_property_test_parseandverifyclaims",
+      "tests_properties_jwt_claims_property_test_rolearb",
+      "tests_properties_jwt_claims_property_test_uuidarb",
+      "types_domain",
+      "types_domain_appointment",
+      "types_domain_appointmentstatus",
+      "types_domain_auditaction",
+      "types_domain_auditentitytype",
+      "types_domain_auditrecord",
+      "types_domain_auditresult",
+      "types_domain_biologicalsex",
+      "types_domain_clinic",
+      "types_domain_clinicalattachment",
+      "types_domain_clinicalentry",
+      "types_domain_clinicalentrytype",
+      "types_domain_clinicalrecord",
+      "types_domain_customtoothstatus",
+      "types_domain_documenttype",
+      "types_domain_jwtclaims",
+      "types_domain_odontogramstate",
+      "types_domain_patient",
+      "types_domain_toothstatus",
+      "types_domain_toothsurface",
+      "types_domain_userprofile"
+    ],
+    "5": [
+      "auth",
+      "auth_users",
+      "supabase_migrations_001_create_clinics",
+      "supabase_migrations_001_create_clinics_clinics",
+      "supabase_migrations_001_create_clinics_set_clinics_updated_at",
+      "supabase_migrations_001_create_clinics_update_updated_at_column",
+      "supabase_migrations_002_create_users",
+      "supabase_migrations_002_create_users_set_users_updated_at",
+      "supabase_migrations_002_create_users_users",
+      "supabase_migrations_003_create_patients",
+      "supabase_migrations_003_create_patients_patients",
+      "supabase_migrations_003_create_patients_set_patients_updated_at",
+      "supabase_migrations_004_create_appointments",
+      "supabase_migrations_004_create_appointments_appointments",
+      "supabase_migrations_004_create_appointments_calc_ends_at",
+      "supabase_migrations_005_create_clinical_records",
+      "supabase_migrations_005_create_clinical_records_clinical_records",
+      "supabase_migrations_005_create_clinical_records_set_clinical_records_updated_at",
+      "supabase_migrations_006_create_clinical_entries",
+      "supabase_migrations_006_create_clinical_entries_clinical_entries",
+      "supabase_migrations_007_create_clinical_attachments",
+      "supabase_migrations_007_create_clinical_attachments_clinical_attachments",
+      "supabase_migrations_008_create_odontogram_states",
+      "supabase_migrations_008_create_odontogram_states_odontogram_states",
+      "supabase_migrations_009_create_custom_tooth_statuses",
+      "supabase_migrations_009_create_custom_tooth_statuses_custom_tooth_statuses"
+    ],
+    "6": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_exclude",
+      "tsconfig_include"
+    ],
+    "7": [
+      "errors_domain_dentalclinicerror_constructor",
+      "errors_domain_roleauthorizationerror_constructor",
+      "lib_audit_authorization_failure",
+      "lib_audit_authorization_failure_authorizationfailureevent",
+      "lib_audit_authorization_failure_authorizationfailurerecorder",
+      "lib_audit_authorization_failure_persistauthorizationfailure",
+      "lib_server_action_wrapper",
+      "lib_server_action_wrapper_errorhandlingoptions",
+      "lib_server_action_wrapper_serveractionresult",
+      "lib_supabase_admin",
+      "lib_supabase_admin_createadminclient",
+      "ref_supabase_supabase_js",
+      "ref_zod",
+      "types_domain_authorizationsecuritycontext"
+    ],
+    "8": [
+      "lib_auth_login_attempt_store",
+      "lib_auth_login_attempt_store_assertrpcsucceeded",
+      "lib_auth_login_attempt_store_failedattemptrow",
+      "lib_auth_login_attempt_store_failedattemptstatus",
+      "lib_auth_login_attempt_store_firstrow",
+      "lib_auth_login_attempt_store_hashloginidentifier",
+      "lib_auth_login_attempt_store_lockoutrow",
+      "lib_auth_login_attempt_store_lockoutstatus",
+      "lib_auth_login_attempt_store_rpcerror",
+      "lib_auth_login_attempt_store_rpcinvoker",
+      "lib_auth_login_attempt_store_rpcresult",
+      "tests_unit_login_attempt_store_test"
+    ],
+    "9": [
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_fast_check",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_postcss",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vitejs_plugin_react",
+      "package_devdependencies_vitest"
+    ],
+    "10": [
+      "public_users",
+      "supabase_migrations_013_fix_security_foundation",
+      "supabase_migrations_013_fix_security_foundation_private_current_clinic_id",
+      "supabase_migrations_013_fix_security_foundation_private_current_user_role",
+      "supabase_migrations_013_fix_security_foundation_private_enforce_clinical_record_version_update",
+      "supabase_migrations_013_fix_security_foundation_public_check_login_lockout",
+      "supabase_migrations_013_fix_security_foundation_public_clear_login_attempts",
+      "supabase_migrations_013_fix_security_foundation_public_custom_access_token_hook",
+      "supabase_migrations_013_fix_security_foundation_public_enqueue_login_lockout_notification",
+      "supabase_migrations_013_fix_security_foundation_public_record_failed_login_attempt"
+    ],
+    "11": [
+      "supabase_tests_bootstrap_supabase",
+      "supabase_tests_bootstrap_supabase_auth_uid",
+      "supabase_tests_bootstrap_supabase_auth_users",
+      "supabase_tests_bootstrap_supabase_storage_buckets",
+      "supabase_tests_bootstrap_supabase_storage_foldername",
+      "supabase_tests_bootstrap_supabase_storage_objects"
+    ],
+    "12": [
+      "supabase_tests_run_migrations",
+      "supabase_tests_run_migrations_cleanup",
+      "supabase_tests_run_migrations_sh__entry"
+    ],
+    "13": [
+      "app_api_health_route",
+      "app_api_health_route_get"
+    ],
+    "14": [
+      "app_dashboard_citas_page",
+      "app_dashboard_citas_page_appointmentspage"
+    ],
+    "15": [
+      "app_dashboard_clinica_configuracion_page",
+      "app_dashboard_clinica_configuracion_page_clinicconfigpage"
+    ],
+    "16": [
+      "app_dashboard_dashboard_page",
+      "app_dashboard_dashboard_page_dashboardpage"
+    ],
+    "17": [
+      "app_dashboard_pacientes_page",
+      "app_dashboard_pacientes_page_patientspage"
+    ],
+    "18": [
+      "app_dashboard_reportes_estado_citas_page",
+      "app_dashboard_reportes_estado_citas_page_appointmentstatusreportpage"
+    ],
+    "19": [
+      "app_dashboard_reportes_pacientes_atendidos_page",
+      "app_dashboard_reportes_pacientes_atendidos_page_attendedpatientsreportpage"
+    ],
+    "20": [
+      "app_dashboard_usuarios_page",
+      "app_dashboard_usuarios_page_userspage"
+    ],
+    "21": [
+      "app_page",
+      "app_page_home"
+    ],
+    "22": [
+      "eslint_config",
+      "eslint_config_eslintconfig"
+    ],
+    "23": [
+      "postcss_config",
+      "postcss_config_config"
+    ],
+    "24": [
+      "supabase_migrations_010_create_audit_logs",
+      "supabase_migrations_010_create_audit_logs_audit_logs"
+    ],
+    "25": [
+      "supabase_migrations_011_rls_policies"
+    ],
+    "26": [
+      "supabase_migrations_012_storage_policies"
+    ],
+    "27": [
+      "supabase_tests_security_foundation_integration"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06682692307692308,
+    "1": 0.10420168067226891,
+    "2": 0.0625,
+    "3": 0.08275862068965517,
+    "4": 0.07692307692307693,
+    "5": 0.12615384615384614,
+    "6": 0.10526315789473684,
+    "7": 0.23076923076923078,
+    "8": 0.21212121212121213,
+    "9": 0.16666666666666666,
+    "10": 0.2222222222222222,
+    "11": 0.4,
+    "12": 0.6666666666666666,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0
+  },
+  "gods": [
+    {
+      "id": "errors_domain_dentalclinicerror",
+      "label": "DentalClinicError",
+      "degree": 21
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "ref_vitest",
+      "label": "vitest",
+      "degree": 13
+    },
+    {
+      "id": "lib_server_action_wrapper_witherrorhandling",
+      "label": "withErrorHandling()",
+      "degree": 10
+    },
+    {
+      "id": "proxy_proxy",
+      "label": "proxy()",
+      "degree": 10
+    },
+    {
+      "id": "types_domain_userrole",
+      "label": "UserRole",
+      "degree": 9
+    },
+    {
+      "id": "types_domain_authorizationsecuritycontext",
+      "label": "AuthorizationSecurityContext",
+      "degree": 9
+    },
+    {
+      "id": "lib_actions_auth_actions_loginaction",
+      "label": "loginAction()",
+      "degree": 9
+    },
+    {
+      "id": "supabase_migrations_001_create_clinics_clinics",
+      "label": "clinics",
+      "degree": 9
+    },
+    {
+      "id": "lib_auth_session_termination_terminatesession",
+      "label": "terminateSession()",
+      "degree": 8
+    }
+  ],
+  "surprises": [
+    {
+      "source": "DentalClinicError",
+      "target": "AuthorizationSecurityContext",
+      "source_files": [
+        "errors/domain.ts",
+        "types/domain.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "LoginResult",
+      "target": "UserRole",
+      "source_files": [
+        "lib/actions/auth.actions.ts",
+        "types/domain.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `LoginResult` unexpectedly reaches hub `UserRole`"
+    },
+    {
+      "source": "VerifiedClaims",
+      "target": "UserRole",
+      "source_files": [
+        "lib/auth/verified-headers.ts",
+        "types/domain.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `VerifiedClaims` unexpectedly reaches hub `UserRole`"
+    },
+    {
+      "source": "AuthorizationFailureEvent",
+      "target": "AuthorizationSecurityContext",
+      "source_files": [
+        "lib/audit/authorization-failure.ts",
+        "types/domain.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "inherits",
+      "why": "connects across different repos/directories; peripheral node `AuthorizationFailureEvent` unexpectedly reaches hub `AuthorizationSecurityContext`"
+    },
+    {
+      "source": "handleSubmit()",
+      "target": "loginAction()",
+      "source_files": [
+        "app/(auth)/login/page.tsx",
+        "lib/actions/auth.actions.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `handleSubmit()` unexpectedly reaches hub `loginAction()`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `vitest` connect `Community 3` to `Community 0`, `Community 1`, `Community 2`, `Community 4`, `Community 8`?",
+      "why": "High betweenness centrality (0.128) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `zod` connect `Community 7` to `Community 0`, `Community 2`?",
+      "why": "High betweenness centrality (0.049) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `Community 9` to `Community 2`?",
+      "why": "High betweenness centrality (0.048) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `SignOutOperation`, `SignOutResult`, `AccessDecision` to the rest of the system?",
+      "why": "109 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06682692307692308 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10420168067226891 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0625 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

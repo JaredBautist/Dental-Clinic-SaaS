@@ -251,43 +251,212 @@
       "source_location": "L70"
     },
     {
+      "id": "errors_domain_concurrencyconflicterror",
+      "label": "ConcurrencyConflictError",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "concurrencyconflicterror",
+      "source_file": "errors/domain.ts",
+      "source_location": "L68"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_createcustomstatusinput",
+      "label": "CreateCustomStatusInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "createcustomstatusinput",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L51"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_savetoothstateinput",
+      "label": "SaveToothStateInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "savetoothstateinput",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L41"
+    },
+    {
+      "id": "types_domain_customtoothstatus",
+      "label": "CustomToothStatus",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "customtoothstatus",
+      "source_file": "types/domain.ts",
+      "source_location": "L198"
+    },
+    {
+      "id": "types_domain_odontogramstate",
+      "label": "OdontogramState",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "odontogramstate",
+      "source_file": "types/domain.ts",
+      "source_location": "L184"
+    },
+    {
+      "id": "types_domain_toothsurface",
+      "label": "ToothSurface",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "toothsurface",
+      "source_file": "types/domain.ts",
+      "source_location": "L23"
+    },
+    {
       "id": "lib_actions_attachments_actions_uploadattachmentinput",
       "label": "UploadAttachmentInput",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
       "norm_label": "uploadattachmentinput",
       "source_file": "lib/actions/attachments.actions.ts",
       "source_location": "L30"
     },
     {
-      "id": "lib_actions_clinic_actions_registerclinicinput",
-      "label": "RegisterClinicInput",
+      "id": "lib_actions_users_actions_createuserinput",
+      "label": "CreateUserInput",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
-      "norm_label": "registerclinicinput",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L33"
+      "norm_label": "createuserinput",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L20"
     },
     {
-      "id": "lib_actions_clinic_actions_updateclinicinput",
-      "label": "UpdateClinicInput",
+      "id": "lib_actions_users_actions_updateuserinput",
+      "label": "UpdateUserInput",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
-      "norm_label": "updateclinicinput",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L54"
+      "norm_label": "updateuserinput",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "types_domain_userprofile",
+      "label": "UserProfile",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "userprofile",
+      "source_file": "types/domain.ts",
+      "source_location": "L99"
+    },
+    {
+      "id": "errors_domain_uniquedocumenterror",
+      "label": "UniqueDocumentError",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "uniquedocumenterror",
+      "source_file": "errors/domain.ts",
+      "source_location": "L41"
+    },
+    {
+      "id": "lib_actions_patients_actions_patientinput",
+      "label": "PatientInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "patientinput",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L61"
+    },
+    {
+      "id": "lib_actions_patients_actions_updatepatientinput",
+      "label": "UpdatePatientInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "updatepatientinput",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L63"
+    },
+    {
+      "id": "types_domain_biologicalsex",
+      "label": "BiologicalSex",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "biologicalsex",
+      "source_file": "types/domain.ts",
+      "source_location": "L111"
+    },
+    {
+      "id": "types_domain_documenttype",
+      "label": "DocumentType",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "documenttype",
+      "source_file": "types/domain.ts",
+      "source_location": "L110"
+    },
+    {
+      "id": "types_domain_patient",
+      "label": "Patient",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "patient",
+      "source_file": "types/domain.ts",
+      "source_location": "L113"
     },
     {
       "id": "lib_actions_clinical_actions_saveclinicalentryinput",
@@ -300,136 +469,6 @@
       "file_type": "code",
       "norm_label": "saveclinicalentryinput",
       "source_file": "lib/actions/clinical.actions.ts",
-      "source_location": "L51"
-    },
-    {
-      "id": "lib_actions_patients_actions_patientinput",
-      "label": "PatientInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "patientinput",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L61"
-    },
-    {
-      "id": "lib_actions_patients_actions_updatepatientinput",
-      "label": "UpdatePatientInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "updatepatientinput",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L63"
-    },
-    {
-      "id": "lib_actions_users_actions_createuserinput",
-      "label": "CreateUserInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "createuserinput",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "lib_actions_users_actions_updateuserinput",
-      "label": "UpdateUserInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "updateuserinput",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L28"
-    },
-    {
-      "id": "lib_audit_authorization_failure_authorizationfailureevent",
-      "label": "AuthorizationFailureEvent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "authorizationfailureevent",
-      "source_file": "lib/audit/authorization-failure.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "lib_audit_authorization_failure_authorizationfailurerecorder",
-      "label": "AuthorizationFailureRecorder",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "authorizationfailurerecorder",
-      "source_file": "lib/audit/authorization-failure.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "lib_server_action_wrapper_errorhandlingoptions",
-      "label": "ErrorHandlingOptions",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "errorhandlingoptions",
-      "source_file": "lib/server-action-wrapper.ts",
-      "source_location": "L22"
-    },
-    {
-      "id": "lib_server_action_wrapper_serveractionresult",
-      "label": "ServerActionResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "serveractionresult",
-      "source_file": "lib/server-action-wrapper.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "types_domain_auditaction",
-      "label": "AuditAction",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "auditaction",
-      "source_file": "types/domain.ts",
-      "source_location": "L42"
-    },
-    {
-      "id": "types_domain_auditentitytype",
-      "label": "AuditEntityType",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "auditentitytype",
-      "source_file": "types/domain.ts",
       "source_location": "L51"
     },
     {
@@ -457,45 +496,6 @@
       "norm_label": "auditresult",
       "source_file": "types/domain.ts",
       "source_location": "L59"
-    },
-    {
-      "id": "types_domain_authorizationsecuritycontext",
-      "label": "AuthorizationSecurityContext",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "authorizationsecuritycontext",
-      "source_file": "types/domain.ts",
-      "source_location": "L61"
-    },
-    {
-      "id": "types_domain_biologicalsex",
-      "label": "BiologicalSex",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "biologicalsex",
-      "source_file": "types/domain.ts",
-      "source_location": "L111"
-    },
-    {
-      "id": "types_domain_clinic",
-      "label": "Clinic",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "clinic",
-      "source_file": "types/domain.ts",
-      "source_location": "L89"
     },
     {
       "id": "types_domain_clinicalattachment",
@@ -550,58 +550,6 @@
       "source_location": "L150"
     },
     {
-      "id": "types_domain_customtoothstatus",
-      "label": "CustomToothStatus",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "customtoothstatus",
-      "source_file": "types/domain.ts",
-      "source_location": "L198"
-    },
-    {
-      "id": "types_domain_documenttype",
-      "label": "DocumentType",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "documenttype",
-      "source_file": "types/domain.ts",
-      "source_location": "L110"
-    },
-    {
-      "id": "types_domain_odontogramstate",
-      "label": "OdontogramState",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "odontogramstate",
-      "source_file": "types/domain.ts",
-      "source_location": "L184"
-    },
-    {
-      "id": "types_domain_patient",
-      "label": "Patient",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "patient",
-      "source_file": "types/domain.ts",
-      "source_location": "L113"
-    },
-    {
       "id": "types_domain_toothstatus",
       "label": "ToothStatus",
       "_callable": true,
@@ -615,30 +563,212 @@
       "source_location": "L31"
     },
     {
-      "id": "types_domain_toothsurface",
-      "label": "ToothSurface",
+      "id": "errors_domain_validationerror",
+      "label": "ValidationError",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "code",
-      "norm_label": "toothsurface",
-      "source_file": "types/domain.ts",
-      "source_location": "L23"
+      "norm_label": "validationerror",
+      "source_file": "errors/domain.ts",
+      "source_location": "L91"
     },
     {
-      "id": "types_domain_userprofile",
-      "label": "UserProfile",
+      "id": "lib_audit_authorization_failure_authorizationfailureevent",
+      "label": "AuthorizationFailureEvent",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "code",
-      "norm_label": "userprofile",
+      "norm_label": "authorizationfailureevent",
+      "source_file": "lib/audit/authorization-failure.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "lib_audit_authorization_failure_authorizationfailurerecorder",
+      "label": "AuthorizationFailureRecorder",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": "authorizationfailurerecorder",
+      "source_file": "lib/audit/authorization-failure.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "lib_server_action_wrapper_errorhandlingoptions",
+      "label": "ErrorHandlingOptions",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": "errorhandlingoptions",
+      "source_file": "lib/server-action-wrapper.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "types_domain_authorizationsecuritycontext",
+      "label": "AuthorizationSecurityContext",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": "authorizationsecuritycontext",
       "source_file": "types/domain.ts",
-      "source_location": "L99"
+      "source_location": "L61"
+    },
+    {
+      "id": "errors_domain_reportrangelimiterror",
+      "label": "ReportRangeLimitError",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "reportrangelimiterror",
+      "source_file": "errors/domain.ts",
+      "source_location": "L103"
+    },
+    {
+      "id": "lib_actions_reports_actions_appointmentstatusreportresult",
+      "label": "AppointmentStatusReportResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "appointmentstatusreportresult",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L53"
+    },
+    {
+      "id": "lib_actions_reports_actions_attendedpatientsreportresult",
+      "label": "AttendedPatientsReportResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "attendedpatientsreportresult",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "lib_actions_reports_actions_reportfilterinput",
+      "label": "ReportFilterInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "reportfilterinput",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "lib_server_action_wrapper_serveractionresult",
+      "label": "ServerActionResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "serveractionresult",
+      "source_file": "lib/server-action-wrapper.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "types_domain_appointmentstatus",
+      "label": "AppointmentStatus",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "appointmentstatus",
+      "source_file": "types/domain.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "lib_actions_clinic_actions_registerclinicinput",
+      "label": "RegisterClinicInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "registerclinicinput",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L33"
+    },
+    {
+      "id": "lib_actions_clinic_actions_updateclinicinput",
+      "label": "UpdateClinicInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "updateclinicinput",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L54"
+    },
+    {
+      "id": "types_domain_clinic",
+      "label": "Clinic",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "clinic",
+      "source_file": "types/domain.ts",
+      "source_location": "L89"
+    },
+    {
+      "id": "types_domain_auditaction",
+      "label": "AuditAction",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "auditaction",
+      "source_file": "types/domain.ts",
+      "source_location": "L42"
+    },
+    {
+      "id": "types_domain_auditentitytype",
+      "label": "AuditEntityType",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "auditentitytype",
+      "source_file": "types/domain.ts",
+      "source_location": "L51"
     },
     {
       "id": "errors_domain_appointmentconflicterror",
@@ -654,19 +784,6 @@
       "source_location": "L56"
     },
     {
-      "id": "errors_domain_concurrencyconflicterror",
-      "label": "ConcurrencyConflictError",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "concurrencyconflicterror",
-      "source_file": "errors/domain.ts",
-      "source_location": "L68"
-    },
-    {
       "id": "errors_domain_dentalclinicerror",
       "label": "DentalClinicError",
       "_callable": true,
@@ -678,45 +795,6 @@
       "norm_label": "dentalclinicerror",
       "source_file": "errors/domain.ts",
       "source_location": "L6"
-    },
-    {
-      "id": "errors_domain_reportrangelimiterror",
-      "label": "ReportRangeLimitError",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "reportrangelimiterror",
-      "source_file": "errors/domain.ts",
-      "source_location": "L103"
-    },
-    {
-      "id": "errors_domain_uniquedocumenterror",
-      "label": "UniqueDocumentError",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "uniquedocumenterror",
-      "source_file": "errors/domain.ts",
-      "source_location": "L41"
-    },
-    {
-      "id": "errors_domain_validationerror",
-      "label": "ValidationError",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "validationerror",
-      "source_file": "errors/domain.ts",
-      "source_location": "L91"
     },
     {
       "id": "lib_actions_appointments_actions_cancelappointmentinput",
@@ -758,71 +836,6 @@
       "source_location": "L44"
     },
     {
-      "id": "lib_actions_odontogram_actions_createcustomstatusinput",
-      "label": "CreateCustomStatusInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "createcustomstatusinput",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L51"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_savetoothstateinput",
-      "label": "SaveToothStateInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "savetoothstateinput",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L41"
-    },
-    {
-      "id": "lib_actions_reports_actions_appointmentstatusreportresult",
-      "label": "AppointmentStatusReportResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "appointmentstatusreportresult",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L53"
-    },
-    {
-      "id": "lib_actions_reports_actions_attendedpatientsreportresult",
-      "label": "AttendedPatientsReportResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "attendedpatientsreportresult",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L45"
-    },
-    {
-      "id": "lib_actions_reports_actions_reportfilterinput",
-      "label": "ReportFilterInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "reportfilterinput",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L28"
-    },
-    {
       "id": "types_domain_appointment",
       "label": "Appointment",
       "_callable": true,
@@ -834,19 +847,6 @@
       "norm_label": "appointment",
       "source_file": "types/domain.ts",
       "source_location": "L131"
-    },
-    {
-      "id": "types_domain_appointmentstatus",
-      "label": "AppointmentStatus",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "appointmentstatus",
-      "source_file": "types/domain.ts",
-      "source_location": "L7"
     },
     {
       "id": "lib_auth_login_attempt_store_failedattemptrow",
@@ -1264,18 +1264,6 @@
       "source_location": "L13"
     },
     {
-      "id": "lib_supabase_server_createclient",
-      "label": "createClient()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "auth.actions.ts",
-      "file_type": "code",
-      "norm_label": "createclient()",
-      "source_file": "lib/supabase/server.ts",
-      "source_location": "L4"
-    },
-    {
       "id": "tests_unit_auth_actions_test_createmfaclient",
       "label": "createMfaClient()",
       "_callable": true,
@@ -1358,6 +1346,18 @@
       "norm_label": "stripuntrustedauthheaders()",
       "source_file": "lib/auth/verified-headers.ts",
       "source_location": "L12"
+    },
+    {
+      "id": "lib_supabase_client_createclient",
+      "label": "createClient()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "proxy.ts",
+      "file_type": "code",
+      "norm_label": "createclient()",
+      "source_file": "lib/supabase/client.ts",
+      "source_location": "L3"
     },
     {
       "id": "proxy_copyresponsecookies",
@@ -1624,24 +1624,240 @@
       "source_location": "L41"
     },
     {
-      "id": "app_api_storage_signed_url_route_post",
-      "label": "POST()",
+      "id": "errors_domain_concurrencyconflicterror_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "errors/domain.ts",
+      "source_location": "L72"
+    },
+    {
+      "id": "lib_actions_clinical_actions_saveclinicalentryaction",
+      "label": "saveClinicalEntryAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "saveclinicalentryaction()",
+      "source_file": "lib/actions/clinical.actions.ts",
+      "source_location": "L58"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_createcustomtoothstatusaction",
+      "label": "createCustomToothStatusAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "createcustomtoothstatusaction()",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L175"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_getodontogramstateaction",
+      "label": "getOdontogramStateAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "getodontogramstateaction()",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L140"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_listcustomtoothstatusesaction",
+      "label": "listCustomToothStatusesAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "listcustomtoothstatusesaction()",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L230"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_savetoothstateaction",
+      "label": "saveToothStateAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "savetoothstateaction()",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L57"
+    },
+    {
+      "id": "lib_actions_attachments_actions_listentryattachmentsaction",
+      "label": "listEntryAttachmentsAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "listentryattachmentsaction()",
+      "source_file": "lib/actions/attachments.actions.ts",
+      "source_location": "L149"
+    },
+    {
+      "id": "lib_actions_attachments_actions_uploadattachmentaction",
+      "label": "uploadAttachmentAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "uploadattachmentaction()",
+      "source_file": "lib/actions/attachments.actions.ts",
+      "source_location": "L36"
+    },
+    {
+      "id": "lib_actions_users_actions_createuseraction",
+      "label": "createUserAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "createuseraction()",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L35"
+    },
+    {
+      "id": "lib_actions_users_actions_deactivateuseraction",
+      "label": "deactivateUserAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "deactivateuseraction()",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L183"
+    },
+    {
+      "id": "lib_actions_users_actions_listusersaction",
+      "label": "listUsersAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "listusersaction()",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L259"
+    },
+    {
+      "id": "lib_actions_users_actions_updateuseraction",
+      "label": "updateUserAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "updateuseraction()",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L110"
+    },
+    {
+      "id": "lib_server_action_wrapper_witherrorhandling",
+      "label": "withErrorHandling()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "witherrorhandling()",
+      "source_file": "lib/server-action-wrapper.ts",
+      "source_location": "L31"
+    },
+    {
+      "id": "errors_domain_uniquedocumenterror_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "errors/domain.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "lib_actions_patients_actions_createpatientaction",
+      "label": "createPatientAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "createpatientaction()",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L71"
+    },
+    {
+      "id": "lib_actions_patients_actions_getpatientbyidaction",
+      "label": "getPatientByIdAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "getpatientbyidaction()",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L266"
+    },
+    {
+      "id": "lib_actions_patients_actions_searchpatientsaction",
+      "label": "searchPatientsAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "searchpatientsaction()",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L233"
+    },
+    {
+      "id": "lib_actions_patients_actions_updatepatientaction",
+      "label": "updatePatientAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "updatepatientaction()",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L152"
+    },
+    {
+      "id": "lib_actions_clinical_actions_getclinicalhistoryaction",
+      "label": "getClinicalHistoryAction()",
       "_callable": true,
       "_origin": "ast",
       "community": 4,
       "community_name": "types/domain.ts",
       "file_type": "code",
-      "norm_label": "post()",
-      "source_file": "app/api/storage/signed-url/route.ts",
-      "source_location": "L13"
+      "norm_label": "getclinicalhistoryaction()",
+      "source_file": "lib/actions/clinical.actions.ts",
+      "source_location": "L187"
     },
     {
       "id": "errors_domain_dentalclinicerror_constructor",
       "label": ".constructor()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "errors/domain.ts",
@@ -1652,20 +1868,32 @@
       "label": ".constructor()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "errors/domain.ts",
       "source_location": "L33"
     },
     {
+      "id": "errors_domain_validationerror_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "errors/domain.ts",
+      "source_location": "L94"
+    },
+    {
       "id": "lib_audit_authorization_failure_persistauthorizationfailure",
       "label": "persistAuthorizationFailure()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "code",
       "norm_label": "persistauthorizationfailure()",
       "source_file": "lib/audit/authorization-failure.ts",
@@ -1676,24 +1904,156 @@
       "label": "createAdminClient()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "code",
       "norm_label": "createadminclient()",
       "source_file": "lib/supabase/admin.ts",
       "source_location": "L8"
     },
     {
-      "id": "lib_supabase_client_createclient",
+      "id": "errors_domain_reportrangelimiterror_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "errors/domain.ts",
+      "source_location": "L104"
+    },
+    {
+      "id": "lib_actions_reports_actions_getappointmentstatusreportaction",
+      "label": "getAppointmentStatusReportAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "getappointmentstatusreportaction()",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L109"
+    },
+    {
+      "id": "lib_actions_reports_actions_getattendedpatientsreportaction",
+      "label": "getAttendedPatientsReportAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "getattendedpatientsreportaction()",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L65"
+    },
+    {
+      "id": "lib_actions_reports_actions_validatedaterangelimit",
+      "label": "validateDateRangeLimit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "validatedaterangelimit()",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L35"
+    },
+    {
+      "id": "lib_actions_clinic_actions_getclinicaction",
+      "label": "getClinicAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "getclinicaction()",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L205"
+    },
+    {
+      "id": "lib_actions_clinic_actions_registerclinicaction",
+      "label": "registerClinicAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "registerclinicaction()",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "lib_actions_clinic_actions_updateclinicaction",
+      "label": "updateClinicAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "updateclinicaction()",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L157"
+    },
+    {
+      "id": "lib_audit_createauditlog",
+      "label": "createAuditLog()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "createauditlog()",
+      "source_file": "lib/audit.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "app_api_storage_signed_url_route_post",
+      "label": "POST()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "post()",
+      "source_file": "app/api/storage/signed-url/route.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "lib_auth_require_user_requireauthuser",
+      "label": "requireAuthUser()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "requireauthuser()",
+      "source_file": "lib/auth/require-user.ts",
+      "source_location": "L19"
+    },
+    {
+      "id": "lib_auth_require_user_requirerole",
+      "label": "requireRole()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "requirerole()",
+      "source_file": "lib/auth/require-user.ts",
+      "source_location": "L62"
+    },
+    {
+      "id": "lib_supabase_server_createclient",
       "label": "createClient()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 43,
+      "community_name": "requireRole",
       "file_type": "code",
       "norm_label": "createclient()",
-      "source_file": "lib/supabase/client.ts",
-      "source_location": "L3"
+      "source_file": "lib/supabase/server.ts",
+      "source_location": "L4"
     },
     {
       "id": "errors_domain_appointmentconflicterror_constructor",
@@ -1706,54 +2066,6 @@
       "norm_label": ".constructor()",
       "source_file": "errors/domain.ts",
       "source_location": "L59"
-    },
-    {
-      "id": "errors_domain_concurrencyconflicterror_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "errors/domain.ts",
-      "source_location": "L72"
-    },
-    {
-      "id": "errors_domain_reportrangelimiterror_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "errors/domain.ts",
-      "source_location": "L104"
-    },
-    {
-      "id": "errors_domain_uniquedocumenterror_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "errors/domain.ts",
-      "source_location": "L45"
-    },
-    {
-      "id": "errors_domain_validationerror_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "errors/domain.ts",
-      "source_location": "L94"
     },
     {
       "id": "lib_actions_appointments_actions_calculatesuggestedslots",
@@ -1814,318 +2126,6 @@
       "norm_label": "rescheduleappointmentaction()",
       "source_file": "lib/actions/appointments.actions.ts",
       "source_location": "L210"
-    },
-    {
-      "id": "lib_actions_attachments_actions_listentryattachmentsaction",
-      "label": "listEntryAttachmentsAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "listentryattachmentsaction()",
-      "source_file": "lib/actions/attachments.actions.ts",
-      "source_location": "L149"
-    },
-    {
-      "id": "lib_actions_attachments_actions_uploadattachmentaction",
-      "label": "uploadAttachmentAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "uploadattachmentaction()",
-      "source_file": "lib/actions/attachments.actions.ts",
-      "source_location": "L36"
-    },
-    {
-      "id": "lib_actions_clinic_actions_getclinicaction",
-      "label": "getClinicAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "getclinicaction()",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L205"
-    },
-    {
-      "id": "lib_actions_clinic_actions_registerclinicaction",
-      "label": "registerClinicAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "registerclinicaction()",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L60"
-    },
-    {
-      "id": "lib_actions_clinic_actions_updateclinicaction",
-      "label": "updateClinicAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "updateclinicaction()",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L157"
-    },
-    {
-      "id": "lib_actions_clinical_actions_getclinicalhistoryaction",
-      "label": "getClinicalHistoryAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "getclinicalhistoryaction()",
-      "source_file": "lib/actions/clinical.actions.ts",
-      "source_location": "L187"
-    },
-    {
-      "id": "lib_actions_clinical_actions_saveclinicalentryaction",
-      "label": "saveClinicalEntryAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "saveclinicalentryaction()",
-      "source_file": "lib/actions/clinical.actions.ts",
-      "source_location": "L58"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_createcustomtoothstatusaction",
-      "label": "createCustomToothStatusAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "createcustomtoothstatusaction()",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L175"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_getodontogramstateaction",
-      "label": "getOdontogramStateAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "getodontogramstateaction()",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L140"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_listcustomtoothstatusesaction",
-      "label": "listCustomToothStatusesAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "listcustomtoothstatusesaction()",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L230"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_savetoothstateaction",
-      "label": "saveToothStateAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "savetoothstateaction()",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L57"
-    },
-    {
-      "id": "lib_actions_patients_actions_createpatientaction",
-      "label": "createPatientAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "createpatientaction()",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L71"
-    },
-    {
-      "id": "lib_actions_patients_actions_getpatientbyidaction",
-      "label": "getPatientByIdAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "getpatientbyidaction()",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L266"
-    },
-    {
-      "id": "lib_actions_patients_actions_searchpatientsaction",
-      "label": "searchPatientsAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "searchpatientsaction()",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L233"
-    },
-    {
-      "id": "lib_actions_patients_actions_updatepatientaction",
-      "label": "updatePatientAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "updatepatientaction()",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L152"
-    },
-    {
-      "id": "lib_actions_reports_actions_getappointmentstatusreportaction",
-      "label": "getAppointmentStatusReportAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "getappointmentstatusreportaction()",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L109"
-    },
-    {
-      "id": "lib_actions_reports_actions_getattendedpatientsreportaction",
-      "label": "getAttendedPatientsReportAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "getattendedpatientsreportaction()",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L65"
-    },
-    {
-      "id": "lib_actions_reports_actions_validatedaterangelimit",
-      "label": "validateDateRangeLimit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "validatedaterangelimit()",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L35"
-    },
-    {
-      "id": "lib_actions_users_actions_createuseraction",
-      "label": "createUserAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "createuseraction()",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L35"
-    },
-    {
-      "id": "lib_actions_users_actions_deactivateuseraction",
-      "label": "deactivateUserAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "deactivateuseraction()",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L183"
-    },
-    {
-      "id": "lib_actions_users_actions_listusersaction",
-      "label": "listUsersAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "listusersaction()",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L259"
-    },
-    {
-      "id": "lib_actions_users_actions_updateuseraction",
-      "label": "updateUserAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "updateuseraction()",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L110"
-    },
-    {
-      "id": "lib_audit_createauditlog",
-      "label": "createAuditLog()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "createauditlog()",
-      "source_file": "lib/audit.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "lib_auth_require_user_requireauthuser",
-      "label": "requireAuthUser()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "requireauthuser()",
-      "source_file": "lib/auth/require-user.ts",
-      "source_location": "L19"
-    },
-    {
-      "id": "lib_auth_require_user_requirerole",
-      "label": "requireRole()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "requirerole()",
-      "source_file": "lib/auth/require-user.ts",
-      "source_location": "L62"
-    },
-    {
-      "id": "lib_server_action_wrapper_witherrorhandling",
-      "label": "withErrorHandling()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "witherrorhandling()",
-      "source_file": "lib/server-action-wrapper.ts",
-      "source_location": "L31"
     },
     {
       "id": "lib_auth_login_attempt_store_assertrpcsucceeded",
@@ -2384,6 +2384,17 @@
       "source_location": "L9"
     },
     {
+      "id": "lib_supabase_client",
+      "label": "client.ts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "proxy.ts",
+      "file_type": "code",
+      "norm_label": "client.ts",
+      "source_file": "lib/supabase/client.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "proxy",
       "label": "proxy.ts",
       "_origin": "ast",
@@ -2470,6 +2481,17 @@
       "norm_label": "verified-headers.test.ts",
       "source_file": "__tests__/unit/verified-headers.test.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "ref_supabase_ssr",
+      "label": "@supabase/ssr",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "proxy.ts",
+      "file_type": "concept",
+      "norm_label": "@supabase/ssr",
+      "source_file": "package.json",
+      "source_location": "L15"
     },
     {
       "id": "public_users",
@@ -3175,6 +3197,17 @@
       "norm_label": "react-dom",
       "source_file": "package.json",
       "source_location": "L20"
+    },
+    {
+      "id": "ref_supabase_supabase_js",
+      "label": "@supabase/supabase-js",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "package.json",
+      "file_type": "concept",
+      "norm_label": "@supabase/supabase-js",
+      "source_file": "package.json",
+      "source_location": "L16"
     },
     {
       "id": "ref_tailwindcss",
@@ -5266,357 +5299,88 @@
       "source_location": "L1"
     },
     {
-      "id": "kiro_project_context_full_9_10_fase_9_cierre_de_cita_y_registro_inmutable_de_auditor\u00eda",
-      "label": "9.10 Fase 9: Cierre de Cita y Registro Inmutable de Auditor\u00eda",
+      "id": "lib_actions_odontogram_actions",
+      "label": "odontogram.actions.ts",
       "_origin": "ast",
       "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.10 fase 9: cierre de cita y registro inmutable de auditoria",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L782"
-    },
-    {
-      "id": "kiro_project_context_full_9_11_fase_10_inteligencia_operativa_y_reportes_gerenciales",
-      "label": "9.11 Fase 10: Inteligencia Operativa y Reportes Gerenciales",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.11 fase 10: inteligencia operativa y reportes gerenciales",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L797"
-    },
-    {
-      "id": "kiro_project_context_full_9_12_fase_11_escenarios_de_ciberseguridad_y_resiliencia",
-      "label": "9.12 Fase 11: Escenarios de Ciberseguridad y Resiliencia",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.12 fase 11: escenarios de ciberseguridad y resiliencia",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L807"
-    },
-    {
-      "id": "kiro_project_context_full_9_1_actores_y_roles_participantes",
-      "label": "9.1 Actores y Roles Participantes",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.1 actores y roles participantes",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L600"
-    },
-    {
-      "id": "kiro_project_context_full_9_2_fase_1_onboarding_y_registro_del_consultorio_tenant_onboarding",
-      "label": "9.2 Fase 1: Onboarding y Registro del Consultorio (Tenant Onboarding)",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.2 fase 1: onboarding y registro del consultorio (tenant onboarding)",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L610"
-    },
-    {
-      "id": "kiro_project_context_full_9_3_fase_2_primer_inicio_de_sesi\u00f3n_y_configuraci\u00f3n_obligatoria_de_mfa",
-      "label": "9.3 Fase 2: Primer Inicio de Sesi\u00f3n y Configuraci\u00f3n Obligatoria de MFA",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.3 fase 2: primer inicio de sesion y configuracion obligatoria de mfa",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L635"
-    },
-    {
-      "id": "kiro_project_context_full_9_4_fase_3_gesti\u00f3n_de_equipo_m\u00e9dico_y_asignaci\u00f3n_de_roles_rbac",
-      "label": "9.4 Fase 3: Gesti\u00f3n de Equipo M\u00e9dico y Asignaci\u00f3n de Roles (RBAC)",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.4 fase 3: gestion de equipo medico y asignacion de roles (rbac)",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L656"
-    },
-    {
-      "id": "kiro_project_context_full_9_5_fase_4_recepci\u00f3n_registro_del_paciente_y_apertura_de_historia_cl\u00ednica",
-      "label": "9.5 Fase 4: Recepci\u00f3n, Registro del Paciente y Apertura de Historia Cl\u00ednica",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.5 fase 4: recepcion, registro del paciente y apertura de historia clinica",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L668"
-    },
-    {
-      "id": "kiro_project_context_full_9_6_fase_5_agendamiento_de_citas_y_resoluci\u00f3n_de_conflictos_horarios",
-      "label": "9.6 Fase 5: Agendamiento de Citas y Resoluci\u00f3n de Conflictos Horarios",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.6 fase 5: agendamiento de citas y resolucion de conflictos horarios",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L692"
-    },
-    {
-      "id": "kiro_project_context_full_9_7_fase_6_atenci\u00f3n_odontol\u00f3gica_odontograma_e_inmutabilidad_m\u00e9dica",
-      "label": "9.7 Fase 6: Atenci\u00f3n Odontol\u00f3gica, Odontograma e Inmutabilidad M\u00e9dica",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.7 fase 6: atencion odontologica, odontograma e inmutabilidad medica",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L707"
-    },
-    {
-      "id": "kiro_project_context_full_9_8_fase_7_correcciones_auditables_de_historia_cl\u00ednica_append_only",
-      "label": "9.8 Fase 7: Correcciones Auditables de Historia Cl\u00ednica (Append-Only)",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.8 fase 7: correcciones auditables de historia clinica (append-only)",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L743"
-    },
-    {
-      "id": "kiro_project_context_full_9_9_fase_8_carga_y_almacenamiento_seguro_de_radiograf\u00edas_storage",
-      "label": "9.9 Fase 8: Carga y Almacenamiento Seguro de Radiograf\u00edas (Storage)",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9.9 fase 8: carga y almacenamiento seguro de radiografias (storage)",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L763"
-    },
-    {
-      "id": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "label": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "9. Caso de Uso Maestro End-to-End (Ciclo de Vida Completo del SaaS)",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9. caso de uso maestro end-to-end (ciclo de vida completo del saas)",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L566"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_1_pruebas_de_propiedades_property_based_tests_fast_check",
-      "label": "1. Pruebas de Propiedades (Property-Based Tests) \u2014 `fast-check`",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1. pruebas de propiedades (property-based tests) \u2014 `fast-check`",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1364"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_2_pruebas_de_ejemplo_unit_tests_vitest",
-      "label": "2. Pruebas de Ejemplo (Unit Tests) \u2014 Vitest",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. pruebas de ejemplo (unit tests) \u2014 vitest",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1421"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_3_pruebas_de_integraci\u00f3n_supabase_local_docker",
-      "label": "3. Pruebas de Integraci\u00f3n \u2014 Supabase local (docker)",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "3. pruebas de integracion \u2014 supabase local (docker)",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1434"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_4_pruebas_de_humo_smoke_tests",
-      "label": "4. Pruebas de Humo (Smoke Tests)",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "4. pruebas de humo (smoke tests)",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1445"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_categor\u00edas_de_pruebas",
-      "label": "Categor\u00edas de Pruebas",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "categorias de pruebas",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1362"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_configuraci\u00f3n_de_fast_check",
-      "label": "Configuraci\u00f3n de fast-check",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "configuracion de fast-check",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1452"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_enfoque_dual",
-      "label": "Enfoque Dual",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "enfoque dual",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1352"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_estrategia_de_mocks_para_supabase",
-      "label": "Estrategia de Mocks para Supabase",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "estrategia de mocks para supabase",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1467"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_testing_strategy",
-      "label": "Testing Strategy",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Categor\u00edas de Pruebas",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "testing strategy",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1350"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_components_and_interfaces",
-      "label": "Components and Interfaces",
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "Components and Interfaces",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "components and interfaces",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L156"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_dise\u00f1o_del_odontograma_svg",
-      "label": "Dise\u00f1o del Odontograma SVG",
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "Components and Interfaces",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "diseno del odontograma svg",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L191"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_estrategia_server_actions_vs_route_handlers",
-      "label": "Estrategia Server Actions vs Route Handlers",
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "Components and Interfaces",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "estrategia server actions vs route handlers",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L283"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_estructura_de_componentes_principales",
-      "label": "Estructura de Componentes Principales",
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "Components and Interfaces",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "estructura de componentes principales",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L158"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_interfaces_typescript_principales",
-      "label": "Interfaces TypeScript Principales",
-      "_origin": "ast",
-      "community": 39,
-      "community_name": "Components and Interfaces",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "interfaces typescript principales",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L237"
-    },
-    {
-      "id": "app_api_storage_signed_url_route",
-      "label": "signed-url/route.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community_name": "odontogram.actions.ts",
       "file_type": "code",
-      "norm_label": "signed-url/route.ts",
-      "source_file": "app/api/storage/signed-url/route.ts",
+      "norm_label": "odontogram.actions.ts",
+      "source_file": "lib/actions/odontogram.actions.ts",
       "source_location": "L1"
     },
     {
-      "id": "app_api_storage_signed_url_route_signedurlrequestschema",
-      "label": "signedUrlRequestSchema",
+      "id": "lib_actions_odontogram_actions_customstatusschema",
+      "label": "customStatusSchema",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
       "file_type": "code",
-      "norm_label": "signedurlrequestschema",
-      "source_file": "app/api/storage/signed-url/route.ts",
-      "source_location": "L7"
+      "norm_label": "customstatusschema",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L43"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_fdi_tooth_codes",
+      "label": "FDI_TOOTH_CODES",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "fdi_tooth_codes",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_savetoothstateschema",
+      "label": "saveToothStateSchema",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "savetoothstateschema",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L27"
+    },
+    {
+      "id": "lib_actions_odontogram_actions_surfaces",
+      "label": "SURFACES",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "surfaces",
+      "source_file": "lib/actions/odontogram.actions.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "tests_unit_odontogram_actions_test",
+      "label": "odontogram-actions.test.ts",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "odontogram-actions.test.ts",
+      "source_file": "__tests__/unit/odontogram-actions.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_unit_odontogram_actions_test_mocks",
+      "label": "mocks",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "odontogram.actions.ts",
+      "file_type": "code",
+      "norm_label": "mocks",
+      "source_file": "__tests__/unit/odontogram-actions.test.ts",
+      "source_location": "L3"
     },
     {
       "id": "lib_actions_attachments_actions",
       "label": "attachments.actions.ts",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
       "norm_label": "attachments.actions.ts",
       "source_file": "lib/actions/attachments.actions.ts",
@@ -5626,8 +5390,8 @@
       "id": "lib_actions_attachments_actions_allowed_file_types",
       "label": "ALLOWED_FILE_TYPES",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
       "norm_label": "allowed_file_types",
       "source_file": "lib/actions/attachments.actions.ts",
@@ -5637,45 +5401,133 @@
       "id": "lib_actions_attachments_actions_uploadattachmentschema",
       "label": "uploadAttachmentSchema",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
       "norm_label": "uploadattachmentschema",
       "source_file": "lib/actions/attachments.actions.ts",
       "source_location": "L15"
     },
     {
-      "id": "lib_actions_clinic_actions",
-      "label": "clinic.actions.ts",
+      "id": "lib_actions_users_actions",
+      "label": "users.actions.ts",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
-      "norm_label": "clinic.actions.ts",
-      "source_file": "lib/actions/clinic.actions.ts",
+      "norm_label": "users.actions.ts",
+      "source_file": "lib/actions/users.actions.ts",
       "source_location": "L1"
     },
     {
-      "id": "lib_actions_clinic_actions_registerclinicschema",
-      "label": "registerClinicSchema",
+      "id": "lib_actions_users_actions_createuserschema",
+      "label": "createUserSchema",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
-      "norm_label": "registerclinicschema",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L13"
+      "norm_label": "createuserschema",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L12"
     },
     {
-      "id": "lib_actions_clinic_actions_updateclinicschema",
-      "label": "updateClinicSchema",
+      "id": "lib_actions_users_actions_updateuserschema",
+      "label": "updateUserSchema",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 38,
+      "community_name": "withErrorHandling",
       "file_type": "code",
-      "norm_label": "updateclinicschema",
-      "source_file": "lib/actions/clinic.actions.ts",
-      "source_location": "L36"
+      "norm_label": "updateuserschema",
+      "source_file": "lib/actions/users.actions.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "tests_unit_users_actions_test",
+      "label": "users-actions.test.ts",
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "users-actions.test.ts",
+      "source_file": "__tests__/unit/users-actions.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_unit_users_actions_test_mocks",
+      "label": "mocks",
+      "_origin": "ast",
+      "community": 38,
+      "community_name": "withErrorHandling",
+      "file_type": "code",
+      "norm_label": "mocks",
+      "source_file": "__tests__/unit/users-actions.test.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "lib_actions_patients_actions",
+      "label": "patients.actions.ts",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "patients.actions.ts",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_actions_patients_actions_biological_sexes",
+      "label": "BIOLOGICAL_SEXES",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "biological_sexes",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "lib_actions_patients_actions_document_types",
+      "label": "DOCUMENT_TYPES",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "document_types",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "lib_actions_patients_actions_patientschema",
+      "label": "patientSchema",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "patientschema",
+      "source_file": "lib/actions/patients.actions.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "tests_unit_patients_actions_test",
+      "label": "patients-actions.test.ts",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "patients-actions.test.ts",
+      "source_file": "__tests__/unit/patients-actions.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_unit_patients_actions_test_mocks",
+      "label": "mocks",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "patients.actions.ts",
+      "file_type": "code",
+      "norm_label": "mocks",
+      "source_file": "__tests__/unit/patients-actions.test.ts",
+      "source_location": "L3"
     },
     {
       "id": "lib_actions_clinical_actions",
@@ -5711,83 +5563,6 @@
       "source_location": "L20"
     },
     {
-      "id": "lib_actions_patients_actions",
-      "label": "patients.actions.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "patients.actions.ts",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_actions_patients_actions_biological_sexes",
-      "label": "BIOLOGICAL_SEXES",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "biological_sexes",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L12"
-    },
-    {
-      "id": "lib_actions_patients_actions_document_types",
-      "label": "DOCUMENT_TYPES",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "document_types",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "lib_actions_patients_actions_patientschema",
-      "label": "patientSchema",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "patientschema",
-      "source_file": "lib/actions/patients.actions.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "lib_actions_users_actions",
-      "label": "users.actions.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "users.actions.ts",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_actions_users_actions_createuserschema",
-      "label": "createUserSchema",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "createuserschema",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L12"
-    },
-    {
-      "id": "lib_actions_users_actions_updateuserschema",
-      "label": "updateUserSchema",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "updateuserschema",
-      "source_file": "lib/actions/users.actions.ts",
-      "source_location": "L22"
-    },
-    {
       "id": "lib_audit",
       "label": "audit.ts",
       "_origin": "ast",
@@ -5799,81 +5574,26 @@
       "source_location": "L1"
     },
     {
-      "id": "lib_audit_authorization_failure",
-      "label": "authorization-failure.ts",
+      "id": "tests_smoke_security_migrations_smoke_test",
+      "label": "security-migrations.smoke.test.ts",
       "_origin": "ast",
       "community": 4,
       "community_name": "types/domain.ts",
       "file_type": "code",
-      "norm_label": "authorization-failure.ts",
-      "source_file": "lib/audit/authorization-failure.ts",
+      "norm_label": "security-migrations.smoke.test.ts",
+      "source_file": "__tests__/smoke/security-migrations.smoke.test.ts",
       "source_location": "L1"
     },
     {
-      "id": "lib_auth_require_user",
-      "label": "require-user.ts",
+      "id": "tests_smoke_security_migrations_smoke_test_migrationpath",
+      "label": "migrationPath",
       "_origin": "ast",
       "community": 4,
       "community_name": "types/domain.ts",
       "file_type": "code",
-      "norm_label": "require-user.ts",
-      "source_file": "lib/auth/require-user.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_auth_require_user_valid_roles",
-      "label": "VALID_ROLES",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "valid_roles",
-      "source_file": "lib/auth/require-user.ts",
-      "source_location": "L13"
-    },
-    {
-      "id": "lib_server_action_wrapper",
-      "label": "server-action-wrapper.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "server-action-wrapper.ts",
-      "source_file": "lib/server-action-wrapper.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_supabase_admin",
-      "label": "admin.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "admin.ts",
-      "source_file": "lib/supabase/admin.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_supabase_client",
-      "label": "client.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "client.ts",
-      "source_file": "lib/supabase/client.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_supabase_server",
-      "label": "server.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "code",
-      "norm_label": "server.ts",
-      "source_file": "lib/supabase/server.ts",
-      "source_location": "L1"
+      "norm_label": "migrationpath",
+      "source_file": "__tests__/smoke/security-migrations.smoke.test.ts",
+      "source_location": "L5"
     },
     {
       "id": "tests_unit_audit_test",
@@ -5887,6 +5607,28 @@
       "source_location": "L1"
     },
     {
+      "id": "tests_unit_clinical_actions_test",
+      "label": "clinical-actions.test.ts",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "types/domain.ts",
+      "file_type": "code",
+      "norm_label": "clinical-actions.test.ts",
+      "source_file": "__tests__/unit/clinical-actions.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_unit_clinical_actions_test_mocks",
+      "label": "mocks",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "types/domain.ts",
+      "file_type": "code",
+      "norm_label": "mocks",
+      "source_file": "__tests__/unit/clinical-actions.test.ts",
+      "source_location": "L3"
+    },
+    {
       "id": "types_domain",
       "label": "types/domain.ts",
       "_origin": "ast",
@@ -5898,217 +5640,213 @@
       "source_location": "L1"
     },
     {
-      "id": "ref_supabase_ssr",
-      "label": "@supabase/ssr",
+      "id": "ref_vitest",
+      "label": "vitest",
       "_origin": "ast",
       "community": 4,
       "community_name": "types/domain.ts",
       "file_type": "concept",
-      "norm_label": "@supabase/ssr",
+      "norm_label": "vitest",
       "source_file": "package.json",
-      "source_location": "L15"
+      "source_location": "L34"
     },
     {
-      "id": "ref_supabase_supabase_js",
-      "label": "@supabase/supabase-js",
+      "id": "lib_audit_authorization_failure",
+      "label": "authorization-failure.ts",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
-      "file_type": "concept",
-      "norm_label": "@supabase/supabase-js",
-      "source_file": "package.json",
-      "source_location": "L16"
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": "authorization-failure.ts",
+      "source_file": "lib/audit/authorization-failure.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_server_action_wrapper",
+      "label": "server-action-wrapper.ts",
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": "server-action-wrapper.ts",
+      "source_file": "lib/server-action-wrapper.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_supabase_admin",
+      "label": "admin.ts",
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
+      "file_type": "code",
+      "norm_label": "admin.ts",
+      "source_file": "lib/supabase/admin.ts",
+      "source_location": "L1"
     },
     {
       "id": "ref_zod",
       "label": "zod",
       "_origin": "ast",
-      "community": 4,
-      "community_name": "types/domain.ts",
+      "community": 40,
+      "community_name": "server-action-wrapper.ts",
       "file_type": "concept",
       "norm_label": "zod",
       "source_file": "package.json",
       "source_location": "L21"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_architecture",
-      "label": "Architecture",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "Architecture",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "architecture",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L19"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_decisiones_de_arquitectura_clave",
-      "label": "Decisiones de Arquitectura Clave",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "Architecture",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "decisiones de arquitectura clave",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L68"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_diagrama_de_componentes",
-      "label": "Diagrama de Componentes",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "Architecture",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "diagrama de componentes",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L21"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_diagrama_de_flujo_de_solicitud",
-      "label": "Diagrama de Flujo de Solicitud",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "Architecture",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "diagrama de flujo de solicitud",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L51"
-    },
-    {
-      "id": "kiro_specs_dental_clinic_saas_design_diagrama_de_flujo_de_autenticaci\u00f3n",
-      "label": "Diagrama de Flujo de Autenticaci\u00f3n",
+      "id": "lib_actions_reports_actions",
+      "label": "reports.actions.ts",
       "_origin": "ast",
       "community": 41,
-      "community_name": "Flujo de Autenticaci\u00f3n y Manejo de Sesiones",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "diagrama de flujo de autenticacion",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L887"
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "reports.actions.ts",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L1"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_flujo_de_autenticaci\u00f3n_y_manejo_de_sesiones",
-      "label": "Flujo de Autenticaci\u00f3n y Manejo de Sesiones",
+      "id": "lib_actions_reports_actions_reportfilterschema",
+      "label": "reportFilterSchema",
       "_origin": "ast",
       "community": 41,
-      "community_name": "Flujo de Autenticaci\u00f3n y Manejo de Sesiones",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "flujo de autenticacion y manejo de sesiones",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L885"
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "reportfilterschema",
+      "source_file": "lib/actions/reports.actions.ts",
+      "source_location": "L10"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_headers_de_seguridad_http",
-      "label": "Headers de Seguridad HTTP",
+      "id": "tests_unit_reports_actions_test",
+      "label": "reports-actions.test.ts",
       "_origin": "ast",
       "community": 41,
-      "community_name": "Flujo de Autenticaci\u00f3n y Manejo de Sesiones",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "headers de seguridad http",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L925"
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "reports-actions.test.ts",
+      "source_file": "__tests__/unit/reports-actions.test.ts",
+      "source_location": "L1"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_manejo_de_inactividad_30_minutos",
-      "label": "Manejo de Inactividad (30 minutos)",
+      "id": "tests_unit_reports_actions_test_mocks",
+      "label": "mocks",
       "_origin": "ast",
       "community": 41,
-      "community_name": "Flujo de Autenticaci\u00f3n y Manejo de Sesiones",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "manejo de inactividad (30 minutos)",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L914"
+      "community_name": "reports.actions.ts",
+      "file_type": "code",
+      "norm_label": "mocks",
+      "source_file": "__tests__/unit/reports-actions.test.ts",
+      "source_location": "L3"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_error_handling",
-      "label": "Error Handling",
+      "id": "lib_actions_clinic_actions",
+      "label": "clinic.actions.ts",
       "_origin": "ast",
       "community": 42,
-      "community_name": "Error Handling",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "error handling",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1238"
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "clinic.actions.ts",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L1"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_flujo_de_manejo_de_errores_en_el_cliente",
-      "label": "Flujo de Manejo de Errores en el Cliente",
+      "id": "lib_actions_clinic_actions_registerclinicschema",
+      "label": "registerClinicSchema",
       "_origin": "ast",
       "community": 42,
-      "community_name": "Error Handling",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "flujo de manejo de errores en el cliente",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1331"
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "registerclinicschema",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L13"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_jerarqu\u00eda_de_errores_del_sistema",
-      "label": "Jerarqu\u00eda de Errores del Sistema",
+      "id": "lib_actions_clinic_actions_updateclinicschema",
+      "label": "updateClinicSchema",
       "_origin": "ast",
       "community": 42,
-      "community_name": "Error Handling",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "jerarquia de errores del sistema",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1240"
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "updateclinicschema",
+      "source_file": "lib/actions/clinic.actions.ts",
+      "source_location": "L36"
     },
     {
-      "id": "kiro_specs_dental_clinic_saas_design_manejo_de_errores_en_server_actions",
-      "label": "Manejo de Errores en Server Actions",
+      "id": "tests_unit_clinic_actions_test",
+      "label": "clinic-actions.test.ts",
       "_origin": "ast",
       "community": 42,
-      "community_name": "Error Handling",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "manejo de errores en server actions",
-      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
-      "source_location": "L1305"
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "clinic-actions.test.ts",
+      "source_file": "__tests__/unit/clinic-actions.test.ts",
+      "source_location": "L1"
     },
     {
-      "id": "kiro_project_context_full_8_estado_actual_del_desarrollo_y_siguientes_pasos",
-      "label": "8. Estado Actual del Desarrollo y Siguientes Pasos",
+      "id": "tests_unit_clinic_actions_test_mocks",
+      "label": "mocks",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "clinic.actions.ts",
+      "file_type": "code",
+      "norm_label": "mocks",
+      "source_file": "__tests__/unit/clinic-actions.test.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "app_api_storage_signed_url_route",
+      "label": "signed-url/route.ts",
       "_origin": "ast",
       "community": 43,
-      "community_name": "8. Estado Actual del Desarrollo y Siguientes Pasos",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "8. estado actual del desarrollo y siguientes pasos",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L541"
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "signed-url/route.ts",
+      "source_file": "app/api/storage/signed-url/route.ts",
+      "source_location": "L1"
     },
     {
-      "id": "kiro_project_context_full_estado_actual",
-      "label": "Estado Actual:",
+      "id": "app_api_storage_signed_url_route_signedurlrequestschema",
+      "label": "signedUrlRequestSchema",
       "_origin": "ast",
       "community": 43,
-      "community_name": "8. Estado Actual del Desarrollo y Siguientes Pasos",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "estado actual:",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L543"
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "signedurlrequestschema",
+      "source_file": "app/api/storage/signed-url/route.ts",
+      "source_location": "L7"
     },
     {
-      "id": "kiro_project_context_full_siguientes_pasos_recomendados",
-      "label": "Siguientes Pasos Recomendados:",
+      "id": "lib_auth_require_user",
+      "label": "require-user.ts",
       "_origin": "ast",
       "community": 43,
-      "community_name": "8. Estado Actual del Desarrollo y Siguientes Pasos",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "siguientes pasos recomendados:",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L556"
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "require-user.ts",
+      "source_file": "lib/auth/require-user.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_auth_require_user_valid_roles",
+      "label": "VALID_ROLES",
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "valid_roles",
+      "source_file": "lib/auth/require-user.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "lib_supabase_server",
+      "label": "server.ts",
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "requireRole",
+      "file_type": "code",
+      "norm_label": "server.ts",
+      "source_file": "lib/supabase/server.ts",
+      "source_location": "L1"
     },
     {
       "id": "kiro_project_context_full_10_public_audit_logs",
@@ -6120,7 +5858,7 @@
       "node_kind": "heading",
       "norm_label": "10. `public.audit_logs`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L300"
+      "source_location": "L287"
     },
     {
       "id": "kiro_project_context_full_1_public_clinics",
@@ -6132,7 +5870,7 @@
       "node_kind": "heading",
       "norm_label": "1. `public.clinics`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L201"
+      "source_location": "L188"
     },
     {
       "id": "kiro_project_context_full_2_public_users",
@@ -6144,7 +5882,7 @@
       "node_kind": "heading",
       "norm_label": "2. `public.users`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L211"
+      "source_location": "L198"
     },
     {
       "id": "kiro_project_context_full_3_public_patients",
@@ -6156,7 +5894,7 @@
       "node_kind": "heading",
       "norm_label": "3. `public.patients`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L222"
+      "source_location": "L209"
     },
     {
       "id": "kiro_project_context_full_4_public_appointments",
@@ -6168,7 +5906,7 @@
       "node_kind": "heading",
       "norm_label": "4. `public.appointments`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L236"
+      "source_location": "L223"
     },
     {
       "id": "kiro_project_context_full_5_public_clinical_records",
@@ -6180,7 +5918,7 @@
       "node_kind": "heading",
       "norm_label": "5. `public.clinical_records`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L250"
+      "source_location": "L237"
     },
     {
       "id": "kiro_project_context_full_6_1_esquema_public_tablas_de_negocio",
@@ -6192,7 +5930,7 @@
       "node_kind": "heading",
       "norm_label": "6.1 esquema `public` (tablas de negocio)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L184"
+      "source_location": "L171"
     },
     {
       "id": "kiro_project_context_full_6_public_clinical_entries",
@@ -6204,7 +5942,7 @@
       "node_kind": "heading",
       "norm_label": "6. `public.clinical_entries`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L258"
+      "source_location": "L245"
     },
     {
       "id": "kiro_project_context_full_7_public_clinical_attachments",
@@ -6216,7 +5954,7 @@
       "node_kind": "heading",
       "norm_label": "7. `public.clinical_attachments`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L270"
+      "source_location": "L257"
     },
     {
       "id": "kiro_project_context_full_8_public_odontogram_states",
@@ -6228,7 +5966,7 @@
       "node_kind": "heading",
       "norm_label": "8. `public.odontogram_states`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L280"
+      "source_location": "L267"
     },
     {
       "id": "kiro_project_context_full_9_public_custom_tooth_statuses",
@@ -6240,7 +5978,7 @@
       "node_kind": "heading",
       "norm_label": "9. `public.custom_tooth_statuses`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L291"
+      "source_location": "L278"
     },
     {
       "id": "kiro_project_context_full_7_1_ra\u00edz_del_proyecto",
@@ -6252,7 +5990,7 @@
       "node_kind": "heading",
       "norm_label": "7.1 raiz del proyecto",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L378"
+      "source_location": "L365"
     },
     {
       "id": "kiro_project_context_full_7_2_directorio_app_next_js_app_router",
@@ -6264,7 +6002,7 @@
       "node_kind": "heading",
       "norm_label": "7.2 directorio `app/` (next.js app router)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L391"
+      "source_location": "L378"
     },
     {
       "id": "kiro_project_context_full_7_3_directorio_lib_l\u00f3gica_de_dominio_server_actions_y_auth",
@@ -6276,7 +6014,7 @@
       "node_kind": "heading",
       "norm_label": "7.3 directorio `lib/` (logica de dominio, server actions y auth)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L412"
+      "source_location": "L399"
     },
     {
       "id": "kiro_project_context_full_7_4_directorio_types_y_errors",
@@ -6288,7 +6026,7 @@
       "node_kind": "heading",
       "norm_label": "7.4 directorio `types/` y `errors/`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L471"
+      "source_location": "L458"
     },
     {
       "id": "kiro_project_context_full_7_5_directorio_components",
@@ -6300,7 +6038,7 @@
       "node_kind": "heading",
       "norm_label": "7.5 directorio `components/`",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L478"
+      "source_location": "L465"
     },
     {
       "id": "kiro_project_context_full_7_6_directorio_supabase_migraciones_y_edge_functions",
@@ -6312,7 +6050,7 @@
       "node_kind": "heading",
       "norm_label": "7.6 directorio `supabase/` (migraciones y edge functions)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L484"
+      "source_location": "L471"
     },
     {
       "id": "kiro_project_context_full_7_7_directorio_tests_suites_de_pruebas",
@@ -6324,7 +6062,7 @@
       "node_kind": "heading",
       "norm_label": "7.7 directorio `__tests__/` (suites de pruebas)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L505"
+      "source_location": "L492"
     },
     {
       "id": "kiro_project_context_full_7_8_directorio_kiro_especificaciones_del_proyecto",
@@ -6336,7 +6074,7 @@
       "node_kind": "heading",
       "norm_label": "7.8 directorio `.kiro/` (especificaciones del proyecto)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L532"
+      "source_location": "L519"
     },
     {
       "id": "kiro_project_context_full_7_estructura_del_proyecto_y_desglose_archivo_por_archivo",
@@ -6348,7 +6086,7 @@
       "node_kind": "heading",
       "norm_label": "7. estructura del proyecto y desglose archivo por archivo",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L376"
+      "source_location": "L363"
     },
     {
       "id": "kiro_project_context_full_subdirectorio_lib_actions_server_actions_de_negocio",
@@ -6360,7 +6098,7 @@
       "node_kind": "heading",
       "norm_label": "subdirectorio `lib/actions/` (server actions de negocio)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L414"
+      "source_location": "L401"
     },
     {
       "id": "kiro_project_context_full_subdirectorios_de_seguridad_auditor\u00eda_y_supabase",
@@ -6372,7 +6110,7 @@
       "node_kind": "heading",
       "norm_label": "subdirectorios de seguridad, auditoria y supabase",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L455"
+      "source_location": "L442"
     },
     {
       "id": "kiro_project_context_full",
@@ -6396,43 +6134,7 @@
       "node_kind": "heading",
       "norm_label": "1. vision general del proyecto",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L60"
-    },
-    {
-      "id": "kiro_project_context_full_2_1_objetivo_general",
-      "label": "2.1 Objetivo General",
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "Dental Clinic SaaS \u2014 Documentaci\u00f3n T\u00e9cnica Integral y Contexto del Proyecto",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2.1 objetivo general",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L72"
-    },
-    {
-      "id": "kiro_project_context_full_2_2_objetivos_espec\u00edficos",
-      "label": "2.2 Objetivos Espec\u00edficos",
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "Dental Clinic SaaS \u2014 Documentaci\u00f3n T\u00e9cnica Integral y Contexto del Proyecto",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2.2 objetivos especificos",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L75"
-    },
-    {
-      "id": "kiro_project_context_full_2_objetivos_del_sistema",
-      "label": "2. Objetivos del Sistema",
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "Dental Clinic SaaS \u2014 Documentaci\u00f3n T\u00e9cnica Integral y Contexto del Proyecto",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. objetivos del sistema",
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L70"
+      "source_location": "L47"
     },
     {
       "id": "kiro_project_context_full_3_stack_tecnol\u00f3gico_y_herramientas",
@@ -6444,7 +6146,7 @@
       "node_kind": "heading",
       "norm_label": "3. stack tecnologico y herramientas",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L87"
+      "source_location": "L74"
     },
     {
       "id": "kiro_project_context_full_5_requisitos_no_funcionales_y_arquitectura_de_seguridad",
@@ -6456,7 +6158,19 @@
       "node_kind": "heading",
       "norm_label": "5. requisitos no funcionales y arquitectura de seguridad",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L166"
+      "source_location": "L153"
+    },
+    {
+      "id": "kiro_project_context_full_8_estado_actual_del_desarrollo_y_siguientes_pasos",
+      "label": "8. Estado Actual del Desarrollo y Siguientes Pasos",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "Dental Clinic SaaS \u2014 Documentaci\u00f3n T\u00e9cnica Integral y Contexto del Proyecto",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "8. estado actual del desarrollo y siguientes pasos",
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L528"
     },
     {
       "id": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
@@ -6471,6 +6185,18 @@
       "source_location": "L1"
     },
     {
+      "id": "kiro_project_context_full_estado_actual",
+      "label": "Estado Actual:",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "Dental Clinic SaaS \u2014 Documentaci\u00f3n T\u00e9cnica Integral y Contexto del Proyecto",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "estado actual:",
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L530"
+    },
+    {
       "id": "kiro_project_context_full_modelo_multi_tenant",
       "label": "Modelo Multi-Tenant",
       "_origin": "ast",
@@ -6480,7 +6206,19 @@
       "node_kind": "heading",
       "norm_label": "modelo multi-tenant",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L64"
+      "source_location": "L51"
+    },
+    {
+      "id": "kiro_project_context_full_siguientes_pasos_recomendados",
+      "label": "Siguientes Pasos Recomendados:",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "Dental Clinic SaaS \u2014 Documentaci\u00f3n T\u00e9cnica Integral y Contexto del Proyecto",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "siguientes pasos recomendados:",
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L543"
     },
     {
       "id": "kiro_project_context_full_\u00edndice_general",
@@ -6504,7 +6242,7 @@
       "node_kind": "heading",
       "norm_label": "4.1 modulo 1: registro y gestion de consultorios (tenants)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L106"
+      "source_location": "L93"
     },
     {
       "id": "kiro_project_context_full_4_2_m\u00f3dulo_2_usuarios_autenticaci\u00f3n_mfa_y_rbac",
@@ -6516,7 +6254,7 @@
       "node_kind": "heading",
       "norm_label": "4.2 modulo 2: usuarios, autenticacion, mfa y rbac",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L112"
+      "source_location": "L99"
     },
     {
       "id": "kiro_project_context_full_4_3_m\u00f3dulo_3_gesti\u00f3n_de_pacientes",
@@ -6528,7 +6266,7 @@
       "node_kind": "heading",
       "norm_label": "4.3 modulo 3: gestion de pacientes",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L122"
+      "source_location": "L109"
     },
     {
       "id": "kiro_project_context_full_4_4_m\u00f3dulo_4_gesti\u00f3n_de_citas_odontol\u00f3gicas_y_transiciones",
@@ -6540,7 +6278,7 @@
       "node_kind": "heading",
       "norm_label": "4.4 modulo 4: gestion de citas odontologicas y transiciones",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L128"
+      "source_location": "L115"
     },
     {
       "id": "kiro_project_context_full_4_5_m\u00f3dulo_5_historia_cl\u00ednica_y_entradas_odontol\u00f3gicas",
@@ -6552,7 +6290,7 @@
       "node_kind": "heading",
       "norm_label": "4.5 modulo 5: historia clinica y entradas odontologicas",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L135"
+      "source_location": "L122"
     },
     {
       "id": "kiro_project_context_full_4_6_m\u00f3dulo_6_archivos_adjuntos_e_im\u00e1genes_m\u00e9dicas_storage",
@@ -6564,7 +6302,7 @@
       "node_kind": "heading",
       "norm_label": "4.6 modulo 6: archivos adjuntos e imagenes medicas (storage)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L142"
+      "source_location": "L129"
     },
     {
       "id": "kiro_project_context_full_4_7_m\u00f3dulo_7_odontograma_digital_y_estados_personalizados",
@@ -6576,7 +6314,7 @@
       "node_kind": "heading",
       "norm_label": "4.7 modulo 7: odontograma digital y estados personalizados",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L147"
+      "source_location": "L134"
     },
     {
       "id": "kiro_project_context_full_4_8_m\u00f3dulo_8_registro_inmutable_de_auditor\u00eda",
@@ -6588,7 +6326,7 @@
       "node_kind": "heading",
       "norm_label": "4.8 modulo 8: registro inmutable de auditoria",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L154"
+      "source_location": "L141"
     },
     {
       "id": "kiro_project_context_full_4_9_m\u00f3dulo_9_reportes_anal\u00edticos_operativos",
@@ -6600,7 +6338,7 @@
       "node_kind": "heading",
       "norm_label": "4.9 modulo 9: reportes analiticos operativos",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L159"
+      "source_location": "L146"
     },
     {
       "id": "kiro_project_context_full_4_requisitos_funcionales_detallados",
@@ -6612,7 +6350,7 @@
       "node_kind": "heading",
       "norm_label": "4. requisitos funcionales detallados",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L104"
+      "source_location": "L91"
     },
     {
       "id": "kiro_project_context_full_6_2_esquema_private_seguridad_interna_y_bloqueos",
@@ -6624,7 +6362,7 @@
       "node_kind": "heading",
       "norm_label": "6.2 esquema `private` (seguridad interna y bloqueos)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L313"
+      "source_location": "L300"
     },
     {
       "id": "kiro_project_context_full_6_3_funciones_sql_y_triggers",
@@ -6636,7 +6374,7 @@
       "node_kind": "heading",
       "norm_label": "6.3 funciones sql y triggers",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L327"
+      "source_location": "L314"
     },
     {
       "id": "kiro_project_context_full_6_4_pol\u00edticas_rls_row_level_security",
@@ -6648,7 +6386,7 @@
       "node_kind": "heading",
       "norm_label": "6.4 politicas rls (row level security)",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L340"
+      "source_location": "L327"
     },
     {
       "id": "kiro_project_context_full_6_5_supabase_storage",
@@ -6660,7 +6398,7 @@
       "node_kind": "heading",
       "norm_label": "6.5 supabase storage",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L365"
+      "source_location": "L352"
     },
     {
       "id": "kiro_project_context_full_6_arquitectura_de_base_de_datos_y_supabase",
@@ -6672,7 +6410,43 @@
       "node_kind": "heading",
       "norm_label": "6. arquitectura de base de datos y supabase",
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L182"
+      "source_location": "L169"
+    },
+    {
+      "id": "kiro_project_context_full_2_1_objetivo_general",
+      "label": "2.1 Objetivo General",
+      "_origin": "ast",
+      "community": 49,
+      "community_name": "2. Objetivos del Sistema",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2.1 objetivo general",
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L59"
+    },
+    {
+      "id": "kiro_project_context_full_2_2_objetivos_espec\u00edficos",
+      "label": "2.2 Objetivos Espec\u00edficos",
+      "_origin": "ast",
+      "community": 49,
+      "community_name": "2. Objetivos del Sistema",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2.2 objetivos especificos",
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L62"
+    },
+    {
+      "id": "kiro_project_context_full_2_objetivos_del_sistema",
+      "label": "2. Objetivos del Sistema",
+      "_origin": "ast",
+      "community": 49,
+      "community_name": "2. Objetivos del Sistema",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. objetivos del sistema",
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L57"
     },
     {
       "id": "auth",
@@ -7214,105 +6988,6 @@
       "source_location": "L38"
     },
     {
-      "id": "lib_actions_odontogram_actions",
-      "label": "odontogram.actions.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "odontogram.actions.ts",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_customstatusschema",
-      "label": "customStatusSchema",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "customstatusschema",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L43"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_fdi_tooth_codes",
-      "label": "FDI_TOOTH_CODES",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "fdi_tooth_codes",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_savetoothstateschema",
-      "label": "saveToothStateSchema",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "savetoothstateschema",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L27"
-    },
-    {
-      "id": "lib_actions_odontogram_actions_surfaces",
-      "label": "SURFACES",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "surfaces",
-      "source_file": "lib/actions/odontogram.actions.ts",
-      "source_location": "L18"
-    },
-    {
-      "id": "lib_actions_reports_actions",
-      "label": "reports.actions.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "reports.actions.ts",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_actions_reports_actions_reportfilterschema",
-      "label": "reportFilterSchema",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "reportfilterschema",
-      "source_file": "lib/actions/reports.actions.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "tests_smoke_security_migrations_smoke_test",
-      "label": "security-migrations.smoke.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "security-migrations.smoke.test.ts",
-      "source_file": "__tests__/smoke/security-migrations.smoke.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_smoke_security_migrations_smoke_test_migrationpath",
-      "label": "migrationPath",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "migrationpath",
-      "source_file": "__tests__/smoke/security-migrations.smoke.test.ts",
-      "source_location": "L5"
-    },
-    {
       "id": "tests_unit_appointments_actions_test",
       "label": "appointments-actions.test.ts",
       "_origin": "ast",
@@ -7333,149 +7008,6 @@
       "norm_label": "mocks",
       "source_file": "__tests__/unit/appointments-actions.test.ts",
       "source_location": "L3"
-    },
-    {
-      "id": "tests_unit_clinic_actions_test",
-      "label": "clinic-actions.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "clinic-actions.test.ts",
-      "source_file": "__tests__/unit/clinic-actions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_unit_clinic_actions_test_mocks",
-      "label": "mocks",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "mocks",
-      "source_file": "__tests__/unit/clinic-actions.test.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "tests_unit_clinical_actions_test",
-      "label": "clinical-actions.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "clinical-actions.test.ts",
-      "source_file": "__tests__/unit/clinical-actions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_unit_clinical_actions_test_mocks",
-      "label": "mocks",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "mocks",
-      "source_file": "__tests__/unit/clinical-actions.test.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "tests_unit_odontogram_actions_test",
-      "label": "odontogram-actions.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "odontogram-actions.test.ts",
-      "source_file": "__tests__/unit/odontogram-actions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_unit_odontogram_actions_test_mocks",
-      "label": "mocks",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "mocks",
-      "source_file": "__tests__/unit/odontogram-actions.test.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "tests_unit_patients_actions_test",
-      "label": "patients-actions.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "patients-actions.test.ts",
-      "source_file": "__tests__/unit/patients-actions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_unit_patients_actions_test_mocks",
-      "label": "mocks",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "mocks",
-      "source_file": "__tests__/unit/patients-actions.test.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "tests_unit_reports_actions_test",
-      "label": "reports-actions.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "reports-actions.test.ts",
-      "source_file": "__tests__/unit/reports-actions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_unit_reports_actions_test_mocks",
-      "label": "mocks",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "mocks",
-      "source_file": "__tests__/unit/reports-actions.test.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "tests_unit_users_actions_test",
-      "label": "users-actions.test.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "users-actions.test.ts",
-      "source_file": "__tests__/unit/users-actions.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_unit_users_actions_test_mocks",
-      "label": "mocks",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "code",
-      "norm_label": "mocks",
-      "source_file": "__tests__/unit/users-actions.test.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "ref_vitest",
-      "label": "vitest",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "DentalClinicError",
-      "file_type": "concept",
-      "norm_label": "vitest",
-      "source_file": "package.json",
-      "source_location": "L34"
     },
     {
       "id": "lib_auth_login_attempt_store",
@@ -7512,6 +7044,78 @@
       "source_location": "L1"
     },
     {
+      "id": "kiro_specs_dental_clinic_saas_design_1_pruebas_de_propiedades_property_based_tests_fast_check",
+      "label": "1. Pruebas de Propiedades (Property-Based Tests) \u2014 `fast-check`",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. pruebas de propiedades (property-based tests) \u2014 `fast-check`",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1364"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_2_pruebas_de_ejemplo_unit_tests_vitest",
+      "label": "2. Pruebas de Ejemplo (Unit Tests) \u2014 Vitest",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. pruebas de ejemplo (unit tests) \u2014 vitest",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1421"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_3_pruebas_de_integraci\u00f3n_supabase_local_docker",
+      "label": "3. Pruebas de Integraci\u00f3n \u2014 Supabase local (docker)",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. pruebas de integracion \u2014 supabase local (docker)",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1434"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_4_pruebas_de_humo_smoke_tests",
+      "label": "4. Pruebas de Humo (Smoke Tests)",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. pruebas de humo (smoke tests)",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1445"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_architecture",
+      "label": "Architecture",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "architecture",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L19"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_categor\u00edas_de_pruebas",
+      "label": "Categor\u00edas de Pruebas",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "categorias de pruebas",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1362"
+    },
+    {
       "id": "kiro_specs_dental_clinic_saas_design_clasificaci\u00f3n_de_errores",
       "label": "Clasificaci\u00f3n de Errores",
       "_origin": "ast",
@@ -7522,6 +7126,30 @@
       "norm_label": "clasificacion de errores",
       "source_file": ".kiro/specs/dental-clinic-saas/design.md",
       "source_location": "L952"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_components_and_interfaces",
+      "label": "Components and Interfaces",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "components and interfaces",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L156"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_configuraci\u00f3n_de_fast_check",
+      "label": "Configuraci\u00f3n de fast-check",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "configuracion de fast-check",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1452"
     },
     {
       "id": "kiro_specs_dental_clinic_saas_design_control_de_concurrencia_optimista",
@@ -7536,6 +7164,18 @@
       "source_location": "L977"
     },
     {
+      "id": "kiro_specs_dental_clinic_saas_design_decisiones_de_arquitectura_clave",
+      "label": "Decisiones de Arquitectura Clave",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "decisiones de arquitectura clave",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L68"
+    },
+    {
       "id": "kiro_specs_dental_clinic_saas_design_detecci\u00f3n_de_conectividad",
       "label": "Detecci\u00f3n de Conectividad",
       "_origin": "ast",
@@ -7546,6 +7186,54 @@
       "norm_label": "deteccion de conectividad",
       "source_file": ".kiro/specs/dental-clinic-saas/design.md",
       "source_location": "L965"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_diagrama_de_componentes",
+      "label": "Diagrama de Componentes",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "diagrama de componentes",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L21"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_diagrama_de_flujo_de_autenticaci\u00f3n",
+      "label": "Diagrama de Flujo de Autenticaci\u00f3n",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "diagrama de flujo de autenticacion",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L887"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_diagrama_de_flujo_de_solicitud",
+      "label": "Diagrama de Flujo de Solicitud",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "diagrama de flujo de solicitud",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L51"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_dise\u00f1o_del_odontograma_svg",
+      "label": "Dise\u00f1o del Odontograma SVG",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "diseno del odontograma svg",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L191"
     },
     {
       "id": "kiro_specs_dental_clinic_saas_design_documento_de_dise\u00f1o_t\u00e9cnico_dental_clinic_saas",
@@ -7560,6 +7248,66 @@
       "source_location": "L1"
     },
     {
+      "id": "kiro_specs_dental_clinic_saas_design_enfoque_dual",
+      "label": "Enfoque Dual",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "enfoque dual",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1352"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_error_handling",
+      "label": "Error Handling",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "error handling",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1238"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_estrategia_de_mocks_para_supabase",
+      "label": "Estrategia de Mocks para Supabase",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "estrategia de mocks para supabase",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1467"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_estrategia_server_actions_vs_route_handlers",
+      "label": "Estrategia Server Actions vs Route Handlers",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "estrategia server actions vs route handlers",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L283"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_estructura_de_componentes_principales",
+      "label": "Estructura de Componentes Principales",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "estructura de componentes principales",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L158"
+    },
+    {
       "id": "kiro_specs_dental_clinic_saas_design_estructura_de_rutas_next_js_app_router",
       "label": "Estructura de Rutas (Next.js App Router)",
       "_origin": "ast",
@@ -7572,6 +7320,78 @@
       "source_location": "L80"
     },
     {
+      "id": "kiro_specs_dental_clinic_saas_design_flujo_de_autenticaci\u00f3n_y_manejo_de_sesiones",
+      "label": "Flujo de Autenticaci\u00f3n y Manejo de Sesiones",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "flujo de autenticacion y manejo de sesiones",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L885"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_flujo_de_manejo_de_errores_en_el_cliente",
+      "label": "Flujo de Manejo de Errores en el Cliente",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "flujo de manejo de errores en el cliente",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1331"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_headers_de_seguridad_http",
+      "label": "Headers de Seguridad HTTP",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "headers de seguridad http",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L925"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_interfaces_typescript_principales",
+      "label": "Interfaces TypeScript Principales",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "interfaces typescript principales",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L237"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_jerarqu\u00eda_de_errores_del_sistema",
+      "label": "Jerarqu\u00eda de Errores del Sistema",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "jerarquia de errores del sistema",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1240"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_manejo_de_errores_en_server_actions",
+      "label": "Manejo de Errores en Server Actions",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "manejo de errores en server actions",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1305"
+    },
+    {
       "id": "kiro_specs_dental_clinic_saas_design_manejo_de_errores_y_conectividad",
       "label": "Manejo de Errores y Conectividad",
       "_origin": "ast",
@@ -7582,6 +7402,18 @@
       "norm_label": "manejo de errores y conectividad",
       "source_file": ".kiro/specs/dental-clinic-saas/design.md",
       "source_location": "L950"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_manejo_de_inactividad_30_minutos",
+      "label": "Manejo de Inactividad (30 minutos)",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "manejo de inactividad (30 minutos)",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L914"
     },
     {
       "id": "kiro_specs_dental_clinic_saas_design_middleware_de_autenticaci\u00f3n",
@@ -7630,6 +7462,18 @@
       "norm_label": "proposito del sistema",
       "source_file": ".kiro/specs/dental-clinic-saas/design.md",
       "source_location": "L5"
+    },
+    {
+      "id": "kiro_specs_dental_clinic_saas_design_testing_strategy",
+      "label": "Testing Strategy",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "Documento de Dise\u00f1o T\u00e9cnico: Dental Clinic SaaS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "testing strategy",
+      "source_file": ".kiro/specs/dental-clinic-saas/design.md",
+      "source_location": "L1350"
     }
   ],
   "links": [
@@ -14270,7 +14114,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L64",
+      "source_location": "L51",
       "weight": 1.0
     },
     {
@@ -14281,7 +14125,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L72",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -14292,29 +14136,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L75",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_4_requisitos_funcionales_detallados",
-      "target": "kiro_project_context_full_4_1_m\u00f3dulo_1_registro_y_gesti\u00f3n_de_consultorios_tenants",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L106",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_4_requisitos_funcionales_detallados",
-      "target": "kiro_project_context_full_4_2_m\u00f3dulo_2_usuarios_autenticaci\u00f3n_mfa_y_rbac",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L112",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -14325,7 +14147,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L122",
+      "source_location": "L109",
       "weight": 1.0
     },
     {
@@ -14336,7 +14158,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L128",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -14347,7 +14169,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L135",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -14358,7 +14180,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L142",
+      "source_location": "L129",
       "weight": 1.0
     },
     {
@@ -14369,7 +14191,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L147",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -14380,7 +14202,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L154",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -14391,7 +14213,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L159",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "kiro_project_context_full_4_requisitos_funcionales_detallados",
+      "target": "kiro_project_context_full_4_1_m\u00f3dulo_1_registro_y_gesti\u00f3n_de_consultorios_tenants",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "kiro_project_context_full_4_requisitos_funcionales_detallados",
+      "target": "kiro_project_context_full_4_2_m\u00f3dulo_2_usuarios_autenticaci\u00f3n_mfa_y_rbac",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -14402,7 +14246,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L201",
+      "source_location": "L188",
       "weight": 1.0
     },
     {
@@ -14413,7 +14257,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L211",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -14424,7 +14268,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L222",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -14435,7 +14279,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L236",
+      "source_location": "L223",
       "weight": 1.0
     },
     {
@@ -14446,7 +14290,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L250",
+      "source_location": "L237",
       "weight": 1.0
     },
     {
@@ -14457,7 +14301,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L258",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -14468,7 +14312,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L270",
+      "source_location": "L257",
       "weight": 1.0
     },
     {
@@ -14479,7 +14323,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L280",
+      "source_location": "L267",
       "weight": 1.0
     },
     {
@@ -14490,7 +14334,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L291",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -14501,7 +14345,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L300",
+      "source_location": "L287",
       "weight": 1.0
     },
     {
@@ -14512,7 +14356,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L184",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -14523,7 +14367,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L313",
+      "source_location": "L300",
       "weight": 1.0
     },
     {
@@ -14534,7 +14378,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L327",
+      "source_location": "L314",
       "weight": 1.0
     },
     {
@@ -14545,7 +14389,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L340",
+      "source_location": "L327",
       "weight": 1.0
     },
     {
@@ -14556,7 +14400,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L365",
+      "source_location": "L352",
       "weight": 1.0
     },
     {
@@ -14567,7 +14411,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L414",
+      "source_location": "L401",
       "weight": 1.0
     },
     {
@@ -14578,7 +14422,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L455",
+      "source_location": "L442",
       "weight": 1.0
     },
     {
@@ -14589,7 +14433,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L378",
+      "source_location": "L365",
       "weight": 1.0
     },
     {
@@ -14600,7 +14444,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L391",
+      "source_location": "L378",
       "weight": 1.0
     },
     {
@@ -14611,7 +14455,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L412",
+      "source_location": "L399",
       "weight": 1.0
     },
     {
@@ -14622,7 +14466,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L471",
+      "source_location": "L458",
       "weight": 1.0
     },
     {
@@ -14633,7 +14477,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L478",
+      "source_location": "L465",
       "weight": 1.0
     },
     {
@@ -14644,7 +14488,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L484",
+      "source_location": "L471",
       "weight": 1.0
     },
     {
@@ -14655,7 +14499,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L505",
+      "source_location": "L492",
       "weight": 1.0
     },
     {
@@ -14666,7 +14510,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L532",
+      "source_location": "L519",
       "weight": 1.0
     },
     {
@@ -14677,7 +14521,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L543",
+      "source_location": "L530",
       "weight": 1.0
     },
     {
@@ -14688,139 +14532,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L556",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_1_actores_y_roles_participantes",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L600",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_2_fase_1_onboarding_y_registro_del_consultorio_tenant_onboarding",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L610",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_3_fase_2_primer_inicio_de_sesi\u00f3n_y_configuraci\u00f3n_obligatoria_de_mfa",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L635",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_4_fase_3_gesti\u00f3n_de_equipo_m\u00e9dico_y_asignaci\u00f3n_de_roles_rbac",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L656",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_5_fase_4_recepci\u00f3n_registro_del_paciente_y_apertura_de_historia_cl\u00ednica",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L668",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_6_fase_5_agendamiento_de_citas_y_resoluci\u00f3n_de_conflictos_horarios",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L692",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_7_fase_6_atenci\u00f3n_odontol\u00f3gica_odontograma_e_inmutabilidad_m\u00e9dica",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L707",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_8_fase_7_correcciones_auditables_de_historia_cl\u00ednica_append_only",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L743",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_9_fase_8_carga_y_almacenamiento_seguro_de_radiograf\u00edas_storage",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L763",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_10_fase_9_cierre_de_cita_y_registro_inmutable_de_auditor\u00eda",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L782",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_11_fase_10_inteligencia_operativa_y_reportes_gerenciales",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L797",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "target": "kiro_project_context_full_9_12_fase_11_escenarios_de_ciberseguridad_y_resiliencia",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L807",
+      "source_location": "L543",
       "weight": 1.0
     },
     {
@@ -14836,24 +14548,13 @@
     },
     {
       "source": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
-      "target": "kiro_project_context_full_4_requisitos_funcionales_detallados",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L104",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
       "target": "kiro_project_context_full_5_requisitos_no_funcionales_y_arquitectura_de_seguridad",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L166",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -14864,7 +14565,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L182",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -14875,29 +14576,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L376",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
-      "target": "kiro_project_context_full_8_estado_actual_del_desarrollo_y_siguientes_pasos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L541",
-      "weight": 1.0
-    },
-    {
-      "source": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
-      "target": "kiro_project_context_full_9_caso_de_uso_maestro_end_to_end_ciclo_de_vida_completo_del_saas",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L566",
+      "source_location": "L363",
       "weight": 1.0
     },
     {
@@ -14908,7 +14587,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L60",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
+      "target": "kiro_project_context_full_8_estado_actual_del_desarrollo_y_siguientes_pasos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L528",
       "weight": 1.0
     },
     {
@@ -14919,7 +14609,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L70",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -14930,7 +14620,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
-      "source_location": "L87",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "kiro_project_context_full_dental_clinic_saas_documentaci\u00f3n_t\u00e9cnica_integral_y_contexto_del_proyecto",
+      "target": "kiro_project_context_full_4_requisitos_funcionales_detallados",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".kiro/PROJECT_CONTEXT_FULL.md",
+      "source_location": "L91",
       "weight": 1.0
     },
     {

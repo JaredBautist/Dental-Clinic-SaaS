@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>DENTAL CLINIC — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 585 nodes, 1016 edges, 37 communities. Commit: 8312b01</p>
+<p class="subtitle">Generated from graphify knowledge graph: 648 nodes, 1078 edges, 49 communities. Commit: 63fef14</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -88,17 +88,17 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    BUILD_GRAPH_321CBB04("Graph Build<br/><small>64 nodes</small>")
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>63 nodes</small>")
     class BUILD_GRAPH_321CBB04 module;
-    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>130 nodes</small>")
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>193 nodes</small>")
     class CLI_SKILLS_9964CBB8 module;
-    INGEST_CACHE_UPDATE_FF457338("Ingestion &amp; Updates<br/><small>73 nodes</small>")
+    INGEST_CACHE_UPDATE_FF457338("Ingestion &amp; Updates<br/><small>67 nodes</small>")
     class INGEST_CACHE_UPDATE_FF457338 module;
     SERVE_API_35EC8E86("Serving API<br/><small>2 nodes</small>")
     class SERVE_API_35EC8E86 module;
     SECURITY_GLOBAL_5B9C6A04("Security &amp; Global Graph<br/><small>11 nodes</small>")
     class SECURITY_GLOBAL_5B9C6A04 module;
-    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>213 nodes</small>")
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>220 nodes</small>")
     class TESTS_FIXTURES_B84B1DCC module;
     DENTAL_CLINIC_SAAS_CDF4B39D("🦷 Dental Clinic SaaS<br/><small>37 nodes</small>")
     class DENTAL_CLINIC_SAAS_CDF4B39D module;
@@ -118,11 +118,10 @@ flowchart LR
     class PACIENTES_ATENDIDOS_PAGE_TSX_85A95965 module;
     OTHER_D0941E68("Other<br/><small>17 nodes</small>")
     class OTHER_D0941E68 module;
-    INGEST_CACHE_UPDATE_FF457338 -->|imports x71| TESTS_FIXTURES_B84B1DCC
+    INGEST_CACHE_UPDATE_FF457338 -->|imports x72| TESTS_FIXTURES_B84B1DCC
     TESTS_FIXTURES_B84B1DCC -->|imports x54| INGEST_CACHE_UPDATE_FF457338
     BUILD_GRAPH_321CBB04 -->|imports x5| TESTS_FIXTURES_B84B1DCC
-    BUILD_GRAPH_321CBB04 -->|imports x2| INGEST_CACHE_UPDATE_FF457338
-    INGEST_CACHE_UPDATE_FF457338 -->|imports| BUILD_GRAPH_321CBB04
+    BUILD_GRAPH_321CBB04 -->|imports x3| INGEST_CACHE_UPDATE_FF457338
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -139,19 +138,19 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Graph Build</td><td>64</td><td><code>2, 6</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>130</td><td><code>9, 29, 30, 31, 32, 33</code></td></tr><tr><td>Ingestion &amp; Updates</td><td>73</td><td><code>4</code></td></tr><tr><td>Serving API</td><td>2</td><td><code>13</code></td></tr><tr><td>Security &amp; Global Graph</td><td>11</td><td><code>10, 27</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>213</td><td><code>7, 0, 3, 1, 8, 11, 12</code></td></tr><tr><td>🦷 Dental Clinic SaaS</td><td>37</td><td><code>28</code></td></tr><tr><td>clinics</td><td>26</td><td><code>5</code></td></tr><tr><td>citas/page.tsx</td><td>2</td><td><code>14</code></td></tr><tr><td>configuracion/page.tsx</td><td>2</td><td><code>15</code></td></tr><tr><td>dashboard/page.tsx</td><td>2</td><td><code>16</code></td></tr><tr><td>pacientes/page.tsx</td><td>2</td><td><code>17</code></td></tr><tr><td>estado-citas/page.tsx</td><td>2</td><td><code>18</code></td></tr><tr><td>pacientes-atendidos/page.tsx</td><td>2</td><td><code>19</code></td></tr><tr><td>Other</td><td>17</td><td><code>20, 21, 22, 23, 24, 34, 35, 25, 26, 36</code></td></tr>
+      <tr><td>Graph Build</td><td>63</td><td><code>2, 6</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>193</td><td><code>29, 30, 31, 37, 44, 45, 9, 46, 47, 32, 38, 33, 39, 48, 40, 41, 42, 43</code></td></tr><tr><td>Ingestion &amp; Updates</td><td>67</td><td><code>4</code></td></tr><tr><td>Serving API</td><td>2</td><td><code>13</code></td></tr><tr><td>Security &amp; Global Graph</td><td>11</td><td><code>10, 27</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>220</td><td><code>7, 0, 3, 1, 8, 11, 12</code></td></tr><tr><td>🦷 Dental Clinic SaaS</td><td>37</td><td><code>28</code></td></tr><tr><td>clinics</td><td>26</td><td><code>5</code></td></tr><tr><td>citas/page.tsx</td><td>2</td><td><code>14</code></td></tr><tr><td>configuracion/page.tsx</td><td>2</td><td><code>15</code></td></tr><tr><td>dashboard/page.tsx</td><td>2</td><td><code>16</code></td></tr><tr><td>pacientes/page.tsx</td><td>2</td><td><code>17</code></td></tr><tr><td>estado-citas/page.tsx</td><td>2</td><td><code>18</code></td></tr><tr><td>pacientes-atendidos/page.tsx</td><td>2</td><td><code>19</code></td></tr><tr><td>Other</td><td>17</td><td><code>20, 21, 22, 23, 24, 34, 35, 25, 26, 36</code></td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Core Flow</h4>
-    <div class="arrow-chain">CLI &amp; Skill Installers -&gt; Graph Build -&gt; Tests &amp; Fixtures -&gt; Ingestion &amp; Updates -&gt; Serving API -&gt; Security &amp; Global Graph -&gt; 🦷 Dental Clinic SaaS</div>
+    <div class="arrow-chain">Graph Build -&gt; Tests &amp; Fixtures -&gt; Ingestion &amp; Updates -&gt; CLI &amp; Skill Installers -&gt; Serving API -&gt; Security &amp; Global Graph -&gt; 🦷 Dental Clinic SaaS</div>
   </div>
 </div>
 <div class="grid">
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>585 nodes · 1016 edges · 37 communities (18 shown, 6 thin omitted)</li>
+      <li>648 nodes · 1078 edges · 49 communities (30 shown, 6 thin omitted)</li>
       <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS</li>
       <li>Token cost: 0 input · 0 output</li>
       <li>1. `DentalClinicError` - 56 edges</li>
@@ -163,15 +162,14 @@ flowchart LR
 <hr>
 <!-- ====== 2. Graph Build ====== -->
 <h2 id="build-graph">2. Graph Build</h2>
-<p>Graph Build groups implementation around packagejson, tsconfigjson, react, types, mostly in package.json, tsconfig.json, vitest.config.mts. This section covers 64 nodes and 62 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Graph Build groups implementation around packagejson, tsconfigjson, react, types, mostly in package.json, tsconfig.json, vitest.config.mts. This section covers 63 nodes and 61 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Graph Build (64 nodes, 62 edges)
+    %% Section: Graph Build (63 nodes, 61 edges)
     subgraph build_graph_package_json_4e40bfbd["package.json"]
         package_582681c2("package.json")
-        ref_supabase_supabase_js_135d18c5("@supabase/supabase-js<br/><small>package.json</small>")
         ref_react_dom_61ea372d("react-dom<br/><small>package.json</small>")
         ref_tailwindcss_postcss_086d2a2c("@tailwindcss/postcss<br/><small>package.json</small>")
         ref_types_node_4b20becf("@types/node<br/><small>package.json</small>")
@@ -187,9 +185,9 @@ flowchart LR
         package_devdependencies_tailwindcss_postcss_b2e87847("@tailwindcss/postcss<br/><small>package.json</small>")
         package_devdependencies_types_node_04b141e9("@types/node<br/><small>package.json</small>")
         package_devdependencies_types_react_327092bf("@types/react<br/><small>package.json</small>")
+        package_devdependencies_types_react_dom_92a9fdd8("@types/react-dom<br/><small>package.json</small>")
     end
     vitest_config_27695d99("vitest.config.mts")
-    package_582681c2 -->|imports| ref_supabase_supabase_js_135d18c5
     package_582681c2 -->|imports| ref_react_dom_61ea372d
     package_582681c2 -->|imports| ref_tailwindcss_postcss_086d2a2c
     package_582681c2 -->|imports| ref_types_node_4b20becf
@@ -201,9 +199,8 @@ flowchart LR
     package_582681c2 -->|imports| ref_tailwindcss_34b78b9c
     package_582681c2 -->|imports| ref_typescript_d5a01309
     vitest_config_27695d99 -->|imports| ref_vitejs_plugin_react_2811e448
-    %% Omitted for readability: 46 nodes, 0 edges
+    %% Omitted for readability: 45 nodes, 0 edges
     class package_582681c2 function;
-    class ref_supabase_supabase_js_135d18c5 function;
     class ref_react_dom_61ea372d function;
     class ref_tailwindcss_postcss_086d2a2c function;
     class ref_types_node_4b20becf function;
@@ -219,6 +216,7 @@ flowchart LR
     class package_devdependencies_tailwindcss_postcss_b2e87847 function;
     class package_devdependencies_types_node_04b141e9 function;
     class package_devdependencies_types_react_327092bf function;
+    class package_devdependencies_types_react_dom_92a9fdd8 function;
     class vitest_config_27695d99 test;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
@@ -488,26 +486,26 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>package.json</code></td><td>43 nodes</td></tr>
+      <tr><td><code>package.json</code></td><td>42 nodes</td></tr>
 <tr><td><code>tsconfig.json</code></td><td>19 nodes</td></tr>
 <tr><td><code>vitest.config.mts</code></td><td>2 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x50, imports x11, imports x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x50, imports x10, imports x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 3. CLI & Skill Installers ====== -->
 <h2 id="cli-skills">3. CLI &amp; Skill Installers</h2>
-<p>CLI &amp; Skill Installers groups implementation around dental, clinic, saas, kiro, mostly in specs/dental-clinic-saas/design.md, specs/dental-clinic-saas/requirements.md, specs/dental-clinic-saas/adr-001-auth-context-and-rls-fix.md. This section covers 130 nodes and 126 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>CLI &amp; Skill Installers groups implementation around kiro, saas, dental, clinic, mostly in specs/dental-clinic-saas/design.md, .kiro/PROJECT_CONTEXT_FULL.md, specs/dental-clinic-saas/requirements.md. This section covers 193 nodes and 188 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: CLI &amp; Skill Installers (130 nodes, 126 edges)
+    %% Section: CLI &amp; Skill Installers (193 nodes, 188 edges)
     subgraph cli_skills_specs_dental_clinic_saas_design_md_96053b9b["specs/dental-clinic-saas/design.md"]
         kiro_specs_dental_clinic_saas_design_correctness_808cf037("Correctness Properties<br/><small>specs/dental-clinic-saas/design.md</small>")
         kiro_specs_dental_clinic_saas_design_esquema_pos_19e1d551("Esquema PostgreSQL Completo<br/><small>specs/dental-clinic-saas/design.md</small>")
@@ -518,33 +516,32 @@ flowchart LR
         kiro_specs_dental_clinic_saas_design_data_models_6f83de3e("Data Models<br/><small>specs/dental-clinic-saas/design.md</small>")
         kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea("Testing Strategy<br/><small>specs/dental-clinic-saas/design.md</small>")
         kiro_specs_dental_clinic_saas_design_architectur_4dcdcf81("Architecture<br/><small>specs/dental-clinic-saas/design.md</small>")
-        kiro_specs_dental_clinic_saas_design_error_handl_b1da96d7("Error Handling<br/><small>specs/dental-clinic-saas/design.md</small>")
-        kiro_specs_dental_clinic_saas_design_flujo_de_au_7cffcdef("Flujo de Autenticación y Manejo de Sesi...<br/><small>specs/dental-clinic-saas/design.md</small>")
-        kiro_specs_dental_clinic_saas_design_manejo_de_e_768c2c29("Manejo de Errores y Conectividad<br/><small>specs/dental-clinic-saas/design.md</small>")
-        kiro_specs_dental_clinic_saas_design_overview_1b5bd61d("Overview<br/><small>specs/dental-clinic-saas/design.md</small>")
-        kiro_specs_dental_clinic_saas_design_supabase_st_ff867bbc("Supabase Storage<br/><small>specs/dental-clinic-saas/design.md</small>")
     end
-    subgraph cli_skills_specs_dental_clinic_saas_requirements_330ba372["specs/dental-clinic-saas/requirements.md"]
-        kiro_specs_dental_clinic_saas_requirements_requi_897b125b("Requirements<br/><small>specs/dental-clinic-saas/requirements.md</small>")
-        kiro_specs_dental_clinic_saas_requirements_requi_42126ec2("Requirements Document<br/><small>specs/dental-clinic-saas/requirements.md</small>")
+    subgraph cli_skills_kiro_PROJECT_CONTEXT_FULL_md_b7cefe6b[".kiro/PROJECT_CONTEXT_FULL.md"]
+        kiro_project_context_full_9_caso_de_uso_maestro_07868708("9. Caso de Uso Maestro End-to-End (Cicl...<br/><small>.kiro/PROJECT_CONTEXT_FULL.md</small>")
+        kiro_project_context_full_6_1_esquema_public_tab_6cf1d4a4("6.1 Esquema public (Tablas de Negocio)<br/><small>.kiro/PROJECT_CONTEXT_FULL.md</small>")
+        kiro_project_context_full_dental_clinic_saas_doc_1fe4ca17("Dental Clinic SaaS — Documentación Técn...<br/><small>.kiro/PROJECT_CONTEXT_FULL.md</small>")
+        kiro_project_context_full_4_requisitos_funcional_a5e8c625("4. Requisitos Funcionales Detallados<br/><small>.kiro/PROJECT_CONTEXT_FULL.md</small>")
+        kiro_project_context_full_7_estructura_del_proye_3e50c632("7. Estructura del Proyecto y Desglose A...<br/><small>.kiro/PROJECT_CONTEXT_FULL.md</small>")
+        kiro_project_context_full_6_arquitectura_de_base_48d0b04d("6. Arquitectura de Base de Datos y Supa...<br/><small>.kiro/PROJECT_CONTEXT_FULL.md</small>")
     end
     kiro_specs_dental_clinic_saas_adr_001_auth_conte_8d5f8e95("ADR-001: Contexto de autorización, MFA...<br/><small>specs/dental-clinic-saas/adr-001-auth-context-and-rls-fix.md</small>")
+    kiro_specs_dental_clinic_saas_requirements_requi_897b125b("Requirements<br/><small>specs/dental-clinic-saas/requirements.md</small>")
     kiro_specs_dental_clinic_saas_tasks_implementati_66af352c("Implementation Plan: Dental Clinic SaaS<br/><small>specs/dental-clinic-saas/tasks.md</small>")
     kiro_specs_dental_clinic_saas_design_data_models_6f83de3e -->|contains| kiro_specs_dental_clinic_saas_design_esquema_pos_19e1d551
     kiro_specs_dental_clinic_saas_design_data_models_6f83de3e -->|contains| kiro_specs_dental_clinic_saas_design_pol_ticas_r_ddb0d61c
-    kiro_specs_dental_clinic_saas_design_data_models_6f83de3e -->|contains| kiro_specs_dental_clinic_saas_design_supabase_st_ff867bbc
-    kiro_specs_dental_clinic_saas_requirements_requi_42126ec2 -->|contains| kiro_specs_dental_clinic_saas_requirements_requi_897b125b
+    kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea -->|contains| kiro_specs_dental_clinic_saas_design_categor_as_65e7d070
+    kiro_project_context_full_dental_clinic_saas_doc_1fe4ca17 -->|contains| kiro_project_context_full_4_requisitos_funcional_a5e8c625
+    kiro_project_context_full_dental_clinic_saas_doc_1fe4ca17 -->|contains| kiro_project_context_full_6_arquitectura_de_base_48d0b04d
+    kiro_project_context_full_dental_clinic_saas_doc_1fe4ca17 -->|contains| kiro_project_context_full_7_estructura_del_proye_3e50c632
+    kiro_project_context_full_dental_clinic_saas_doc_1fe4ca17 -->|contains| kiro_project_context_full_9_caso_de_uso_maestro_07868708
+    kiro_project_context_full_6_arquitectura_de_base_48d0b04d -->|contains| kiro_project_context_full_6_1_esquema_public_tab_6cf1d4a4
     kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_correctness_808cf037
-    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_error_handl_b1da96d7
     kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea
     kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_components_a577e2e5
     kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_architectur_4dcdcf81
-    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_overview_1b5bd61d
     kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_data_models_6f83de3e
-    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_flujo_de_au_7cffcdef
-    kiro_specs_dental_clinic_saas_design_documento_d_23391cfe -->|contains| kiro_specs_dental_clinic_saas_design_manejo_de_e_768c2c29
-    kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea -->|contains| kiro_specs_dental_clinic_saas_design_categor_as_65e7d070
-    %% Omitted for readability: 112 nodes, 0 edges
+    %% Omitted for readability: 175 nodes, 0 edges
     class kiro_specs_dental_clinic_saas_design_correctness_808cf037 concept;
     class kiro_specs_dental_clinic_saas_design_esquema_pos_19e1d551 concept;
     class kiro_specs_dental_clinic_saas_design_documento_d_23391cfe concept;
@@ -554,14 +551,14 @@ flowchart LR
     class kiro_specs_dental_clinic_saas_design_data_models_6f83de3e concept;
     class kiro_specs_dental_clinic_saas_design_testing_str_747cb2ea concept;
     class kiro_specs_dental_clinic_saas_design_architectur_4dcdcf81 concept;
-    class kiro_specs_dental_clinic_saas_design_error_handl_b1da96d7 concept;
-    class kiro_specs_dental_clinic_saas_design_flujo_de_au_7cffcdef concept;
-    class kiro_specs_dental_clinic_saas_design_manejo_de_e_768c2c29 concept;
-    class kiro_specs_dental_clinic_saas_design_overview_1b5bd61d concept;
-    class kiro_specs_dental_clinic_saas_design_supabase_st_ff867bbc concept;
-    class kiro_specs_dental_clinic_saas_requirements_requi_897b125b concept;
-    class kiro_specs_dental_clinic_saas_requirements_requi_42126ec2 concept;
+    class kiro_project_context_full_9_caso_de_uso_maestro_07868708 concept;
+    class kiro_project_context_full_6_1_esquema_public_tab_6cf1d4a4 concept;
+    class kiro_project_context_full_dental_clinic_saas_doc_1fe4ca17 concept;
+    class kiro_project_context_full_4_requisitos_funcional_a5e8c625 concept;
+    class kiro_project_context_full_7_estructura_del_proye_3e50c632 concept;
+    class kiro_project_context_full_6_arquitectura_de_base_48d0b04d concept;
     class kiro_specs_dental_clinic_saas_adr_001_auth_conte_8d5f8e95 concept;
+    class kiro_specs_dental_clinic_saas_requirements_requi_897b125b concept;
     class kiro_specs_dental_clinic_saas_tasks_implementati_66af352c concept;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
@@ -586,243 +583,243 @@ flowchart LR
 </tr>
 <tr>
   <td>1</td>
-  <td><code>design.md</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Correctness Properties</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing design.md.</td>
+  <td>Documentation node describing Correctness Properties.</td>
 </tr>
 <tr>
   <td>2</td>
-  <td><code>1. Pruebas de Propiedades (Property-Based Tests) — `fast-check`</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 10: Unicidad de Historia Clínica por Paciente</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing 1. Pruebas de Propiedades (Property-Based Tests) — `fast-check`.</td>
+  <td>Documentation node describing Property 10: Unicidad de Historia Clínica por Paciente.</td>
 </tr>
 <tr>
   <td>3</td>
-  <td><code>2. Pruebas de Ejemplo (Unit Tests) — Vitest</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 11: Inmutabilidad de Registros Clínicos y de Auditoría</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing 2. Pruebas de Ejemplo (Unit Tests) — Vitest.</td>
+  <td>Documentation node describing Property 11: Inmutabilidad de Registros Clínicos y de Auditoría.</td>
 </tr>
 <tr>
   <td>4</td>
-  <td><code>3. Pruebas de Integración — Supabase local (docker)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 12: Trazabilidad de Correcciones Clínicas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing 3. Pruebas de Integración — Supabase local (docker).</td>
+  <td>Documentation node describing Property 12: Trazabilidad de Correcciones Clínicas.</td>
 </tr>
 <tr>
   <td>5</td>
-  <td><code>4. Pruebas de Humo (Smoke Tests)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 13: Ordenamiento Cronológico de la Historia Clínica</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing 4. Pruebas de Humo (Smoke Tests).</td>
+  <td>Documentation node describing Property 13: Ordenamiento Cronológico de la Historia Clínica.</td>
 </tr>
 <tr>
   <td>6</td>
-  <td><code>Architecture</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 14: Validación de Archivos Adjuntos</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Architecture.</td>
+  <td>Documentation node describing Property 14: Validación de Archivos Adjuntos.</td>
 </tr>
 <tr>
   <td>7</td>
-  <td><code>Categorías de Pruebas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 15: Control de Concurrencia Optimista</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Categorías de Pruebas.</td>
+  <td>Documentation node describing Property 15: Control de Concurrencia Optimista.</td>
 </tr>
 <tr>
   <td>8</td>
-  <td><code>Clasificación de Errores</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 16: Inmutabilidad del Historial del Odontograma (Append-Only)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Clasificación de Errores.</td>
+  <td>Documentation node describing Property 16: Inmutabilidad del Historial del Odontograma (Append-Only).</td>
 </tr>
 <tr>
   <td>9</td>
-  <td><code>Components and Interfaces</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 17: Expiración Máxima de URLs Firmadas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Components and Interfaces.</td>
+  <td>Documentation node describing Property 17: Expiración Máxima de URLs Firmadas.</td>
 </tr>
 <tr>
   <td>10</td>
-  <td><code>Configuración de fast-check</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 18: Preservación de Estado de UI ante Fallo del Servidor</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Configuración de fast-check.</td>
+  <td>Documentation node describing Property 18: Preservación de Estado de UI ante Fallo del Servidor.</td>
 </tr>
 <tr>
   <td>11</td>
-  <td><code>Control de Concurrencia Optimista</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 19: Corrección de Filtros en Reportes Operativos</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Control de Concurrencia Optimista.</td>
+  <td>Documentation node describing Property 19: Corrección de Filtros en Reportes Operativos.</td>
 </tr>
 <tr>
   <td>12</td>
-  <td><code>Decisiones de Arquitectura Clave</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 1: Aislamiento Completo de Tenants</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Decisiones de Arquitectura Clave.</td>
+  <td>Documentation node describing Property 1: Aislamiento Completo de Tenants.</td>
 </tr>
 <tr>
   <td>13</td>
-  <td><code>Detección de Conectividad</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 20: Validación del Rango de Fechas en Reportes</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Detección de Conectividad.</td>
+  <td>Documentation node describing Property 20: Validación del Rango de Fechas en Reportes.</td>
 </tr>
 <tr>
   <td>14</td>
-  <td><code>Diagrama de Componentes</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 21: Round-Trip de Conectividad (Offline → Online)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Diagrama de Componentes.</td>
+  <td>Documentation node describing Property 21: Round-Trip de Conectividad (Offline → Online).</td>
 </tr>
 <tr>
   <td>15</td>
-  <td><code>Diagrama de Flujo de Autenticación</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 22: Validación de Contraseñas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Diagrama de Flujo de Autenticación.</td>
+  <td>Documentation node describing Property 22: Validación de Contraseñas.</td>
 </tr>
 <tr>
   <td>16</td>
-  <td><code>Diagrama de Flujo de Solicitud</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 23: Protección del Último Administrador Activo</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Diagrama de Flujo de Solicitud.</td>
+  <td>Documentation node describing Property 23: Protección del Último Administrador Activo.</td>
 </tr>
 <tr>
   <td>17</td>
-  <td><code>Diseño del Odontograma SVG</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 24: Integridad del JWT Emitido</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Diseño del Odontograma SVG.</td>
+  <td>Documentation node describing Property 24: Integridad del JWT Emitido.</td>
 </tr>
 <tr>
   <td>18</td>
-  <td><code>Documento de Diseño Técnico: Dental Clinic SaaS</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 25: Headers de Seguridad HTTP Presentes en Todas las Respuestas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Documento de Diseño Técnico: Dental Clinic SaaS.</td>
+  <td>Documentation node describing Property 25: Headers de Seguridad HTTP Presentes en Todas las Respuestas.</td>
 </tr>
 <tr>
   <td>19</td>
-  <td><code>Enfoque Dual</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 2: Round-Trip de Datos del Consultorio</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Enfoque Dual.</td>
+  <td>Documentation node describing Property 2: Round-Trip de Datos del Consultorio.</td>
 </tr>
 <tr>
   <td>20</td>
-  <td><code>Error Handling</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 3: Rechazo de Datos Obligatorios Ausentes o Inválidos</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Error Handling.</td>
+  <td>Documentation node describing Property 3: Rechazo de Datos Obligatorios Ausentes o Inválidos.</td>
 </tr>
 <tr>
   <td>21</td>
-  <td><code>Estrategia de Mocks para Supabase</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 4: Unicidad de Documento de Paciente por Consultorio</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Estrategia de Mocks para Supabase.</td>
+  <td>Documentation node describing Property 4: Unicidad de Documento de Paciente por Consultorio.</td>
 </tr>
 <tr>
   <td>22</td>
-  <td><code>Estrategia Server Actions vs Route Handlers</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 5: Round-Trip de Datos de Entidades Clínicas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Estrategia Server Actions vs Route Handlers.</td>
+  <td>Documentation node describing Property 5: Round-Trip de Datos de Entidades Clínicas.</td>
 </tr>
 <tr>
   <td>23</td>
-  <td><code>Estructura de Componentes Principales</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 6: Completitud e Integridad del Registro de Auditoría</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Estructura de Componentes Principales.</td>
+  <td>Documentation node describing Property 6: Completitud e Integridad del Registro de Auditoría.</td>
 </tr>
 <tr>
   <td>24</td>
-  <td><code>Estructura de Rutas (Next.js App Router)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 7: Control de Acceso por Rol</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Estructura de Rutas (Next.js App Router).</td>
+  <td>Documentation node describing Property 7: Control de Acceso por Rol.</td>
 </tr>
 <tr>
   <td>25</td>
-  <td><code>Flujo de Autenticación y Manejo de Sesiones</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 8: Invariante de No Solapamiento de Citas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Flujo de Autenticación y Manejo de Sesiones.</td>
+  <td>Documentation node describing Property 8: Invariante de No Solapamiento de Citas.</td>
 </tr>
 <tr>
   <td>26</td>
-  <td><code>Flujo de Manejo de Errores en el Cliente</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Property 9: Integridad de Datos de Cancelación de Citas</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Flujo de Manejo de Errores en el Cliente.</td>
+  <td>Documentation node describing Property 9: Integridad de Datos de Cancelación de Citas.</td>
 </tr>
 <tr>
   <td>27</td>
-  <td><code>Headers de Seguridad HTTP</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>Reflexión de Propiedades (Eliminación de Redundancias)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Headers de Seguridad HTTP.</td>
+  <td>Documentation node describing Reflexión de Propiedades (Eliminación de Redundancias).</td>
 </tr>
 <tr>
   <td>28</td>
-  <td><code>Interfaces TypeScript Principales</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>`appointments`</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Interfaces TypeScript Principales.</td>
+  <td>Documentation node describing `appointments`.</td>
 </tr>
 <tr>
   <td>29</td>
-  <td><code>Jerarquía de Errores del Sistema</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>`audit_logs` (inmutables)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Jerarquía de Errores del Sistema.</td>
+  <td>Documentation node describing `audit_logs` (inmutables).</td>
 </tr>
 <tr>
   <td>30</td>
-  <td><code>Manejo de Errores en Server Actions</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
+  <td><code>`clinical_entries` (inmutables)</code><br><small style="color:var(--muted)">specs/dental-clinic-saas/design.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Manejo de Errores en Server Actions.</td>
+  <td>Documentation node describing `clinical_entries` (inmutables).</td>
 </tr>
 </table>
 
@@ -832,6 +829,7 @@ flowchart LR
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
       <tr><td><code>specs/dental-clinic-saas/design.md</code></td><td>90 nodes</td></tr>
+<tr><td><code>.kiro/PROJECT_CONTEXT_FULL.md</code></td><td>63 nodes</td></tr>
 <tr><td><code>specs/dental-clinic-saas/requirements.md</code></td><td>25 nodes</td></tr>
 <tr><td><code>specs/dental-clinic-saas/adr-001-auth-context-and-rls-fix.md</code></td><td>9 nodes</td></tr>
 <tr><td><code>specs/dental-clinic-saas/tasks.md</code></td><td>6 nodes</td></tr>
@@ -839,30 +837,30 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x126. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x188. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 4. Ingestion & Updates ====== -->
 <h2 id="ingest-cache-update">4. Ingestion &amp; Updates</h2>
-<p>Ingestion &amp; Updates groups implementation around actions, types, domaints, patientsactionsts, mostly in types/domain.ts, lib/actions/patients.actions.ts, lib/actions/clinic.actions.ts. This section covers 73 nodes and 155 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Ingestion &amp; Updates groups implementation around actions, types, domaints, supabase, mostly in types/domain.ts, lib/actions/patients.actions.ts, lib/actions/clinic.actions.ts. This section covers 67 nodes and 134 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Ingestion &amp; Updates (73 nodes, 155 edges)
+    %% Section: Ingestion &amp; Updates (67 nodes, 134 edges)
+    subgraph ingest_cache_update_lib_server_action_wrapper_ts_a976dfd5["lib/server-action-wrapper.ts"]
+        lib_server_action_wrapper_serveractionresult_2241e3a6("ServerActionResult<br/><small>lib/server-action-wrapper.ts</small>")
+        lib_server_action_wrapper_c83b6c4e("server-action-wrapper.ts")
+    end
     subgraph ingest_cache_update_lib_supabase_admin_ts_8aa1e0a6["lib/supabase/admin.ts"]
         lib_supabase_admin_createadminclient_55f1af20("createAdminClient()<br/><small>lib/supabase/admin.ts</small>")
         lib_supabase_admin_2b2da909("admin.ts")
     end
-    subgraph ingest_cache_update_lib_supabase_server_ts_c5dc05cc["lib/supabase/server.ts"]
-        lib_supabase_server_createclient_7a8cb9f3("createClient()<br/><small>lib/supabase/server.ts</small>")
-        lib_supabase_server_e6aaad96("server.ts")
-    end
     subgraph ingest_cache_update_storage_signed_url_route_ts_52d3cfbc["storage/signed-url/route.ts"]
-        app_api_storage_signed_url_route_post_2cce10d6("POST()<br/><small>storage/signed-url/route.ts</small>")
         app_api_storage_signed_url_route_05d19d9c("route.ts")
+        app_api_storage_signed_url_route_post_2cce10d6("POST()<br/><small>storage/signed-url/route.ts</small>")
     end
     subgraph ingest_cache_update_types_domain_ts_dc792d3b["types/domain.ts"]
         types_domain_clinicalattachment_689158da("ClinicalAttachment<br/><small>types/domain.ts</small>")
@@ -872,54 +870,54 @@ flowchart LR
     lib_actions_clinic_actions_3a146ea9("clinic.actions.ts")
     lib_actions_clinical_actions_d5706bc3("clinical.actions.ts")
     lib_actions_patients_actions_2652ea0b("patients.actions.ts")
-    lib_actions_reports_actions_558ebeb7("reports.actions.ts")
     lib_actions_users_actions_fe6141c3("users.actions.ts")
+    lib_audit_3d86b3b0("audit.ts")
     lib_audit_authorization_failure_persistauthoriza_f3ae041e("persistAuthorizationFailure()<br/><small>lib/audit/authorization-failure.ts</small>")
     lib_auth_require_user_28b6d58d("require-user.ts")
-    lib_server_action_wrapper_serveractionresult_2241e3a6("ServerActionResult<br/><small>lib/server-action-wrapper.ts</small>")
+    lib_supabase_server_e6aaad96("server.ts")
     ref_zod_60c5f9f5("zod<br/><small>package.json</small>")
     app_api_storage_signed_url_route_post_2cce10d6 -->|calls| lib_supabase_admin_createadminclient_55f1af20
     lib_audit_authorization_failure_persistauthoriza_f3ae041e -->|calls| lib_supabase_admin_createadminclient_55f1af20
     app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_admin_createadminclient_55f1af20
-    app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_server_createclient_7a8cb9f3
     app_api_storage_signed_url_route_05d19d9c -->|imports| ref_zod_60c5f9f5
     app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_admin_2b2da909
     app_api_storage_signed_url_route_05d19d9c -->|imports| lib_supabase_server_e6aaad96
     app_api_storage_signed_url_route_05d19d9c -->|imports| lib_auth_require_user_28b6d58d
     lib_actions_attachments_actions_722b0f3b -->|imports| types_domain_clinicalattachment_689158da
     lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_admin_createadminclient_55f1af20
-    lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_server_createclient_7a8cb9f3
     lib_actions_attachments_actions_722b0f3b -->|imports| lib_server_action_wrapper_serveractionresult_2241e3a6
     lib_actions_attachments_actions_722b0f3b -->|imports| types_domain_bd4304cd
     lib_actions_attachments_actions_722b0f3b -->|imports| ref_zod_60c5f9f5
     lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_admin_2b2da909
     lib_actions_attachments_actions_722b0f3b -->|imports| lib_supabase_server_e6aaad96
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_server_action_wrapper_c83b6c4e
     lib_actions_attachments_actions_722b0f3b -->|imports| lib_auth_require_user_28b6d58d
+    lib_actions_attachments_actions_722b0f3b -->|imports| lib_audit_3d86b3b0
     lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_admin_createadminclient_55f1af20
-    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_server_createclient_7a8cb9f3
     lib_actions_clinic_actions_3a146ea9 -->|imports| lib_server_action_wrapper_serveractionresult_2241e3a6
     lib_actions_clinic_actions_3a146ea9 -->|imports| types_domain_bd4304cd
     lib_actions_clinic_actions_3a146ea9 -->|imports| ref_zod_60c5f9f5
     lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_admin_2b2da909
     lib_actions_clinic_actions_3a146ea9 -->|imports| lib_supabase_server_e6aaad96
-    %% Omitted for readability: 55 nodes, 30 edges
+    lib_actions_clinic_actions_3a146ea9 -->|imports| lib_server_action_wrapper_c83b6c4e
+    %% Omitted for readability: 49 nodes, 32 edges
+    class lib_server_action_wrapper_serveractionresult_2241e3a6 klass;
+    class lib_server_action_wrapper_c83b6c4e module;
     class lib_supabase_admin_createadminclient_55f1af20 entry;
     class lib_supabase_admin_2b2da909 module;
-    class lib_supabase_server_createclient_7a8cb9f3 entry;
-    class lib_supabase_server_e6aaad96 module;
-    class app_api_storage_signed_url_route_post_2cce10d6 function;
     class app_api_storage_signed_url_route_05d19d9c api;
+    class app_api_storage_signed_url_route_post_2cce10d6 function;
     class types_domain_clinicalattachment_689158da entry;
     class types_domain_bd4304cd module;
     class lib_actions_attachments_actions_722b0f3b module;
     class lib_actions_clinic_actions_3a146ea9 entry;
     class lib_actions_clinical_actions_d5706bc3 entry;
     class lib_actions_patients_actions_2652ea0b module;
-    class lib_actions_reports_actions_558ebeb7 module;
     class lib_actions_users_actions_fe6141c3 module;
+    class lib_audit_3d86b3b0 module;
     class lib_audit_authorization_failure_persistauthoriza_f3ae041e function;
     class lib_auth_require_user_28b6d58d module;
-    class lib_server_action_wrapper_serveractionresult_2241e3a6 klass;
+    class lib_supabase_server_e6aaad96 module;
     class ref_zod_60c5f9f5 function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
@@ -992,30 +990,6 @@ flowchart LR
 </tr>
 <tr>
   <td>7</td>
-  <td><code>AppointmentStatusReportResult</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>AppointmentStatusReportResult node in lib/actions/reports.actions.ts.</td>
-</tr>
-<tr>
-  <td>8</td>
-  <td><code>AttendedPatientsReportResult</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>AttendedPatientsReportResult node in lib/actions/reports.actions.ts.</td>
-</tr>
-<tr>
-  <td>9</td>
-  <td><code>ReportFilterInput</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>ReportFilterInput node in lib/actions/reports.actions.ts.</td>
-</tr>
-<tr>
-  <td>10</td>
   <td><code>CreateUserInput</code><br><small style="color:var(--muted)">lib/actions/users.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1023,7 +997,7 @@ flowchart LR
   <td>CreateUserInput node in lib/actions/users.actions.ts.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>8</td>
   <td><code>UpdateUserInput</code><br><small style="color:var(--muted)">lib/actions/users.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1031,7 +1005,7 @@ flowchart LR
   <td>UpdateUserInput node in lib/actions/users.actions.ts.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>9</td>
   <td><code>AuthorizationFailureEvent</code><br><small style="color:var(--muted)">lib/audit/authorization-failure.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1039,7 +1013,7 @@ flowchart LR
   <td>AuthorizationFailureEvent node in lib/audit/authorization-failure.ts.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>10</td>
   <td><code>AuthorizationFailureRecorder</code><br><small style="color:var(--muted)">lib/audit/authorization-failure.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>server-action-wrapper.ts</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
@@ -1047,7 +1021,7 @@ flowchart LR
   <td>AuthorizationFailureRecorder node in lib/audit/authorization-failure.ts.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>11</td>
   <td><code>ErrorHandlingOptions</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1055,7 +1029,7 @@ flowchart LR
   <td>ErrorHandlingOptions node in lib/server-action-wrapper.ts.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>12</td>
   <td><code>ServerActionResult</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>attachments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small><br><code>auth.actions.ts</code><br><small style="color:var(--muted)">lib/actions/auth.actions.ts</small><br>+6 more</td>
@@ -1063,15 +1037,7 @@ flowchart LR
   <td>ServerActionResult node in lib/server-action-wrapper.ts.</td>
 </tr>
 <tr>
-  <td>16</td>
-  <td><code>AppointmentStatus</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>reports.actions.ts</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
-  <td>No direct outbound edge</td>
-  <td>AppointmentStatus node in types/domain.ts.</td>
-</tr>
-<tr>
-  <td>17</td>
+  <td>13</td>
   <td><code>AuditAction</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>require-user.ts</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small></td>
@@ -1079,7 +1045,7 @@ flowchart LR
   <td>AuditAction node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>14</td>
   <td><code>AuditEntityType</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>require-user.ts</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small></td>
@@ -1087,7 +1053,7 @@ flowchart LR
   <td>AuditEntityType node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>15</td>
   <td><code>AuditRecord</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>audit.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/audit.test.ts</small><br><code>audit.ts</code><br><small style="color:var(--muted)">lib/audit.ts</small></td>
@@ -1095,7 +1061,7 @@ flowchart LR
   <td>AuditRecord node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>16</td>
   <td><code>AuditResult</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1103,7 +1069,7 @@ flowchart LR
   <td>AuditResult node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>17</td>
   <td><code>AuthorizationSecurityContext</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>domain.ts</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>server-action-wrapper.ts</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
@@ -1111,7 +1077,7 @@ flowchart LR
   <td>AuthorizationSecurityContext node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>18</td>
   <td><code>BiologicalSex</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>patients.actions.ts</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
@@ -1119,7 +1085,7 @@ flowchart LR
   <td>BiologicalSex node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>19</td>
   <td><code>Clinic</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>clinic.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
@@ -1127,7 +1093,7 @@ flowchart LR
   <td>Clinic node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>20</td>
   <td><code>ClinicalAttachment</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>attachments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
@@ -1135,7 +1101,7 @@ flowchart LR
   <td>ClinicalAttachment node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>21</td>
   <td><code>ClinicalEntry</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
@@ -1143,7 +1109,7 @@ flowchart LR
   <td>ClinicalEntry node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>22</td>
   <td><code>ClinicalEntryType</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
@@ -1151,7 +1117,7 @@ flowchart LR
   <td>ClinicalEntryType node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>23</td>
   <td><code>ClinicalRecord</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>clinical.actions.ts</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
@@ -1159,7 +1125,7 @@ flowchart LR
   <td>ClinicalRecord node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>24</td>
   <td><code>CustomToothStatus</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>odontogram.actions.ts</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
@@ -1167,7 +1133,7 @@ flowchart LR
   <td>CustomToothStatus node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>29</td>
+  <td>25</td>
   <td><code>DocumentType</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>patients.actions.ts</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
@@ -1175,12 +1141,44 @@ flowchart LR
   <td>DocumentType node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>30</td>
+  <td>26</td>
   <td><code>OdontogramState</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>odontogram.actions.ts</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
   <td>No direct outbound edge</td>
   <td>OdontogramState node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>Patient</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>patients.actions.ts</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>Patient node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>ToothStatus</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>ToothStatus node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>ToothSurface</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>odontogram.actions.ts</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>ToothSurface node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>UserProfile</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>users.actions.ts</code><br><small style="color:var(--muted)">lib/actions/users.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>UserProfile node in types/domain.ts.</td>
 </tr>
 </table>
 
@@ -1189,19 +1187,19 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>types/domain.ts</code></td><td>20 nodes</td></tr>
+      <tr><td><code>types/domain.ts</code></td><td>19 nodes</td></tr>
 <tr><td><code>lib/actions/patients.actions.ts</code></td><td>6 nodes</td></tr>
 <tr><td><code>lib/actions/clinic.actions.ts</code></td><td>5 nodes</td></tr>
-<tr><td><code>lib/actions/reports.actions.ts</code></td><td>5 nodes</td></tr>
 <tr><td><code>lib/actions/users.actions.ts</code></td><td>5 nodes</td></tr>
 <tr><td><code>lib/actions/attachments.actions.ts</code></td><td>4 nodes</td></tr>
 <tr><td><code>lib/actions/clinical.actions.ts</code></td><td>4 nodes</td></tr>
 <tr><td><code>lib/audit/authorization-failure.ts</code></td><td>4 nodes</td></tr>
+<tr><td><code>storage/signed-url/route.ts</code></td><td>3 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x54, contains x53, imports x37, references x5. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x50, contains x47, imports x27, references x4. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -1444,12 +1442,12 @@ flowchart LR
 
 <!-- ====== 7. Tests & Fixtures ====== -->
 <h2 id="tests-fixtures">7. Tests &amp; Fixtures</h2>
-<p>Tests &amp; Fixtures groups implementation around auth, tests, actions, unit, mostly in errors/domain.ts, lib/actions/auth.actions.ts, lib/actions/appointments.actions.ts. This section covers 213 nodes and 439 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Tests &amp; Fixtures groups implementation around actions, auth, tests, domaints, mostly in errors/domain.ts, lib/actions/auth.actions.ts, lib/actions/appointments.actions.ts. This section covers 220 nodes and 460 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Tests &amp; Fixtures (213 nodes, 439 edges)
+    %% Section: Tests &amp; Fixtures (220 nodes, 460 edges)
     subgraph tests_fixtures_errors_domain_ts_3dfc988a["errors/domain.ts"]
         errors_domain_accountlockederror_cf000f85("AccountLockedError<br/><small>errors/domain.ts</small>")
         errors_domain_accountlockederror_constructor_b3dbf0b6("constructor()<br/><small>errors/domain.ts</small>")
@@ -1459,33 +1457,33 @@ flowchart LR
         errors_domain_invalidcredentialserror_constructo_a3a3d3d3("constructor()<br/><small>errors/domain.ts</small>")
         errors_domain_tenantisolationerror_10fb5fb1("TenantIsolationError<br/><small>errors/domain.ts</small>")
         errors_domain_tenantisolationerror_constructor_8ebfcd4c("constructor()<br/><small>errors/domain.ts</small>")
-        errors_domain_uniquedocumenterror_4b9bd196("UniqueDocumentError<br/><small>errors/domain.ts</small>")
-        errors_domain_uniquedocumenterror_constructor_2c3dc59f("constructor()<br/><small>errors/domain.ts</small>")
-        errors_domain_validationerror_0bd717f5("ValidationError<br/><small>errors/domain.ts</small>")
-        errors_domain_validationerror_constructor_2cdded06("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_appointmentconflicterror_ab840764("AppointmentConflictError<br/><small>errors/domain.ts</small>")
+        errors_domain_appointmentconflicterror_construct_1a6456ed("constructor()<br/><small>errors/domain.ts</small>")
+        errors_domain_concurrencyconflicterror_b6ea72e0("ConcurrencyConflictError<br/><small>errors/domain.ts</small>")
+        errors_domain_concurrencyconflicterror_construct_c533acb9("constructor()<br/><small>errors/domain.ts</small>")
     end
     subgraph tests_fixtures_proxy_ts_761f7878["proxy.ts"]
         proxy_d799bae6("proxy.ts")
         proxy_proxy_eb598c8a("proxy()<br/><small>proxy.ts</small>")
     end
-    app_auth_setup_mfa_page_92bb53de("page.tsx")
     tests_unit_server_action_wrapper_test_ff302f45("server-action-wrapper.test.ts")
     lib_actions_appointments_actions_6f1765b2("appointments.actions.ts")
     lib_actions_auth_actions_d4c2da90("auth.actions.ts")
+    lib_actions_odontogram_actions_cf755164("odontogram.actions.ts")
     errors_domain_accountlockederror_cf000f85 -->|method| errors_domain_accountlockederror_constructor_b3dbf0b6
     errors_domain_immutablerecorderror_22f29b44 -->|method| errors_domain_immutablerecorderror_constructor_b99301a5
     errors_domain_invalidcredentialserror_9f6817e7 -->|method| errors_domain_invalidcredentialserror_constructo_a3a3d3d3
     errors_domain_tenantisolationerror_10fb5fb1 -->|method| errors_domain_tenantisolationerror_constructor_8ebfcd4c
-    errors_domain_uniquedocumenterror_4b9bd196 -->|method| errors_domain_uniquedocumenterror_constructor_2c3dc59f
-    errors_domain_validationerror_0bd717f5 -->|method| errors_domain_validationerror_constructor_2cdded06
-    app_auth_setup_mfa_page_92bb53de -->|imports| lib_actions_auth_actions_d4c2da90
+    errors_domain_appointmentconflicterror_ab840764 -->|method| errors_domain_appointmentconflicterror_construct_1a6456ed
+    errors_domain_concurrencyconflicterror_b6ea72e0 -->|method| errors_domain_concurrencyconflicterror_construct_c533acb9
     lib_actions_auth_actions_d4c2da90 -->|imports| errors_domain_accountlockederror_cf000f85
     lib_actions_auth_actions_d4c2da90 -->|imports| errors_domain_invalidcredentialserror_9f6817e7
     tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_accountlockederror_cf000f85
     tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_invalidcredentialserror_9f6817e7
     tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_tenantisolationerror_10fb5fb1
-    tests_unit_server_action_wrapper_test_ff302f45 -->|imports| errors_domain_uniquedocumenterror_4b9bd196
-    %% Omitted for readability: 195 nodes, 0 edges
+    lib_actions_appointments_actions_6f1765b2 -->|imports| errors_domain_appointmentconflicterror_ab840764
+    lib_actions_odontogram_actions_cf755164 -->|imports| errors_domain_concurrencyconflicterror_b6ea72e0
+    %% Omitted for readability: 202 nodes, 0 edges
     class errors_domain_accountlockederror_cf000f85 klass;
     class errors_domain_accountlockederror_constructor_b3dbf0b6 function;
     class errors_domain_immutablerecorderror_22f29b44 klass;
@@ -1494,16 +1492,16 @@ flowchart LR
     class errors_domain_invalidcredentialserror_constructo_a3a3d3d3 function;
     class errors_domain_tenantisolationerror_10fb5fb1 klass;
     class errors_domain_tenantisolationerror_constructor_8ebfcd4c function;
-    class errors_domain_uniquedocumenterror_4b9bd196 klass;
-    class errors_domain_uniquedocumenterror_constructor_2c3dc59f function;
-    class errors_domain_validationerror_0bd717f5 klass;
-    class errors_domain_validationerror_constructor_2cdded06 function;
+    class errors_domain_appointmentconflicterror_ab840764 klass;
+    class errors_domain_appointmentconflicterror_construct_1a6456ed function;
+    class errors_domain_concurrencyconflicterror_b6ea72e0 klass;
+    class errors_domain_concurrencyconflicterror_construct_c533acb9 function;
     class proxy_d799bae6 module;
     class proxy_proxy_eb598c8a function;
-    class app_auth_setup_mfa_page_92bb53de ui;
     class tests_unit_server_action_wrapper_test_ff302f45 test;
     class lib_actions_appointments_actions_6f1765b2 module;
     class lib_actions_auth_actions_d4c2da90 module;
+    class lib_actions_odontogram_actions_cf755164 module;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1559,6 +1557,22 @@ flowchart LR
 </tr>
 <tr>
   <td>5</td>
+  <td><code>UniqueDocumentError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>createPatientAction()</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small><br><code>patients.actions.ts</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small><br><code>server-action-wrapper.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/server-action-wrapper.test.ts</small><br>+1 more</td>
+  <td><code>constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>UniqueDocumentError node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>ValidationError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>server-action-wrapper.ts</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
+  <td><code>constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>ValidationError node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>7</td>
   <td><code>CancelAppointmentInput</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1566,7 +1580,7 @@ flowchart LR
   <td>CancelAppointmentInput node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>6</td>
+  <td>8</td>
   <td><code>CreateAppointmentInput</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1574,7 +1588,7 @@ flowchart LR
   <td>CreateAppointmentInput node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>7</td>
+  <td>9</td>
   <td><code>RescheduleAppointmentInput</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1582,7 +1596,7 @@ flowchart LR
   <td>RescheduleAppointmentInput node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>8</td>
+  <td>10</td>
   <td><code>CreateCustomStatusInput</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1590,7 +1604,7 @@ flowchart LR
   <td>CreateCustomStatusInput node in lib/actions/odontogram.actions.ts.</td>
 </tr>
 <tr>
-  <td>9</td>
+  <td>11</td>
   <td><code>SaveToothStateInput</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -1598,7 +1612,31 @@ flowchart LR
   <td>SaveToothStateInput node in lib/actions/odontogram.actions.ts.</td>
 </tr>
 <tr>
-  <td>10</td>
+  <td>12</td>
+  <td><code>AppointmentStatusReportResult</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AppointmentStatusReportResult node in lib/actions/reports.actions.ts.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>AttendedPatientsReportResult</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AttendedPatientsReportResult node in lib/actions/reports.actions.ts.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>ReportFilterInput</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>ReportFilterInput node in lib/actions/reports.actions.ts.</td>
+</tr>
+<tr>
+  <td>15</td>
   <td><code>Appointment</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
@@ -1606,7 +1644,15 @@ flowchart LR
   <td>Appointment node in types/domain.ts.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>16</td>
+  <td><code>AppointmentStatus</code><br><small style="color:var(--muted)">types/domain.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>appointments.actions.ts</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small><br><code>reports.actions.ts</code><br><small style="color:var(--muted)">lib/actions/reports.actions.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>AppointmentStatus node in types/domain.ts.</td>
+</tr>
+<tr>
+  <td>17</td>
   <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>AppointmentConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
@@ -1614,7 +1660,7 @@ flowchart LR
   <td>.constructor() node in errors/domain.ts.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>18</td>
   <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
@@ -1622,7 +1668,7 @@ flowchart LR
   <td>.constructor() node in errors/domain.ts.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>19</td>
   <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>ReportRangeLimitError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
@@ -1630,7 +1676,23 @@ flowchart LR
   <td>.constructor() node in errors/domain.ts.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>20</td>
+  <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>UniqueDocumentError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.constructor() node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>.constructor()</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>ValidationError</code><br><small style="color:var(--muted)">errors/domain.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.constructor() node in errors/domain.ts.</td>
+</tr>
+<tr>
+  <td>22</td>
   <td><code>calculateSuggestedSlots()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>createAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
@@ -1638,7 +1700,7 @@ flowchart LR
   <td>calculateSuggestedSlots() node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>23</td>
   <td><code>cancelAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>appointments-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/appointments-actions.test.ts</small></td>
@@ -1646,7 +1708,7 @@ flowchart LR
   <td>cancelAppointmentAction() node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>24</td>
   <td><code>createAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>appointments-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/appointments-actions.test.ts</small></td>
@@ -1654,7 +1716,7 @@ flowchart LR
   <td>createAppointmentAction() node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>25</td>
   <td><code>listAppointmentsAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -1662,7 +1724,7 @@ flowchart LR
   <td>listAppointmentsAction() node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>26</td>
   <td><code>rescheduleAppointmentAction()</code><br><small style="color:var(--muted)">lib/actions/appointments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -1670,7 +1732,7 @@ flowchart LR
   <td>rescheduleAppointmentAction() node in lib/actions/appointments.actions.ts.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>27</td>
   <td><code>listEntryAttachmentsAction()</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -1678,7 +1740,7 @@ flowchart LR
   <td>listEntryAttachmentsAction() node in lib/actions/attachments.actions.ts.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>28</td>
   <td><code>uploadAttachmentAction()</code><br><small style="color:var(--muted)">lib/actions/attachments.actions.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -1686,7 +1748,7 @@ flowchart LR
   <td>uploadAttachmentAction() node in lib/actions/attachments.actions.ts.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>29</td>
   <td><code>getClinicAction()</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>clinic-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinic-actions.test.ts</small></td>
@@ -1694,76 +1756,12 @@ flowchart LR
   <td>getClinicAction() node in lib/actions/clinic.actions.ts.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>30</td>
   <td><code>registerClinicAction()</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td><code>clinic-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinic-actions.test.ts</small></td>
   <td><code>createAdminClient()</code><br><small style="color:var(--muted)">lib/supabase/admin.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+1 more</td>
   <td>registerClinicAction() node in lib/actions/clinic.actions.ts.</td>
-</tr>
-<tr>
-  <td>23</td>
-  <td><code>updateClinicAction()</code><br><small style="color:var(--muted)">lib/actions/clinic.actions.ts</small></td>
-  <td><span class="tag tag-cmd">Entry</span></td>
-  <td><code>clinic-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinic-actions.test.ts</small></td>
-  <td><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br>+1 more</td>
-  <td>updateClinicAction() node in lib/actions/clinic.actions.ts.</td>
-</tr>
-<tr>
-  <td>24</td>
-  <td><code>getClinicalHistoryAction()</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
-  <td><span class="tag tag-cmd">Entry</span></td>
-  <td><code>clinical-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinical-actions.test.ts</small></td>
-  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
-  <td>getClinicalHistoryAction() node in lib/actions/clinical.actions.ts.</td>
-</tr>
-<tr>
-  <td>25</td>
-  <td><code>saveClinicalEntryAction()</code><br><small style="color:var(--muted)">lib/actions/clinical.actions.ts</small></td>
-  <td><span class="tag tag-cmd">Entry</span></td>
-  <td><code>clinical-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/clinical-actions.test.ts</small></td>
-  <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+2 more</td>
-  <td>saveClinicalEntryAction() node in lib/actions/clinical.actions.ts.</td>
-</tr>
-<tr>
-  <td>26</td>
-  <td><code>createCustomToothStatusAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>odontogram-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/odontogram-actions.test.ts</small></td>
-  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
-  <td>createCustomToothStatusAction() node in lib/actions/odontogram.actions.ts.</td>
-</tr>
-<tr>
-  <td>27</td>
-  <td><code>getOdontogramStateAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
-  <td>getOdontogramStateAction() node in lib/actions/odontogram.actions.ts.</td>
-</tr>
-<tr>
-  <td>28</td>
-  <td><code>listCustomToothStatusesAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br><code>withErrorHandling()</code><br><small style="color:var(--muted)">lib/server-action-wrapper.ts</small></td>
-  <td>listCustomToothStatusesAction() node in lib/actions/odontogram.actions.ts.</td>
-</tr>
-<tr>
-  <td>29</td>
-  <td><code>saveToothStateAction()</code><br><small style="color:var(--muted)">lib/actions/odontogram.actions.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>odontogram-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/odontogram-actions.test.ts</small></td>
-  <td><code>ConcurrencyConflictError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br>+2 more</td>
-  <td>saveToothStateAction() node in lib/actions/odontogram.actions.ts.</td>
-</tr>
-<tr>
-  <td>30</td>
-  <td><code>createPatientAction()</code><br><small style="color:var(--muted)">lib/actions/patients.actions.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>patients-actions.test.ts</code><br><small style="color:var(--muted)">__tests__/unit/patients-actions.test.ts</small></td>
-  <td><code>createAuditLog()</code><br><small style="color:var(--muted)">lib/audit.ts</small><br><code>DentalClinicError</code><br><small style="color:var(--muted)">errors/domain.ts</small><br><code>requireRole()</code><br><small style="color:var(--muted)">lib/auth/require-user.ts</small><br>+2 more</td>
-  <td>createPatientAction() node in lib/actions/patients.actions.ts.</td>
 </tr>
 </table>
 
@@ -1778,13 +1776,13 @@ flowchart LR
 <tr><td><code>lib/auth/login-attempt-store.ts</code></td><td>12 nodes</td></tr>
 <tr><td><code>lib/actions/odontogram.actions.ts</code></td><td>11 nodes</td></tr>
 <tr><td><code>lib/auth/access-policy.ts</code></td><td>11 nodes</td></tr>
+<tr><td><code>lib/actions/reports.actions.ts</code></td><td>8 nodes</td></tr>
 <tr><td><code>proxy.ts</code></td><td>8 nodes</td></tr>
-<tr><td><code>__tests__/properties/password-validation.property.test.ts</code></td><td>7 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: calls x146, contains x133, imports x75, imports x58. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: calls x147, contains x140, imports x85, imports x60. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -3113,17 +3111,17 @@ flowchart LR
   <div class="card">
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>Nodes</td><td>585</td></tr>
-      <tr><td>Edges</td><td>1016</td></tr>
+      <tr><td>Nodes</td><td>648</td></tr>
+      <tr><td>Edges</td><td>1078</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
-      <tr><td>Communities</td><td>37</td></tr>
+      <tr><td>Communities</td><td>49</td></tr>
       <tr><td>Documented Sections</td><td>15</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>1016</td></tr>
+      <tr><td>EXTRACTED</td><td>1078</td></tr>
       <tr><td>INFERRED</td><td>0</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
@@ -3132,7 +3130,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>DENTAL CLINIC — Architecture Documentation</p>
-  <p>Generated: 2026-09-24 04:35 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-09-24 05:25 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->
