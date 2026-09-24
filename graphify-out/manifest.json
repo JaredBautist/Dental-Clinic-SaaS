@@ -258,8 +258,8 @@
     "semantic_hash": "339ca361ea99de79e11915cf981bbf9f"
   },
   "postcss.config.mjs": {
-    "mtime": 1787936372.3053348,
-    "seen": 1789324848.5845501,
+    "mtime": 1790225088.94527,
+    "seen": 1790225769.214102,
     "ast_hash": "239f3ebf717465dc636818a1a619398d",
     "semantic_hash": "239f3ebf717465dc636818a1a619398d"
   },
@@ -420,9 +420,9 @@
     "semantic_hash": ""
   },
   ".kiro/specs/dental-clinic-saas/tasks.md": {
-    "mtime": 1789325068.5268068,
-    "seen": 1790128872.3773434,
-    "ast_hash": "6564f4d4a174a79eeef24a36a6ff0a43",
+    "mtime": 1790224626.061851,
+    "seen": 1790225769.2141407,
+    "ast_hash": "4c35d72e9136f3482f13a69e6e1bf996",
     "semantic_hash": ""
   },
   "README.md": {
