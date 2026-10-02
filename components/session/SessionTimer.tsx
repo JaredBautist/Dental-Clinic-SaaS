@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { logoutAction } from '@/lib/actions/auth.actions';
+import { logoutAction } from '@/lib/api/auth-api';
 import { Clock, AlertTriangle, LogOut } from 'lucide-react';
 
 const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutos

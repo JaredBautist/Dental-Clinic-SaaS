@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { verifyMfaLoginAction, cancelMfaAction } from '@/lib/actions/auth.actions';
+import { verifyMfaLoginAction, cancelMfaAction } from '@/lib/api/auth-api';
 import { KeyRound, AlertCircle, Loader2, LogOut, Shield } from 'lucide-react';
 
 export default function VerifyMfaPage() {

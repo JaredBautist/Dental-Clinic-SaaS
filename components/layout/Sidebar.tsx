@@ -15,7 +15,7 @@ import {
   Stethoscope,
   ShieldCheck,
 } from 'lucide-react';
-import { logoutAction } from '@/lib/actions/auth.actions';
+import { logoutAction } from '@/lib/api/auth-api';
 import { useRouter } from 'next/navigation';
 
 interface NavItem {

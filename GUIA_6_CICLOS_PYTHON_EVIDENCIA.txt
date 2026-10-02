@@ -1,0 +1,489 @@
+================================================================================
+GUÍA DE APRENDIZAJE N.º 6: CICLOS EN PYTHON — EVIDENCIA DE TRABAJO
+================================================================================
+
+Asignatura : Diseño Funcional
+Unidad     : 2 – Estructuras de Datos
+Tema       : Ciclos
+Fecha      : 25 de septiembre de 2026
+
+Proyecto   : Dental Clinic SaaS — Servicio de autenticación y MFA en Python
+             (FastAPI + supabase-py), carpeta backend/ del proyecto.
+
+Este documento describe el trabajo realizado con Python sobre el proyecto,
+organizado según las actividades de la guía. No se desarrolló una aplicación
+independiente: todo el trabajo se integró al proyecto que se viene
+construyendo (backend de autenticación y verificación MFA del SaaS).
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 1. IDENTIFICACIÓN DE UNA NECESIDAD DEL PROYECTO
+--------------------------------------------------------------------------------
+
+NOMBRE DEL PROYECTO:
+Dental Clinic SaaS — Servicio de autenticación y MFA (backend Python).
+
+FUNCIONALIDAD QUE SE VA A DESARROLLAR:
+Verificación y finalización del servicio de autenticación con MFA (TOTP).
+La funcionalidad en la que se identificó la necesidad de repetición es la
+"limpieza de factores MFA no verificados" dentro del caso de uso enroll_mfa
+(backend/app/auth/service.py): antes de enrolar un nuevo factor TOTP, el
+sistema debe recorrer TODOS los factores existentes del usuario y eliminar
+uno por uno los que quedaron en estado "unverified".
+
+PROBLEMA QUE RESUELVE:
+Cuando un usuario inicia la configuración MFA y la abandona, en Supabase
+Auth quedan factores TOTP sin verificar. Si no se eliminan, los siguientes
+intentos de enrolamiento fallan por conflictos de idempotencia. El sistema
+debe procesar varios registros (los factores) y repetir la misma acción
+(revisar y, si aplica, eliminar) sobre cada uno.
+
+¿QUÉ INFORMACIÓN DEBE PROCESAR?:
+La lista de factores MFA del usuario autenticado, donde cada registro tiene
+un identificador (id) y un estado (status: "verified" o "unverified").
+
+¿QUÉ ACCIÓN DEBE REPETIRSE?:
+Revisar el estado de cada factor y, cuando el factor está sin verificar,
+solicitar su eliminación al proveedor de autenticación (unenroll).
+
+¿CUÁNDO DEBE TERMINAR LA REPETICIÓN?:
+Cuando ya no quedan más factores por revisar en la lista, es decir, cuando
+el ciclo terminó de recorrer todos los elementos.
+
+Adicionalmente, durante la misma sesión de trabajo se identificó y resolvió
+otra necesidad del proyecto: el endpoint /mfa/verify-setup no aceptaba el
+cuerpo que envía el frontend (ver Actividad 13).
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 2. ANÁLISIS DE LA SOLUCIÓN
+--------------------------------------------------------------------------------
+
+PROBLEMA:
+Eliminar los factores TOTP no verificados de un usuario antes de crear un
+nuevo enrolamiento MFA, sin eliminar los factores ya verificados.
+
+DATOS DE ENTRADA:
+- Sesión válida del usuario (token Bearer + refresh token).
+- Lista de factores MFA obtenida del proveedor (Supabase Auth), cada uno con
+  los atributos id y status.
+
+PROCESO:
+1. Validar que el usuario tenga sesión, perfil activo y rol clínico.
+2. Obtener la lista completa de factores del usuario.
+3. Recorrer la lista factor por factor.
+4. Si el estado del factor NO es "unverified", omitirlo y pasar al siguiente.
+5. Si el estado ES "unverified", intentar eliminarlo; si la eliminación
+   falla, registrar la advertencia y continuar con el siguiente.
+6. Al terminar el recorrido, enrolar el nuevo factor TOTP.
+
+DATOS QUE DEBEN ALMACENARSE:
+No se almacenan datos nuevos en la base de datos; se mantiene en memoria la
+lista de factores durante el recorrido y se registra (log) cualquier factor
+que no se haya podido eliminar.
+
+ACCIÓN QUE DEBE REPETIRSE:
+Revisar el estado de cada factor y eliminarlo cuando corresponda.
+
+CONDICIÓN DE REPETICIÓN:
+Mientras queden factores sin recorrer en la lista.
+
+RESULTADO:
+Todos los factores "unverified" eliminados (o con advertencia registrada) y
+un nuevo factor TOTP enrolado listo para su verificación.
+
+¿QUÉ CICLO ES MÁS ADECUADO: while O for?
+El ciclo for.
+
+¿POR QUÉ?
+Porque se conoce de antemano la colección a recorrer (la lista de factores)
+y se necesita ejecutar el mismo bloque de instrucciones una vez por cada
+elemento. El ciclo for expresa exactamente eso: recorrer una secuencia. Un
+while exigiría controlar manualmente un índice y su incremento, añadiendo
+complejidad sin beneficio.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 3. CONSTRUCCIÓN DEL ALGORITMO
+--------------------------------------------------------------------------------
+
+Algoritmo: Limpieza de factores MFA no verificados antes del enrolamiento.
+
+1. Inicio.
+2. Entrada: sesión del usuario (tokens de acceso y refresco).
+3. Validar sesión, perfil activo y rol clínico; si falla, terminar con error.
+4. Solicitar al proveedor la lista de factores MFA del usuario.
+   - Si la consulta falla, usar una lista vacía y continuar.
+5. Repetir para cada factor de la lista:
+   5.1. Si el estado del factor es distinto de "unverified":
+        - Omitir este factor y continuar con el siguiente (continue).
+   5.2. Intentar eliminar el factor mediante unenroll(factor_id).
+        - Si la eliminación falla, registrar advertencia y continuar.
+6. Cuando no queden factores por recorrer, enrolar el nuevo factor TOTP
+   con el emisor "Dental Clinic SaaS".
+7. Si el enrolamiento falla, terminar con el error MFA_ENROLLMENT_FAILED.
+8. Resultado: devolver factor_id, código QR, secreto y URI del nuevo factor.
+9. Fin.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 4. CONSTRUCCIÓN DEL PSEUDOCÓDIGO
+--------------------------------------------------------------------------------
+
+INICIO
+    usuario ← validar_sesion_perfil_y_rol()
+    SI usuario no es válido ENTONCES
+        RETORNAR error de autenticación/autorización
+    FIN SI
+
+    factores ← obtener_lista_factores(usuario)   // si falla, lista vacía
+
+    PARA CADA factor EN factores HACER
+        SI factor.estado <> "unverified" ENTONCES
+            CONTINUAR        // se omite el factor ya verificado
+        FIN SI
+        INTENTAR
+            eliminar_factor(factor.id)
+        EN CASO DE ERROR
+            registrar_advertencia(factor.id)   // no detiene el recorrido
+        FIN INTENTAR
+    FIN PARA
+
+    nuevo ← enrolar_factor_totp(emisor = "Dental Clinic SaaS")
+    SI nuevo es vacío ENTONCES
+        RETORNAR error MFA_ENROLLMENT_FAILED
+    FIN SI
+
+    RETORNAR nuevo.factor_id, nuevo.qr, nuevo.secreto, nuevo.uri
+FIN
+
+El pseudocódigo corresponde al algoritmo: mismos datos de entrada, misma
+repetición (PARA CADA), misma condición de omisión (CONTINUAR) y mismo
+resultado.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 5. IMPLEMENTACIÓN DEL CICLO FOR
+--------------------------------------------------------------------------------
+
+El ciclo for se implementó en la funcionalidad real del proyecto
+(enroll_mfa, archivo backend/app/auth/service.py). Recorre la lista de
+factores MFA del usuario y elimina los que están sin verificar:
+
+    for factor in all_factors:
+        if getattr(factor, "status", None) != "unverified":
+            continue
+        try:
+            await client.auth.mfa.unenroll({"factor_id": factor.id})
+        except Exception:
+            logger.warning(
+                "[MFA Cleanup] No se pudo eliminar factor no verificado: %s",
+                getattr(factor, "id", "?"),
+            )
+
+Adaptación a la necesidad real: la lista que se recorre no es un ejemplo
+académico, sino la respuesta del proveedor de autenticación; cada elemento
+es un factor MFA con su id y su status.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 6. IMPLEMENTACIÓN DEL CICLO WHILE
+--------------------------------------------------------------------------------
+
+En la funcionalidad trabajada no se implementó un ciclo while, de forma
+deliberada. La guía indica utilizar cada estructura cuando el problema
+realmente lo requiera, y en este caso:
+
+- La repetición no depende de una condición abierta (como un menú o una
+  entrada del usuario), sino de recorrer una colección conocida de
+  elementos, que es el caso de uso propio del ciclo for.
+- El servicio es una API HTTP: cada petición ejecuta su lógica y termina;
+  no existe un bucle principal que mantenga el programa activo esperando
+  opciones del usuario.
+
+Se evaluó la posibilidad de usar while con un índice manual sobre la lista
+de factores y se descartó: añade una variable de control innecesaria y el
+riesgo de un ciclo infinito si el índice no se actualiza, sin aportar
+ninguna ventaja sobre el for.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 7. CONDICIONES DENTRO DE LOS CICLOS
+--------------------------------------------------------------------------------
+
+Dentro del ciclo for se integraron las estructuras condicionales de la
+Unidad 1 con una función concreta en la solución:
+
+1. if con operador de comparación (!=):
+       if getattr(factor, "status", None) != "unverified":
+           continue
+   Determina si el elemento actual debe omitirse. Solo los factores en
+   estado "unverified" continúan hacia la eliminación.
+
+2. Manejo de excepciones como condición de flujo (try / except):
+   Si la eliminación de un factor falla (por ejemplo, un error de red con
+   el proveedor), el programa no se detiene: registra una advertencia y
+   el ciclo sigue procesando los factores restantes.
+
+3. Condiciones compuestas fuera del ciclo, en la misma funcionalidad:
+   - El usuario debe tener sesión válida Y perfil activo Y rol clínico
+     (operador lógico) antes de llegar al ciclo.
+   - Tras el ciclo, si la respuesta del enrolamiento es vacía, se informa
+     el error MFA_ENROLLMENT_FAILED.
+
+La condición cumple una función concreta: proteger los factores ya
+verificados (que nunca deben eliminarse) y garantizar que un fallo puntual
+no interrumpa la limpieza del resto.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 8. USO DE BREAK
+--------------------------------------------------------------------------------
+
+En esta funcionalidad NO se usa break, por decisión de diseño:
+
+¿EN QUÉ MOMENTO SE DEBE INTERRUMPIR EL CICLO?
+En ninguno antes de tiempo. A diferencia de una búsqueda (donde break
+termina el ciclo al encontrar el elemento), aquí NO se busca un solo
+factor: se deben procesar TODOS los factores sin verificar.
+
+¿QUÉ CONDICIÓN PRODUCIRÍA LA INTERRUPCIÓN?
+Ninguna. Si se interrumpiera el ciclo al eliminar el primer factor
+"unverified", quedarían factores pendientes y el problema (conflicto de
+idempotencia en el siguiente enrolamiento) reaparecería.
+
+¿QUÉ DEBE HACER EL PROGRAMA DESPUÉS DEL CICLO?
+Continuar con el enrolamiento del nuevo factor TOTP, que es el objetivo de
+la funcionalidad.
+
+Conclusión: se analizó la situación y se determinó que una finalización
+anticipada rompería la postcondición de la funcionalidad ("no queda ningún
+factor sin verificar"). El ciclo debe agotar la lista.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 9. USO DE CONTINUE
+--------------------------------------------------------------------------------
+
+El uso de continue SÍ forma parte de la solución real:
+
+¿QUÉ ELEMENTO O CASO DEBE OMITIRSE?
+Los factores cuyo estado es distinto de "unverified" (en particular, los
+factores ya "verified").
+
+¿POR QUÉ DEBE OMITIRSE?
+Porque un factor verificado es el segundo factor activo del usuario;
+eliminarlo destruiría su configuración MFA y lo dejaría sin acceso al
+segundo factor. Solo los factores abandonados a mitad de la configuración
+deben limpiarse.
+
+¿QUÉ DEBE HACER EL CICLO DESPUÉS?
+Pasar al siguiente factor de la lista y repetir la revisión, hasta agotar
+todos los elementos.
+
+Implementación (fragmento real de service.py):
+
+    for factor in all_factors:
+        if getattr(factor, "status", None) != "unverified":
+            continue                      # omite el factor verificado
+        # ... eliminación del factor no verificado ...
+
+Comportamiento equivalente al ejemplo de la guía (omitir el número 3 y
+seguir con los demás), aplicado a un caso real del proyecto.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 10. CICLOS ANIDADOS
+--------------------------------------------------------------------------------
+
+CICLO EXTERNO:
+No aplica en esta funcionalidad.
+
+¿QUÉ INFORMACIÓN RECORRE?
+—
+
+CICLO INTERNO:
+No aplica en esta funcionalidad.
+
+¿QUÉ INFORMACIÓN RECORRE?
+—
+
+¿POR QUÉ ES NECESARIO UTILIZAR DOS CICLOS?
+No es necesario en este caso. La información trabajada está organizada en
+un solo nivel: una lista plana de factores MFA por usuario. No existe una
+estructura de "categorías y productos" (por ejemplo, clínicas con listas de
+usuarios con listas de factores) dentro de esta funcionalidad: el usuario
+ya está autenticado y su lista de factores es única y plana.
+
+De acuerdo con la guía ("Utiliza cada estructura cuando el problema
+realmente lo requiera"), forzar un ciclo anidado sobre una estructura de un
+solo nivel añadiría complejidad sin resolver ninguna necesidad. Si en el
+futuro el servicio debe procesar los factores de TODOS los usuarios de
+TODAS las clínicas (tarea administrativa por lotes), ahí sí correspondería
+un ciclo externo (clínicas/usuarios) y uno interno (factores de cada
+usuario).
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 11. INTEGRACIÓN DE LA FUNCIONALIDAD
+--------------------------------------------------------------------------------
+
+La funcionalidad quedó integrada al programa del proyecto de la siguiente
+manera:
+
+1. El ciclo de limpieza forma parte del caso de uso enroll_mfa
+   (backend/app/auth/service.py), que es el paso previo obligatorio antes
+   de generar el código QR de configuración MFA.
+
+2. El caso de uso se expone al exterior mediante el endpoint
+   POST /mfa/enroll (backend/app/auth/router.py), que el frontend Next.js
+   consume desde la página de configuración (app/(auth)/setup-mfa) a
+   través del cliente lib/api/auth-api.ts.
+
+3. Conocimientos integrados en la solución completa:
+   - Variables y tipos de datos: cadenas (factor_id, status), booleanos,
+     listas de factores, dataclasses para los resultados.
+   - print()/logging: registro de advertencias cuando un factor no puede
+     eliminarse (logger.warning).
+   - Operadores: comparación (!=) y lógicos en las validaciones previas.
+   - Listas: la colección de factores que recorre el ciclo.
+   - Condiciones: if/try-except dentro y fuera del ciclo.
+   - Ciclos: el for con continue descrito en las actividades 5, 7 y 9.
+   - input(): no aplica, porque el servicio recibe datos por HTTP (JSON)
+     en lugar de entrada por consola.
+
+4. Integración verificada de extremo a extremo: el servidor se ejecutó con
+   uvicorn y los endpoints respondieron conforme al contrato definido
+   (ver Actividad 12).
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 12. PRUEBAS
+--------------------------------------------------------------------------------
+
+Las pruebas se ejecutaron con pytest (suite automatizada del backend) y con
+el servidor real en ejecución (uvicorn + peticiones HTTP). Suite final:
+32 pruebas automatizadas superadas (32 passed).
+
+PRUEBA 1:
+DATOS UTILIZADOS:
+Lista de factores = [ {id: "f-old", status: "unverified"},
+                      {id: "f-ok",  status: "verified"} ]
+(test_limpia_factores_no_verificados_antes_de_enrolar).
+RESULTADO ESPERADO:
+El ciclo elimina únicamente "f-old", omite "f-ok" mediante continue y el
+enrolamiento del nuevo factor se realiza al terminar el recorrido.
+RESULTADO OBTENIDO:
+Correcto. Factores eliminados = ["f-old"]; el factor verificado quedó
+intacto; nuevo factor enrolado con id "factor-new". Prueba superada.
+
+PRUEBA 2:
+DATOS UTILIZADOS:
+Petición POST /mfa/verify-login con cuerpo {"code": "abcdef"} (código no
+numérico).
+RESULTADO ESPERADO:
+El límite de validación rechaza el dato antes de tocar Supabase:
+HTTP 422 con código VALIDATION_ERROR y mensaje que indica 6 dígitos.
+RESULTADO OBTENIDO:
+HTTP 422, {"success": false, "error": {"code": "VALIDATION_ERROR", ...}}.
+Prueba superada.
+
+PRUEBA 3:
+DATOS UTILIZADOS:
+Petición POST /mfa/verify-setup con el cuerpo exacto que envía el frontend:
+{"factorId": "f-1", "code": "123456"} (camelCase).
+RESULTADO ESPERADO:
+La validación acepta el campo factorId y el flujo continúa hasta la capa de
+autenticación, que responde 401 AUTHENTICATION_REQUIRED por no enviarse
+sesión (y no un 422 de validación).
+RESULTADO OBTENIDO:
+HTTP 401 AUTHENTICATION_REQUIRED. La validación del contrato funciona con
+el formato del frontend. Prueba superada.
+
+PRUEBA 4:
+DATOS UTILIZADOS:
+Servidor real en ejecución (uvicorn, puerto 8000) y consulta de solo
+lectura a la RPC check_login_lockout de Supabase con un identificador de
+prueba inexistente.
+RESULTADO ESPERADO:
+GET /health responde {"status": "ok"} y la RPC responde sin error con el
+estado de bloqueo (is_locked = False, remaining_seconds = 0), confirmando
+la conectividad con la base de datos mediante el service role.
+RESULTADO OBTENIDO:
+/health -> {"status":"ok"}; RPC -> LockoutStatus(is_locked=False,
+remaining_seconds=0). Prueba superada.
+
+Comprobaciones realizadas sobre el ciclo (según la guía):
+- Funcionamiento del ciclo: recorre todos los elementos de la lista.
+- Condición de repetición: se repite una vez por factor.
+- Finalización: termina al agotar la lista (sin ciclos infinitos).
+- Procesamiento de datos: solo los "unverified" se eliminan.
+- Condiciones internas: el if con continue omite correctamente los
+  factores verificados; un fallo de eliminación no detiene el recorrido.
+- Resultado: nuevo factor TOTP enrolado tras la limpieza.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 13. CORRECCIÓN Y MEJORA
+--------------------------------------------------------------------------------
+
+ERROR ENCONTRADO:
+El endpoint POST /mfa/verify-setup rechazaba el cuerpo que envía el
+frontend con HTTP 422 "Field required", por lo que la verificación inicial
+del MFA nunca habría funcionado desde el navegador.
+
+CAUSA:
+Diferencia de nomenclatura en el contrato: el esquema de entrada del
+backend (VerifySetupRequest) declaraba el campo como factor_id
+(snake_case), mientras el cliente del frontend (lib/api/auth-api.ts) envía
+el cuerpo {"factorId": ..., "code": ...} (camelCase), siguiendo el estilo
+de las antiguas Server Actions de TypeScript.
+
+CÓMO SE IDENTIFICÓ:
+Siguiendo el proceso de la guía: se revisó la condición de validación en el
+límite del servicio, se revisaron las variables (nombres de campos) y se
+reprodujo el caso con una petición de prueba que devolvió 422.
+
+CORRECCIÓN REALIZADA:
+Se actualizó el esquema para aceptar ambos formatos, declarando un alias
+sobre el campo (alias "factorId" con populate_by_name activado). Además se
+añadieron 5 pruebas de regresión (de esquema y de contrato HTTP) para que
+el error no pueda reaparecer sin ser detectado.
+
+RESULTADO FINAL:
+El endpoint acepta tanto {"factorId": ...} como {"factor_id": ...}. La
+suite completa pasó de 27 a 32 pruebas, todas superadas (32 passed), y el
+comportamiento quedó verificado también con el servidor real en ejecución.
+
+
+--------------------------------------------------------------------------------
+ACTIVIDAD 14. EVIDENCIAS
+--------------------------------------------------------------------------------
+
+Evidencias conservadas del desarrollo de la actividad:
+
+1. Análisis del problema ....... este documento, Actividades 1 y 2.
+2. Algoritmo ................... este documento, Actividad 3.
+3. Pseudocódigo ................ este documento, Actividad 4.
+4. Código fuente ............... backend/app/auth/service.py
+                                 (ciclo for + continue en enroll_mfa);
+                                 backend/app/auth/schemas.py
+                                 (corrección del contrato factorId);
+                                 backend/app/auth/router.py,
+                                 backend/app/main.py, backend/app/deps.py.
+5. Evidencias de ejecución ..... servidor uvicorn en el puerto 8000:
+                                 GET /health -> {"status":"ok"};
+                                 endpoints protegidos -> 401 sin sesión;
+                                 RPC check_login_lockout verificada.
+6. Pruebas realizadas .......... backend/tests/ (32 pruebas, todas
+                                 superadas): test_auth_service.py,
+                                 test_api_contract.py, test_access_policy.py.
+7. Correcciones efectuadas ..... Actividad 13 de este documento y las 5
+                                 pruebas de regresión añadidas.
+
+La actividad quedó integrada al desarrollo del proyecto (servicio de
+autenticación y MFA del Dental Clinic SaaS), no como ejercicio aislado.
+
+================================================================================
+FIN DEL DOCUMENTO
+================================================================================
