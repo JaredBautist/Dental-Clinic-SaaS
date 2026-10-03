@@ -1,42 +1,50 @@
 # DentalClinicError
 
-> 14 nodes · cohesion 0.23
+> 23 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- **server-action-wrapper.ts** (13 connections) — `lib/server-action-wrapper.ts`
-- **AuthorizationSecurityContext** (9 connections) — `types/domain.ts`
-- **authorization-failure.ts** (8 connections) — `lib/audit/authorization-failure.ts`
-- **createAdminClient()** (6 connections) — `lib/supabase/admin.ts`
-- **admin.ts** (4 connections) — `lib/supabase/admin.ts`
-- **zod** (4 connections) — `package.json`
-- **AuthorizationFailureRecorder** (3 connections) — `lib/audit/authorization-failure.ts`
-- **persistAuthorizationFailure()** (3 connections) — `lib/audit/authorization-failure.ts`
-- **ErrorHandlingOptions** (3 connections) — `lib/server-action-wrapper.ts`
-- **.constructor()** (2 connections) — `errors/domain.ts`
-- **.constructor()** (2 connections) — `errors/domain.ts`
-- **AuthorizationFailureEvent** (2 connections) — `lib/audit/authorization-failure.ts`
-- **ServerActionResult** (2 connections) — `lib/server-action-wrapper.ts`
-- **@supabase/supabase-js** (2 connections) — `package.json`
+- **DentalClinicError** (38 connections) — `errors/domain.ts`
+- **errors/domain.ts** (21 connections) — `errors/domain.ts`
+- **server-action-wrapper.test.ts** (10 connections) — `__tests__/unit/server-action-wrapper.test.ts`
+- **loginAction()** (7 connections) — `lib/actions/auth.actions.ts`
+- **AccountLockedError** (6 connections) — `errors/domain.ts`
+- **InvalidCredentialsError** (6 connections) — `errors/domain.ts`
+- **RoleAuthorizationError** (6 connections) — `errors/domain.ts`
+- **ValidationError** (5 connections) — `errors/domain.ts`
+- **TenantIsolationError** (4 connections) — `errors/domain.ts`
+- **UniqueDocumentError** (4 connections) — `errors/domain.ts`
+- **AppointmentConflictError** (3 connections) — `errors/domain.ts`
+- **ConcurrencyConflictError** (3 connections) — `errors/domain.ts`
+- **ImmutableRecordError** (3 connections) — `errors/domain.ts`
+- **ReportRangeLimitError** (3 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
+- **.constructor()** (1 connections) — `errors/domain.ts`
 
 ## Relationships
 
-- [auth.actions.ts](auth.actions.ts.md) (17 shared connections)
-- [types/domain.ts](types-domain.ts.md) (2 shared connections)
-- [package.json](package.json.md) (2 shared connections)
+- [types/domain.ts](types-domain.ts.md) (20 shared connections)
+- [users.actions.ts](users.actions.ts.md) (14 shared connections)
+- [auth.actions.ts](auth.actions.ts.md) (14 shared connections)
+- [login-attempt-store.ts](login-attempt-store.ts.md) (1 shared connections)
+- [vitest](vitest.md) (1 shared connections)
 
 ## Source Files
 
+- `__tests__/unit/server-action-wrapper.test.ts`
 - `errors/domain.ts`
-- `lib/audit/authorization-failure.ts`
-- `lib/server-action-wrapper.ts`
-- `lib/supabase/admin.ts`
-- `package.json`
-- `types/domain.ts`
+- `lib/actions/auth.actions.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 42 (100%)
+- EXTRACTED: 89 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

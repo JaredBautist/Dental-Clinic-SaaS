@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginAction } from '@/lib/actions/auth.actions';
+import { loginAction } from '@/lib/api/auth-api';
 import { Shield, Lock, Mail, AlertCircle, WifiOff, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -65,7 +65,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push(res.data.redirectTo);
+      window.location.href = res.data.redirectTo || '/dashboard';
     } catch {
       setErrorMsg('Ocurrió un error al intentar iniciar sesión. Por favor intente nuevamente.');
       setIsLoading(false);

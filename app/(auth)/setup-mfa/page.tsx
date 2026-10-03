@@ -1,9 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { enrollMfaAction, verifyMfaSetupAction, cancelMfaAction } from '@/lib/actions/auth.actions';
-import { ShieldCheck, KeyRound, AlertCircle, Loader2, LogOut, CheckCircle2 } from 'lucide-react';
+import { enrollMfaAction, verifyMfaSetupAction, cancelMfaAction } from '@/lib/api/auth-api';
+import {
+  ShieldCheck,
+  KeyRound,
+  AlertCircle,
+  Loader2,
+  LogOut,
+  CheckCircle2,
+  RefreshCcw,
+  Copy,
+  Check,
+} from 'lucide-react';
 
 export default function SetupMfaPage() {
   const router = useRouter();
@@ -14,27 +24,58 @@ export default function SetupMfaPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isVerifying, setIsVerifying] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const hasLoadedRef = useRef(false);
+
+  async function loadMfaData() {
+    setIsLoading(true);
+    setErrorMsg(null);
+    try {
+      const res = await enrollMfaAction();
+      if (res.success && res.data) {
+        setFactorId(res.data.factorId);
+        setQrCode(res.data.qrCode);
+        setSecret(res.data.secret);
+      } else {
+        setErrorMsg(res.error?.message || 'No se pudo iniciar el proceso de configuración MFA.');
+      }
+    } catch {
+      setErrorMsg('Error al conectar con el servidor de autenticación.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function loadMfaData() {
-      try {
-        const res = await enrollMfaAction();
-        if (res.success && res.data) {
-          setFactorId(res.data.factorId);
-          setQrCode(res.data.qrCode);
-          setSecret(res.data.secret);
-        } else {
-          setErrorMsg(res.error?.message || 'No se pudo iniciar el proceso de configuración MFA.');
-        }
-      } catch {
-        setErrorMsg('Error al conectar con el servidor de autenticación.');
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
+    if (hasLoadedRef.current) return;
+    hasLoadedRef.current = true;
     loadMfaData();
   }, []);
+
+  async function handleCopySecret() {
+    if (!secret) return;
+    try {
+      await navigator.clipboard.writeText(secret);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback
+    }
+  }
+
+  const normalizedQr = (() => {
+    if (!qrCode) return null;
+    if (qrCode.startsWith('data:')) return qrCode;
+    if (qrCode.startsWith('<') || qrCode.includes('svg')) {
+      try {
+        const b64 = typeof window !== 'undefined' ? btoa(qrCode) : '';
+        return `data:image/svg+xml;base64,${b64}`;
+      } catch {
+        return `data:image/svg+xml;utf-8,${encodeURIComponent(qrCode)}`;
+      }
+    }
+    return qrCode;
+  })();
 
   async function handleVerify(e: React.FormEvent) {
     e.preventDefault();
@@ -49,11 +90,10 @@ export default function SetupMfaPage() {
     try {
       const res = await verifyMfaSetupAction({ factorId, code });
       if (res.success && res.data) {
-        router.replace(res.data.redirectTo);
-        router.refresh();
+        window.location.href = res.data.redirectTo || '/dashboard';
       } else {
         if (res.error?.code === 'MFA_VERIFICATION_FAILED') {
-          router.replace('/login?reason=mfa_failed');
+          window.location.href = '/login?reason=mfa_failed';
           return;
         }
         setErrorMsg(res.error?.message || 'Código inválido. Intente de nuevo.');
@@ -71,7 +111,7 @@ export default function SetupMfaPage() {
       setErrorMsg(result.error.message);
       return;
     }
-    router.replace('/login');
+    window.location.href = '/login';
   }
 
   return (
@@ -98,9 +138,19 @@ export default function SetupMfaPage() {
           ) : (
             <form className="space-y-6" onSubmit={handleVerify}>
               {errorMsg && (
-                <div className="p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-3 text-rose-300 text-sm">
-                  <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-400" />
-                  <span className="leading-snug">{errorMsg}</span>
+                <div className="p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl flex flex-col gap-3 text-rose-300 text-sm">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-400" />
+                    <span className="leading-snug">{errorMsg}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={loadMfaData}
+                    className="self-start flex items-center gap-1.5 text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors"
+                  >
+                    <RefreshCcw className="w-3.5 h-3.5" />
+                    Reintentar generación de QR
+                  </button>
                 </div>
               )}
 
@@ -109,21 +159,46 @@ export default function SetupMfaPage() {
                 <p className="text-xs font-semibold text-slate-300">
                   1. Escanee el código QR con Google Authenticator o Microsoft Authenticator:
                 </p>
-                {qrCode ? (
-                  <div className="inline-block p-3 bg-white rounded-xl shadow-md border border-slate-300">
-                    {/* Renderizamos el QR SVG data URI */}
+                {normalizedQr ? (
+                  <div className="inline-block p-4 bg-white rounded-2xl shadow-xl border border-slate-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={qrCode} alt="Código QR para MFA" className="w-44 h-44 mx-auto" />
+                    <img
+                      src={normalizedQr}
+                      alt="Código QR para MFA"
+                      className="w-48 h-48 mx-auto object-contain"
+                      onError={() => setErrorMsg('No se pudo cargar el código QR. Use la clave manual.')}
+                    />
                   </div>
                 ) : (
-                  <div className="p-4 bg-slate-900/80 rounded-xl text-xs text-amber-300 font-mono break-all">
-                    Clave manual: {secret}
+                  <div className="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl">
+                    <p className="text-xs text-rose-300">
+                      No se pudo generar el código QR. Utilice la clave manual a continuación.
+                    </p>
                   </div>
                 )}
                 {secret && (
-                  <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-700">
-                    <p className="text-[11px] text-slate-400">O ingrese la clave manualmente:</p>
-                    <p className="text-xs font-mono font-bold text-cyan-400 tracking-wider select-all mt-0.5">
+                  <div className="bg-slate-900/70 p-3 rounded-xl border border-slate-700/80 flex flex-col items-center gap-1.5">
+                    <div className="flex items-center justify-between w-full px-1">
+                      <span className="text-[11px] text-slate-400">O ingrese la clave manualmente:</span>
+                      <button
+                        type="button"
+                        onClick={handleCopySecret}
+                        className="inline-flex items-center gap-1 text-[11px] font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-400" />
+                            <span className="text-emerald-400 font-semibold">¡Copiado!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copiar clave</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs font-mono font-bold text-cyan-300 tracking-widest select-all bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 w-full text-center">
                       {secret}
                     </p>
                   </div>

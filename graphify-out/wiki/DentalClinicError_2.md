@@ -1,24 +1,41 @@
 # DentalClinicError
 
-> God node · 21 connections · `errors/domain.ts`
+> God node · 38 connections · `errors/domain.ts`
 
-**Community:** [auth.actions.ts](auth.actions.ts.md)
+**Community:** [DentalClinicError](DentalClinicError.md)
 
 ## Connections by Relation
 
 ### calls
-- [loginAction()](loginAction.md) `EXTRACTED`
-- [terminateSession()](terminateSession.md) `EXTRACTED`
+- terminateSession() `EXTRACTED`
+- loginAction() `EXTRACTED`
 - requireClinicalUser() `EXTRACTED`
-- enrollMfaAction() `EXTRACTED`
 - failMfaVerification() `EXTRACTED`
+- enrollMfaAction() `EXTRACTED`
+- createUserAction() `EXTRACTED`
+- deactivateUserAction() `EXTRACTED`
+- cancelAppointmentAction() `EXTRACTED`
+- createAppointmentAction() `EXTRACTED`
+- listAppointmentsAction() `EXTRACTED`
+- getClinicAction() `EXTRACTED`
+- updateClinicAction() `EXTRACTED`
+- createPatientAction() `EXTRACTED`
+- listPatientsAction() `EXTRACTED`
+- searchPatientsAction() `EXTRACTED`
+- updatePatientAction() `EXTRACTED`
+- listUsersAction() `EXTRACTED`
+- updateUserAction() `EXTRACTED`
 
 ### contains
 - errors/domain.ts `EXTRACTED`
 
 ### imports
 - [auth.actions.ts](auth.actions.ts.md) `EXTRACTED`
+- [users.actions.ts](users.actions.ts.md) `EXTRACTED`
+- patients.actions.ts `EXTRACTED`
 - server-action-wrapper.ts `EXTRACTED`
+- appointments.actions.ts `EXTRACTED`
+- clinic.actions.ts `EXTRACTED`
 - session-termination.ts `EXTRACTED`
 
 ### inherits
@@ -37,7 +54,7 @@
 - .constructor() `EXTRACTED`
 
 ### references
-- [AuthorizationSecurityContext](AuthorizationSecurityContext.md) `EXTRACTED`
+- AuthorizationSecurityContext `EXTRACTED`
 
 ---
 

@@ -248,6 +248,7 @@ export async function logoutAction(): Promise<ServerActionResult<{ success: bool
 
 /**
  * Server Action para iniciar el enrolamiento de MFA (TOTP)
+ * Limpia factores no verificados previos para evitar conflictos de idempotencia.
  */
 export async function enrollMfaAction(): Promise<
   ServerActionResult<{
@@ -260,27 +261,38 @@ export async function enrollMfaAction(): Promise<
   return withErrorHandling(async () => {
     const { supabase } = await requireClinicalUser();
 
-    // Limpiar factores previos no verificados (p. ej. por recarga de página o StrictMode de React)
-    // para evitar el error de conflicto 'mfa_factor_name_conflict'
-    const { data: factorList } = await supabase.auth.mfa.listFactors();
-    if (factorList?.all) {
-      for (const factor of factorList.all) {
-        if (factor.status === 'unverified') {
-          await supabase.auth.mfa.unenroll({ factorId: factor.id });
-        }
+    // 1. Limpiar factores no verificados previos para evitar conflictos
+    const { data: factorsData } = await supabase.auth.mfa.listFactors();
+    const allFactors = (factorsData?.all ?? []) as Array<{ id: string; status: string }>;
+    const unverifiedFactors = allFactors.filter((f) => f.status === 'unverified');
+
+    for (const factor of unverifiedFactors) {
+      const { error: unenrollError } = await supabase.auth.mfa.unenroll({
+        factorId: factor.id,
+      });
+      if (unenrollError) {
+        console.warn('[MFA Cleanup] No se pudo eliminar factor no verificado:', unenrollError.message);
       }
     }
 
+    // 2. Enrolar nuevo factor TOTP
     const { data, error } = await supabase.auth.mfa.enroll({
       factorType: 'totp',
       issuer: 'Dental Clinic SaaS',
     });
 
     if (error || !data) {
+      const isMfaNotEnabled =
+        error?.message?.toLowerCase().includes('mfa') ||
+        error?.code === 'mfa_factor_not_found' ||
+        error?.code === 'auth_mfa_not_enabled';
+
       throw new DentalClinicError(
-        'No fue posible iniciar la configuración MFA.',
+        isMfaNotEnabled
+          ? 'El servicio MFA no está habilitado en este proyecto de Supabase. Por favor active Multi-Factor Authentication en el dashboard de Supabase (Authentication > Multi-Factor Authentication).'
+          : `No fue posible iniciar la configuración MFA: ${error?.message || 'Error desconocido'}`,
         'MFA_ENROLLMENT_FAILED',
-        503
+        isMfaNotEnabled ? 503 : 400
       );
     }
 

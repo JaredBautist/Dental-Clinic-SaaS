@@ -1,13 +1,13 @@
 # proxy.ts
 
-> 35 nodes · cohesion 0.10
+> 34 nodes · cohesion 0.11
 
 ## Key Concepts
 
 - **proxy.ts** (19 connections) — `proxy.ts`
 - **access-policy.ts** (14 connections) — `lib/auth/access-policy.ts`
+- **UserRole** (13 connections) — `types/domain.ts`
 - **proxy()** (10 connections) — `proxy.ts`
-- **UserRole** (9 connections) — `types/domain.ts`
 - **verified-headers.ts** (8 connections) — `lib/auth/verified-headers.ts`
 - **decideAccess()** (6 connections) — `lib/auth/access-policy.ts`
 - **proxy.test.ts** (6 connections) — `__tests__/unit/proxy.test.ts`
@@ -23,20 +23,23 @@
 - **copyResponseCookies()** (3 connections) — `proxy.ts`
 - **createRedirect()** (3 connections) — `proxy.ts`
 - **LoginResult** (2 connections) — `lib/actions/auth.actions.ts`
+- **LoginResult** (2 connections) — `lib/api/auth-api.ts`
 - **AuthenticatorAssuranceLevel** (2 connections) — `lib/auth/access-policy.ts`
 - **VerifiedClaims** (2 connections) — `lib/auth/verified-headers.ts`
-- **client.ts** (2 connections) — `lib/supabase/client.ts`
 - **isUserRole()** (2 connections) — `proxy.ts`
 - **unavailableResponse()** (2 connections) — `proxy.ts`
 - **AccessDecision** (1 connections) — `lib/auth/access-policy.ts`
-- *... and 10 more nodes in this community*
+- *... and 9 more nodes in this community*
 
 ## Relationships
 
-- [types/domain.ts](types-domain.ts.md) (5 shared connections)
+- [types/domain.ts](types-domain.ts.md) (4 shared connections)
+- [vitest](vitest.md) (4 shared connections)
 - [auth.actions.ts](auth.actions.ts.md) (3 shared connections)
-- [vitest](vitest.md) (3 shared connections)
+- [auth-api.ts](auth-api.ts.md) (3 shared connections)
 - [package.json](package.json.md) (1 shared connections)
+- [pacientes/page.tsx](pacientes-page.tsx.md) (1 shared connections)
+- [users.actions.ts](users.actions.ts.md) (1 shared connections)
 
 ## Source Files
 
@@ -44,16 +47,16 @@
 - `__tests__/unit/proxy.test.ts`
 - `__tests__/unit/verified-headers.test.ts`
 - `lib/actions/auth.actions.ts`
+- `lib/api/auth-api.ts`
 - `lib/auth/access-policy.ts`
 - `lib/auth/verified-headers.ts`
-- `lib/supabase/client.ts`
 - `package.json`
 - `proxy.ts`
 - `types/domain.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 74 (100%)
+- EXTRACTED: 78 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
