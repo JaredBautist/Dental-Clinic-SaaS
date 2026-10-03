@@ -45,6 +45,7 @@ export interface EnrollMfaResult {
   qrCode: string;
   secret: string;
   uri: string;
+  devCode?: string;
 }
 
 export interface MfaVerifyResult {

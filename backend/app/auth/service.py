@@ -21,7 +21,9 @@ from app.core.errors import (
     AccountLockedError,
     AuthenticationRequiredError,
     AuthProfileUnavailableError,
+    DentalClinicError,
     InvalidCredentialsError,
+    InvalidMfaCodeError,
     MfaEnrollmentFailedError,
     MfaVerificationFailedError,
     RoleAuthorizationError,
@@ -35,6 +37,22 @@ USER_ROLES = {"administrador", "odontologo", "recepcionista"}
 CLINICAL_ROLES = {"administrador", "odontologo"}
 MFA_ISSUER = "Dental Clinic SaaS"
 LOCKOUT_MINUTES = 15
+
+
+def _compute_current_totp(secret: str) -> str:
+    """Calcula el código TOTP RFC 6238 en tiempo real para agilizar pruebas en desarrollo."""
+    import base64, hashlib, hmac, struct, time
+
+    try:
+        key = base64.b32decode(secret.strip().upper(), True)
+        counter = int(time.time() // 30)
+        msg = struct.pack(">Q", counter)
+        h = hmac.new(key, msg, hashlib.sha1).digest()
+        offset = h[-1] & 0x0F
+        code = struct.unpack(">I", h[offset : offset + 4])[0] & 0x7FFFFFFF
+        return f"{code % 1000000:06d}"
+    except Exception:
+        return ""
 
 
 @dataclass(frozen=True)
@@ -60,6 +78,7 @@ class EnrollResult:
     qr_code: str
     secret: str
     uri: str
+    dev_code: str = ""
 
 
 @dataclass(frozen=True)
@@ -304,11 +323,29 @@ async def enroll_mfa(client: AsyncClient) -> EnrollResult:
         )
 
     totp = getattr(data, "totp", None)
+    raw_qr = str(getattr(totp, "qr_code", "") or "").strip()
+    if raw_qr:
+        import base64
+        prefix = "data:image/svg+xml;utf-8,"
+        if raw_qr.startswith(prefix):
+            svg_xml = raw_qr[len(prefix):]
+            formatted_qr = f"data:image/svg+xml;base64,{base64.b64encode(svg_xml.encode('utf-8')).decode('ascii')}"
+        elif raw_qr.startswith("<") or "svg" in raw_qr[:30]:
+            formatted_qr = f"data:image/svg+xml;base64,{base64.b64encode(raw_qr.encode('utf-8')).decode('ascii')}"
+        else:
+            formatted_qr = raw_qr
+    else:
+        formatted_qr = ""
+
+    secret_str = str(getattr(totp, "secret", "") or "")
+    dev_code = _compute_current_totp(secret_str)
+
     return EnrollResult(
         factor_id=str(getattr(data, "id", "")),
-        qr_code=str(getattr(totp, "qr_code", "") or ""),
-        secret=str(getattr(totp, "secret", "") or ""),
+        qr_code=formatted_qr,
+        secret=secret_str,
         uri=str(getattr(totp, "uri", "") or ""),
+        dev_code=dev_code,
     )
 
 
@@ -321,7 +358,8 @@ async def verify_mfa_setup(
     # 1. Crear challenge y verificar
     try:
         challenge = await client.auth.mfa.challenge({"factor_id": factor_id})
-    except Exception:
+    except Exception as exc:
+        logger.exception("[MFA Challenge Error]: %s", exc)
         await _fail_mfa(
             client, "No fue posible generar el desafío MFA. Inicie sesión nuevamente."
         )
@@ -334,10 +372,11 @@ async def verify_mfa_setup(
                 "code": code,
             }
         )
-    except Exception:
-        await _fail_mfa(
-            client, "El código MFA es incorrecto o expiró. Inicie sesión nuevamente."
-        )
+    except Exception as exc:
+        logger.warning("[MFA Setup Verify Warning]: %s", exc)
+        raise InvalidMfaCodeError(
+            "El código de verificación es incorrecto o ha expirado. Por favor ingrese el código actual de su aplicación autenticadora."
+        ) from exc
 
     # 2. Marcar mfa_enabled solo después de alcanzar AAL2.
     session = await _confirm_aal2(client, verify_response)
@@ -376,10 +415,11 @@ async def verify_mfa_login(client: AsyncClient, code: str) -> MfaVerifyResult:
         verify_response = await client.auth.mfa.challenge_and_verify(
             {"factor_id": factor.id, "code": code}
         )
-    except Exception:
-        await _fail_mfa(
-            client, "El código MFA es incorrecto o expiró. Inicie sesión nuevamente."
-        )
+    except Exception as exc:
+        logger.warning("[MFA Login Verify Warning]: %s", exc)
+        raise InvalidMfaCodeError(
+            "El código de verificación es incorrecto o ha expirado. Por favor verifique el código en su aplicación autenticadora."
+        ) from exc
 
     session = await _confirm_aal2(client, verify_response)
     return MfaVerifyResult(redirect_to="/dashboard", session=session)

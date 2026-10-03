@@ -65,7 +65,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push(res.data.redirectTo);
+      window.location.href = res.data.redirectTo || '/dashboard';
     } catch {
       setErrorMsg('Ocurrió un error al intentar iniciar sesión. Por favor intente nuevamente.');
       setIsLoading(false);

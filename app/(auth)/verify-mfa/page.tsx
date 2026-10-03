@@ -24,11 +24,10 @@ export default function VerifyMfaPage() {
     try {
       const res = await verifyMfaLoginAction({ code });
       if (res.success && res.data) {
-        router.replace(res.data.redirectTo);
-        router.refresh();
+        window.location.href = res.data.redirectTo || '/dashboard';
       } else {
         if (res.error?.code === 'MFA_VERIFICATION_FAILED') {
-          router.replace('/login?reason=mfa_failed');
+          window.location.href = '/login?reason=mfa_failed';
           return;
         }
         setErrorMsg(res.error?.message || 'Código de verificación incorrecto.');
@@ -46,7 +45,7 @@ export default function VerifyMfaPage() {
       setErrorMsg(result.error.message);
       return;
     }
-    router.replace('/login');
+    window.location.href = '/login';
   }
 
   return (

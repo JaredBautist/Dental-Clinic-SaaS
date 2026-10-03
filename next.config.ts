@@ -2,8 +2,10 @@ import type { NextConfig } from 'next';
 
 export function createSecurityHeaders(nodeEnvironment: string | undefined) {
   const scriptSources = ["'self'", "'unsafe-inline'"];
+  const connectSources = ["'self'", "https://*.supabase.co", "wss://*.supabase.co"];
   if (nodeEnvironment === 'development') {
     scriptSources.push("'unsafe-eval'");
+    connectSources.push("http://localhost:*", "http://127.0.0.1:*", "ws://localhost:*");
   }
 
   return [
@@ -15,7 +17,7 @@ export function createSecurityHeaders(nodeEnvironment: string | undefined) {
         "object-src 'none'",
         "frame-ancestors 'none'",
         "form-action 'self'",
-        "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+        `connect-src ${connectSources.join(' ')}`,
         `script-src ${scriptSources.join(' ')}`,
         "style-src 'self' 'unsafe-inline'",
         "img-src 'self' data: blob: https://*.supabase.co",

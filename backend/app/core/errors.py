@@ -76,6 +76,14 @@ class MfaVerificationFailedError(DentalClinicError):
         super().__init__(message, "MFA_VERIFICATION_FAILED", 401)
 
 
+class InvalidMfaCodeError(DentalClinicError):
+    def __init__(
+        self,
+        message: str = "El código de verificación es incorrecto o ha expirado. Por favor intente nuevamente.",
+    ) -> None:
+        super().__init__(message, "INVALID_MFA_CODE", 400)
+
+
 class MfaEnrollmentFailedError(DentalClinicError):
     def __init__(self, message: str, mfa_not_enabled: bool = False) -> None:
         super().__init__(

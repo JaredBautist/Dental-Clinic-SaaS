@@ -1,17 +1,41 @@
-"""Configuración central del backend — lee variables de entorno (.env)."""
+from pathlib import Path
 from functools import lru_cache
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent
+_ROOT_DIR = _BACKEND_DIR.parent
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+        env_file=(
+            str(_BACKEND_DIR / ".env"),
+            str(_ROOT_DIR / ".env.local"),
+            str(_ROOT_DIR / ".env"),
+            ".env",
+        ),
+        env_file_encoding="utf-8",
+        extra="ignore",
     )
 
-    supabase_url: str = ""
-    supabase_anon_key: str = ""
-    supabase_service_role_key: str = ""
+    supabase_url: str = Field(
+        default="",
+        validation_alias=AliasChoices("SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL"),
+    )
+    supabase_anon_key: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "SUPABASE_ANON_KEY", "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        ),
+    )
+    supabase_service_role_key: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "SUPABASE_SERVICE_ROLE_KEY", "SERVICE_ROLE_KEY"
+        ),
+    )
     cors_origins: str = "http://localhost:3000"
 
     @property

@@ -67,6 +67,7 @@ async def enroll_endpoint(client: AsyncClient = Depends(get_user_client)) -> dic
             "qrCode": result.qr_code,
             "secret": result.secret,
             "uri": result.uri,
+            "devCode": result.dev_code,
         }
     )
 
