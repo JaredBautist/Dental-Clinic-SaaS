@@ -39,22 +39,6 @@ MFA_ISSUER = "Dental Clinic SaaS"
 LOCKOUT_MINUTES = 15
 
 
-def _compute_current_totp(secret: str) -> str:
-    """Calcula el código TOTP RFC 6238 en tiempo real para agilizar pruebas en desarrollo."""
-    import base64, hashlib, hmac, struct, time
-
-    try:
-        key = base64.b32decode(secret.strip().upper(), True)
-        counter = int(time.time() // 30)
-        msg = struct.pack(">Q", counter)
-        h = hmac.new(key, msg, hashlib.sha1).digest()
-        offset = h[-1] & 0x0F
-        code = struct.unpack(">I", h[offset : offset + 4])[0] & 0x7FFFFFFF
-        return f"{code % 1000000:06d}"
-    except Exception:
-        return ""
-
-
 @dataclass(frozen=True)
 class SessionTokens:
     access_token: str
@@ -78,7 +62,6 @@ class EnrollResult:
     qr_code: str
     secret: str
     uri: str
-    dev_code: str = ""
 
 
 @dataclass(frozen=True)
@@ -338,14 +321,12 @@ async def enroll_mfa(client: AsyncClient) -> EnrollResult:
         formatted_qr = ""
 
     secret_str = str(getattr(totp, "secret", "") or "")
-    dev_code = _compute_current_totp(secret_str)
 
     return EnrollResult(
         factor_id=str(getattr(data, "id", "")),
         qr_code=formatted_qr,
         secret=secret_str,
         uri=str(getattr(totp, "uri", "") or ""),
-        dev_code=dev_code,
     )
 
 
@@ -430,3 +411,23 @@ async def cancel_mfa(client: AsyncClient) -> None:
     await _sign_out_or_raise(
         client, "No fue posible cancelar el flujo MFA de forma segura."
     )
+
+
+async def reset_mfa(client: AsyncClient, admin: AsyncClient) -> None:
+    """Restablece el factor MFA del usuario para permitir un nuevo escaneo de código QR."""
+    user = await _require_clinical_user(client)
+
+    # 1. Desactivar flag mfa_enabled en public.users
+    await admin.table("users").update({"mfa_enabled": False}).eq("id", user.id).execute()
+
+    # 2. Eliminar factores existentes vía admin service role
+    try:
+        factors = await admin.auth.admin.mfa.list_factors({"user_id": user.id})
+        for factor in factors:
+            try:
+                await admin.auth.admin.mfa.delete_factor({"user_id": user.id, "id": factor.id})
+            except Exception:
+                pass
+    except Exception as exc:
+        logger.warning("[MFA Reset Factors Error]: %s", exc)
+

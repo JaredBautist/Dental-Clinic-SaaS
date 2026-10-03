@@ -45,7 +45,6 @@ export interface EnrollMfaResult {
   qrCode: string;
   secret: string;
   uri: string;
-  devCode?: string;
 }
 
 export interface MfaVerifyResult {
@@ -180,4 +179,8 @@ export async function cancelMfaAction(): Promise<ApiResult<{ success: boolean }>
   const result = await callApi<{ success: boolean }>('/mfa/cancel', {}, true);
   await clearBrowserSession();
   return result;
+}
+
+export async function resetMfaAction(): Promise<ApiResult<{ success: boolean; redirectTo: string }>> {
+  return callApi<{ success: boolean; redirectTo: string }>('/mfa/reset', {}, true);
 }

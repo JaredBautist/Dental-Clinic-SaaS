@@ -20,7 +20,6 @@ export default function SetupMfaPage() {
   const [factorId, setFactorId] = useState<string | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [secret, setSecret] = useState<string | null>(null);
-  const [devCode, setDevCode] = useState<string | null>(null);
   const [code, setCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -37,9 +36,6 @@ export default function SetupMfaPage() {
         setFactorId(res.data.factorId);
         setQrCode(res.data.qrCode);
         setSecret(res.data.secret);
-        if (res.data.devCode) {
-          setDevCode(res.data.devCode);
-        }
       } else {
         setErrorMsg(res.error?.message || 'No se pudo iniciar el proceso de configuración MFA.');
       }
@@ -235,21 +231,6 @@ export default function SetupMfaPage() {
                     className="block w-full pl-10 pr-4 py-2.5 bg-slate-900/60 border border-slate-700 rounded-xl text-white text-center text-lg font-mono tracking-widest placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                   />
                 </div>
-                {devCode && (
-                  <div className="mt-3 p-3 bg-cyan-950/40 border border-cyan-500/30 rounded-xl flex items-center justify-between gap-3 text-xs max-w-xs mx-auto">
-                    <div className="flex flex-col text-left">
-                      <span className="text-[11px] font-medium text-cyan-400">Código activo (generado en vivo):</span>
-                      <span className="font-mono font-bold text-white tracking-widest text-sm">{devCode}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setCode(devCode)}
-                      className="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                      Autollenar
-                    </button>
-                  </div>
-                )}
               </div>
 
               <div className="space-y-3">

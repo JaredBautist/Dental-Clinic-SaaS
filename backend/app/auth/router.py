@@ -67,7 +67,6 @@ async def enroll_endpoint(client: AsyncClient = Depends(get_user_client)) -> dic
             "qrCode": result.qr_code,
             "secret": result.secret,
             "uri": result.uri,
-            "devCode": result.dev_code,
         }
     )
 
@@ -106,3 +105,12 @@ async def verify_login_endpoint(
 async def cancel_endpoint(client: AsyncClient = Depends(get_user_client)) -> dict:
     await service.cancel_mfa(client)
     return _ok({"success": True})
+
+
+@router.post("/mfa/reset")
+async def reset_endpoint(
+    client: AsyncClient = Depends(get_user_client),
+    admin: AsyncClient = Depends(get_admin_client),
+) -> dict:
+    await service.reset_mfa(client, admin)
+    return _ok({"success": True, "redirectTo": "/setup-mfa"})

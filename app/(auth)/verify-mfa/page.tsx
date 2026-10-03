@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { verifyMfaLoginAction, cancelMfaAction } from '@/lib/api/auth-api';
-import { KeyRound, AlertCircle, Loader2, LogOut, Shield } from 'lucide-react';
+import { verifyMfaLoginAction, cancelMfaAction, resetMfaAction } from '@/lib/api/auth-api';
+import { KeyRound, AlertCircle, Loader2, LogOut, Shield, QrCode } from 'lucide-react';
 
 export default function VerifyMfaPage() {
   const router = useRouter();
   const [code, setCode] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   async function handleVerify(e: React.FormEvent) {
@@ -46,6 +47,23 @@ export default function VerifyMfaPage() {
       return;
     }
     window.location.href = '/login';
+  }
+
+  async function handleResetToQr() {
+    setIsResetting(true);
+    setErrorMsg(null);
+    try {
+      const res = await resetMfaAction();
+      if (res.success) {
+        window.location.href = res.data.redirectTo || '/setup-mfa';
+      } else {
+        setErrorMsg(res.error?.message || 'No se pudo reiniciar el factor MFA.');
+        setIsResetting(false);
+      }
+    } catch {
+      setErrorMsg('Error al conectar con el servidor.');
+      setIsResetting(false);
+    }
   }
 
   return (
@@ -127,6 +145,27 @@ export default function VerifyMfaPage() {
                 <LogOut className="w-3.5 h-3.5 mr-1.5" />
                 Cancelar y volver a login
               </button>
+
+              <div className="pt-3 border-t border-slate-700/60 text-center">
+                <button
+                  type="button"
+                  onClick={handleResetToQr}
+                  disabled={isResetting}
+                  className="inline-flex items-center gap-2 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors disabled:opacity-50"
+                >
+                  {isResetting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      Regenerando código QR...
+                    </>
+                  ) : (
+                    <>
+                      <QrCode className="w-3.5 h-3.5 text-cyan-400" />
+                      ¿No tienes el código en tu app? Escanear nuevo código QR
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         </div>
