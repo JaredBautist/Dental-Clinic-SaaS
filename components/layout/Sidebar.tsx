@@ -70,16 +70,21 @@ interface SidebarProps {
 export function Sidebar({ userRole = 'administrador', userName = 'Usuario', clinicName = 'Consultorio' }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
   const filteredNavItems = navItems.filter(
     (item) => !item.roles || item.roles.includes(userRole)
   );
 
   async function handleLogout() {
-    const result = await logoutAction();
-    if (result.success) {
-      router.replace('/login');
-      router.refresh();
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+    try {
+      await logoutAction();
+    } catch (err) {
+      console.warn('[Sidebar] Error during logout:', err);
+    } finally {
+      window.location.href = '/login';
     }
   }
 
@@ -139,11 +144,23 @@ export function Sidebar({ userRole = 'administrador', userName = 'Usuario', clin
           </div>
         </div>
         <button
+          type="button"
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+          disabled={isLoggingOut}
+          aria-label="Cerrar Sesión"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
         >
-          <LogOut className="w-4 h-4" />
-          Cerrar Sesión
+          {isLoggingOut ? (
+            <>
+              <div className="w-4 h-4 border-2 border-rose-400/30 border-t-rose-400 rounded-full animate-spin" />
+              <span>Cerrando sesión...</span>
+            </>
+          ) : (
+            <>
+              <LogOut className="w-4 h-4" />
+              <span>Cerrar Sesión</span>
+            </>
+          )}
         </button>
       </div>
     </aside>

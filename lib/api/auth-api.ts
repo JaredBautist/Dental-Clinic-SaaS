@@ -139,11 +139,14 @@ export async function loginAction(formData: {
 }
 
 export async function logoutAction(): Promise<ApiResult<{ success: boolean }>> {
-  const result = await callApi<{ success: boolean }>('/auth/logout', {}, true);
-  if (result.success) {
+  try {
+    await callApi<{ success: boolean }>('/auth/logout', {}, true);
+  } catch (err) {
+    console.warn('[auth-api] Backend logout notification error:', err);
+  } finally {
     await clearBrowserSession();
   }
-  return result;
+  return { success: true, data: { success: true } };
 }
 
 export async function enrollMfaAction(): Promise<ApiResult<EnrollMfaResult>> {

@@ -26,19 +26,13 @@ export function SessionTimer() {
     if (isLoggingOutRef.current) return;
     isLoggingOutRef.current = true;
     try {
-      const result = await logoutAction();
-      if (!result.success) {
-        setLogoutError(result.error.message);
-        isLoggingOutRef.current = false;
-        return;
-      }
-      router.replace('/login?reason=inactivity');
-      router.refresh();
+      await logoutAction();
     } catch {
-      setLogoutError('No fue posible cerrar la sesión. Verifique su conexión e intente nuevamente.');
-      isLoggingOutRef.current = false;
+      // Fallback para asegurar redirección de sesión
+    } finally {
+      window.location.href = '/login?reason=inactivity';
     }
-  }, [router]);
+  }, []);
 
   const resetTimer = useCallback(() => {
     if (isLoggingOutRef.current) return;
