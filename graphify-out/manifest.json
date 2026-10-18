@@ -642,15 +642,15 @@
     "semantic_hash": ""
   },
   "PROJECT_CONTEXT_FULL.md": {
-    "mtime": 1790989659.8208466,
-    "seen": 1792341614.0405858,
-    "ast_hash": "a31e3910724c1fad22006314d731ec30",
+    "mtime": 1792341889.641477,
+    "seen": 1792341906.402365,
+    "ast_hash": "2789e01fe4920265fda8edccd63bbfc3",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1787512626.2024353,
-    "seen": 1790983427.5495982,
-    "ast_hash": "df5e890821e5a14110bbb5298d699f6b",
+    "mtime": 1792342032.4352055,
+    "seen": 1792342055.8765757,
+    "ast_hash": "54013a01e34a38875efbcb5477075371",
     "semantic_hash": ""
   },
   "backend/requirements-dev.txt": {
@@ -804,15 +804,21 @@
     "semantic_hash": ""
   },
   ".kiro/PROJECT_CONTEXT_FULL.md": {
-    "mtime": 1790990010.761459,
-    "seen": 1792341614.0405722,
-    "ast_hash": "a31e3910724c1fad22006314d731ec30",
+    "mtime": 1792341897.592952,
+    "seen": 1792341906.4023507,
+    "ast_hash": "2789e01fe4920265fda8edccd63bbfc3",
     "semantic_hash": ""
   },
   "ESTRUCTURAS_Y_CONTROL_PYTHON.md": {
     "mtime": 1790989659.818917,
     "seen": 1792341614.0405827,
     "ast_hash": "4a5f5c320d25cf5a3483b67c41782b8a",
+    "semantic_hash": ""
+  },
+  "backend/README.md": {
+    "mtime": 1792342047.793221,
+    "seen": 1792342055.8765783,
+    "ast_hash": "92b9f3121d7892f354b6225bf957db7d",
     "semantic_hash": ""
   }
 }

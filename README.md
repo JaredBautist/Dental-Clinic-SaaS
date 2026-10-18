@@ -179,15 +179,16 @@ Cuadrante 4 (inferior derecho): 41,42,43,44,45,46,47,48
 
 | Capa | Tecnología | Justificación |
 |---|---|---|
-| 🖥️ **Frontend** | Next.js 14+ con TypeScript (App Router) | Componentes servidor/cliente, rutas protegidas, diseño responsive |
-| ⚙️ **Backend / BaaS** | Supabase (Auth, PostgreSQL, Storage, Edge Functions) | Integra autenticación, base de datos relacional, almacenamiento y funciones en un solo servicio |
+| 🖥️ **Frontend** | Next.js 15+ con TypeScript & React 19 (App Router) | Componentes servidor/cliente, diseño responsive con Tailwind CSS v4 y Server Actions |
+| 🐍 **Microservicio Auth & MFA** | Python 3.14 + FastAPI + Pydantic v2 + supabase-py | Servicio dedicado para autenticación segura, control de bloqueo por fuerza bruta y MFA TOTP (AAL2) |
+| ⚙️ **Backend / BaaS** | Supabase (PostgreSQL, Storage, Edge Functions) | Integra base de datos relacional, almacenamiento de archivos clínicos y funciones programadas |
 | 🗄️ **Base de datos** | PostgreSQL administrado por Supabase | Relaciones definidas, integridad referencial, transacciones, índices GIN, extensión btree_gist |
-| 🔑 **Autenticación** | Supabase Auth + RLS + TOTP/MFA | JWT con clinic_id, user_id y role; RLS como capa de aislamiento en base de datos |
-| 📁 **Almacenamiento** | Supabase Storage (buckets privados) | Archivos clínicos organizados por clinic_id/patient_id con URLs firmadas |
-| 🚀 **Infraestructura** | Vercel (frontend) + Supabase Cloud | HTTPS/TLS, firewall, DDoS, despliegues automáticos |
-| ✅ **Validación** | Zod | Validación de esquemas en servidor y cliente |
-| 🧪 **Testing** | Vitest + fast-check | Pruebas unitarias + property-based testing (25 propiedades) |
-| 🌐 **Conectividad mínima** | 4G LTE o Wi-Fi | El sistema gestiona principalmente texto y JSON; 5G compatible pero no obligatorio |
+| 🔑 **Autenticación** | Supabase Auth + FastAPI + TOTP/MFA (AAL2) | Tokens JWT con claims de clinic_id, user_id y rol; RLS como aislamiento perimetral en base de datos |
+| 📁 **Almacenamiento** | Supabase Storage (buckets privados) | Archivos clínicos organizados por clinic_id/patient_id con URLs firmadas (15 min) |
+| 🚀 **Infraestructura** | Vercel (frontend) + Supabase Cloud + Uvicorn | HTTPS/TLS, firewall perimetral, despliegues automáticos y microservicios |
+| ✅ **Validación** | Zod (TypeScript) + Pydantic v2 (Python) | Validación rigurosa de esquemas en cliente, servidor Next.js y microservicio FastAPI |
+| 🧪 **Testing** | Vitest + fast-check + Pytest | 106 pruebas automatizadas: 74 pruebas en TypeScript (PBT y unitarias) + 32 pruebas en Python |
+| 🌐 **Conectividad mínima** | 4G LTE o Wi-Fi | El sistema opera bajo modelo online-first estricto con detector de conectividad |
 
 ---
 
@@ -196,28 +197,30 @@ Cuadrante 4 (inferior derecho): 41,42,43,44,45,46,47,48
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     CLIENTE - NAVEGADOR                     │
-│              Next.js App Router (Server + Client)           │
-└─────────────────────┬───────────────────────────────────────┘
-                      │ HTTPS/TLS
-┌─────────────────────▼───────────────────────────────────────┐
-│                RED PERIMETRAL - VERCEL                      │
-│         Edge Network (Firewall, DDoS, HTTPS/TLS)            │
-│         Next.js Server Actions & Route Handlers             │
-└──────┬──────────────────────┬───────────────────────────────┘
-       │ service_role (server) │ anon key + JWT (RLS activo)
-┌──────▼──────────┐  ┌────────▼────────────────────────────────┐
-│  Supabase Auth  │  │         Supabase Cloud                   │
-│  (JWT, MFA,     │  │  PostgreSQL (RLS, tablas de negocio)     │
-│   Sessions)     │  │  Storage (buckets privados, clinical-files) │
-└─────────────────┘  │  Edge Functions (cron: transición citas) │
-                     └─────────────────────────────────────────┘
+│          Next.js App Router (React 19 + Tailwind v4)        │
+└──────────────┬───────────────────────────────┬──────────────┘
+               │ HTTPS / Actions               │ Auth API HTTP
+┌──────────────▼──────────────┐ ┌──────────────▼──────────────┐
+│       NEXT.JS SERVER        │ │   FASTAPI AUTH MICROSERVICE │
+│   Server Actions & Proxy    │ │  (Python 3.14 + Pydantic v2)│
+│   (lib/actions/*.actions)   │ │   Login, MFA TOTP, Lockout  │
+└──────────────┬──────────────┘ └──────────────┬──────────────┘
+               │ service_role / anon key       │ supabase-py
+┌──────────────▼───────────────────────────────▼──────────────┐
+│                       SUPABASE CLOUD                        │
+│  - Supabase Auth (MFA, TOTP, AAL2 Sessions)                 │
+│  - PostgreSQL (Tablas con RLS, exclusion constraints)        │
+│  - Storage (Buckets privados 'clinical-files')              │
+│  - Edge Functions (Cron: auto-transition-appointments)      │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 **Principios de arquitectura:**
-- 🔒 `service_role_key` **solo en servidor** (Server Actions, Route Handlers, Edge Functions)
-- 🌐 El cliente opera únicamente con `anon key` + JWT del usuario (RLS activo en BD)
-- 📡 Modo **online-first estricto**: las escrituras requieren confirmación del servidor
-- 🏢 Multitenencia **lógica**: `clinic_id` en todas las tablas de negocio
+- 🔒 `service_role_key` **solo en servidor** (Next.js server y microservicio FastAPI — jamás en el cliente)
+- 🌐 El cliente opera únicamente con `anon key` + JWT del usuario (RLS activo en base de datos)
+- 🛡️ MFA TOTP obligatorio para roles clínicos y administrativos (`administrador` y `odontologo`) con validación AAL2
+- 📡 Modo **online-first estricto**: las escrituras requieren confirmación del servidor con timeout de 10s
+- 🏢 Multitenencia **lógica**: `clinic_id` en todas las tablas de negocio y políticas RLS
 
 ---
 
@@ -337,15 +340,29 @@ dental-clinic-saas/
 │   └── api/
 │       ├── health/                # Health check para detección de conectividad
 │       └── storage/signed-url/    # Generación server-side de URLs firmadas
+├── backend/                       # Microservicio Python FastAPI (Auth & MFA)
+│   ├── app/
+│   │   ├── main.py                # Aplicación FastAPI y middleware CORS
+│   │   ├── config.py              # Validación de configuración Pydantic
+│   │   ├── deps.py                # Inyección de dependencias y clientes Supabase
+│   │   ├── auth/                  # Router, schemas, service y lockout de login
+│   │   └── core/                  # Errores de dominio y logging
+│   ├── tests/                     # 32 pruebas con Pytest
+│   ├── requirements.txt           # Dependencias de Python
+│   └── .env                       # Variables de entorno privadas del backend
 ├── components/
 │   ├── odontogram/
 │   │   ├── OdontogramCanvas.tsx   # SVG interactivo 32 piezas FDI
 │   │   └── ToothForm.tsx          # Formulario de registro por superficie
 │   ├── session/
 │   │   └── SessionTimer.tsx       # Cierre de sesión por inactividad (30 min)
+│   ├── layout/
+│   │   └── Sidebar.tsx            # Navegación lateral con logout seguro
 │   └── connectivity/
 │       └── OfflineBanner.tsx      # Detector de conectividad offline
 ├── lib/
+│   ├── api/
+│   │   └── auth-api.ts            # Cliente HTTP frontend para microservicio FastAPI
 │   ├── supabase/
 │   │   ├── server.ts              # createServerClient (@supabase/ssr)
 │   │   ├── client.ts              # createBrowserClient (anon key)
@@ -386,6 +403,7 @@ dental-clinic-saas/
 │   ├── properties/                # 25 property-based tests (fast-check)
 │   ├── unit/                      # Pruebas unitarias (Vitest)
 │   └── smoke/                     # Pruebas de humo
+├── proxy.ts                       # Reverse proxy y verificación AAL2
 ├── middleware.ts                  # Auth guard + MFA check + clinic_id en headers
 ├── next.config.ts                 # Headers de seguridad HTTP
 └── vitest.config.ts               # Configuración de Vitest + fast-check
@@ -397,29 +415,44 @@ dental-clinic-saas/
 
 ### Prerrequisitos
 
-- Node.js 18+
+- Node.js 18+ y npm
+- Python 3.12+ o 3.14
 - [Supabase CLI](https://supabase.com/docs/guides/cli)
 - Cuenta en [Supabase](https://supabase.com) y [Vercel](https://vercel.com)
 
-### Instalación
+### Instalación y Ejecución
 
+#### 1. Clonar el repositorio y configurar variables de entorno
 ```bash
-# 1. Clonar el repositorio
 git clone <repo-url>
 cd dental-clinic-saas
 
-# 2. Instalar dependencias
+# Frontend (.env.local)
+cp .env.example .env.local
+# Configurar NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY,
+# NEXT_PUBLIC_AUTH_API_URL=http://localhost:8001 y SUPABASE_SERVICE_ROLE_KEY
+
+# Backend (backend/.env)
+# Configurar SUPABASE_URL, SUPABASE_ANON_KEY y SUPABASE_SERVICE_ROLE_KEY
+```
+
+#### 2. Configurar y levantar el Microservicio Python (Backend)
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate       # En Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+# Iniciar servidor FastAPI en el puerto 8001
+uvicorn app.main:app --reload --port 8001
+```
+
+#### 3. Configurar y levantar la aplicación Next.js (Frontend)
+```bash
+# En una nueva terminal en la raíz del proyecto:
 npm install
 
-# 3. Configurar variables de entorno
-cp .env.example .env.local
-# Editar .env.local con tus credenciales de Supabase
-
-# 4. Inicializar base de datos local (desarrollo)
-supabase start
-supabase db push
-
-# 5. Iniciar servidor de desarrollo
+# Iniciar servidor de desarrollo en el puerto 3000
 npm run dev
 ```
 
@@ -427,15 +460,24 @@ npm run dev
 
 ## 🔧 Variables de Entorno
 
+### Frontend (`.env.local`)
 ```bash
-# .env.local
-
 # ✅ Públicas (accesibles en el navegador)
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+NEXT_PUBLIC_AUTH_API_URL=http://localhost:8001
 
 # 🔒 Privadas (NUNCA prefijadas con NEXT_PUBLIC_)
 SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
+```
+
+### Microservicio Backend (`backend/.env`)
+```bash
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_ANON_KEY=tu_anon_key
+SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
+PORT=8001
+ENVIRONMENT=development
 ```
 
 > ⚠️ **Importante:** `SUPABASE_SERVICE_ROLE_KEY` jamás debe estar prefijada con `NEXT_PUBLIC_`. Su exposición en el cliente comprometería el aislamiento RLS y la seguridad de todos los consultorios.
@@ -444,36 +486,33 @@ SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
 
 ## 🧪 Testing
 
-El proyecto utiliza un **enfoque dual de pruebas**:
+El proyecto cuenta con **106 pruebas automatizadas** con 100% de aprobación:
 
-### Property-Based Testing (fast-check)
-
-25 pruebas de propiedades de corrección con **mínimo 100 iteraciones** cada una:
+### 1. Pruebas Frontend en TypeScript (Vitest - 74 pruebas)
+Incluye 25 pruebas de propiedades de corrección (PBT con `fast-check` y mínimo 100 iteraciones por propiedad), pruebas unitarias y pruebas de humo:
 
 ```bash
-# Ejecutar todas las pruebas
-npx vitest --run
+# Ejecutar todas las pruebas de Vitest
+npm run test:run
 
-# Solo pruebas de propiedades
+# Solo pruebas de propiedades de corrección
 npx vitest --run __tests__/properties/
 
 # Solo pruebas unitarias
 npx vitest --run __tests__/unit/
-```
 
-### Pruebas de humo
-
-```bash
+# Pruebas de humo
 npx vitest --run __tests__/smoke/
 ```
 
-Verifican:
-- ✅ Columna `clinic_id` presente en todas las tablas de negocio
-- ✅ RLS habilitado (`rowsecurity = true`) en todas las tablas
-- ✅ Ausencia de `service_role_key` en el bundle del cliente
-- ✅ `OdontogramCanvas` renderiza exactamente 32 piezas FDI válidas
+### 2. Pruebas Backend en Python (Pytest - 32 pruebas)
+Valida contratos de API, matriz de permisos RBAC, flujo de login, protección contra fuerza bruta y enrolamiento/verificación MFA:
 
----
+```bash
+# Desde la carpeta backend:
+cd backend
+.venv/bin/pytest tests/ -v
+```
 
 ## 📐 Propiedades de Corrección
 

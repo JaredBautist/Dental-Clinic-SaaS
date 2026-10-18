@@ -1,9 +1,9 @@
 # Dental Clinic SaaS — Documentación Técnica Integral y Contexto del Proyecto
 
-> **Versión del Documento:** 1.0.0  
-> **Fecha de Actualización:** 24 de Septiembre, 2026  
-> **Ubicación:** `.kiro/PROJECT_CONTEXT_FULL.md`  
-> **Estado del Proyecto:** Backend Completo (100%), Base de Datos Migrada y Verificada en Supabase, Pruebas Automatizadas 74/74 Aprobadas.
+> **Versión del Documento:** 1.1.0  
+> **Fecha de Actualización:** 18 de Octubre, 2026  
+> **Ubicación:** `PROJECT_CONTEXT_FULL.md` y `.kiro/PROJECT_CONTEXT_FULL.md`  
+> **Estado del Proyecto:** Frontend y Backend Completos (100%), Microservicio Python FastAPI de Auth/MFA Integrado, Base de Datos Supabase Migrada, 106 Pruebas Automatizadas Aprobadas (74 Vitest + 32 Pytest).
 
 ---
 
@@ -91,12 +91,15 @@ Desarrollar una plataforma SaaS multi-tenant robusta, segura y de alto rendimien
 | **Framework Web** | Next.js 15 (App Router) | Arquitectura moderna con Server Components, Server Actions y Route Handlers. |
 | **Librería UI** | React 19 | Interfaces interactivas y reactivas en el cliente. |
 | **Estilos** | Tailwind CSS v4 + Lucide React | Sistema de diseño responsivo, limpio y conjunto de iconos accesibles. |
+| **Microservicio Auth & MFA** | Python 3.14 + FastAPI + Pydantic v2 | Servicio dedicado de autenticación, generación de códigos QR TOTP, control de fuerza bruta y contratos HTTP ServerActionResult. |
+| **Cliente SDK Python** | supabase-py (AsyncClient) | Cliente asíncrono para operaciones de autenticación y sincronización con Supabase. |
 | **BaaS / Base de Datos** | Supabase (PostgreSQL 17) | Base de datos relacional, motor de autenticación, RLS nativo y Storage. |
 | **Autenticación** | Supabase Auth + MFA (TOTP) | Manejo de sesiones, JWT claims firmados y doble factor con Authenticator. |
 | **Almacenamiento** | Supabase Storage (`clinical-files`) | Bucket privado para imágenes de diagnóstico y adjuntos clínicos. |
 | **Edge Compute** | Supabase Edge Functions (Deno) | Tareas en segundo plano y cron jobs (`auto-transition-appointments`). |
-| **Validación** | Zod v4 | Validación rigurosa de esquemas en todas las Server Actions y APIs. |
-| **Testing** | Vitest + Fast-Check | Pruebas unitarias, property-based testing y smoke tests (74 tests pasando). |
+| **Validación** | Zod v4 + Pydantic v2 | Validación rigurosa de esquemas en TypeScript (Server Actions) y Python (FastAPI). |
+| **Testing Frontend** | Vitest + Fast-Check | Pruebas unitarias, property-based testing y smoke tests (74 tests pasando). |
+| **Testing Backend** | Pytest + pytest-asyncio | Pruebas unitarias y de integración para la API de autenticación (32 tests pasando). |
 | **Mapeo Arquitectural**| Graphify | Grafo de conocimiento de dependencias, nodos y comunidades del código. |
 
 ---
@@ -465,6 +468,8 @@ Todas las tablas en `public` tienen RLS habilitado (`ENABLE ROW LEVEL SECURITY`)
 * **`lib/supabase/client.ts`:** Inicializador del cliente Supabase para componentes del navegador (`createBrowserClient`).
 * **`lib/supabase/server.ts`:** Inicializador del cliente Supabase para Server Components y Server Actions con gestión de cookies de sesión (`createServerClient`).
 * **`lib/supabase/admin.ts`:** Cliente administrador con `SUPABASE_SERVICE_ROLE_KEY` protegido contra ejecuciones en el cliente; utilizado únicamente para auditoría y operaciones administrativas internas.
+* **`lib/api/auth-api.ts`:** Adaptador cliente del frontend para el microservicio de autenticación FastAPI (`http://localhost:8001`). Expone `loginAction`, `logoutAction`, `enrollMfaAction`, `verifyMfaSetupAction`, `verifyMfaLoginAction`, `resetMfaAction` y `cancelMfaAction`. Sincroniza tokens con cookies `@supabase/ssr` y provee cierre de sesión a prueba de fallos.
+* **`lib/utils.ts`:** Utilidades de mezcla de clases CSS con `clsx` y `tailwind-merge` (`cn`).
 
 ---
 
@@ -477,11 +482,37 @@ Todas las tablas en `public` tienen RLS habilitado (`ENABLE ROW LEVEL SECURITY`)
 
 ### 7.5 Directorio `components/`
 
-* **`components/session/SessionTimer.tsx`:** Componente visual del cliente que monitorea la inactividad del usuario, muestra una cuenta regresiva previa al cierre de sesión por timeout y permite renovar o cerrar la sesión.
+* **`components/session/SessionTimer.tsx`:** Componente visual del cliente que monitorea la inactividad del usuario, muestra una cuenta regresiva previa al cierre de sesión por timeout (28 min advertencia, 30 min cierre forzado) y permite renovar o salir.
+* **`components/layout/Sidebar.tsx`:** Barra lateral de navegación responsiva con control de visibilidad por rol, visualización del consultorio y usuario activo, botón de cierre de sesión con feedback de carga interactivo y redirección inmediata a `/login`.
+* **`components/ui/button.tsx`:** Componente de botón reutilizable con variantes visuales y estados accesibles.
 
 ---
 
-### 7.6 Directorio `supabase/` (Migraciones y Edge Functions)
+### 7.6 Directorio `backend/` (Microservicio Python FastAPI de Autenticación y MFA)
+
+* **`backend/app/main.py`:** Aplicación FastAPI con middleware CORS (`cors_origin_list`), formateo estandarizado de excepciones (`DentalClinicError`, `RequestValidationError`, `Exception`) y endpoint de salud `/health`.
+* **`backend/app/config.py`:** Configuración mediante Pydantic Settings con carga de `.env` y validación de variables de entorno de Supabase.
+* **`backend/app/deps.py`:** Inyección de dependencias para clientes Supabase (`get_anon_client`, `get_admin_client` con service role exclusivo, y `get_user_client` para clonar la sesión del usuario vía encabezados `Authorization: Bearer` y `x-refresh-token`).
+* **`backend/app/auth/router.py`:** Endpoints HTTP REST que replican exactamente el contrato `ServerActionResult` del frontend:
+  - `POST /auth/login`: Autenticación con verificación de bloqueo y desvío condicional a MFA.
+  - `POST /auth/logout`: Revocación de sesión en Supabase Auth.
+  - `POST /mfa/enroll`: Limpieza de factores no verificados y enrolamiento TOTP con retorno de QR en Base64.
+  - `POST /mfa/verify-setup`: Validación del primer código de 6 dígitos y marcación de `mfa_enabled = true`.
+  - `POST /mfa/verify-login`: Verificación TOTP por login y aseguramiento de nivel AAL2.
+  - `POST /mfa/cancel`: Cancelación segura del flujo intermedio de autenticación.
+  - `POST /mfa/reset`: Reseteo administrativo de factores MFA desincronizados.
+* **`backend/app/auth/service.py`:** Lógica de negocio de autenticación, integración con Supabase Auth, verificación estricta de AAL2 y generación del código QR en base64 para aplicaciones autenticadoras.
+* **`backend/app/auth/schemas.py`:** Modelos Pydantic v2 para validación estricta de entradas y respuestas.
+* **`backend/app/auth/login_attempts.py`:** Control de bloqueo por fuerza bruta con almacenamiento en memoria y persistencia mediante RPC.
+* **`backend/app/core/errors.py`:** Excepciones estructuradas con códigos semánticos y códigos de estado HTTP estándar.
+* **`backend/tests/` (32 pruebas automatizadas con Pytest):**
+  - `test_access_policy.py`: Valida la matriz de accesos y roles clínicos.
+  - `test_api_contract.py`: Valida el cumplimiento del contrato JSON contra los endpoints.
+  - `test_auth_service.py`: Pruebas unitarias de login, lockout, MFA setup y login con mocks asíncronos de Supabase.
+
+---
+
+### 7.7 Directorio `supabase/` (Migraciones y Edge Functions)
 
 * **`supabase/migrations/`:**
   - `001_create_clinics.sql`: Tabla `clinics`.
@@ -502,7 +533,7 @@ Todas las tablas en `public` tienen RLS habilitado (`ENABLE ROW LEVEL SECURITY`)
 
 ---
 
-### 7.7 Directorio `__tests__/` (Suites de Pruebas)
+### 7.8 Directorio `__tests__/` (Suites de Pruebas Frontend en TypeScript)
 
 * **`__tests__/setup.ts`:** Configuración de mocks globales para Vitest y variables de entorno de prueba.
 * **`__tests__/unit/` (14 archivos de pruebas unitarias):**
@@ -529,7 +560,7 @@ Todas las tablas en `public` tienen RLS habilitado (`ENABLE ROW LEVEL SECURITY`)
 
 ---
 
-### 7.8 Directorio `.kiro/` (Especificaciones del Proyecto)
+### 7.9 Directorio `.kiro/` (Especificaciones del Proyecto)
 
 * **`requirements.md`:** Requisitos formales del proyecto estructurados en formato EARS (Easy Approach to Requirements Syntax).
 * **`design.md`:** Documento de diseño arquitectónico detallado, modelos de datos, flujos de autenticación y diagramas de secuencia.
@@ -541,25 +572,30 @@ Todas las tablas en `public` tienen RLS habilitado (`ENABLE ROW LEVEL SECURITY`)
 ## 8. Estado Actual del Desarrollo y Siguientes Pasos
 
 ### Estado Actual:
-* **Backend:** **100% Completado y Verificado.**
-  - Todas las Server Actions requeridas por la especificación están programadas, tipadas y protegidas con Zod y RBAC.
+* **Backend y Autenticación:** **100% Completado y Verificado.**
+  - Server Actions en TypeScript protegidas con Zod, RBAC y auditoría.
+  - Microservicio FastAPI en Python 3.14 con flujos completos de login, lockout, enrolamiento TOTP y verificación AAL2.
   - Edge Function de transición automática de citas implementada en Deno.
-  - Almacenamiento seguro en Supabase Storage con validación de tipos MIME y generación de URLs firmadas de 15 minutos.
+  - Almacenamiento seguro en Supabase Storage con URLs firmadas de 15 minutos.
+* **Frontend y Vistas (UI/UX):** **100% Maquetado y Funcional.**
+  - Vistas de autenticación completas (`/login`, `/setup-mfa`, `/verify-mfa`).
+  - Paneles del Dashboard implementados (`/dashboard`, `/pacientes`, `/citas`, `/usuarios`, `/clinica/configuracion`, `/reportes/pacientes-atendidos`, `/reportes/estado-citas`).
+  - Navegación lateral reactiva con filtrado de opciones según rol del usuario.
+  - Cierre de sesión a prueba de fallos y temporizador de advertencia e inactividad de 30 minutos.
 * **Base de Datos Remota (Supabase):** **100% Migrada y Operativa.**
   - Tablas de negocio, esquemas `public` y `private`, funciones, triggers y políticas RLS desplegadas.
   - Usuario administrador inicial (`admin@dentalclinic.com`) y consultorio de prueba creados y probados con éxito.
 * **Calidad y Cobertura de Código:**
-  - **74 de 74 tests unitarios y de propiedades aprobados** (`npx vitest run`).
+  - **106 de 106 tests automatizados aprobados** (74 Vitest + 32 Pytest).
   - **0 errores de compilación TypeScript** (`npx tsc --noEmit`).
+  - **Compilación de producción Next.js 15 limpia** (16 rutas estáticas/dinámicas validadas sin errores).
   - Grafo de arquitectura de **Graphify** actualizado y sincronizado.
 
 ### Siguientes Pasos Recomendados:
-1. **Desarrollo de Vistas Frontend (UI/UX):**
-   - Implementar el diseño visual y componentes interactivos para la gestión de pacientes y agenda de citas.
-   - Construir el componente interactivo del Odontograma Digital (renderizado interactivo de las 32 piezas y sus 6 superficies).
-   - Diseñar las tablas y filtros para la consulta de auditoría y los gráficos de los reportes analíticos.
-2. **Pruebas End-to-End (E2E):**
+1. **Pruebas End-to-End (E2E):**
    - Configurar pruebas de integración en el navegador con Playwright para validar los flujos completos desde la interfaz de usuario (Login -> MFA -> Dashboard -> Agendar Cita -> Guardar Historia Clínica).
+2. **Despliegue e Infraestructura CI/CD:**
+   - Configurar pipeline en GitHub Actions para ejecución automática de la suite de 106 tests (74 Vitest + 32 Pytest) y build de producción en cada Pull Request.
 
 ---
 
