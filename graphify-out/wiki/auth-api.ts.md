@@ -33,8 +33,8 @@
 
 ## Relationships
 
-- [lucide-react](lucide-react.md) (7 shared connections)
-- [citas/page.tsx](citas-page.tsx.md) (3 shared connections)
+- [Community 394](Community_394.md) (7 shared connections)
+- [pacientes/page.tsx](pacientes-page.tsx.md) (3 shared connections)
 - [proxy.ts](proxy.ts.md) (3 shared connections)
 - [types/domain.ts](types-domain.ts.md) (1 shared connections)
 

@@ -6,12 +6,12 @@
 
 - **run_all_migrations.sql** (15 connections) — `supabase/run_all_migrations.sql`
 - **clinics** (9 connections) — `supabase/run_all_migrations.sql`
+- **clinical_entries** (8 connections) — `supabase/run_all_migrations.sql`
 - **clinical_records** (7 connections) — `supabase/migrations/005_create_clinical_records.sql`
+- **clinical_entries** (7 connections) — `supabase/migrations/006_create_clinical_entries.sql`
 - **patients** (7 connections) — `supabase/run_all_migrations.sql`
 - **users** (7 connections) — `supabase/run_all_migrations.sql`
-- **clinical_entries** (6 connections) — `supabase/run_all_migrations.sql`
-- **clinical_entries** (5 connections) — `supabase/migrations/006_create_clinical_entries.sql`
-- **appointments** (4 connections) — `supabase/run_all_migrations.sql`
+- **appointments** (6 connections) — `supabase/run_all_migrations.sql`
 - **clinical_attachments** (4 connections) — `supabase/run_all_migrations.sql`
 - **odontogram_states** (4 connections) — `supabase/run_all_migrations.sql`
 - **update_updated_at_column** (4 connections)
@@ -43,7 +43,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 49 (100%)
+- EXTRACTED: 52 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

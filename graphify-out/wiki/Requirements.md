@@ -5,7 +5,6 @@
 ## Key Concepts
 
 - **Requirements** (11 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
-- **Criterios de Aceptación** (10 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Requirements Document** (4 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Requisito 10: Estrategia de Conectividad y Sincronización** (2 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Requisito 1: Gestión de Consultorios (Multitenencia)** (2 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
@@ -18,6 +17,7 @@
 - **Requisito 8: Seguridad y Trazabilidad** (2 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Requisito 9: Reportes Operativos Básicos** (2 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **requirements.md** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Glossary** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Introduction** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 

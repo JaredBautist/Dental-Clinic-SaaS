@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- **route.ts** (1 connections) — `app/api/health/route.ts`
+- **health/route.ts** (1 connections) — `app/api/health/route.ts`
 - **GET()** (1 connections) — `app/api/health/route.ts`
 
 ## Relationships

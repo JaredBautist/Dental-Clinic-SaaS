@@ -26,9 +26,9 @@
 - [Correctness Properties](Correctness_Properties.md) (1 shared connections)
 - [Error Handling](Error_Handling.md) (1 shared connections)
 - [Categorías de Pruebas](Categorías_de_Pruebas.md) (1 shared connections)
-- [Políticas RLS](Políticas_RLS.md) (1 shared connections)
+- [Esquema PostgreSQL Completo](Esquema_PostgreSQL_Completo.md) (1 shared connections)
 - [Flujo de Autenticación y Manejo de Sesiones](Flujo_de_Autenticación_y_Manejo_de_Sesiones.md) (1 shared connections)
-- [Manejo de Errores y Conectividad](Manejo_de_Errores_y_Conectividad.md) (1 shared connections)
+- [Community 676](Community_676.md) (1 shared connections)
 
 ## Source Files
 

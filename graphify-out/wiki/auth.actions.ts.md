@@ -5,11 +5,11 @@
 ## Key Concepts
 
 - **auth.actions.ts** (33 connections) — `lib/actions/auth.actions.ts`
+- **server.ts** (13 connections) — `lib/supabase/server.ts`
+- **createClient()** (13 connections) — `lib/supabase/server.ts`
 - **terminateSession()** (8 connections) — `lib/auth/session-termination.ts`
 - **requireClinicalUser()** (7 connections) — `lib/actions/auth.actions.ts`
 - **session-termination.ts** (7 connections) — `lib/auth/session-termination.ts`
-- **server.ts** (7 connections) — `lib/supabase/server.ts`
-- **createClient()** (7 connections) — `lib/supabase/server.ts`
 - **auth-actions.test.ts** (6 connections) — `__tests__/unit/auth-actions.test.ts`
 - **failMfaVerification()** (5 connections) — `lib/actions/auth.actions.ts`
 - **verifyMfaLoginAction()** (5 connections) — `lib/actions/auth.actions.ts`
@@ -29,10 +29,10 @@
 
 - [types/domain.ts](types-domain.ts.md) (15 shared connections)
 - [DentalClinicError](DentalClinicError.md) (14 shared connections)
-- [users.actions.ts](users.actions.ts.md) (6 shared connections)
+- [requireRole](requireRole.md) (6 shared connections)
 - [login-attempt-store.ts](login-attempt-store.ts.md) (4 shared connections)
 - [proxy.ts](proxy.ts.md) (3 shared connections)
-- [vitest](vitest.md) (2 shared connections)
+- [security-headers.property.test.ts](security-headers.property.test.ts.md) (2 shared connections)
 
 ## Source Files
 
@@ -44,7 +44,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 77 (100%)
+- EXTRACTED: 89 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

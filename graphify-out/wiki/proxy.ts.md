@@ -5,8 +5,8 @@
 ## Key Concepts
 
 - **proxy.ts** (19 connections) — `proxy.ts`
+- **UserRole** (15 connections) — `types/domain.ts`
 - **access-policy.ts** (14 connections) — `lib/auth/access-policy.ts`
-- **UserRole** (13 connections) — `types/domain.ts`
 - **proxy()** (10 connections) — `proxy.ts`
 - **verified-headers.ts** (8 connections) — `lib/auth/verified-headers.ts`
 - **decideAccess()** (6 connections) — `lib/auth/access-policy.ts`
@@ -34,12 +34,12 @@
 ## Relationships
 
 - [types/domain.ts](types-domain.ts.md) (4 shared connections)
-- [vitest](vitest.md) (4 shared connections)
+- [security-headers.property.test.ts](security-headers.property.test.ts.md) (4 shared connections)
 - [auth.actions.ts](auth.actions.ts.md) (3 shared connections)
 - [auth-api.ts](auth-api.ts.md) (3 shared connections)
 - [package.json](package.json.md) (1 shared connections)
-- [pacientes/page.tsx](pacientes-page.tsx.md) (1 shared connections)
-- [users.actions.ts](users.actions.ts.md) (1 shared connections)
+- [Community 26](Community_26.md) (1 shared connections)
+- [requireRole](requireRole.md) (1 shared connections)
 
 ## Source Files
 
@@ -56,7 +56,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 78 (100%)
+- EXTRACTED: 80 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

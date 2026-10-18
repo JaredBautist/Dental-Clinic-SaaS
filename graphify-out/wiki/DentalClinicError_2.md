@@ -1,54 +1,62 @@
 # DentalClinicError
 
-> God node · 38 connections · `errors/domain.ts`
+> God node · 56 connections · `errors/domain.ts`
 
 **Community:** [DentalClinicError](DentalClinicError.md)
 
 ## Connections by Relation
 
 ### calls
+- createAppointmentAction() `EXTRACTED`
 - terminateSession() `EXTRACTED`
 - loginAction() `EXTRACTED`
 - requireClinicalUser() `EXTRACTED`
-- failMfaVerification() `EXTRACTED`
-- enrollMfaAction() `EXTRACTED`
+- saveClinicalEntryAction() `EXTRACTED`
+- saveToothStateAction() `EXTRACTED`
+- createPatientAction() `EXTRACTED`
 - createUserAction() `EXTRACTED`
 - deactivateUserAction() `EXTRACTED`
 - cancelAppointmentAction() `EXTRACTED`
-- createAppointmentAction() `EXTRACTED`
-- listAppointmentsAction() `EXTRACTED`
-- getClinicAction() `EXTRACTED`
+- rescheduleAppointmentAction() `EXTRACTED`
+- uploadAttachmentAction() `EXTRACTED`
+- registerClinicAction() `EXTRACTED`
 - updateClinicAction() `EXTRACTED`
-- createPatientAction() `EXTRACTED`
-- listPatientsAction() `EXTRACTED`
-- searchPatientsAction() `EXTRACTED`
 - updatePatientAction() `EXTRACTED`
-- listUsersAction() `EXTRACTED`
-- updateUserAction() `EXTRACTED`
+- getAppointmentStatusReportAction() `EXTRACTED`
+- getAttendedPatientsReportAction() `EXTRACTED`
+- failMfaVerification() `EXTRACTED`
+- getClinicAction() `EXTRACTED`
+- getClinicalHistoryAction() `EXTRACTED`
+- *…and 11 more `calls` connection(s) not listed (lowest-degree first to go)*
 
 ### contains
 - errors/domain.ts `EXTRACTED`
 
 ### imports
 - [auth.actions.ts](auth.actions.ts.md) `EXTRACTED`
-- [users.actions.ts](users.actions.ts.md) `EXTRACTED`
-- patients.actions.ts `EXTRACTED`
-- server-action-wrapper.ts `EXTRACTED`
 - appointments.actions.ts `EXTRACTED`
+- odontogram.actions.ts `EXTRACTED`
+- patients.actions.ts `EXTRACTED`
+- users.actions.ts `EXTRACTED`
 - clinic.actions.ts `EXTRACTED`
+- clinical.actions.ts `EXTRACTED`
+- require-user.ts `EXTRACTED`
+- attachments.actions.ts `EXTRACTED`
+- reports.actions.ts `EXTRACTED`
+- server-action-wrapper.ts `EXTRACTED`
 - session-termination.ts `EXTRACTED`
 
 ### inherits
-- AccountLockedError `EXTRACTED`
-- InvalidCredentialsError `EXTRACTED`
 - RoleAuthorizationError `EXTRACTED`
+- ConcurrencyConflictError `EXTRACTED`
+- UniqueDocumentError `EXTRACTED`
+- AccountLockedError `EXTRACTED`
+- AppointmentConflictError `EXTRACTED`
+- InvalidCredentialsError `EXTRACTED`
+- ReportRangeLimitError `EXTRACTED`
 - ValidationError `EXTRACTED`
 - TenantIsolationError `EXTRACTED`
-- UniqueDocumentError `EXTRACTED`
-- AppointmentConflictError `EXTRACTED`
-- ConcurrencyConflictError `EXTRACTED`
 - ImmutableRecordError `EXTRACTED`
-- ReportRangeLimitError `EXTRACTED`
 
 ### method
 - .constructor() `EXTRACTED`

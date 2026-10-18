@@ -2,7 +2,7 @@
 
 > God node · 36 connections · `lib/utils.ts`
 
-**Community:** [pacientes/page.tsx](pacientes-page.tsx.md)
+**Community:** [Community 26](Community_26.md)
 
 ## Connections by Relation
 

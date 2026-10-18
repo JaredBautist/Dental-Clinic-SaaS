@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- **appointments** (4 connections) — `supabase/migrations/004_create_appointments.sql`
+- **appointments** (6 connections) — `supabase/migrations/004_create_appointments.sql`
 - **004_create_appointments.sql** (2 connections) — `supabase/migrations/004_create_appointments.sql`
 - **calc_ends_at()** (1 connections) — `supabase/migrations/004_create_appointments.sql`
 - **clinics** (1 connections)
@@ -21,7 +21,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 5 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

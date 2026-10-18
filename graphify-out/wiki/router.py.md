@@ -1,43 +1,49 @@
 # router.py
 
-> 16 nodes · cohesion 0.31
+> 23 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- **router.py** (23 connections) — `backend/app/auth/router.py`
-- **_ok()** (9 connections) — `backend/app/auth/router.py`
-- **login_endpoint()** (8 connections) — `backend/app/auth/router.py`
-- **AsyncClient** (7 connections)
-- **verify_login_endpoint()** (7 connections) — `backend/app/auth/router.py`
-- **verify_setup_endpoint()** (7 connections) — `backend/app/auth/router.py`
-- **post** (7 connections)
-- **cancel_endpoint()** (5 connections) — `backend/app/auth/router.py`
-- **enroll_endpoint()** (5 connections) — `backend/app/auth/router.py`
-- **logout_endpoint()** (5 connections) — `backend/app/auth/router.py`
-- **reset_endpoint()** (5 connections) — `backend/app/auth/router.py`
-- **_session_payload()** (5 connections) — `backend/app/auth/router.py`
-- **auth/__init__.py** (3 connections) — `backend/app/auth/__init__.py`
-- **Módulo de autenticación y MFA — port de lib/actions/auth.actions.ts.** (1 connections) — `backend/app/auth/__init__.py`
-- **Any** (1 connections)
-- **Endpoints HTTP — mismo contrato que ServerActionResult del frontend TypeScript.…** (1 connections) — `backend/app/auth/router.py`
+- **test_auth_service.py** (29 connections) — `backend/tests/test_auth_service.py`
+- **VerifyLoginRequest** (9 connections) — `backend/app/auth/schemas.py`
+- **VerifySetupRequest** (8 connections) — `backend/app/auth/schemas.py`
+- **TestBoundaryValidation** (8 connections) — `backend/tests/test_auth_service.py`
+- **schemas.py** (7 connections) — `backend/app/auth/schemas.py`
+- **LoginRequest** (4 connections) — `backend/app/auth/schemas.py`
+- **FakePostgrest** (4 connections) — `backend/tests/test_auth_service.py`
+- **_validate_totp_code()** (3 connections) — `backend/app/auth/schemas.py`
+- **.code_format()** (3 connections) — `backend/app/auth/schemas.py`
+- **.code_format()** (3 connections) — `backend/app/auth/schemas.py`
+- **BaseModel** (3 connections)
+- **.test_acepta_codigo_de_seis_digitos()** (2 connections) — `backend/tests/test_auth_service.py`
+- **.test_rechaza_codigo_mfa_no_numerico()** (2 connections) — `backend/tests/test_auth_service.py`
+- **.test_rechaza_codigo_setup_no_numerico()** (2 connections) — `backend/tests/test_auth_service.py`
+- **.test_verify_setup_acepta_factor_id_camel_case_del_frontend()** (2 connections) — `backend/tests/test_auth_service.py`
+- **TestEnrollMfa** (2 connections) — `backend/tests/test_auth_service.py`
+- **field_validator** (2 connections)
+- **Esquemas de entrada — equivalentes a los Zod schemas de auth.actions.ts. El…** (1 connections) — `backend/app/auth/schemas.py`
+- **.auth()** (1 connections) — `backend/tests/test_auth_service.py`
+- **.__init__()** (1 connections) — `backend/tests/test_auth_service.py`
+- **Tests del servicio de auth/MFA con clientes Supabase falsos (sin red). Port de…** (1 connections) — `backend/tests/test_auth_service.py`
+- **lib/api/auth-api.ts envía {"factorId", "code"}; el modelo lo acepta.** (1 connections) — `backend/tests/test_auth_service.py`
+- **.test_verify_setup_acepta_factor_id_snake_case()** (1 connections) — `backend/tests/test_auth_service.py`
 
 ## Relationships
 
-- [service.py](service.py.md) (9 shared connections)
-- [test_auth_service.py](test_auth_service.py.md) (8 shared connections)
-- [test_api_contract.py](test_api_contract.py.md) (4 shared connections)
-- [LoginAttemptStore](LoginAttemptStore.md) (3 shared connections)
-- [main.py](main.py.md) (1 shared connections)
+- [test_auth_service.py](test_auth_service.py.md) (11 shared connections)
+- [Community 227](Community_227.md) (8 shared connections)
+- [service.py](service.py.md) (8 shared connections)
+- [Community 66](Community_66.md) (4 shared connections)
 
 ## Source Files
 
-- `backend/app/auth/__init__.py`
-- `backend/app/auth/router.py`
+- `backend/app/auth/schemas.py`
+- `backend/tests/test_auth_service.py`
 
 ## Audit Trail
 
-- EXTRACTED: 58 (94%)
-- INFERRED: 4 (6%)
+- EXTRACTED: 60 (92%)
+- INFERRED: 5 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

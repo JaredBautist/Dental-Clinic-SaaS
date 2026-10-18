@@ -18,7 +18,7 @@
 
 ## Relationships
 
-- [vitest](vitest.md) (2 shared connections)
+- [security-headers.property.test.ts](security-headers.property.test.ts.md) (2 shared connections)
 
 ## Source Files
 

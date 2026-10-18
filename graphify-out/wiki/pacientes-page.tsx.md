@@ -1,61 +1,62 @@
 # pacientes/page.tsx
 
-> 34 nodes · cohesion 0.13
+> 46 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- **pacientes/page.tsx** (39 connections) — `app/(dashboard)/pacientes/page.tsx`
-- **cn()** (36 connections) — `lib/utils.ts`
-- **usuarios/page.tsx** (35 connections) — `app/(dashboard)/usuarios/page.tsx`
-- **table.tsx** (13 connections) — `components/ui/table.tsx`
-- **empty-state.tsx** (11 connections) — `components/ui/empty-state.tsx`
-- **Card** (9 connections) — `components/ui/card.tsx`
-- **modal.tsx** (9 connections) — `components/ui/modal.tsx`
-- **input.tsx** (8 connections) — `components/ui/input.tsx`
-- **EmptyState()** (5 connections) — `components/ui/empty-state.tsx`
-- **Input** (5 connections) — `components/ui/input.tsx`
-- **Modal()** (5 connections) — `components/ui/modal.tsx`
-- **Table** (4 connections) — `components/ui/table.tsx`
-- **TableBody** (4 connections) — `components/ui/table.tsx`
-- **TableCell** (4 connections) — `components/ui/table.tsx`
-- **TableHead** (4 connections) — `components/ui/table.tsx`
-- **TableHeader** (4 connections) — `components/ui/table.tsx`
-- **TableRow** (4 connections) — `components/ui/table.tsx`
-- **SearchInput()** (3 connections) — `components/ui/empty-state.tsx`
-- **PatientForm()** (2 connections) — `app/(dashboard)/pacientes/page.tsx`
-- **UserForm()** (2 connections) — `app/(dashboard)/usuarios/page.tsx`
-- **TableCaption** (2 connections) — `components/ui/table.tsx`
-- **TableFooter** (2 connections) — `components/ui/table.tsx`
-- **documentTypeLabels** (1 connections) — `app/(dashboard)/pacientes/page.tsx`
-- **mockPatients** (1 connections) — `app/(dashboard)/pacientes/page.tsx`
-- **handleSubmit()** (1 connections) — `app/(dashboard)/pacientes/page.tsx`
-- *... and 9 more nodes in this community*
+- **citas/page.tsx** (28 connections) — `app/(dashboard)/citas/page.tsx`
+- **react** (22 connections) — `package.json`
+- **configuracion/page.tsx** (20 connections) — `app/(dashboard)/clinica/configuracion/page.tsx`
+- **dashboard/page.tsx** (20 connections) — `app/(dashboard)/dashboard/page.tsx`
+- **estado-citas/page.tsx** (20 connections) — `app/(dashboard)/reportes/estado-citas/page.tsx`
+- **pacientes-atendidos/page.tsx** (19 connections) — `app/(dashboard)/reportes/pacientes-atendidos/page.tsx`
+- **card.tsx** (17 connections) — `components/ui/card.tsx`
+- **badge.tsx** (12 connections) — `components/ui/badge.tsx`
+- **button.tsx** (12 connections) — `components/ui/button.tsx`
+- **page-header.tsx** (12 connections) — `components/ui/page-header.tsx`
+- **select.tsx** (10 connections) — `components/ui/select.tsx`
+- **Badge** (9 connections) — `components/ui/badge.tsx`
+- **Button** (9 connections) — `components/ui/button.tsx`
+- **CardContent** (9 connections) — `components/ui/card.tsx`
+- **CardHeader** (9 connections) — `components/ui/card.tsx`
+- **CardTitle** (9 connections) — `components/ui/card.tsx`
+- **PageHeader()** (9 connections) — `components/ui/page-header.tsx`
+- **Select** (7 connections) — `components/ui/select.tsx`
+- **CardDescription** (6 connections) — `components/ui/card.tsx`
+- **AppointmentForm()** (2 connections) — `app/(dashboard)/citas/page.tsx`
+- **ClinicConfigPage()** (2 connections) — `app/(dashboard)/clinica/configuracion/page.tsx`
+- **CardFooter** (2 connections) — `components/ui/card.tsx`
+- **handleSubmit()** (1 connections) — `app/(dashboard)/citas/page.tsx`
+- **dentists** (1 connections) — `app/(dashboard)/citas/page.tsx`
+- **mockAppointments** (1 connections) — `app/(dashboard)/citas/page.tsx`
+- *... and 21 more nodes in this community*
 
 ## Relationships
 
-- [citas/page.tsx](citas-page.tsx.md) (56 shared connections)
-- [package.json](package.json.md) (7 shared connections)
-- [lucide-react](lucide-react.md) (6 shared connections)
+- [Community 26](Community_26.md) (56 shared connections)
+- [package.json](package.json.md) (9 shared connections)
+- [Community 394](Community_394.md) (7 shared connections)
 - [types/domain.ts](types-domain.ts.md) (5 shared connections)
-- [PatientsPage](PatientsPage.md) (1 shared connections)
-- [users.actions.ts](users.actions.ts.md) (1 shared connections)
-- [proxy.ts](proxy.ts.md) (1 shared connections)
-- [UsersPage](UsersPage.md) (1 shared connections)
+- [auth-api.ts](auth-api.ts.md) (3 shared connections)
+- [Community 673](Community_673.md) (1 shared connections)
 
 ## Source Files
 
-- `app/(dashboard)/pacientes/page.tsx`
-- `app/(dashboard)/usuarios/page.tsx`
+- `app/(dashboard)/citas/page.tsx`
+- `app/(dashboard)/clinica/configuracion/page.tsx`
+- `app/(dashboard)/dashboard/page.tsx`
+- `app/(dashboard)/reportes/estado-citas/page.tsx`
+- `app/(dashboard)/reportes/pacientes-atendidos/page.tsx`
+- `components/ui/badge.tsx`
+- `components/ui/button.tsx`
 - `components/ui/card.tsx`
-- `components/ui/empty-state.tsx`
-- `components/ui/input.tsx`
-- `components/ui/modal.tsx`
-- `components/ui/table.tsx`
-- `lib/utils.ts`
+- `components/ui/page-header.tsx`
+- `components/ui/select.tsx`
+- `package.json`
 
 ## Audit Trail
 
-- EXTRACTED: 150 (100%)
+- EXTRACTED: 185 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,49 +1,50 @@
 # test_auth_service.py
 
-> 23 nodes · cohesion 0.13
+> 53 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- **test_auth_service.py** (29 connections) — `backend/tests/test_auth_service.py`
-- **VerifyLoginRequest** (9 connections) — `backend/app/auth/schemas.py`
-- **VerifySetupRequest** (8 connections) — `backend/app/auth/schemas.py`
-- **TestBoundaryValidation** (8 connections) — `backend/tests/test_auth_service.py`
-- **schemas.py** (7 connections) — `backend/app/auth/schemas.py`
-- **LoginRequest** (4 connections) — `backend/app/auth/schemas.py`
-- **FakePostgrest** (4 connections) — `backend/tests/test_auth_service.py`
-- **_validate_totp_code()** (3 connections) — `backend/app/auth/schemas.py`
-- **.code_format()** (3 connections) — `backend/app/auth/schemas.py`
-- **.code_format()** (3 connections) — `backend/app/auth/schemas.py`
-- **BaseModel** (3 connections)
-- **.test_acepta_codigo_de_seis_digitos()** (2 connections) — `backend/tests/test_auth_service.py`
-- **.test_rechaza_codigo_mfa_no_numerico()** (2 connections) — `backend/tests/test_auth_service.py`
-- **.test_rechaza_codigo_setup_no_numerico()** (2 connections) — `backend/tests/test_auth_service.py`
-- **.test_verify_setup_acepta_factor_id_camel_case_del_frontend()** (2 connections) — `backend/tests/test_auth_service.py`
-- **TestEnrollMfa** (2 connections) — `backend/tests/test_auth_service.py`
-- **field_validator** (2 connections)
-- **Esquemas de entrada — equivalentes a los Zod schemas de auth.actions.ts. El…** (1 connections) — `backend/app/auth/schemas.py`
-- **.auth()** (1 connections) — `backend/tests/test_auth_service.py`
-- **.__init__()** (1 connections) — `backend/tests/test_auth_service.py`
-- **Tests del servicio de auth/MFA con clientes Supabase falsos (sin red). Port de…** (1 connections) — `backend/tests/test_auth_service.py`
-- **lib/api/auth-api.ts envía {"factorId", "code"}; el modelo lo acepta.** (1 connections) — `backend/tests/test_auth_service.py`
-- **.test_verify_setup_acepta_factor_id_snake_case()** (1 connections) — `backend/tests/test_auth_service.py`
+- **FakeAuth** (23 connections) — `backend/tests/test_auth_service.py`
+- **FakeClient** (20 connections) — `backend/tests/test_auth_service.py`
+- **FakeMfa** (18 connections) — `backend/tests/test_auth_service.py`
+- **Any** (15 connections)
+- **FakeQuery** (11 connections) — `backend/tests/test_auth_service.py`
+- **TestLogin** (11 connections) — `backend/tests/test_auth_service.py`
+- **TestVerifyMfaLogin** (10 connections) — `backend/tests/test_auth_service.py`
+- **Exception** (8 connections)
+- **.test_bloqueo_tras_intentos_encola_notificacion()** (6 connections) — `backend/tests/test_auth_service.py`
+- **.test_credenciales_invalidas_registran_intento()** (6 connections) — `backend/tests/test_auth_service.py`
+- **.__init__()** (5 connections) — `backend/tests/test_auth_service.py`
+- **_jwt_with_aal()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_cuenta_bloqueada_no_envia_credenciales()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_cierra_sesion_cuando_supabase_rechaza_totp()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_exito_devuelve_sesion_aal2()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_falla_si_aal_no_llega_a_aal2()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_no_afirma_fallo_mfa_si_supabase_no_confirma_sign_out()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_marca_mfa_enabled_solo_tras_aal2()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_no_marca_mfa_enabled_si_falla_challenge()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.__init__()** (4 connections) — `backend/tests/test_auth_service.py`
+- **.test_limpia_factores_no_verificados_antes_de_enrolar()** (4 connections) — `backend/tests/test_auth_service.py`
+- **.test_admin_sin_mfa_redirige_a_setup_y_limpia_intentos()** (4 connections) — `backend/tests/test_auth_service.py`
+- **.test_cuenta_inactiva_cierra_sesion()** (4 connections) — `backend/tests/test_auth_service.py`
+- **TestSessionTermination** (4 connections) — `backend/tests/test_auth_service.py`
+- **.test_falla_si_no_hay_factor_totp()** (4 connections) — `backend/tests/test_auth_service.py`
+- *... and 28 more nodes in this community*
 
 ## Relationships
 
-- [FakeAuth](FakeAuth.md) (11 shared connections)
-- [router.py](router.py.md) (8 shared connections)
+- [router.py](router.py.md) (11 shared connections)
+- [Community 66](Community_66.md) (9 shared connections)
 - [service.py](service.py.md) (8 shared connections)
-- [LoginAttemptStore](LoginAttemptStore.md) (4 shared connections)
 
 ## Source Files
 
-- `backend/app/auth/schemas.py`
 - `backend/tests/test_auth_service.py`
 
 ## Audit Trail
 
-- EXTRACTED: 60 (92%)
-- INFERRED: 5 (8%)
+- EXTRACTED: 130 (93%)
+- INFERRED: 10 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---
