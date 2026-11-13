@@ -65,7 +65,8 @@ export default function LoginPage() {
         return;
       }
 
-      window.location.href = res.data.redirectTo || '/dashboard';
+      // Evita dejar /login en el historial: Atrás vuelve a la página previa válida.
+      router.replace(res.data.redirectTo || '/dashboard');
     } catch {
       setErrorMsg('Ocurrió un error al intentar iniciar sesión. Por favor intente nuevamente.');
       setIsLoading(false);
@@ -172,7 +173,7 @@ export default function LoginPage() {
             </div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-700/50">
+          <div className="mt-6 pt-6 border-t border-slate-700/50 space-y-4">
             <div className="flex items-center justify-between text-xs text-slate-400">
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />

@@ -30,6 +30,52 @@ export type AccessDecision =
 
 const PUBLIC_PATHS = new Set(['/', '/login', '/api/health']);
 
+interface RouteRoleRule {
+  match: (pathname: string) => boolean;
+  roles: UserRole[];
+}
+
+/**
+ * Reglas de autorización por ruta (menor privilegio).
+ * Se evalúan después de autenticación y MFA; una violación redirige a /dashboard.
+ */
+const ROUTE_ROLE_RULES: RouteRoleRule[] = [
+  {
+    match: (p) => p === '/usuarios' || p.startsWith('/usuarios/'),
+    roles: ['administrador'],
+  },
+  {
+    match: (p) => p === '/clinica' || p.startsWith('/clinica/'),
+    roles: ['administrador'],
+  },
+  {
+    match: (p) => p === '/consultorios' || p.startsWith('/consultorios/'),
+    roles: ['administrador'],
+  },
+  {
+    match: (p) => p === '/auditoria' || p.startsWith('/auditoria/'),
+    roles: ['administrador'],
+  },
+  {
+    match: (p) => p === '/reportes' || p.startsWith('/reportes/'),
+    roles: ['administrador', 'odontologo'],
+  },
+  {
+    match: (p) => /^\/pacientes\/[^/]+\/historia(\/|$)/.test(p),
+    roles: ['administrador', 'odontologo'],
+  },
+];
+
+/** Indica si el rol puede acceder a la ruta según las reglas del sistema. */
+export function isRoleAllowedForPath(pathname: string, role: UserRole): boolean {
+  for (const rule of ROUTE_ROLE_RULES) {
+    if (rule.match(pathname) && !rule.roles.includes(role)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 /** Distingue una sesión ausente/inválida de una indisponibilidad de Supabase Auth. */
 export function isUnauthenticatedError(error: AuthenticationErrorLike | null): boolean {
   if (!error) return false;
@@ -106,6 +152,10 @@ export function decideAccess(input: AccessInput): AccessDecision {
 
   if (mfaDestination) {
     return { kind: 'redirect', location: mfaDestination };
+  }
+
+  if (!isRoleAllowedForPath(input.pathname, profile.role)) {
+    return { kind: 'redirect', location: '/dashboard' };
   }
 
   return { kind: 'allow' };

@@ -17,41 +17,69 @@ vi.mock('@/lib/audit', () => ({
   createAuditLog: vi.fn().mockResolvedValue(undefined),
 }));
 
-import { registerClinicAction, updateClinicAction, getClinicAction } from '@/lib/actions/clinic.actions';
+import {
+  createClinicAction,
+  updateClinicAction,
+  type UpdateClinicInput,
+} from '@/lib/actions/clinic.actions';
 
 describe('Clinic Actions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  describe('registerClinicAction', () => {
-    it('debe registrar un consultorio y crear el administrador inicial exitosamente', async () => {
+  describe('createClinicAction', () => {
+    it('debe crear un consultorio y su administrador desde un administrador autenticado', async () => {
       const insertMock = vi.fn().mockResolvedValue({ error: null });
-      const deleteMock = vi.fn().mockReturnValue({ eq: vi.fn().mockResolvedValue({ error: null }) });
-      const inviteUserByEmailMock = vi.fn().mockResolvedValue({
-        data: { user: { id: 'admin-user-uuid-1' } },
+      const createUserMock = vi.fn().mockResolvedValue({
+        data: { user: { id: 'new-admin-user-uuid-1' } },
         error: null,
+      });
+      const deleteUserMock = vi.fn().mockResolvedValue({ error: null });
+
+      mocks.createServerClient.mockResolvedValue({
+        auth: {
+          getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'admin-uuid-1' } } }),
+        },
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: {
+                  id: 'admin-uuid-1',
+                  clinic_id: 'clinic-uuid-1',
+                  role: 'administrador',
+                  full_name: 'Admin Sistema',
+                  is_active: true,
+                },
+                error: null,
+              }),
+            }),
+          }),
+        }),
       });
 
       mocks.createAdminClient.mockReturnValue({
-        from: (table: string) => ({
+        from: () => ({
           insert: insertMock,
-          delete: deleteMock,
+          delete: () => ({ eq: vi.fn().mockResolvedValue({ error: null }) }),
         }),
         auth: {
           admin: {
-            inviteUserByEmail: inviteUserByEmailMock,
+            createUser: createUserMock,
+            deleteUser: deleteUserMock,
           },
         },
       });
 
-      const result = await registerClinicAction({
+      const result = await createClinicAction({
         name: 'Clínica Dental San José',
         address: 'Calle 10 # 5-20, Cúcuta',
         phone: '3123456789',
         email: 'contacto@sanjosedental.co',
         adminName: 'Dra. María González',
         adminEmail: 'maria@sanjosedental.co',
+        adminPassword: 'Clinica2026!',
       });
 
       expect(result.success).toBe(true);
@@ -60,15 +88,61 @@ describe('Clinic Actions', () => {
         expect(result.data.adminEmail).toBe('maria@sanjosedental.co');
         expect(result.data.clinicId).toBeDefined();
       }
-      expect(inviteUserByEmailMock).toHaveBeenCalledWith('maria@sanjosedental.co', expect.anything());
+      expect(createUserMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'maria@sanjosedental.co',
+          password: 'Clinica2026!',
+          email_confirm: true,
+        })
+      );
+      expect(deleteUserMock).not.toHaveBeenCalled();
+    });
+
+    it('debe rechazar la creación si el usuario no es administrador', async () => {
+      mocks.createServerClient.mockResolvedValue({
+        auth: {
+          getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'recep-uuid-1' } } }),
+        },
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: {
+                  id: 'recep-uuid-1',
+                  clinic_id: 'clinic-uuid-1',
+                  role: 'recepcionista',
+                  full_name: 'Laura Recepción',
+                  is_active: true,
+                },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      });
+
+      const result = await createClinicAction({
+        name: 'Clínica Dental San José',
+        adminName: 'Dra. María González',
+        adminEmail: 'maria@sanjosedental.co',
+        adminPassword: 'Clinica2026!',
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.statusCode).toBe(403);
+        expect(result.error.code).toBe('ROLE_AUTHORIZATION_ERROR');
+      }
+      expect(mocks.createAdminClient).toHaveBeenCalledTimes(1); // Auditoría del acceso denegado
     });
 
     it('debe rechazar datos obligatorios ausentes o inválidos', async () => {
-      const result = await registerClinicAction({
-        name: '', // Inválido: vacío
+      const result = await createClinicAction({
+        name: '',
         adminName: '',
         adminEmail: 'email-invalido',
-      } as any);
+        adminPassword: 'corta',
+      });
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -105,7 +179,7 @@ describe('Clinic Actions', () => {
           }
           if (table === 'clinics') {
             return {
-              update: (updates: any) => ({
+              update: (updates: UpdateClinicInput) => ({
                 eq: () => ({
                   select: () => ({
                     single: vi.fn().mockResolvedValue({

@@ -13,6 +13,10 @@ class LoginRequest(BaseModel):
     password: str = Field(min_length=1, max_length=256)
 
 
+# [CHECKLIST 39] Validación de los datos ingresados: expresión regular de
+#   exactamente 6 dígitos (rechaza códigos incorrectos con ValueError → 422),
+#   EmailStr y límites de longitud en LoginRequest; el caso de colecciones
+#   vacías se controla en app/auth/login_attempts.py (_first_row).
 def _validate_totp_code(value: str) -> str:
     if not re.fullmatch(r"\d{6}", value):
         raise ValueError("El código debe tener exactamente 6 dígitos")

@@ -41,6 +41,8 @@ async def get_user_client(
     El navegador conserva la sesión oficial (cookies vía @supabase/ssr); aquí se
     clona para que las operaciones MFA y las consultas RLS actúen como ese usuario.
     """
+    # [CHECKLIST 21] Tupla: partition() devuelve un tuple de 3 elementos que se
+    #   desempaqueta (scheme, _, token) sin necesidad de modificarlo.
     scheme, _, token = authorization.partition(" ")
     if scheme.lower() != "bearer" or not token or not x_refresh_token:
         raise AuthenticationRequiredError()

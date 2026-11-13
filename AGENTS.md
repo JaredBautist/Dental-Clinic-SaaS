@@ -42,6 +42,10 @@ and skill(name="emil-design-eng").
 
 ## Key Architectural Principles
 - Multi-tenant isolation via `clinic_id` + PostgreSQL RLS
+- Role ownership: `administrador` creates consultorios and their users (odontólogos/recepcionistas); `recepcionista` owns patient registration and appointment management; `odontologo` reads patients/appointments and writes clinical history and odontograms
+- Public consultorio self-registration is removed; use `createClinicAction` and `/clinica/nueva` (admin-only). `/consultorios` lists and manages all clinics and their users via `lib/actions/admin-clinics.actions.ts`; the admin UI never exposes patient/appointment data
+- Login is dynamic and session-aware; authenticated users are redirected away from `/login` (including browser Back), and authenticated server navigation uses `router.replace()` to avoid retaining `/login` in history
+- Role-specific dashboard: admin shows only consultorios/users administration and does not query patient/appointment dashboard stats
 - Server Actions with Zod validation
 - Row Level Security (RLS) on all tables
 - Immutable clinical records (append-only)

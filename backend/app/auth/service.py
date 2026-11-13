@@ -75,6 +75,10 @@ class MfaVerifyResult:
 # ---------------------------------------------------------------------------
 
 
+# [CHECKLIST 31] Definición de funciones con def/async def para organizar el
+#   aplicativo: helpers internos (_is_valid_profile, _sign_out_or_raise,
+#   _fail_mfa, _require_clinical_user, _confirm_aal2) y casos de uso
+#   (login, logout, enroll_mfa, verify_mfa_setup, verify_mfa_login, reset_mfa).
 def _is_valid_profile(profile: Any) -> bool:
     return (
         isinstance(profile, dict)
@@ -84,6 +88,10 @@ def _is_valid_profile(profile: Any) -> bool:
     )
 
 
+# [CHECKLIST 36] Función reutilizable y alcance de módulo: _sign_out_or_raise
+#   se invoca desde logout, cancel_mfa, reset_mfa y los manejadores de fallo
+#   (evita código duplicado); las constantes USER_ROLES, CLINICAL_ROLES,
+#   MFA_ISSUER y LOCKOUT_MINUTES están declaradas una sola vez a nivel de módulo.
 async def _sign_out_or_raise(client: AsyncClient, failure_message: str) -> None:
     """Port de terminateSession: solo retorna cuando el proveedor confirma el cierre."""
     try:
@@ -168,6 +176,12 @@ async def _confirm_aal2(
 # ---------------------------------------------------------------------------
 
 
+# [CHECKLIST 3] Variables con nombres descriptivos y coherentes: lockout,
+#   attempts_left, mfa_required, redirect_to, formatted_qr, all_factors.
+# [CHECKLIST 32] Función con parámetros usados como argumentos: client, attempts,
+#   email y password, recibidos desde login_endpoint (app/auth/router.py).
+# [CHECKLIST 33] Devolución de resultados con return: construye y retorna
+#   LoginResult con los datos de la sesión y el destino de redirección.
 async def login(
     client: AsyncClient,
     attempts: LoginAttemptStore,
@@ -178,6 +192,10 @@ async def login(
     # 1. Verificar el bloqueo persistente antes de enviar credenciales a Auth.
     lockout = await attempts.check(email)
     if lockout.is_locked:
+        # [CHECKLIST 4] Tipos de datos: int (remaining_seconds), float (división
+        #   segundos/60), str (email) y bool (is_locked, en LockoutStatus).
+        # [CHECKLIST 5] Operadores aritméticos: división, math.ceil() y max()
+        #   para convertir los segundos restantes de bloqueo en minutos.
         raise AccountLockedError(max(1, math.ceil(lockout.remaining_seconds / 60)))
 
     # 2. Autenticación con Supabase Auth
@@ -191,6 +209,8 @@ async def login(
     except Exception:
         user = session = None
 
+    # [CHECKLIST 6] Operadores de comparación (is None) y lógicos (or) para
+    #   evaluar la respuesta de autenticación antes de continuar.
     if user is None or session is None:
         attempt = await attempts.record_failure(email)
         if attempt.triggered_lockout:
@@ -203,6 +223,8 @@ async def login(
         raise InvalidCredentialsError(attempt.attempts_left)
 
     # 3. Consultar el perfil con la sesión del usuario y RLS activo.
+    # [CHECKLIST 22] Diccionario como registro (clave/valor): el perfil se lee
+    #   como dict y se consulta con profile["role"], profile.get("mfa_enabled").
     client.postgrest.auth(session.access_token)
     try:
         profile_result = (
@@ -234,6 +256,8 @@ async def login(
 
     redirect_to = "/dashboard"
     mfa_required = False
+    # [CHECKLIST 27] Búsqueda en una colección: `role in CLINICAL_ROLES`
+    #   localiza el rol dentro del conjunto de roles que exigen MFA.
     if role in CLINICAL_ROLES:
         mfa_required = True
         redirect_to = "/verify-mfa" if profile.get("mfa_enabled") else "/setup-mfa"
@@ -252,6 +276,9 @@ async def login(
     )
 
 
+# [CHECKLIST 34] Procedimiento: ejecuta la tarea (cerrar sesión de forma
+#   segura) sin devolver resultados (-> None). Mismo patrón en cancel_mfa,
+#   reset_mfa y en los helpers _sign_out_or_raise/_fail_mfa.
 async def logout(client: AsyncClient) -> None:
     """Port de logoutAction."""
     await _sign_out_or_raise(client, "No fue posible cerrar la sesión de forma segura.")
@@ -268,6 +295,17 @@ async def enroll_mfa(client: AsyncClient) -> EnrollResult:
     except Exception:
         all_factors = []
 
+    # [CHECKLIST 12] Ciclo for para recorrer la colección de factores MFA.
+    # [CHECKLIST 14] continue omite los factores ya verificados (solo se
+    #   eliminan los "unverified"); break no se usa porque el ciclo debe agotar
+    #   la lista completa (decisión de diseño documentada en GUIA_6, Actividad 8).
+    # [CHECKLIST 15] Condición de terminación controlada: el for recorre una
+    #   colección finita (all_factors), por lo que no puede generarse un bucle
+    #   infinito no deseado.
+    # [CHECKLIST 18/24] Lista (vector unidimensional) de elementos relacionados:
+    #   all_factors almacena los factores MFA del usuario.
+    # [CHECKLIST 25] Recorrido del vector con un ciclo for, accediendo a cada
+    #   elemento por su identificador (factor.id, factor.status).
     for factor in all_factors:
         if getattr(factor, "status", None) != "unverified":
             continue
@@ -307,6 +345,12 @@ async def enroll_mfa(client: AsyncClient) -> EnrollResult:
 
     totp = getattr(data, "totp", None)
     raw_qr = str(getattr(totp, "qr_code", "") or "").strip()
+    # [CHECKLIST 8] Conversiones de tipos: str() sobre los atributos del
+    #   proveedor, bytes con encode("utf-8") y de vuelta a str con decode("ascii").
+    # [CHECKLIST 9] Estructuras condicionales if / elif / else para decidir en
+    #   qué formato llegó el código QR del proveedor.
+    # [CHECKLIST 16] Manipulación de cadenas: startswith(), slicing (raw_qr[:30],
+    #   raw_qr[len(prefix):]) y f-strings para rearmar el Data URI.
     if raw_qr:
         import base64
         prefix = "data:image/svg+xml;utf-8,"
@@ -362,6 +406,8 @@ async def verify_mfa_setup(
     # 2. Marcar mfa_enabled solo después de alcanzar AAL2.
     session = await _confirm_aal2(client, verify_response)
 
+    # [CHECKLIST 23] Actualización de información almacenada: el diccionario
+    #   {"mfa_enabled": True} actualiza el registro del usuario en public.users.
     try:
         await admin.table("users").update({"mfa_enabled": True}).eq(
             "id", user.id
@@ -391,6 +437,8 @@ async def verify_mfa_login(client: AsyncClient, code: str) -> MfaVerifyResult:
             client, "No existe un factor TOTP válido. Inicie sesión nuevamente."
         )
 
+    # [CHECKLIST 17] Índice de colección: totp_factors[0] consulta el primer
+    #   factor TOTP del usuario (índice 0 de la lista).
     factor = totp_factors[0]
     try:
         verify_response = await client.auth.mfa.challenge_and_verify(
@@ -424,6 +472,8 @@ async def reset_mfa(client: AsyncClient, admin: AsyncClient) -> None:
     # 2. Eliminar factores existentes vía admin service role
     try:
         factors = await admin.auth.admin.mfa.list_factors({"user_id": user.id})
+        # [CHECKLIST 12] Segundo ciclo for: recorre los factores existentes
+        #   para eliminarlos uno a uno durante el restablecimiento del MFA.
         for factor in factors:
             try:
                 await admin.auth.admin.mfa.delete_factor({"user_id": user.id, "id": factor.id})

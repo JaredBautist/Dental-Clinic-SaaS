@@ -4,6 +4,12 @@
 Error:  status {"success": false, "error": {"code", "message", "statusCode"}}
 (los errores se producen en app/main.py vía exception handlers)
 """
+# [CHECKLIST 2] Requerimientos funcionales implementados y verificables como
+#   endpoints: /auth/login, /auth/logout, /mfa/enroll, /mfa/verify-setup,
+#   /mfa/verify-login, /mfa/cancel y /mfa/reset (más GET /health en main.py).
+# [CHECKLIST 7] Entrada equivalente a input(): cada endpoint recibe un cuerpo
+#   JSON validado (LoginRequest, VerifySetupRequest, VerifyLoginRequest);
+#   salida equivalente a print(): respuestas JSON con success/data.
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends

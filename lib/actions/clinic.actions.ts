@@ -9,8 +9,10 @@ import { createAuditLog } from '@/lib/audit';
 import { DentalClinicError } from '@/errors/domain';
 import type { Clinic } from '@/types/domain';
 
-// Esquema de validación para registro inicial de consultorio
-const registerClinicSchema = z.object({
+// Esquema de validación para creación de consultorio desde el panel del administrador.
+// El administrador del sistema crea consultorios, sus datos y el administrador inicial;
+// los pacientes y citas los gestiona la recepcionista de cada consultorio.
+const createClinicSchema = z.object({
   name: z.string().trim().min(1, 'El nombre del consultorio es obligatorio').max(120, 'El nombre no puede exceder 120 caracteres'),
   address: z.string().trim().max(255, 'La dirección no puede exceder 255 caracteres').optional().nullable(),
   phone: z
@@ -28,9 +30,13 @@ const registerClinicSchema = z.object({
     .nullable(),
   adminName: z.string().trim().min(1, 'El nombre del administrador es obligatorio').max(200, 'El nombre no puede exceder 200 caracteres'),
   adminEmail: z.string().trim().email('El correo del administrador no es válido').max(254, 'El correo no puede exceder 254 caracteres'),
+  adminPassword: z
+    .string()
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .max(72, 'La contraseña no puede exceder 72 caracteres'),
 });
 
-export type RegisterClinicInput = z.infer<typeof registerClinicSchema>;
+export type CreateClinicInput = z.infer<typeof createClinicSchema>;
 
 // Esquema para actualización de consultorio existente
 const updateClinicSchema = z.object({
@@ -54,14 +60,16 @@ const updateClinicSchema = z.object({
 export type UpdateClinicInput = z.infer<typeof updateClinicSchema>;
 
 /**
- * Server Action: Registro de nuevo consultorio con creación del administrador inicial.
- * Requisitos: 1.1, 1.2, 1.8
+ * Server Action: Creación de un nuevo consultorio desde el panel del administrador.
+ * Crea el consultorio, su administrador inicial (con contraseña directa, sin invitación
+ * por correo) y su perfil. Solo permitido para rol 'administrador'.
  */
-export async function registerClinicAction(
-  rawInput: RegisterClinicInput
+export async function createClinicAction(
+  rawInput: CreateClinicInput
 ): Promise<ServerActionResult<{ clinicId: string; name: string; adminEmail: string }>> {
   return withErrorHandling(async () => {
-    const input = registerClinicSchema.parse(rawInput);
+    const input = createClinicSchema.parse(rawInput);
+    const authUser = await requireRole(['administrador'], 'consultorio', '', 'create');
     const admin = createAdminClient();
 
     const clinicId = crypto.randomUUID();
@@ -79,32 +87,30 @@ export async function registerClinicAction(
       throw new DentalClinicError('No se pudo registrar el consultorio.', 'CLINIC_CREATION_FAILED', 500);
     }
 
-    // 2. Invitar o crear usuario administrador en Supabase Auth
     try {
-      const { data: authData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(
-        input.adminEmail,
-        {
-          data: {
-            clinic_id: clinicId,
-            full_name: input.adminName,
-            role: 'administrador',
-          },
-        }
-      );
+      // 2. Crear el usuario administrador del nuevo consultorio (sesión actual intacta)
+      const { data: authData, error: userError } = await admin.auth.admin.createUser({
+        email: input.adminEmail,
+        password: input.adminPassword,
+        email_confirm: true,
+        user_metadata: {
+          clinic_id: clinicId,
+          full_name: input.adminName,
+          role: 'administrador',
+        },
+      });
 
-      if (inviteError || !authData?.user) {
-        // Rollback: Eliminar consultorio creado para evitar datos huérfanos/parciales
-        await admin.from('clinics').delete().eq('id', clinicId);
+      if (userError || !authData?.user) {
         throw new DentalClinicError(
-          inviteError?.message || 'No se pudo crear el usuario administrador inicial.',
-          'ADMIN_INVITE_FAILED',
+          userError?.message || 'No se pudo crear el usuario administrador del consultorio.',
+          'ADMIN_CREATION_FAILED',
           400
         );
       }
 
       const adminUserId = authData.user.id;
 
-      // 3. Crear registro en tabla pública users
+      // 3. Crear perfil en tabla pública users
       const { error: profileError } = await admin.from('users').insert({
         id: adminUserId,
         clinic_id: clinicId,
@@ -118,17 +124,17 @@ export async function registerClinicAction(
         await admin.from('clinics').delete().eq('id', clinicId);
         await admin.auth.admin.deleteUser(adminUserId);
         throw new DentalClinicError(
-          'Error al configurar el perfil de usuario administrador.',
+          'Error al configurar el perfil del administrador del consultorio.',
           'PROFILE_CREATION_FAILED',
           500
         );
       }
 
-      // 4. Registro de auditoría
+      // 4. Registro de auditoría (actor: administrador actual)
       await createAuditLog({
-        clinic_id: clinicId,
-        user_id: adminUserId,
-        role: 'administrador',
+        clinic_id: authUser.clinicId,
+        user_id: authUser.userId,
+        role: authUser.role,
         entity_type: 'consultorio',
         entity_id: clinicId,
         action: 'create',

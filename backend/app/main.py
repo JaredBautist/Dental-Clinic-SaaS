@@ -6,6 +6,13 @@ mismas reglas de seguridad (ADR-001: perfil desde public.users, AAL2 real).
 
 Ejecutar:  uvicorn app.main:app --reload --port 8000
 """
+# [CHECKLIST 1] Problemática/necesidad atendida: API de autenticación y MFA
+#   (TOTP) para el SaaS multi-clínica Dental Clinic, con bloqueo de fuerza
+#   bruta y control de acceso por roles (administrador, odontólogo,
+#   recepcionista).
+# [CHECKLIST 37] Documentación: cada módulo del backend Python tiene docstring
+#   y las funcionalidades principales están localizadas con marcadores
+#   [CHECKLIST N] a lo largo del código fuente.
 import logging
 
 from fastapi import FastAPI, Request
@@ -36,6 +43,11 @@ app.add_middleware(
 )
 
 
+# [CHECKLIST 7] Equivalente funcional de print(): los resultados se presentan
+#   al cliente como respuestas JSON (success/data o error con code/message) y
+#   los eventos internos se registran con logging (logger.exception). La
+#   entrada equivalente a input() son los cuerpos JSON validados con Pydantic
+#   en app/auth/schemas.py.
 def _error_payload(code: str, message: str, status_code: int) -> JSONResponse:
     return JSONResponse(
         status_code=status_code,
@@ -78,9 +90,15 @@ async def unhandled_error_handler(_: Request, exc: Exception) -> JSONResponse:
     )
 
 
+# [CHECKLIST 38] Ejecución correcta del aplicativo: endpoint de verificación
+#   GET /health que responde {"status": "ok"} (cubierto por
+#   test_health_responde_ok en backend/tests/test_api_contract.py).
 @app.get("/health")
 async def health() -> dict:
     return {"status": "ok"}
 
 
+# [CHECKLIST 40] Integración en un mismo aplicativo: todas las funcionalidades
+#   (login, logout, enroll/verify/cancel/reset MFA y health) quedan registradas
+#   en una sola app FastAPI que el frontend Next.js consume vía lib/api/auth-api.ts.
 app.include_router(auth_router)

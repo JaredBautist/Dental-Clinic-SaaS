@@ -64,6 +64,10 @@ def decide_access(input: AccessInput) -> AccessDecision:
 
     is_public_path = input.pathname in PUBLIC_PATHS
     profile = input.profile
+    # [CHECKLIST 10] Condición compuesta con operadores lógicos (or) y
+    #   anidamiento: en una sola expresión valida user_id presente, perfil
+    #   existente, coincidencia de identificadores y cuenta activa; los if
+    #   siguientes se anidan dentro de la función decide_access.
     if (
         input.user_id is None
         or profile is None

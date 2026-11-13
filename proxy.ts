@@ -36,7 +36,15 @@ function createRedirect(
   if (location === '/login' && request.nextUrl.pathname !== '/login') {
     redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname);
   }
-  return copyResponseCookies(cookieSource, NextResponse.redirect(redirectUrl));
+  const redirectResponse = copyResponseCookies(
+    cookieSource,
+    NextResponse.redirect(redirectUrl)
+  );
+  if (request.nextUrl.pathname === '/login') {
+    // Evita que Atrás restaure una página de login perteneciente a otra sesión.
+    redirectResponse.headers.set('Cache-Control', 'private, no-store');
+  }
+  return redirectResponse;
 }
 
 function unavailableResponse(): NextResponse {
@@ -169,10 +177,11 @@ export async function proxy(request: NextRequest) {
       })
     : sanitizedHeaders;
 
-  return copyResponseCookies(
-    sessionResponse,
-    NextResponse.next({ request: { headers: requestHeaders } })
-  );
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  if (request.nextUrl.pathname === '/login') {
+    response.headers.set('Cache-Control', 'private, no-store');
+  }
+  return copyResponseCookies(sessionResponse, response);
 }
 
 export const config = {

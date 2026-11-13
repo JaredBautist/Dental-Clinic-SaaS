@@ -85,6 +85,9 @@ class FakeMfa:
         enroll_error: Optional[Exception] = None,
         aal_level: Optional[str] = None,
     ) -> None:
+        # [CHECKLIST 18] Listas para almacenar múltiples elementos relacionados:
+        #   all_factors y totp_factors (factores MFA) y unenrolled (factores
+        #   eliminados durante la limpieza previa al enrolamiento).
         self.all_factors = all_factors or []
         self.totp_factors = totp_factors or []
         self.challenge_result = challenge_result
@@ -102,6 +105,9 @@ class FakeMfa:
         return SimpleNamespace(all=self.all_factors, totp=self.totp_factors)
 
     async def unenroll(self, params: dict) -> None:
+        # [CHECKLIST 19/20] Agregar elementos a una lista con append() y
+        #   modificarla durante el proceso; luego se consulta con len()/== en
+        #   test_limpia_factores_no_verificados_antes_de_enrolar.
         self.unenrolled.append(params["factor_id"])
 
     async def enroll(self, _params: dict) -> Any:

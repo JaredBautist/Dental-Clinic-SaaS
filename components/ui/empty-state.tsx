@@ -28,10 +28,11 @@ interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export function SearchInput({ onSearch, className, ...props }: SearchInputProps) {
   return (
     <div className={cn('relative', className)}>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" aria-hidden="true" />
       <input
-        type="text"
-        className="flex h-10 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent transition-colors"
+        type="search"
+        aria-invalid={props['aria-invalid']}
+        className="flex h-10 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
         onChange={(e) => onSearch?.(e.target.value)}
         {...props}
       />

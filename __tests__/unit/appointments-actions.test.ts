@@ -192,6 +192,48 @@ describe('Appointments Actions', () => {
         expect(suggestions).toHaveLength(3);
       }
     });
+
+    it('debe impedir que el odontólogo agende citas directamente', async () => {
+      const scheduledAt = new Date();
+      scheduledAt.setDate(scheduledAt.getDate() + 2);
+      scheduledAt.setHours(10, 0, 0, 0);
+
+      mocks.createServerClient.mockResolvedValue({
+        auth: {
+          getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'dentist-uuid-1' } } }),
+        },
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: {
+                  id: 'dentist-uuid-1',
+                  clinic_id: 'clinic-uuid-1',
+                  role: 'odontologo',
+                  full_name: 'Dr. Carlos Rodríguez',
+                  is_active: true,
+                },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      });
+
+      const result = await createAppointmentAction({
+        patientId: '11111111-1111-4111-8111-111111111111',
+        dentistId: '22222222-2222-4222-8222-222222222222',
+        scheduledAt: scheduledAt.toISOString(),
+        durationMin: 30,
+        reason: 'Intento no autorizado',
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.statusCode).toBe(403);
+        expect(result.error.code).toBe('ROLE_AUTHORIZATION_ERROR');
+      }
+    });
   });
 
   describe('cancelAppointmentAction', () => {

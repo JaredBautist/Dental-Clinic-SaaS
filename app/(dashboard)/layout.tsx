@@ -1,20 +1,20 @@
-import { SessionTimer } from '@/components/session/SessionTimer';
-import { Sidebar } from '@/components/layout/Sidebar';
+import { redirect } from 'next/navigation';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { getShellProfile } from '@/lib/auth/shell-profile';
 
-export default function DashboardLayout({
+// Todas las rutas del dashboard dependen de sesión/cookies: nunca prerenderizar.
+export const dynamic = 'force-dynamic';
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <SessionTimer />
-      <Sidebar />
-      <main className="ml-64 min-h-screen">
-        <div className="p-6 lg:p-8">
-          {children}
-        </div>
-      </main>
-    </div>
-  );
+  const profile = await getShellProfile();
+
+  if (!profile) {
+    redirect('/login');
+  }
+
+  return <DashboardShell profile={profile}>{children}</DashboardShell>;
 }

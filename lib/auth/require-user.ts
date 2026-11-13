@@ -8,6 +8,7 @@ export interface AuthenticatedUserContext {
   role: UserRole;
   fullName: string;
   isActive: boolean;
+  mfaEnabled: boolean;
 }
 
 const VALID_ROLES = new Set<UserRole>(['administrador', 'odontologo', 'recepcionista']);
@@ -28,7 +29,7 @@ export async function requireAuthUser(): Promise<AuthenticatedUserContext> {
 
   const { data: profile, error } = await supabase
     .from('users')
-    .select('id, clinic_id, role, full_name, is_active')
+      .select('id, clinic_id, role, full_name, is_active, mfa_enabled')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -52,6 +53,7 @@ export async function requireAuthUser(): Promise<AuthenticatedUserContext> {
     role: profile.role as UserRole,
     fullName: profile.full_name ?? '',
     isActive: profile.is_active,
+    mfaEnabled: profile.mfa_enabled === true,
   };
 }
 

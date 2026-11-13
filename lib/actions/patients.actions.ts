@@ -66,6 +66,7 @@ export interface UpdatePatientInput extends PatientInput {
 
 /**
  * Server Action: Creación de paciente con validación de unicidad de documento.
+ * Funcionalidad exclusiva de la recepcionista; odontólogo y administrador solo leen.
  * Requisitos: 4.1, 4.2, 4.3, 4.4, 4.6
  */
 export async function createPatientAction(
@@ -74,7 +75,7 @@ export async function createPatientAction(
   return withErrorHandling(async () => {
     const input = patientSchema.parse(rawInput);
     const authUser = await requireRole(
-      ['administrador', 'odontologo', 'recepcionista'],
+      ['recepcionista'],
       'paciente',
       '',
       'create'
@@ -148,6 +149,7 @@ export async function createPatientAction(
 
 /**
  * Server Action: Actualización de datos de paciente.
+ * Funcionalidad exclusiva de la recepcionista; odontólogo y administrador solo leen.
  */
 export async function updatePatientAction(
   rawInput: UpdatePatientInput
@@ -158,7 +160,7 @@ export async function updatePatientAction(
     const input = patientSchema.parse(dataToValidate);
 
     const authUser = await requireRole(
-      ['administrador', 'odontologo', 'recepcionista'],
+      ['recepcionista'],
       'paciente',
       patientId,
       'update'
@@ -223,6 +225,31 @@ export async function updatePatientAction(
     });
 
     return updatedPatient as Patient;
+  });
+}
+
+/**
+ * Server Action: Listado paginado simple de pacientes del consultorio (tabla de gestión).
+ */
+export async function listPatientsAction(
+  limit = 200
+): Promise<ServerActionResult<Patient[]>> {
+  return withErrorHandling(async () => {
+    const authUser = await requireRole(['administrador', 'odontologo', 'recepcionista'], 'paciente');
+    const supabase = await createServerSupabaseClient();
+
+    const { data: patients, error } = await supabase
+      .from('patients')
+      .select('*')
+      .eq('clinic_id', authUser.clinicId)
+      .order('full_name', { ascending: true })
+      .limit(limit);
+
+    if (error) {
+      throw new DentalClinicError('Error al consultar los pacientes.', 'PATIENTS_FETCH_FAILED', 500);
+    }
+
+    return (patients || []) as Patient[];
   });
 }
 

@@ -99,6 +99,7 @@ function calculateSuggestedSlots(
 
 /**
  * Server Action: Creación de cita con detección proactiva de solapamiento.
+ * Funcionalidad exclusiva de la recepcionista (agenda del consultorio).
  * Requisitos: 5.1, 5.2, 5.3, 5.10
  */
 export async function createAppointmentAction(
@@ -107,7 +108,7 @@ export async function createAppointmentAction(
   return withErrorHandling(async () => {
     const input = appointmentSchema.parse(rawInput);
     const authUser = await requireRole(
-      ['administrador', 'odontologo', 'recepcionista'],
+      ['recepcionista'],
       'cita',
       '',
       'create'
@@ -205,6 +206,7 @@ export async function createAppointmentAction(
 
 /**
  * Server Action: Reprogramación de cita.
+ * Funcionalidad exclusiva de la recepcionista (agenda del consultorio).
  * Requisitos: 5.4, 5.5, 5.10
  */
 export async function rescheduleAppointmentAction(
@@ -213,7 +215,7 @@ export async function rescheduleAppointmentAction(
   return withErrorHandling(async () => {
     const input = rescheduleSchema.parse(rawInput);
     const authUser = await requireRole(
-      ['administrador', 'odontologo', 'recepcionista'],
+      ['recepcionista'],
       'cita',
       input.appointmentId,
       'reschedule'
@@ -297,6 +299,7 @@ export async function rescheduleAppointmentAction(
 
 /**
  * Server Action: Cancelación de cita con motivo obligatorio.
+ * Funcionalidad exclusiva de la recepcionista (agenda del consultorio).
  * Requisitos: 5.6, 5.10
  */
 export async function cancelAppointmentAction(
@@ -305,7 +308,7 @@ export async function cancelAppointmentAction(
   return withErrorHandling(async () => {
     const input = cancelSchema.parse(rawInput);
     const authUser = await requireRole(
-      ['administrador', 'odontologo', 'recepcionista'],
+      ['recepcionista'],
       'cita',
       input.appointmentId,
       'cancel'

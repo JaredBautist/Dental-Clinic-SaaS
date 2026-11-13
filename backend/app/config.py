@@ -40,6 +40,10 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
+        # [CHECKLIST 12] for dentro de una list comprehension: recorre los
+        #   orígenes separados por coma y devuelve una nueva lista.
+        # [CHECKLIST 16] Manipulación de cadenas: split(",") para trozar la
+        #   variable de entorno y strip() para sanear cada elemento.
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 
     @property

@@ -20,5 +20,9 @@ def decode_aal_claim(access_token: str) -> str | None:
         claims = jwt.decode(access_token, options={"verify_signature": False})
     except jwt.PyJWTError:
         return None
+    # [CHECKLIST 21] Tupla inmutable ("aal1", "aal2") como conjunto de valores
+    #   de pertenencia: no requiere modificarse durante la validación.
+    # [CHECKLIST 27] Búsqueda dentro de una colección: `aal in (...)` comprueba
+    #   si el claim extraído del JWT pertenece a los niveles AAL válidos.
     aal = claims.get("aal")
     return aal if aal in ("aal1", "aal2") else None

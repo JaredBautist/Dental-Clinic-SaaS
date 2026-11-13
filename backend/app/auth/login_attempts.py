@@ -14,6 +14,8 @@ from app.core.errors import LoginAttemptStoreError
 from app.core.security import hash_login_identifier
 
 
+# [CHECKLIST 4] Tipos de datos: bool (is_locked, triggered_lockout), int
+#   (remaining_seconds, attempts_left) y str (identificador del usuario).
 @dataclass(frozen=True)
 class LockoutStatus:
     is_locked: bool
@@ -26,6 +28,13 @@ class FailedAttemptStatus(LockoutStatus):
     triggered_lockout: bool
 
 
+# [CHECKLIST 17] Índice de colección: data[0] accede al primer (y único)
+#   registro devuelto por la RPC de PostgreSQL.
+# [CHECKLIST 20] len() para comprobar que la respuesta contiene exactamente
+#   un registro: controla colecciones vacías o con datos inválidos.
+# [CHECKLIST 39] Validación de datos: si la colección no es una lista de un
+#   elemento se lanza LoginAttemptStoreError (registro inexistente o respuesta
+#   corrupta) en lugar de procesar valores incorrectos.
 def _first_row(data: Any, operation: str) -> dict:
     if not isinstance(data, list) or len(data) != 1:
         raise LoginAttemptStoreError(f"Respuesta inválida al {operation}")

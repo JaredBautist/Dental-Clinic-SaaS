@@ -159,6 +159,45 @@ describe('Patients Actions', () => {
       }
     });
 
+    it('debe impedir que otros roles registren pacientes', async () => {
+      mocks.createServerClient.mockResolvedValue({
+        auth: {
+          getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'dentist-uuid-1' } } }),
+        },
+        from: () => ({
+          select: () => ({
+            eq: () => ({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: {
+                  id: 'dentist-uuid-1',
+                  clinic_id: 'clinic-uuid-1',
+                  role: 'odontologo',
+                  full_name: 'Dr. Carlos Rodríguez',
+                  is_active: true,
+                },
+                error: null,
+              }),
+            }),
+          }),
+        }),
+      });
+
+      const result = await createPatientAction({
+        fullName: 'Paciente no autorizado',
+        documentType: 'CC',
+        documentNumber: '1090123456',
+        birthDate: '1995-04-12',
+        biologicalSex: 'masculino',
+        phonePrimary: '3109876543',
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.statusCode).toBe(403);
+        expect(result.error.code).toBe('ROLE_AUTHORIZATION_ERROR');
+      }
+    });
+
     it('debe rechazar fechas de nacimiento futuras', async () => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 2);
