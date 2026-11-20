@@ -1,6 +1,6 @@
 # Implementation Plan: Dental Clinic SaaS
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
@@ -9,11 +9,10 @@
 - **Notes** (1 connections) — `.kiro/specs/dental-clinic-saas/tasks.md`
 - **Overview** (1 connections) — `.kiro/specs/dental-clinic-saas/tasks.md`
 - **Task Dependency Graph** (1 connections) — `.kiro/specs/dental-clinic-saas/tasks.md`
-- **Tasks** (1 connections) — `.kiro/specs/dental-clinic-saas/tasks.md`
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [withErrorHandling](withErrorHandling.md) (1 shared connections)
 
 ## Source Files
 

@@ -1,23 +1,26 @@
 # eslint.config.mjs
 
-> 2 nodes · cohesion 1.00
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- **eslint.config.mjs** (1 connections) — `eslint.config.mjs`
+- **eslint.config.mjs** (3 connections) — `eslint.config.mjs`
+- **eslint** (2 connections) — `package.json`
+- **eslint-config-next** (2 connections) — `package.json`
 - **eslintConfig** (1 connections) — `eslint.config.mjs`
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [package.json](package.json.md) (2 shared connections)
 
 ## Source Files
 
 - `eslint.config.mjs`
+- `package.json`
 
 ## Audit Trail
 
-- EXTRACTED: 1 (100%)
+- EXTRACTED: 5 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

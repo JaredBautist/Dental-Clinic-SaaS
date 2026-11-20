@@ -1,50 +1,52 @@
 # test_auth_service.py
 
-> 53 nodes · cohesion 0.08
+> 23 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- **FakeAuth** (23 connections) — `backend/tests/test_auth_service.py`
-- **FakeClient** (20 connections) — `backend/tests/test_auth_service.py`
-- **FakeMfa** (18 connections) — `backend/tests/test_auth_service.py`
-- **Any** (15 connections)
-- **FakeQuery** (11 connections) — `backend/tests/test_auth_service.py`
+- **test_auth_service.py** (33 connections) — `backend/tests/test_auth_service.py`
+- **FakeAttemptStore** (13 connections) — `backend/tests/test_auth_service.py`
 - **TestLogin** (11 connections) — `backend/tests/test_auth_service.py`
-- **TestVerifyMfaLogin** (10 connections) — `backend/tests/test_auth_service.py`
-- **Exception** (8 connections)
+- **FailedAttemptStatus** (10 connections) — `backend/app/auth/login_attempts.py`
+- **LockoutStatus** (9 connections) — `backend/app/auth/login_attempts.py`
 - **.test_bloqueo_tras_intentos_encola_notificacion()** (6 connections) — `backend/tests/test_auth_service.py`
 - **.test_credenciales_invalidas_registran_intento()** (6 connections) — `backend/tests/test_auth_service.py`
-- **.__init__()** (5 connections) — `backend/tests/test_auth_service.py`
-- **_jwt_with_aal()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_cuenta_bloqueada_no_envia_credenciales()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_cierra_sesion_cuando_supabase_rechaza_totp()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_exito_devuelve_sesion_aal2()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_falla_si_aal_no_llega_a_aal2()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_no_afirma_fallo_mfa_si_supabase_no_confirma_sign_out()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_marca_mfa_enabled_solo_tras_aal2()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.test_no_marca_mfa_enabled_si_falla_challenge()** (5 connections) — `backend/tests/test_auth_service.py`
-- **.__init__()** (4 connections) — `backend/tests/test_auth_service.py`
-- **.test_limpia_factores_no_verificados_antes_de_enrolar()** (4 connections) — `backend/tests/test_auth_service.py`
-- **.test_admin_sin_mfa_redirige_a_setup_y_limpia_intentos()** (4 connections) — `backend/tests/test_auth_service.py`
-- **.test_cuenta_inactiva_cierra_sesion()** (4 connections) — `backend/tests/test_auth_service.py`
-- **TestSessionTermination** (4 connections) — `backend/tests/test_auth_service.py`
-- **.test_falla_si_no_hay_factor_totp()** (4 connections) — `backend/tests/test_auth_service.py`
-- *... and 28 more nodes in this community*
+- **.test_cuenta_bloqueada_no_envia_credenciales()** (6 connections) — `backend/tests/test_auth_service.py`
+- **.test_admin_sin_mfa_redirige_a_setup_y_limpia_intentos()** (5 connections) — `backend/tests/test_auth_service.py`
+- **.test_cuenta_inactiva_cierra_sesion()** (5 connections) — `backend/tests/test_auth_service.py`
+- **FakePostgrest** (4 connections) — `backend/tests/test_auth_service.py`
+- **auth/__init__.py** (3 connections) — `backend/app/auth/__init__.py`
+- **.__init__()** (3 connections) — `backend/tests/test_auth_service.py`
+- **.check()** (2 connections) — `backend/tests/test_auth_service.py`
+- **.record_failure()** (2 connections) — `backend/tests/test_auth_service.py`
+- **.auth()** (2 connections) — `backend/tests/test_auth_service.py`
+- **TestEnrollMfa** (2 connections) — `backend/tests/test_auth_service.py`
+- **Módulo de autenticación y MFA — port de lib/actions/auth.actions.ts.** (1 connections) — `backend/app/auth/__init__.py`
+- **.clear()** (1 connections) — `backend/tests/test_auth_service.py`
+- **.enqueue_lockout_notification()** (1 connections) — `backend/tests/test_auth_service.py`
+- **.__init__()** (1 connections) — `backend/tests/test_auth_service.py`
+- **Tests del servicio de auth/MFA con clientes Supabase falsos (sin red). Port de…** (1 connections) — `backend/tests/test_auth_service.py`
+- **pytest** (1 connections)
 
 ## Relationships
 
-- [router.py](router.py.md) (11 shared connections)
-- [Community 66](Community_66.md) (9 shared connections)
-- [service.py](service.py.md) (8 shared connections)
+- [FakeAuth](FakeAuth.md) (20 shared connections)
+- [login](login.md) (11 shared connections)
+- [service.py](service.py.md) (11 shared connections)
+- [router.py](router.py.md) (5 shared connections)
+- [test_api_contract.py](test_api_contract.py.md) (2 shared connections)
+- [withErrorHandling](withErrorHandling.md) (1 shared connections)
 
 ## Source Files
 
+- `backend/app/auth/__init__.py`
+- `backend/app/auth/login_attempts.py`
 - `backend/tests/test_auth_service.py`
 
 ## Audit Trail
 
-- EXTRACTED: 130 (93%)
-- INFERRED: 10 (7%)
+- EXTRACTED: 81 (91%)
+- INFERRED: 8 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

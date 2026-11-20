@@ -1,62 +1,52 @@
 # proxy.ts
 
-> 34 nodes · cohesion 0.11
+> 19 nodes · cohesion 0.19
 
 ## Key Concepts
 
-- **proxy.ts** (19 connections) — `proxy.ts`
-- **UserRole** (15 connections) — `types/domain.ts`
-- **access-policy.ts** (14 connections) — `lib/auth/access-policy.ts`
+- **proxy.ts** (20 connections) — `proxy.ts`
 - **proxy()** (10 connections) — `proxy.ts`
 - **verified-headers.ts** (8 connections) — `lib/auth/verified-headers.ts`
-- **decideAccess()** (6 connections) — `lib/auth/access-policy.ts`
-- **proxy.test.ts** (6 connections) — `__tests__/unit/proxy.test.ts`
+- **proxy.test.ts** (7 connections) — `__tests__/unit/proxy.test.ts`
 - **buildVerifiedRequestHeaders()** (5 connections) — `lib/auth/verified-headers.ts`
 - **stripUntrustedAuthHeaders()** (5 connections) — `lib/auth/verified-headers.ts`
 - **@supabase/ssr** (5 connections) — `package.json`
-- **access-policy.test.ts** (4 connections) — `__tests__/unit/access-policy.test.ts`
 - **verified-headers.test.ts** (4 connections) — `__tests__/unit/verified-headers.test.ts`
-- **AccessProfile** (3 connections) — `lib/auth/access-policy.ts`
-- **clinicalMfaDestination()** (3 connections) — `lib/auth/access-policy.ts`
-- **isClinicalRole()** (3 connections) — `lib/auth/access-policy.ts`
 - **isUnauthenticatedError()** (3 connections) — `lib/auth/access-policy.ts`
 - **copyResponseCookies()** (3 connections) — `proxy.ts`
 - **createRedirect()** (3 connections) — `proxy.ts`
-- **LoginResult** (2 connections) — `lib/actions/auth.actions.ts`
-- **LoginResult** (2 connections) — `lib/api/auth-api.ts`
-- **AuthenticatorAssuranceLevel** (2 connections) — `lib/auth/access-policy.ts`
 - **VerifiedClaims** (2 connections) — `lib/auth/verified-headers.ts`
 - **isUserRole()** (2 connections) — `proxy.ts`
 - **unavailableResponse()** (2 connections) — `proxy.ts`
-- **AccessDecision** (1 connections) — `lib/auth/access-policy.ts`
-- *... and 9 more nodes in this community*
+- **AUTH_CONTEXT_HEADERS** (1 connections) — `lib/auth/verified-headers.ts`
+- **config** (1 connections) — `proxy.ts`
+- **USER_ROLES** (1 connections) — `proxy.ts`
+- **mockedCreateServerClient** (1 connections) — `__tests__/unit/proxy.test.ts`
+- **mockGetUserResult()** (1 connections) — `__tests__/unit/proxy.test.ts`
 
 ## Relationships
 
-- [types/domain.ts](types-domain.ts.md) (4 shared connections)
-- [security-headers.property.test.ts](security-headers.property.test.ts.md) (4 shared connections)
-- [auth.actions.ts](auth.actions.ts.md) (3 shared connections)
-- [auth-api.ts](auth-api.ts.md) (3 shared connections)
+- [access-policy.ts](access-policy.ts.md) (6 shared connections)
+- [UserRole](UserRole.md) (3 shared connections)
+- [types/domain.ts](types-domain.ts.md) (2 shared connections)
+- [next](next.md) (2 shared connections)
+- [auth.actions.ts](auth.actions.ts.md) (2 shared connections)
 - [package.json](package.json.md) (1 shared connections)
-- [Community 26](Community_26.md) (1 shared connections)
-- [requireRole](requireRole.md) (1 shared connections)
+- [auth-api.ts](auth-api.ts.md) (1 shared connections)
+- [createClient](createClient.md) (1 shared connections)
 
 ## Source Files
 
-- `__tests__/unit/access-policy.test.ts`
 - `__tests__/unit/proxy.test.ts`
 - `__tests__/unit/verified-headers.test.ts`
-- `lib/actions/auth.actions.ts`
-- `lib/api/auth-api.ts`
 - `lib/auth/access-policy.ts`
 - `lib/auth/verified-headers.ts`
 - `package.json`
 - `proxy.ts`
-- `types/domain.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 80 (100%)
+- EXTRACTED: 51 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

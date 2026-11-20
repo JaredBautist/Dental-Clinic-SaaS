@@ -1,53 +1,43 @@
 # main.py
 
-> 28 nodes · cohesion 0.11
+> 19 nodes · cohesion 0.16
 
 ## Key Concepts
 
-- **test_api_contract.py** (12 connections) — `backend/tests/test_api_contract.py`
-- **deps.py** (11 connections) — `backend/app/deps.py`
-- **get_user_client()** (7 connections) — `backend/app/deps.py`
-- **get_settings()** (6 connections) — `backend/app/config.py`
-- **AuthConfigurationUnavailableError** (6 connections) — `backend/app/core/errors.py`
-- **get_admin_client()** (6 connections) — `backend/app/deps.py`
-- **get_anon_client()** (6 connections) — `backend/app/deps.py`
-- **Settings** (5 connections) — `backend/app/config.py`
-- **config.py** (4 connections) — `backend/app/config.py`
-- **_AuthWithoutSession** (4 connections) — `backend/tests/test_api_contract.py`
-- **AsyncClient** (3 connections)
-- **_client_without_session()** (3 connections) — `backend/tests/test_api_contract.py`
-- **.configuration_ready()** (2 connections) — `backend/app/config.py`
-- **.get_user()** (2 connections) — `backend/tests/test_api_contract.py`
-- **Any** (2 connections)
-- **test_verify_setup_acepta_factor_id_en_camel_case_como_el_frontend()** (2 connections) — `backend/tests/test_api_contract.py`
-- **Igual que proxy.ts: sin configuración de Supabase se falla cerrado (503).** (1 connections) — `backend/app/config.py`
-- **.cors_origin_list()** (1 connections) — `backend/app/config.py`
-- **Dependencias de FastAPI: clientes Supabase por request. - `get_anon_client`:…** (1 connections) — `backend/app/deps.py`
-- **Reconstruye la sesión del usuario a partir de los tokens enviados por el…** (1 connections) — `backend/app/deps.py`
-- **Smoke tests del contrato HTTP de la API (sin tocar Supabase).** (1 connections) — `backend/tests/test_api_contract.py`
-- **El servicio convierte cualquier fallo de get_user en 401, lo que permite…** (1 connections) — `backend/tests/test_api_contract.py`
-- **Regresión: lib/api/auth-api.ts envía {"factorId", "code"} (camelCase); el…** (1 connections) — `backend/tests/test_api_contract.py`
-- **test_health_responde_ok()** (1 connections) — `backend/tests/test_api_contract.py`
-- **test_verify_login_rechaza_codigo_no_numerico_en_el_boundary()** (1 connections) — `backend/tests/test_api_contract.py`
-- *... and 3 more nodes in this community*
+- **main.py** (17 connections) — `backend/app/main.py`
+- **validation_error_handler()** (7 connections) — `backend/app/main.py`
+- **domain_error_handler()** (6 connections) — `backend/app/main.py`
+- **unhandled_error_handler()** (6 connections) — `backend/app/main.py`
+- **_error_payload()** (5 connections) — `backend/app/main.py`
+- **JSONResponse** (4 connections)
+- **exception_handler** (3 connections)
+- **fastapi** (3 connections)
+- **Request** (3 connections)
+- **health()** (2 connections) — `backend/app/main.py`
+- **logging** (2 connections)
+- **Exception** (1 connections)
+- **Dental Clinic SaaS — API de autenticación y MFA. FastAPI + supabase-py.…** (1 connections) — `backend/app/main.py`
+- **Mismo código que el wrapper TypeScript: VALIDATION_ERROR (422).** (1 connections) — `backend/app/main.py`
+- **fastapi_exceptions** (1 connections)
+- **fastapi_middleware_cors** (1 connections)
+- **fastapi_responses** (1 connections)
+- **get** (1 connections)
+- **RequestValidationError** (1 connections)
 
 ## Relationships
 
-- [service.py](service.py.md) (6 shared connections)
-- [Community 227](Community_227.md) (4 shared connections)
-- [Community 299](Community_299.md) (3 shared connections)
+- [test_api_contract.py](test_api_contract.py.md) (4 shared connections)
+- [service.py](service.py.md) (4 shared connections)
+- [router.py](router.py.md) (2 shared connections)
 
 ## Source Files
 
-- `backend/app/config.py`
-- `backend/app/core/errors.py`
-- `backend/app/deps.py`
-- `backend/tests/test_api_contract.py`
+- `backend/app/main.py`
 
 ## Audit Trail
 
-- EXTRACTED: 52 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 37 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

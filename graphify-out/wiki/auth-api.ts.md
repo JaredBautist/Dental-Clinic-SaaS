@@ -1,46 +1,50 @@
 # auth-api.ts
 
-> 31 nodes · cohesion 0.12
+> 26 nodes · cohesion 0.17
 
 ## Key Concepts
 
 - **auth-api.ts** (24 connections) — `lib/api/auth-api.ts`
-- **setup-mfa/page.tsx** (7 connections) — `app/(auth)/setup-mfa/page.tsx`
-- **verify-mfa/page.tsx** (7 connections) — `app/(auth)/verify-mfa/page.tsx`
-- **cancelMfaAction()** (6 connections) — `lib/api/auth-api.ts`
+- **setup-mfa/page.tsx** (8 connections) — `app/(auth)/setup-mfa/page.tsx`
+- **SetupMfaPage()** (8 connections) — `app/(auth)/setup-mfa/page.tsx`
+- **verify-mfa/page.tsx** (8 connections) — `app/(auth)/verify-mfa/page.tsx`
+- **cancelMfaAction()** (8 connections) — `lib/api/auth-api.ts`
+- **VerifyMfaPage()** (7 connections) — `app/(auth)/verify-mfa/page.tsx`
+- **resetMfaAction()** (7 connections) — `lib/api/auth-api.ts`
 - **clearBrowserSession()** (6 connections) — `lib/api/auth-api.ts`
-- **login/page.tsx** (5 connections) — `app/(auth)/login/page.tsx`
-- **SetupMfaPage()** (5 connections) — `app/(auth)/setup-mfa/page.tsx`
+- **verifyMfaLoginAction()** (6 connections) — `lib/api/auth-api.ts`
+- **verifyMfaSetupAction()** (6 connections) — `lib/api/auth-api.ts`
+- **enrollMfaAction()** (5 connections) — `lib/api/auth-api.ts`
 - **syncBrowserSession()** (5 connections) — `lib/api/auth-api.ts`
-- **verifyMfaLoginAction()** (5 connections) — `lib/api/auth-api.ts`
-- **verifyMfaSetupAction()** (5 connections) — `lib/api/auth-api.ts`
 - **createClient()** (5 connections) — `lib/supabase/client.ts`
-- **VerifyMfaPage()** (4 connections) — `app/(auth)/verify-mfa/page.tsx`
 - **callApi()** (4 connections) — `lib/api/auth-api.ts`
-- **enrollMfaAction()** (4 connections) — `lib/api/auth-api.ts`
-- **loginAction()** (4 connections) — `lib/api/auth-api.ts`
-- **resetMfaAction()** (4 connections) — `lib/api/auth-api.ts`
-- **LoginPage()** (3 connections) — `app/(auth)/login/page.tsx`
 - **client.ts** (3 connections) — `lib/supabase/client.ts`
-- **handleSubmit()** (2 connections) — `app/(auth)/login/page.tsx`
 - **handleCancel()** (2 connections) — `app/(auth)/setup-mfa/page.tsx`
 - **handleVerify()** (2 connections) — `app/(auth)/setup-mfa/page.tsx`
 - **loadMfaData()** (2 connections) — `app/(auth)/setup-mfa/page.tsx`
 - **handleCancel()** (2 connections) — `app/(auth)/verify-mfa/page.tsx`
 - **handleResetToQr()** (2 connections) — `app/(auth)/verify-mfa/page.tsx`
 - **handleVerify()** (2 connections) — `app/(auth)/verify-mfa/page.tsx`
-- *... and 6 more nodes in this community*
+- **handleCopySecret()** (1 connections) — `app/(auth)/setup-mfa/page.tsx`
+- **ApiResult** (1 connections) — `lib/api/auth-api.ts`
+- **EnrollMfaResult** (1 connections) — `lib/api/auth-api.ts`
+- **MfaVerifyResult** (1 connections) — `lib/api/auth-api.ts`
+- *... and 1 more nodes in this community*
 
 ## Relationships
 
-- [Community 394](Community_394.md) (7 shared connections)
-- [pacientes/page.tsx](pacientes-page.tsx.md) (3 shared connections)
-- [proxy.ts](proxy.ts.md) (3 shared connections)
+- [shell-profile.ts](shell-profile.ts.md) (4 shared connections)
+- [login/page.tsx](login-page.tsx.md) (3 shared connections)
+- [cn](cn.md) (2 shared connections)
+- [next](next.md) (2 shared connections)
+- [consultorios-client.tsx](consultorios-client.tsx.md) (2 shared connections)
+- [UserRole](UserRole.md) (2 shared connections)
+- [withErrorHandling](withErrorHandling.md) (2 shared connections)
 - [types/domain.ts](types-domain.ts.md) (1 shared connections)
+- [proxy.ts](proxy.ts.md) (1 shared connections)
 
 ## Source Files
 
-- `app/(auth)/login/page.tsx`
 - `app/(auth)/setup-mfa/page.tsx`
 - `app/(auth)/verify-mfa/page.tsx`
 - `lib/api/auth-api.ts`
@@ -48,8 +52,8 @@
 
 ## Audit Trail
 
-- EXTRACTED: 70 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 71 (97%)
+- INFERRED: 2 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,6 +1,6 @@
 # Requirements
 
-> 16 nodes · cohesion 0.20
+> 25 nodes · cohesion 0.08
 
 ## Key Concepts
 
@@ -17,6 +17,15 @@
 - **Requisito 8: Seguridad y Trazabilidad** (2 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Requisito 9: Reportes Operativos Básicos** (2 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **requirements.md** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
+- **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Criterios de Aceptación** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Glossary** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`
 - **Introduction** (1 connections) — `.kiro/specs/dental-clinic-saas/requirements.md`

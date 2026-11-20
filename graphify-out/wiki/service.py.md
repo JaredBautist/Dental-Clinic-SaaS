@@ -1,44 +1,46 @@
 # service.py
 
-> 56 nodes · cohesion 0.08
+> 52 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- **service.py** (35 connections) — `backend/app/auth/service.py`
+- **service.py** (39 connections) — `backend/app/auth/service.py`
 - **errors.py** (19 connections) — `backend/app/core/errors.py`
 - **DentalClinicError** (18 connections) — `backend/app/core/errors.py`
-- **login()** (13 connections) — `backend/app/auth/service.py`
 - **_require_clinical_user()** (13 connections) — `backend/app/auth/service.py`
 - **.__init__()** (13 connections) — `backend/app/core/errors.py`
+- **verify_mfa_setup()** (12 connections) — `backend/app/auth/service.py`
 - **AsyncClient** (11 connections)
 - **_confirm_aal2()** (9 connections) — `backend/app/auth/service.py`
-- **verify_mfa_setup()** (9 connections) — `backend/app/auth/service.py`
+- **enroll_mfa()** (9 connections) — `backend/app/auth/service.py`
 - **_fail_mfa()** (8 connections) — `backend/app/auth/service.py`
 - **_sign_out_or_raise()** (8 connections) — `backend/app/auth/service.py`
-- **verify_mfa_login()** (8 connections) — `backend/app/auth/service.py`
 - **AccountInactiveError** (8 connections) — `backend/app/core/errors.py`
 - **MfaVerificationFailedError** (8 connections) — `backend/app/core/errors.py`
 - **SignOutFailedError** (8 connections) — `backend/app/core/errors.py`
-- **enroll_mfa()** (7 connections) — `backend/app/auth/service.py`
 - **AccountLockedError** (7 connections) — `backend/app/core/errors.py`
 - **AuthenticationRequiredError** (7 connections) — `backend/app/core/errors.py`
 - **InvalidCredentialsError** (7 connections) — `backend/app/core/errors.py`
 - **RoleAuthorizationError** (7 connections) — `backend/app/core/errors.py`
+- **cancel_mfa()** (6 connections) — `backend/app/auth/service.py`
+- **logout()** (6 connections) — `backend/app/auth/service.py`
 - **AuthProfileUnavailableError** (6 connections) — `backend/app/core/errors.py`
-- **cancel_mfa()** (5 connections) — `backend/app/auth/service.py`
-- **logout()** (5 connections) — `backend/app/auth/service.py`
 - **reset_mfa()** (5 connections) — `backend/app/auth/service.py`
 - **InvalidMfaCodeError** (5 connections) — `backend/app/core/errors.py`
-- *... and 31 more nodes in this community*
+- **MfaEnrollmentFailedError** (5 connections) — `backend/app/core/errors.py`
+- **_is_valid_profile()** (4 connections) — `backend/app/auth/service.py`
+- *... and 27 more nodes in this community*
 
 ## Relationships
 
-- [Community 66](Community_66.md) (10 shared connections)
-- [Community 227](Community_227.md) (9 shared connections)
-- [router.py](router.py.md) (8 shared connections)
-- [test_auth_service.py](test_auth_service.py.md) (8 shared connections)
-- [main.py](main.py.md) (6 shared connections)
-- [Community 299](Community_299.md) (3 shared connections)
+- [login](login.md) (20 shared connections)
+- [FakeAuth](FakeAuth.md) (16 shared connections)
+- [test_auth_service.py](test_auth_service.py.md) (11 shared connections)
+- [test_api_contract.py](test_api_contract.py.md) (8 shared connections)
+- [router.py](router.py.md) (7 shared connections)
+- [main.py](main.py.md) (4 shared connections)
+- [decide_access](decide_access.md) (1 shared connections)
+- [Estructuras de Datos y Control de Flujo en el Backend Python](Estructuras_de_Datos_y_Control_de_Flujo_en_el_Backend_Python.md) (1 shared connections)
 
 ## Source Files
 
@@ -47,8 +49,8 @@
 
 ## Audit Trail
 
-- EXTRACTED: 167 (94%)
-- INFERRED: 10 (6%)
+- EXTRACTED: 170 (94%)
+- INFERRED: 11 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

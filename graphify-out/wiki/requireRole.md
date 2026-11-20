@@ -1,51 +1,54 @@
-# requireRole
+# requireRole()
 
-> 17 nodes · cohesion 0.19
+> God node · 51 connections · `lib/auth/require-user.ts`
 
-## Key Concepts
+**Community:** [withErrorHandling](withErrorHandling.md)
 
-- **users.actions.ts** (27 connections) — `lib/actions/users.actions.ts`
-- **server-action-wrapper.ts** (21 connections) — `lib/server-action-wrapper.ts`
-- **createAdminClient()** (17 connections) — `lib/supabase/admin.ts`
-- **admin.ts** (10 connections) — `lib/supabase/admin.ts`
-- **AuthorizationSecurityContext** (9 connections) — `types/domain.ts`
-- **authorization-failure.ts** (8 connections) — `lib/audit/authorization-failure.ts`
-- **createUserAction()** (7 connections) — `lib/actions/users.actions.ts`
-- **deactivateUserAction()** (7 connections) — `lib/actions/users.actions.ts`
-- **updateUserAction()** (5 connections) — `lib/actions/users.actions.ts`
-- **listUsersAction()** (4 connections) — `lib/actions/users.actions.ts`
-- **AuthorizationFailureRecorder** (3 connections) — `lib/audit/authorization-failure.ts`
-- **persistAuthorizationFailure()** (3 connections) — `lib/audit/authorization-failure.ts`
-- **ErrorHandlingOptions** (3 connections) — `lib/server-action-wrapper.ts`
-- **UserProfile** (3 connections) — `types/domain.ts`
-- **.constructor()** (2 connections) — `errors/domain.ts`
-- **.constructor()** (2 connections) — `errors/domain.ts`
-- **AuthorizationFailureEvent** (2 connections) — `lib/audit/authorization-failure.ts`
+## Connections by Relation
 
-## Relationships
+### calls
+- saveClinicalEntryAction() `EXTRACTED`
+- createAppointmentAction() `EXTRACTED`
+- getAppointmentStatusReportAction() `EXTRACTED`
+- getAttendedPatientsReportAction() `EXTRACTED`
+- saveToothStateAction() `EXTRACTED`
+- createPatientAction() `EXTRACTED`
+- createUserAction() `EXTRACTED`
+- deactivateUserAction() `EXTRACTED`
+- listUsersAction() `EXTRACTED`
+- cancelAppointmentAction() `EXTRACTED`
+- rescheduleAppointmentAction() `EXTRACTED`
+- updateClinicAction() `EXTRACTED`
+- getClinicalHistoryAction() `EXTRACTED`
+- updatePatientAction() `EXTRACTED`
+- createClinicUserAction() `EXTRACTED`
+- listAppointmentsAction() `EXTRACTED`
+- uploadAttachmentAction() `EXTRACTED`
+- updateUserAction() `EXTRACTED`
+- getAdminClinicDetailAction() `EXTRACTED`
+- createClinicAction() `EXTRACTED`
+- *…and 16 more `calls` connection(s) not listed (lowest-degree first to go)*
 
-- [types/domain.ts](types-domain.ts.md) (19 shared connections)
-- [DentalClinicError](DentalClinicError.md) (15 shared connections)
-- [auth.actions.ts](auth.actions.ts.md) (6 shared connections)
-- [proxy.ts](proxy.ts.md) (1 shared connections)
-- [package.json](package.json.md) (1 shared connections)
-- [login-attempt-store.ts](login-attempt-store.ts.md) (1 shared connections)
-- [Community 26](Community_26.md) (1 shared connections)
+### contains
+- require-user.ts `EXTRACTED`
 
-## Source Files
+### imports
+- [admin-clinics.actions.ts](admin-clinics.actions.ts.md) `EXTRACTED`
+- patients.actions.ts `EXTRACTED`
+- [appointments.actions.ts](appointments.actions.ts.md) `EXTRACTED`
+- odontogram.actions.ts `EXTRACTED`
+- users.actions.ts `EXTRACTED`
+- [clinic.actions.ts](clinic.actions.ts.md) `EXTRACTED`
+- clinical.actions.ts `EXTRACTED`
+- [reports.actions.ts](reports.actions.ts.md) `EXTRACTED`
+- attachments.actions.ts `EXTRACTED`
+- audit.actions.ts `EXTRACTED`
+- dashboard.actions.ts `EXTRACTED`
+- signed-url/route.ts `EXTRACTED`
 
-- `errors/domain.ts`
-- `lib/actions/users.actions.ts`
-- `lib/audit/authorization-failure.ts`
-- `lib/server-action-wrapper.ts`
-- `lib/supabase/admin.ts`
-- `types/domain.ts`
-
-## Audit Trail
-
-- EXTRACTED: 105 (100%)
-- INFERRED: 0 (0%)
-- AMBIGUOUS: 0 (0%)
+### references
+- Subdirectorios de Seguridad, Auditoría y Supabase `INFERRED`
+- Subdirectorios de Seguridad, Auditoría y Supabase `INFERRED`
 
 ---
 

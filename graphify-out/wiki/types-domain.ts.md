@@ -1,61 +1,62 @@
 # types/domain.ts
 
-> 35 nodes · cohesion 0.09
+> 21 nodes · cohesion 0.19
 
 ## Key Concepts
 
-- **types/domain.ts** (45 connections) — `types/domain.ts`
-- **withErrorHandling()** (43 connections) — `lib/server-action-wrapper.ts`
-- **appointments.actions.ts** (28 connections) — `lib/actions/appointments.actions.ts`
-- **patients.actions.ts** (27 connections) — `lib/actions/patients.actions.ts`
-- **clinic.actions.ts** (24 connections) — `lib/actions/clinic.actions.ts`
-- **zod** (13 connections) — `package.json`
-- **ServerActionResult** (10 connections) — `lib/server-action-wrapper.ts`
-- **createAppointmentAction()** (8 connections) — `lib/actions/appointments.actions.ts`
-- **createPatientAction()** (7 connections) — `lib/actions/patients.actions.ts`
-- **cancelAppointmentAction()** (6 connections) — `lib/actions/appointments.actions.ts`
-- **updateClinicAction()** (6 connections) — `lib/actions/clinic.actions.ts`
-- **updatePatientAction()** (6 connections) — `lib/actions/patients.actions.ts`
-- **getClinicAction()** (5 connections) — `lib/actions/clinic.actions.ts`
-- **searchPatientsAction()** (5 connections) — `lib/actions/patients.actions.ts`
-- **AppointmentStatus** (5 connections) — `types/domain.ts`
-- **listAppointmentsAction()** (4 connections) — `lib/actions/appointments.actions.ts`
-- **Appointment** (3 connections) — `types/domain.ts`
-- **AuditRecord** (3 connections) — `types/domain.ts`
-- **BiologicalSex** (3 connections) — `types/domain.ts`
-- **Clinic** (3 connections) — `types/domain.ts`
-- **DocumentType** (3 connections) — `types/domain.ts`
-- **Patient** (3 connections) — `types/domain.ts`
-- **AuditAction** (2 connections) — `types/domain.ts`
-- **AuditEntityType** (2 connections) — `types/domain.ts`
-- **ClinicalAttachment** (2 connections) — `types/domain.ts`
-- *... and 10 more nodes in this community*
+- **types/domain.ts** (56 connections) — `types/domain.ts`
+- **7.4 Directorio `types/` y `errors/`** (15 connections) — `.kiro/PROJECT_CONTEXT_FULL.md`
+- **7.4 Directorio `types/` y `errors/`** (15 connections) — `PROJECT_CONTEXT_FULL.md`
+- **UserProfile** (12 connections) — `types/domain.ts`
+- **CustomToothStatus** (8 connections) — `types/domain.ts`
+- **OdontogramState** (8 connections) — `types/domain.ts`
+- **Patient** (8 connections) — `types/domain.ts`
+- **HistoryClientProps** (6 connections) — `app/(dashboard)/pacientes/[id]/historia/history-client.tsx`
+- **Appointment** (6 connections) — `types/domain.ts`
+- **ClinicalEntry** (6 connections) — `types/domain.ts`
+- **ClinicalRecord** (6 connections) — `types/domain.ts`
+- **BiologicalSex** (4 connections) — `types/domain.ts`
+- **ClinicalAttachment** (4 connections) — `types/domain.ts`
+- **DocumentType** (4 connections) — `types/domain.ts`
+- **AppointmentsClientProps** (3 connections) — `app/(dashboard)/citas/appointments-client.tsx`
+- **OdontogramClientProps** (3 connections) — `app/(dashboard)/pacientes/[id]/historia/odontogram-client.tsx`
+- **FormState** (3 connections) — `app/(dashboard)/pacientes/patients-client.tsx`
+- **CreatedUser** (2 connections) — `app/(dashboard)/consultorios/nuevo-usuario/create-clinic-user-form.tsx`
+- **PatientsClientProps** (2 connections) — `app/(dashboard)/pacientes/patients-client.tsx`
+- **UsersClientProps** (2 connections) — `app/(dashboard)/usuarios/users-client.tsx`
+- **ToothStatus** (2 connections) — `types/domain.ts`
 
 ## Relationships
 
-- [DentalClinicError](DentalClinicError.md) (24 shared connections)
-- [requireRole](requireRole.md) (19 shared connections)
-- [auth.actions.ts](auth.actions.ts.md) (15 shared connections)
-- [pacientes/page.tsx](pacientes-page.tsx.md) (5 shared connections)
-- [Community 26](Community_26.md) (5 shared connections)
-- [proxy.ts](proxy.ts.md) (4 shared connections)
-- [security-headers.property.test.ts](security-headers.property.test.ts.md) (2 shared connections)
-- [package.json](package.json.md) (1 shared connections)
-- [auth-api.ts](auth-api.ts.md) (1 shared connections)
+- [createClient](createClient.md) (15 shared connections)
+- [patients-client.tsx](patients-client.tsx.md) (11 shared connections)
+- [cn](cn.md) (10 shared connections)
+- [admin-clinics.actions.ts](admin-clinics.actions.ts.md) (7 shared connections)
+- [dashboard/page.tsx](dashboard-page.tsx.md) (6 shared connections)
+- [odontogram-client.tsx](odontogram-client.tsx.md) (5 shared connections)
+- [appointments.actions.ts](appointments.actions.ts.md) (5 shared connections)
+- [withErrorHandling](withErrorHandling.md) (5 shared connections)
+- [UserRole](UserRole.md) (4 shared connections)
+- [Clinic](Clinic.md) (4 shared connections)
+- [reports.actions.ts](reports.actions.ts.md) (3 shared connections)
+- [6.1 Esquema `public` (Tablas de Negocio)](6.1_Esquema_`public`_Tablas_de_Negocio.md) (2 shared connections)
 
 ## Source Files
 
-- `lib/actions/appointments.actions.ts`
-- `lib/actions/clinic.actions.ts`
-- `lib/actions/patients.actions.ts`
-- `lib/server-action-wrapper.ts`
-- `package.json`
+- `.kiro/PROJECT_CONTEXT_FULL.md`
+- `PROJECT_CONTEXT_FULL.md`
+- `app/(dashboard)/citas/appointments-client.tsx`
+- `app/(dashboard)/consultorios/nuevo-usuario/create-clinic-user-form.tsx`
+- `app/(dashboard)/pacientes/[id]/historia/history-client.tsx`
+- `app/(dashboard)/pacientes/[id]/historia/odontogram-client.tsx`
+- `app/(dashboard)/pacientes/patients-client.tsx`
+- `app/(dashboard)/usuarios/users-client.tsx`
 - `types/domain.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 228 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 106 (79%)
+- INFERRED: 29 (21%)
 - AMBIGUOUS: 0 (0%)
 
 ---
