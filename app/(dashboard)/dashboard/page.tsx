@@ -31,7 +31,9 @@ import {
   Building2,
 } from 'lucide-react';
 import { getDashboardStatsAction } from '@/lib/actions/dashboard.actions';
-import { getAdminClinicDetailAction, listAdminClinicsAction } from '@/lib/actions/admin-clinics.actions';
+import { getAdminClinicDetailAction } from '@/lib/actions/admin-clinics.actions';
+import { listClinicsForView } from '@/lib/platform/clinic-view-data';
+import { selectClinicForView } from '@/lib/platform/clinic-selection';
 import { getShellProfile } from '@/lib/auth/shell-profile';
 import type { AppointmentStatus, Clinic, UserProfile, UserRole } from '@/types/domain';
 
@@ -615,14 +617,12 @@ export default async function DashboardPage({
   if (profile.role === 'administrador') {
     const [{ clinic: requestedClinicId }, clinicsResult] = await Promise.all([
       searchParams,
-      listAdminClinicsAction(),
+      listClinicsForView(),
     ]);
     if (!clinicsResult.success) throw new Error(clinicsResult.error.message);
 
     const clinics = clinicsResult.data;
-    const selectedClinic = clinics.find(({ id }) => id === requestedClinicId)
-      ?? clinics.find(({ id }) => id === profile.clinicId)
-      ?? clinics[0];
+    const selectedClinic = selectClinicForView(clinics, profile.clinicId, requestedClinicId);
     if (!selectedClinic) throw new Error('No hay consultorios disponibles para tu cuenta.');
 
     const detail = await getAdminClinicDetailAction(selectedClinic.id);

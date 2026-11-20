@@ -1,3 +1,4 @@
+import { listClinicsForView } from '@/lib/platform/clinic-view-data';
 import { hasPlatformAccess } from '@/lib/platform/access';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -17,5 +18,16 @@ export default async function DashboardLayout({
     redirect('/login');
   }
 
-  return <DashboardShell profile={profile} platformAccess={profile.role === 'administrador' && await hasPlatformAccess()}>{children}</DashboardShell>;
+  const platformAccess = profile.role === 'administrador' && await hasPlatformAccess();
+  const clinicList = platformAccess ? await listClinicsForView() : null;
+
+  return (
+    <DashboardShell
+      profile={profile}
+      platformAccess={platformAccess}
+      platformClinics={clinicList?.success ? clinicList.data.map(({ id, name }) => ({ id, name })) : []}
+    >
+      {children}
+    </DashboardShell>
+  );
 }

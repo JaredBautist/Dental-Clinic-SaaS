@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { clinicViewHref } from '@/lib/platform/clinic-selection';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
@@ -95,6 +96,7 @@ interface SidebarProps {
   platformAccess?: boolean;
   userName?: string;
   clinicName?: string;
+  activeClinicId?: string;
   /** Estado del panel en móvil; en escritorio siempre visible. */
   mobileOpen?: boolean;
   onCloseMobile?: () => void;
@@ -105,6 +107,7 @@ export function Sidebar({
   platformAccess = false,
   userName = 'Usuario',
   clinicName = 'Consultorio',
+  activeClinicId,
   mobileOpen = false,
   onCloseMobile,
 }: SidebarProps) {
@@ -188,7 +191,7 @@ export function Sidebar({
 
         {/* Clinic Info */}
         <div className="px-6 py-4 border-b border-slate-800">
-          <p className="text-xs text-slate-400">{platformAccess ? 'Consultorio de tu cuenta' : 'Consultorio'}</p>
+          <p className="text-xs text-slate-400">{activeClinicId ? 'Consultorio activo' : platformAccess ? 'Consultorio de tu cuenta' : 'Consultorio'}</p>
           <p className="text-sm font-medium text-slate-200 truncate">{clinicName}</p>
         </div>
 
@@ -205,7 +208,7 @@ export function Sidebar({
               return (
                 <li key={item.href}>
                   <Link
-                    href={item.href}
+                    href={clinicViewHref(item.href, activeClinicId)}
                     onClick={onCloseMobile}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(

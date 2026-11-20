@@ -54,6 +54,6 @@ Use the current navy and cyan identity with accessible accent variants, semantic
 
 ## Administrative dashboard clinic selection
 
-When a platform operator has access to multiple clinics, the dashboard shall present a labeled clinic selector. `GET /dashboard?clinic=<uuid>` displays administrative details and personnel for a clinic in the authorized list. Without a valid selection, prefer the signed-in account's clinic. A tenant administrator shall remain scoped to their own clinic even if the URL names another one. Management links follow the displayed clinic, while the sidebar keeps the account's clinic explicitly labeled.
+When a platform operator has access to multiple clinics, the dashboard shall present a labeled clinic selector. `GET /dashboard?clinic=<uuid>` displays administrative details and personnel for a clinic in the authorized list. Without a valid selection, prefer the signed-in account's clinic. A tenant administrator shall remain scoped to their own clinic even if the URL names another one. The sidebar and mobile header show the same active clinic as Dashboard, Consultorios and Plataforma. Links among those pages preserve the selection. Account-scoped routes continue to display the account's clinic.
 
 Reuse the scoped clinic listing and detail actions. A GET form keeps selection shareable and avoids client state or changes to the session's tenant. Patient and appointment reads remain outside this administrative dashboard.

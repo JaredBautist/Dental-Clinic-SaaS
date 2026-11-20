@@ -4,13 +4,16 @@ import { Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageHeader } from '@/components/ui/page-header';
+import { getShellProfile } from '@/lib/auth/shell-profile';
+import { selectClinicForView } from '@/lib/platform/clinic-selection';
 import { hasPlatformAccess } from '@/lib/platform/access';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { reportCalendarDate } from '@/lib/report-dates';
 import { SubscriptionForm, type Subscription } from './subscription-form';
 
 export default async function PlatformPage({ searchParams }: { searchParams: Promise<{ clinic?: string }> }) {
-  if (!await hasPlatformAccess()) redirect('/dashboard');
+  const [profile, platformAccess] = await Promise.all([getShellProfile(), hasPlatformAccess()]);
+  if (!profile || !platformAccess) redirect('/dashboard');
 
   const { data, error } = await createAdminClient().from('clinics')
     .select('id, name, subscription_plan, subscription_status, subscription_starts_on, subscription_ends_on')
@@ -18,7 +21,7 @@ export default async function PlatformPage({ searchParams }: { searchParams: Pro
   if (error) throw new Error('No se pudo cargar la lista de consultorios.');
   const clinics = (data ?? []) as (Subscription & { name: string })[];
   const { clinic: selectedId } = await searchParams;
-  const selected = clinics.find((clinic) => clinic.id === selectedId) ?? clinics[0];
+  const selected = selectClinicForView(clinics, profile.clinicId, selectedId);
   const today = reportCalendarDate(new Date());
 
   return (

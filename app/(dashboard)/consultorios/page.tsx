@@ -5,10 +5,9 @@ import { Building2, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
 import { getShellProfile } from '@/lib/auth/shell-profile';
-import {
-  getAdminClinicDetailAction,
-  listAdminClinicsAction,
-} from '@/lib/actions/admin-clinics.actions';
+import { getAdminClinicDetailAction } from '@/lib/actions/admin-clinics.actions';
+import { listClinicsForView } from '@/lib/platform/clinic-view-data';
+import { selectClinicForView } from '@/lib/platform/clinic-selection';
 import { ConsultoriosClient } from './consultorios-client';
 
 export const metadata = {
@@ -31,15 +30,13 @@ export default async function ConsultoriosPage({ searchParams }: ConsultoriosPag
     redirect('/dashboard');
   }
 
-  const [clinicsResult, platformAccess] = await Promise.all([listAdminClinicsAction(), hasPlatformAccess()]);
+  const [clinicsResult, platformAccess] = await Promise.all([listClinicsForView(), hasPlatformAccess()]);
   if (!clinicsResult.success) {
     throw new Error(clinicsResult.error.message);
   }
 
   const { clinic: requestedClinicId } = await searchParams;
-  const selectedClinic =
-    clinicsResult.data.find((clinic) => clinic.id === requestedClinicId) ??
-    clinicsResult.data[0];
+  const selectedClinic = selectClinicForView(clinicsResult.data, profile.clinicId, requestedClinicId);
   const detailResult = selectedClinic
     ? await getAdminClinicDetailAction(selectedClinic.id)
     : null;
@@ -56,7 +53,7 @@ export default async function ConsultoriosPage({ searchParams }: ConsultoriosPag
         action={
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button asChild>
-              <Link href="/consultorios/nuevo-usuario">
+              <Link href={selectedClinic ? `/consultorios/nuevo-usuario?clinic=${selectedClinic.id}` : "/consultorios/nuevo-usuario"}>
                 <UserPlus className="mr-2 h-4 w-4" aria-hidden="true" />
                 Nuevo usuario
               </Link>
@@ -71,6 +68,7 @@ export default async function ConsultoriosPage({ searchParams }: ConsultoriosPag
         }
       />
       <ConsultoriosClient
+        key={selectedClinic?.id}
         initialClinics={clinicsResult.data}
         initialDetail={detailResult?.success ? detailResult.data : null}
       />

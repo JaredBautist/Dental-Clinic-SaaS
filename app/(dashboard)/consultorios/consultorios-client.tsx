@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { clinicViewHref } from '@/lib/platform/clinic-selection';
 import { Building2, ChevronRight, Plus, UserPlus, Users } from 'lucide-react';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +15,6 @@ import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import {
   createClinicUserAction,
-  getAdminClinicDetailAction,
   updateAdminClinicAction,
   updateAdminClinicUserAction,
   type AdminClinicDetail,
@@ -64,15 +65,12 @@ interface ConsultoriosClientProps {
 
 export function ConsultoriosClient({ initialClinics, initialDetail }: ConsultoriosClientProps) {
   const [clinics, setClinics] = React.useState(initialClinics);
-  const [selectedId, setSelectedId] = React.useState(initialDetail?.clinic.id ?? '');
+  const selectedId = initialDetail?.clinic.id ?? '';
+  const router = useRouter();
   const [detail, setDetail] = React.useState(initialDetail);
   const [clinicForm, setClinicForm] = React.useState<ClinicFormState | null>(
     initialDetail ? clinicToForm(initialDetail.clinic) : null
   );
-
-  const [isDetailLoading, setIsDetailLoading] = React.useState(false);
-  const [detailError, setDetailError] = React.useState<string | null>(null);
-  const detailRequestRef = React.useRef(0);
 
   const [isSavingClinic, setIsSavingClinic] = React.useState(false);
   const [clinicMessage, setClinicMessage] = React.useState<string | null>(null);
@@ -84,38 +82,6 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
   const [userMessage, setUserMessage] = React.useState<string | null>(null);
   const [userError, setUserError] = React.useState<string | null>(null);
   const [busyUserId, setBusyUserId] = React.useState<string | null>(null);
-
-  function applyDetail(next: AdminClinicDetail) {
-    setDetail(next);
-    setClinicForm(clinicToForm(next.clinic));
-    setNewUser(EMPTY_USER_FORM);
-    setIsCreateOpen(false);
-    setUserError(null);
-    setUserMessage(null);
-  }
-
-  async function selectClinic(clinicId: string) {
-    if (!clinicId || clinicId === selectedId) return;
-
-    const requestId = ++detailRequestRef.current;
-    setSelectedId(clinicId);
-    setDetail(null);
-    setClinicForm(null);
-    setClinicError(null);
-    setClinicMessage(null);
-    setDetailError(null);
-    setIsDetailLoading(true);
-
-    const result = await getAdminClinicDetailAction(clinicId);
-    if (detailRequestRef.current !== requestId) return;
-
-    if (result.success) {
-      applyDetail(result.data);
-    } else {
-      setDetailError(result.error.message);
-    }
-    setIsDetailLoading(false);
-  }
 
   async function handleClinicSave(e: React.FormEvent) {
     e.preventDefault();
@@ -141,6 +107,7 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
       );
       setDetail((current) => (current ? { ...current, clinic: result.data } : current));
       setClinicMessage('Información del consultorio actualizada correctamente.');
+      router.refresh();
     } else {
       setClinicError(result.error.message);
     }
@@ -244,11 +211,10 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
             <ul className="-mx-2 space-y-2">
               {clinics.map((clinic) => (
                 <li key={clinic.id}>
-                  <button
-                    type="button"
-                    // Usamos un control explícito para que el detalle refresque tras cada selección.
-                    aria-pressed={clinic.id === selectedId}
-                    onClick={() => selectClinic(clinic.id)}
+                  <Link
+                    href={clinicViewHref('/consultorios', clinic.id)}
+                    prefetch={false}
+                    aria-current={clinic.id === selectedId ? 'page' : undefined}
                     className={cn(
                       'flex w-full min-w-0 items-center justify-between gap-3 rounded-lg border p-4 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600',
                       clinic.id === selectedId
@@ -280,7 +246,7 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
                       )}
                       aria-hidden="true"
                     />
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -289,18 +255,7 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
       </Card>
 
       <div className="min-w-0 space-y-6 xl:col-span-2">
-        {isDetailLoading && (
-          <div
-            role="status"
-            className="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500"
-          >
-            Cargando información del consultorio…
-          </div>
-        )}
-
-        {detailError && <Alert tone="danger">{detailError}</Alert>}
-
-        {!isDetailLoading && !detailError && !detail && (
+        {!detail && (
           <Alert tone="info">Selecciona un consultorio del listado para ver su información.</Alert>
         )}
 
