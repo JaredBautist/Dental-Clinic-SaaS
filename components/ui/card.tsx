@@ -11,10 +11,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          'rounded-xl bg-white text-slate-950',
-          variant === 'default' && 'border border-slate-200 shadow-sm',
-          variant === 'bordered' && 'border-2 border-slate-200',
-          variant === 'elevated' && 'shadow-lg shadow-slate-200/50 border border-slate-100',
+          'rounded-xl bg-white dark:bg-slate-900 text-slate-950',
+          variant === 'default' && 'border border-slate-200 dark:border-slate-700 shadow-sm',
+          variant === 'bordered' && 'border-2 border-slate-200 dark:border-slate-700',
+          variant === 'elevated' && 'shadow-lg shadow-slate-200/50 border border-slate-100 dark:border-slate-800',
           className
         )}
         {...props}
@@ -50,7 +50,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-sm text-slate-500', className)}
+      className={cn('text-sm text-slate-500 dark:text-slate-400', className)}
       {...props}
     />
   )

@@ -1,3 +1,4 @@
+import { reportCalendarDate, reportDateIso } from '@/lib/report-dates';
 import { redirect } from 'next/navigation';
 import {
   listAppointmentsAction,
@@ -14,13 +15,11 @@ export const metadata = {
 };
 
 function todayRangeIso(): { start: string; end: string } {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-  return { start: start.toISOString(), end: end.toISOString() };
+  const today = reportCalendarDate(new Date());
+  return { start: reportDateIso(today), end: reportDateIso(today, true) };
 }
 
-export default async function AppointmentsPage() {
+export default async function AppointmentsPage({ searchParams }: { searchParams: Promise<{ patient?: string }> }) {
   const profile = await getShellProfile();
 
   if (!profile) {
@@ -55,6 +54,10 @@ export default async function AppointmentsPage() {
     name: user.full_name,
   }));
 
+  const { patient } = await searchParams;
+  const initialPatientId = profile.role === 'recepcionista' && patientsResult.data.some((item) => item.id === patient)
+    ? patient : undefined;
+
   return (
     <div>
       <PageHeader
@@ -62,7 +65,9 @@ export default async function AppointmentsPage() {
         description="Calendario de citas y control anti-solapamiento"
       />
       <AppointmentsClient
+        key={initialPatientId ?? "agenda"}
         role={profile.role}
+        initialPatientId={initialPatientId}
         initialAppointments={appointmentsResult.data}
         patients={patientsResult.data}
         dentists={dentists}

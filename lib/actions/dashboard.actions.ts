@@ -5,9 +5,7 @@ import { withErrorHandling, ServerActionResult } from '@/lib/server-action-wrapp
 import { requireRole } from '@/lib/auth/require-user';
 import { DentalClinicError } from '@/errors/domain';
 import type { AppointmentStatus } from '@/types/domain';
-
-/** Offset fijo de Colombia (America/Bogota, sin horario de verano). */
-const BOGOTA_UTC_OFFSET = '-05:00';
+import { reportCalendarDate, reportDateIso } from '@/lib/report-dates';
 
 export interface DashboardTodayAppointment {
   id: string;
@@ -21,18 +19,10 @@ export interface DashboardStats {
   totalPatients: number;
   todayAppointments: number;
   pendingConfirmations: number;
+  pendingVisits: number;
   completedToday: number;
   todayList: DashboardTodayAppointment[];
   nextAppointmentInMinutes: number | null;
-}
-
-function todayInBogota(): string {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Bogota',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(new Date());
 }
 
 /**
@@ -50,13 +40,13 @@ export async function getDashboardStatsAction(
     );
     const supabase = await createServerSupabaseClient();
 
-    const date = rawInput?.date ?? todayInBogota();
+    const date = rawInput?.date ?? reportCalendarDate(new Date());
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
       throw new DentalClinicError('Fecha inválida para el resumen del dashboard.', 'INVALID_DATE', 400);
     }
 
-    const dayStart = `${date}T00:00:00.000${BOGOTA_UTC_OFFSET}`;
-    const dayEnd = `${date}T23:59:59.999${BOGOTA_UTC_OFFSET}`;
+    const dayStart = reportDateIso(date);
+    const dayEnd = reportDateIso(date, true);
 
     let appointmentsQuery = supabase
       .from('appointments')
@@ -125,6 +115,7 @@ export async function getDashboardStatsAction(
     const pendingConfirmations = todayList.filter(
       (a) => a.status === 'programada' || a.status === 'confirmada'
     ).length;
+    const pendingVisits = pendingConfirmations + todayList.filter((a) => a.status === 'en_curso').length;
     const completedToday = todayList.filter((a) => a.status === 'completada').length;
 
     const now = Date.now();
@@ -141,6 +132,7 @@ export async function getDashboardStatsAction(
       totalPatients: patientsResult.count ?? 0,
       todayAppointments: todayList.length,
       pendingConfirmations,
+      pendingVisits,
       completedToday,
       todayList,
       nextAppointmentInMinutes,

@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import { reportCalendarDate, reportDateIso, formatReportDate } from '@/lib/report-dates';
+import { ReportDownload } from '@/components/ui/report-download';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -34,25 +36,17 @@ const STATUS_ORDER: AppointmentStatus[] = [
   'reprogramada',
 ];
 
-function toIso(dateValue: string, endOfDay = false): string {
-  const date = new Date(`${dateValue}T${endOfDay ? '23:59:59' : '00:00:00'}`);
-  return date.toISOString();
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('es-CO', { dateStyle: 'medium' });
-}
-
 interface StatusReportClientProps {
   initialReport: AppointmentStatusReportResult;
+  dentistName?: string;
 }
 
-export function StatusReportClient({ initialReport }: StatusReportClientProps) {
+export function StatusReportClient({ initialReport, dentistName }: StatusReportClientProps) {
   const [report, setReport] = React.useState<AppointmentStatusReportResult>(initialReport);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [startDate, setStartDate] = React.useState(initialReport.startDate.slice(0, 10));
-  const [endDate, setEndDate] = React.useState(initialReport.endDate.slice(0, 10));
+  const [startDate, setStartDate] = React.useState(reportCalendarDate(initialReport.startDate));
+  const [endDate, setEndDate] = React.useState(reportCalendarDate(initialReport.endDate));
 
   async function runReport(e: React.FormEvent) {
     e.preventDefault();
@@ -60,8 +54,8 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
     setError(null);
 
     const result = await getAppointmentStatusReportAction({
-      startDate: toIso(startDate),
-      endDate: toIso(endDate, true),
+      startDate: reportDateIso(startDate),
+      endDate: reportDateIso(endDate, true),
     });
     setIsLoading(false);
 
@@ -82,7 +76,8 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
     <div className="space-y-6">
       <Card>
         <CardContent className="pt-6">
-          <form onSubmit={runReport} className="flex flex-col gap-4 sm:flex-row sm:items-end">
+          {dentistName && <p className="mb-4 text-sm font-medium">Odontólogo: {dentistName}</p>}
+          <form onSubmit={runReport} className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
             <div className="space-y-2">
               <Label htmlFor="status-start">Fecha inicial</Label>
               <Input
@@ -107,8 +102,9 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
               <Filter className="w-4 h-4 mr-2" aria-hidden="true" />
               Generar reporte
             </Button>
+            <ReportDownload filename="estado-citas.csv" rows={[['Desde', 'Hasta', 'Estado', 'Cantidad'], ...STATUS_ORDER.map((status) => [reportCalendarDate(report.startDate), reportCalendarDate(report.endDate), STATUS_LABELS[status], report.statusDistribution[status]])]} />
           </form>
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             Rango permitido: hasta 12 meses (365 días) entre fechas.
           </p>
         </CardContent>
@@ -128,12 +124,12 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
         />
         <StatsCard
           title="Desde"
-          value={formatDate(report.startDate)}
+          value={formatReportDate(report.startDate)}
           icon={<CalendarDays className="w-6 h-6" aria-hidden="true" />}
         />
         <StatsCard
           title="Hasta"
-          value={formatDate(report.endDate)}
+          value={formatReportDate(report.endDate)}
           icon={<CalendarDays className="w-6 h-6" aria-hidden="true" />}
         />
       </div>
@@ -159,13 +155,13 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
                 return (
                   <div key={status}>
                     <div className="mb-1 flex items-center justify-between text-sm">
-                      <p className="font-medium text-slate-900">{STATUS_LABELS[status]}</p>
-                      <p className="tabular-nums text-slate-600">
+                      <p className="font-medium text-slate-900 dark:text-slate-100">{STATUS_LABELS[status]}</p>
+                      <p className="tabular-nums text-slate-600 dark:text-slate-300">
                         {count} ({pct}%)
                       </p>
                     </div>
                     <div
-                      className="h-2.5 rounded-full bg-slate-100"
+                      className="h-2.5 rounded-full bg-slate-100 dark:bg-slate-800"
                       role="img"
                       aria-label={`${STATUS_LABELS[status]}: ${count} citas, ${pct} del total`}
                     >
@@ -181,10 +177,10 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
           )}
 
           {total > 0 && (
-            <div className="mt-6 border-t border-slate-200 pt-4">
+            <div className="mt-6 border-t border-slate-200 dark:border-slate-700 pt-4">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-slate-50">
+                  <TableRow className="bg-slate-50 dark:bg-slate-950">
                     <TableHead>Estado</TableHead>
                     <TableHead className="text-right">Citas</TableHead>
                     <TableHead className="text-right">Porcentaje</TableHead>
@@ -196,7 +192,7 @@ export function StatusReportClient({ initialReport }: StatusReportClientProps) {
                     const pct = total > 0 ? Math.round((count / total) * 100) : 0;
                     return (
                       <TableRow key={status}>
-                        <TableCell className="font-medium text-slate-900">
+                        <TableCell className="font-medium text-slate-900 dark:text-slate-100">
                           {STATUS_LABELS[status]}
                         </TableCell>
                         <TableCell className="text-right tabular-nums">{count}</TableCell>

@@ -6,7 +6,7 @@ import { withErrorHandling, ServerActionResult } from '@/lib/server-action-wrapp
 import { requireRole } from '@/lib/auth/require-user';
 import { createAuditLog } from '@/lib/audit';
 import { ConcurrencyConflictError, DentalClinicError } from '@/errors/domain';
-import type { ClinicalEntry, ClinicalRecord, ClinicalEntryType } from '@/types/domain';
+import type { ClinicalEntry, ClinicalRecord } from '@/types/domain';
 
 const ENTRY_TYPES = [
   'motivo_consulta',
@@ -69,13 +69,17 @@ export async function saveClinicalEntryAction(
     const supabase = await createServerSupabaseClient();
 
     // 1. Obtener o inicializar la cabecera clinical_records
-    let { data: record, error: recordError } = await supabase
+    const { data: existingRecord, error: recordError } = await supabase
       .from('clinical_records')
       .select('id, version')
       .eq('clinic_id', authUser.clinicId)
       .eq('patient_id', input.patientId)
       .maybeSingle();
 
+    if (recordError) {
+      throw new DentalClinicError('No se pudo consultar la historia clínica.', 'HISTORY_FETCH_FAILED', 500);
+    }
+    let record = existingRecord;
     if (!record) {
       // Crear cabecera inicial con versión 1
       const { data: newRecord, error: createRecordError } = await supabase
@@ -192,13 +196,16 @@ export async function getClinicalHistoryAction(
     const authUser = await requireRole(['administrador', 'odontologo'], 'historia_clinica', patientId);
     const supabase = await createServerSupabaseClient();
 
-    const { data: record } = await supabase
+    const { data: record, error: recordError } = await supabase
       .from('clinical_records')
       .select('*')
       .eq('clinic_id', authUser.clinicId)
       .eq('patient_id', patientId)
       .maybeSingle();
 
+    if (recordError) {
+      throw new DentalClinicError('No se pudo consultar la historia clínica.', 'HISTORY_FETCH_FAILED', 500);
+    }
     if (!record) {
       return { record: null, entries: [] };
     }

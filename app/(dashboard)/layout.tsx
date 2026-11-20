@@ -1,3 +1,4 @@
+import { hasPlatformAccess } from '@/lib/platform/access';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { getShellProfile } from '@/lib/auth/shell-profile';
@@ -16,5 +17,5 @@ export default async function DashboardLayout({
     redirect('/login');
   }
 
-  return <DashboardShell profile={profile}>{children}</DashboardShell>;
+  return <DashboardShell profile={profile} platformAccess={profile.role === 'administrador' && await hasPlatformAccess()}>{children}</DashboardShell>;
 }

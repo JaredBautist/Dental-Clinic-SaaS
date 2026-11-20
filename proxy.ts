@@ -163,6 +163,15 @@ export async function proxy(request: NextRequest) {
   }
 
   if (decision.kind === 'redirect') {
+    if (request.nextUrl.pathname.startsWith('/api/clinical-documents')) {
+      const status = user ? 403 : 401;
+      return copyResponseCookies(sessionResponse, NextResponse.json({
+        error: {
+          code: user ? 'CLINICAL_ACCESS_REQUIRED' : 'AUTHENTICATION_REQUIRED',
+          message: user ? 'Verifica tu sesión y los permisos del consultorio.' : 'Inicia sesión para continuar.',
+        },
+      }, { status }));
+    }
     if (user && (!profile || !profile.isActive)) {
       await supabase.auth.signOut();
     }

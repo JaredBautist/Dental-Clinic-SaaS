@@ -70,6 +70,10 @@ export async function getAttendedPatientsReportAction(
     validateDateRangeLimit(input.startDate, input.endDate);
 
     const authUser = await requireRole(['administrador', 'odontologo'], 'cita');
+    const dentistId = authUser.role === 'odontologo' ? authUser.userId : input.dentistId;
+    if (authUser.role === 'odontologo' && input.dentistId && input.dentistId !== dentistId) {
+      throw new DentalClinicError('Solo puedes consultar tus propios reportes.', 'REPORT_SCOPE_FORBIDDEN', 403);
+    }
     const supabase = await createServerSupabaseClient();
 
     let query = supabase
@@ -78,10 +82,10 @@ export async function getAttendedPatientsReportAction(
       .eq('clinic_id', authUser.clinicId)
       .eq('status', 'completada')
       .gte('scheduled_at', input.startDate)
-      .lte('scheduled_at', input.endDate);
+      .lt('scheduled_at', new Date(new Date(input.endDate).getTime() + 1).toISOString());
 
-    if (input.dentistId) {
-      query = query.eq('dentist_id', input.dentistId);
+    if (dentistId) {
+      query = query.eq('dentist_id', dentistId);
     }
 
     const { data: appointments, error } = await query;
@@ -96,7 +100,7 @@ export async function getAttendedPatientsReportAction(
       totalAttended,
       startDate: input.startDate,
       endDate: input.endDate,
-      dentistId: input.dentistId || null,
+      dentistId: dentistId ?? null,
     };
   });
 }
@@ -114,6 +118,10 @@ export async function getAppointmentStatusReportAction(
     validateDateRangeLimit(input.startDate, input.endDate);
 
     const authUser = await requireRole(['administrador', 'odontologo'], 'cita');
+    const dentistId = authUser.role === 'odontologo' ? authUser.userId : input.dentistId;
+    if (authUser.role === 'odontologo' && input.dentistId && input.dentistId !== dentistId) {
+      throw new DentalClinicError('Solo puedes consultar tus propios reportes.', 'REPORT_SCOPE_FORBIDDEN', 403);
+    }
     const supabase = await createServerSupabaseClient();
 
     let query = supabase
@@ -121,10 +129,10 @@ export async function getAppointmentStatusReportAction(
       .select('status')
       .eq('clinic_id', authUser.clinicId)
       .gte('scheduled_at', input.startDate)
-      .lte('scheduled_at', input.endDate);
+      .lt('scheduled_at', new Date(new Date(input.endDate).getTime() + 1).toISOString());
 
-    if (input.dentistId) {
-      query = query.eq('dentist_id', input.dentistId);
+    if (dentistId) {
+      query = query.eq('dentist_id', dentistId);
     }
 
     const { data: appointments, error } = await query;

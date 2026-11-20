@@ -1,3 +1,4 @@
+import { hasPlatformAccess } from '@/lib/platform/access';
 import { redirect } from 'next/navigation';
 import { PageHeader } from '@/components/ui/page-header';
 import { getShellProfile } from '@/lib/auth/shell-profile';
@@ -15,7 +16,7 @@ export default async function CreateClinicPage() {
     redirect('/login');
   }
 
-  if (profile.role !== 'administrador') {
+  if (profile.role !== 'administrador' || !await hasPlatformAccess()) {
     redirect('/dashboard');
   }
 

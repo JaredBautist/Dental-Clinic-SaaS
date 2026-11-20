@@ -23,8 +23,9 @@ import {
   updateAdminClinicUserAction,
 } from '@/lib/actions/admin-clinics.actions';
 
-function mockSignedIn(role: 'administrador' | 'odontologo' | 'recepcionista') {
+function mockSignedIn(role: 'administrador' | 'odontologo' | 'recepcionista', platform = true) {
   mocks.createServerClient.mockResolvedValue({
+    rpc: vi.fn().mockResolvedValue({ data: platform, error: null }),
     auth: {
       getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'actor-uuid-1' } } }),
     },
@@ -81,6 +82,17 @@ describe('Administración de consultorios y su personal', () => {
       expect(result.data[0]?.name).toBe('Clínica Dental Central');
     }
     expect(order).toHaveBeenCalledWith('name');
+  });
+
+  it('limita el listado de un administrador local a su consultorio', async () => {
+    mockSignedIn('administrador', false);
+    const eq = vi.fn().mockReturnThis();
+    const order = vi.fn().mockResolvedValue({ data: [], error: null });
+    mocks.createAdminClient.mockReturnValue({ from: () => ({ select: () => ({ eq, order }) }) });
+    expect((await listAdminClinicsAction()).success).toBe(true);
+    expect(eq).toHaveBeenCalledWith('id', 'actor-clinic-uuid-1');
+    const detail = await getAdminClinicDetailAction('11111111-1111-4111-8111-111111111111');
+    expect(detail.error?.code).toBe('CLINIC_SCOPE_FORBIDDEN');
   });
 
   it('impide a otros roles consultar el detalle administrativo', async () => {

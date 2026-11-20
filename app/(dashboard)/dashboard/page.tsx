@@ -108,7 +108,7 @@ function quickLinksForRole(role: UserRole): QuickLink[] {
           icon: <Settings className="w-5 h-5" aria-hidden="true" />,
           title: 'Configuración',
           description: 'Datos del consultorio actual',
-          tone: 'bg-slate-100 text-slate-600 group-hover:bg-slate-200',
+          tone: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:bg-slate-200',
         },
       ];
     case 'odontologo':
@@ -176,7 +176,7 @@ function AgendaList({
     return (
       <div className="flex flex-col items-center justify-center py-10 text-center">
         <Calendar className="h-10 w-10 text-slate-300" aria-hidden="true" />
-        <p className="mt-3 text-sm font-medium text-slate-600">{emptyTitle}</p>
+        <p className="mt-3 text-sm font-medium text-slate-600 dark:text-slate-300">{emptyTitle}</p>
         <p className="mt-1 text-xs text-slate-400">{emptyDescription}</p>
       </div>
     );
@@ -187,19 +187,19 @@ function AgendaList({
       {appointments.map((apt) => (
         <div
           key={apt.id}
-          className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 p-3 transition-colors hover:bg-slate-50"
+          className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 dark:border-slate-800 p-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800"
         >
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100">
-              <Stethoscope className="h-5 w-5 text-slate-500" aria-hidden="true" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
+              <Stethoscope className="h-5 w-5 text-slate-500 dark:text-slate-400" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-slate-900">{apt.patientName}</p>
-              <p className="truncate text-xs text-slate-500">{apt.dentistName}</p>
+              <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">{apt.patientName}</p>
+              <p className="truncate text-xs text-slate-500 dark:text-slate-400">{apt.dentistName}</p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <span className="font-mono text-sm tabular-nums text-slate-600">
+            <span className="font-mono text-sm tabular-nums text-slate-600 dark:text-slate-300">
               {formatTime(apt.scheduledAt)}
             </span>
             <Badge variant={statusColors[apt.status] ?? 'secondary'}>
@@ -219,7 +219,7 @@ function QuickLinks({ role }: { role: UserRole }) {
         <Link
           key={link.href}
           href={link.href}
-          className="group flex items-center gap-3 rounded-lg border border-slate-100 p-3 transition-all hover:border-slate-200 hover:bg-slate-50"
+          className="group flex items-center gap-3 rounded-lg border border-slate-100 dark:border-slate-800 p-3 transition-all hover:border-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
         >
           <div
             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${link.tone}`}
@@ -227,8 +227,8 @@ function QuickLinks({ role }: { role: UserRole }) {
             {link.icon}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-slate-900">{link.title}</p>
-            <p className="text-xs text-slate-500">{link.description}</p>
+            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{link.title}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{link.description}</p>
           </div>
         </Link>
       ))}
@@ -248,9 +248,9 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
         description="Gestiona los consultorios y los usuarios de cada uno"
         action={
           <Button asChild>
-            <Link href="/clinica/nueva">
+            <Link href="/consultorios">
               <Building2 className="mr-2 h-4 w-4" aria-hidden="true" />
-              Nuevo consultorio
+              Gestionar consultorio
             </Link>
           </Button>
         }
@@ -292,20 +292,20 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
           <CardContent className="space-y-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Nombre</p>
-              <p className="mt-1 text-lg font-semibold text-slate-900">{clinic.name}</p>
+              <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">{clinic.name}</p>
             </div>
-            <dl className="grid grid-cols-1 gap-4 border-t border-slate-100 pt-4 text-sm sm:grid-cols-3">
+            <dl className="grid grid-cols-1 gap-4 border-t border-slate-100 dark:border-slate-800 pt-4 text-sm sm:grid-cols-3">
               <div>
-                <dt className="text-xs text-slate-500">Dirección</dt>
-                <dd className="mt-1 text-slate-900">{clinic.address || 'Sin configurar'}</dd>
+                <dt className="text-xs text-slate-500 dark:text-slate-400">Dirección</dt>
+                <dd className="mt-1 text-slate-900 dark:text-slate-100">{clinic.address || 'Sin configurar'}</dd>
               </div>
               <div>
-                <dt className="text-xs text-slate-500">Teléfono</dt>
-                <dd className="mt-1 text-slate-900">{clinic.phone || 'Sin configurar'}</dd>
+                <dt className="text-xs text-slate-500 dark:text-slate-400">Teléfono</dt>
+                <dd className="mt-1 text-slate-900 dark:text-slate-100">{clinic.phone || 'Sin configurar'}</dd>
               </div>
               <div>
-                <dt className="text-xs text-slate-500">Correo</dt>
-                <dd className="mt-1 break-words text-slate-900">{clinic.email || 'Sin configurar'}</dd>
+                <dt className="text-xs text-slate-500 dark:text-slate-400">Correo</dt>
+                <dd className="mt-1 break-words text-slate-900 dark:text-slate-100">{clinic.email || 'Sin configurar'}</dd>
               </div>
             </dl>
           </CardContent>
@@ -337,9 +337,9 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
         </CardHeader>
         <CardContent>
           {users.length === 0 ? (
-            <div className="flex items-start gap-3 rounded-xl border border-dashed border-slate-300 p-6">
+            <div className="flex items-start gap-3 rounded-xl border border-dashed border-slate-300 dark:border-slate-600 p-6">
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" aria-hidden="true" />
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-600 dark:text-slate-300">
                 Aún no hay usuarios registrados. Gestiona el personal desde la sección Usuarios.
               </p>
             </div>
@@ -349,14 +349,14 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
                 <li key={user.id} className="flex items-center justify-between gap-4 py-3">
                   <div className="flex min-w-0 items-center gap-3">
                     <div
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-600"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300"
                       aria-hidden="true"
                     >
                       {user.full_name.charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-slate-900">{user.full_name}</p>
-                      <p className="text-xs text-slate-500">{roleLabels[user.role]}</p>
+                      <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">{user.full_name}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{roleLabels[user.role]}</p>
                     </div>
                   </div>
                   <Badge variant={user.is_active ? 'success' : 'danger'}>
@@ -417,7 +417,7 @@ function ReceptionDashboard({
           title="Pendientes"
           value={stats.pendingConfirmations}
           icon={<Clock className="h-5 w-5" aria-hidden="true" />}
-          description="Por atender hoy"
+          description="Por atender o en curso"
         />
         <StatsCard
           title="Completadas"
@@ -425,14 +425,6 @@ function ReceptionDashboard({
           icon={<CheckCircle2 className="h-5 w-5" aria-hidden="true" />}
           description="Atendidas hoy"
         />
-      </div>
-
-      <div className="flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">
-        <Info className="h-5 w-5 shrink-0 text-sky-600" aria-hidden="true" />
-        <p>
-          Desde recepción puedes registrar y actualizar pacientes, consultar su información de
-          contacto y gestionar toda la agenda del consultorio.
-        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -465,9 +457,9 @@ function ReceptionDashboard({
           </CardHeader>
           <CardContent className="space-y-3">
             <QuickLinks role="recepcionista" />
-            <div className="border-t border-slate-100 pt-3">
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-3">
               {stats.nextAppointmentInMinutes !== null ? (
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" />
                   <span>
                     Próxima cita en {stats.nextAppointmentInMinutes}{' '}
@@ -475,7 +467,7 @@ function ReceptionDashboard({
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
                   <span>Sin más citas pendientes hoy</span>
                 </div>
@@ -508,10 +500,10 @@ function DentistDashboard({
           description="Asignadas por recepción"
         />
         <StatsCard
-          title="Pacientes pendientes"
-          value={stats.pendingConfirmations}
+          title="Citas pendientes"
+          value={stats.pendingVisits}
           icon={<Clock className="h-5 w-5" aria-hidden="true" />}
-          description="Por atender hoy"
+          description="Por atender o en curso"
         />
         <StatsCard
           title="Atenciones completadas"
@@ -559,9 +551,9 @@ function DentistDashboard({
           </CardHeader>
           <CardContent className="space-y-3">
             <QuickLinks role="odontologo" />
-            <div className="border-t border-slate-100 pt-3">
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-3">
               {stats.nextAppointmentInMinutes !== null ? (
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" />
                   <span>
                     Tu próxima cita en {stats.nextAppointmentInMinutes}{' '}
@@ -569,7 +561,7 @@ function DentistDashboard({
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
                   <span>Sin más citas pendientes hoy</span>
                 </div>

@@ -258,15 +258,15 @@ export function OdontogramClient({ patientId, initialStates, customStatuses }: O
   return (
     <section aria-labelledby="odontograma-heading" className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 id="odontograma-heading" className="text-lg font-semibold text-slate-900">
+        <h2 id="odontograma-heading" className="text-lg font-semibold text-slate-900 dark:text-slate-100">
           Odontograma digital
         </h2>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
           Nomenclatura FDI · Haz clic en una superficie para registrar su estado
         </p>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm overflow-x-auto">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-sm overflow-x-auto">
         <svg
           viewBox="0 0 640 164"
           className="w-full min-w-[560px] h-auto"
@@ -287,13 +287,13 @@ export function OdontogramClient({ patientId, initialStates, customStatuses }: O
         </svg>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
-        <h3 className="text-sm font-semibold text-slate-900 mb-3">Leyenda de estados</h3>
+      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-sm">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">Leyenda de estados</h3>
         <ul className="flex flex-wrap gap-2">
           {allStatuses.map((status) => (
             <li
               key={status.id}
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-2.5 py-1 text-xs text-slate-700"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-xs text-slate-700 dark:text-slate-200"
             >
               <span
                 className="w-3.5 h-3.5 rounded-full border shrink-0"
@@ -373,7 +373,7 @@ export function OdontogramClient({ patientId, initialStates, customStatuses }: O
             />
           </div>
 
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Cada registro crea una nueva versión inmutable (append-only): el historial nunca se sobrescribe.
           </p>
 

@@ -230,7 +230,7 @@ export function PatientsClient({ initialPatients, canViewClinical, canManagePati
       />
 
       {patients.length === 0 && !isSearching ? (
-        <div className="rounded-xl border border-dashed border-slate-300 bg-white py-12">
+        <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 py-12">
           <EmptyState
             icon={<Search className="w-12 h-12" aria-hidden="true" />}
             title={
@@ -252,14 +252,14 @@ export function PatientsClient({ initialPatients, canViewClinical, canManagePati
           />
         </div>
       ) : (
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-slate-50">
+              <TableRow className="bg-slate-50 dark:bg-slate-950">
                 <TableHead>Paciente</TableHead>
-                <TableHead>Documento</TableHead>
-                <TableHead>Edad</TableHead>
-                <TableHead>Contacto</TableHead>
+                <TableHead className="hidden md:table-cell">Documento</TableHead>
+                <TableHead className="hidden md:table-cell">Edad</TableHead>
+                <TableHead className="hidden md:table-cell">Contacto</TableHead>
                 <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -267,22 +267,23 @@ export function PatientsClient({ initialPatients, canViewClinical, canManagePati
               {patients.map((patient) => (
                 <TableRow key={patient.id}>
                   <TableCell>
-                    <p className="font-medium text-slate-900">{patient.full_name}</p>
-                    {patient.medical_history && (
-                      <p className="mt-0.5 max-w-[220px] truncate text-xs text-slate-500">
+                    <p className="font-medium text-slate-900 dark:text-slate-100">{patient.full_name}</p>
+                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-300 md:hidden">{patient.document_type} {patient.document_number} · {patient.phone_primary}</p>
+                    {canViewClinical && patient.medical_history && (
+                      <p className="mt-0.5 hidden max-w-[220px] truncate md:block text-xs text-slate-500 dark:text-slate-400">
                         {patient.medical_history}
                       </p>
                     )}
                   </TableCell>
-                  <TableCell>
-                    <p className="text-sm font-mono text-slate-700">{patient.document_number}</p>
-                    <p className="text-xs text-slate-500">{documentTypeLabel(patient.document_type)}</p>
+                  <TableCell className="hidden md:table-cell">
+                    <p className="text-sm font-mono text-slate-700 dark:text-slate-200">{patient.document_number}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{documentTypeLabel(patient.document_type)}</p>
                   </TableCell>
-                  <TableCell className="tabular-nums text-slate-700">
+                  <TableCell className="hidden tabular-nums text-slate-700 dark:text-slate-200 md:table-cell">
                     {calculateAge(patient.birth_date)} años
                   </TableCell>
-                  <TableCell>
-                    <div className="space-y-1 text-xs text-slate-600">
+                  <TableCell className="hidden md:table-cell">
+                    <div className="space-y-1 text-xs text-slate-600 dark:text-slate-300">
                       <p className="flex items-center gap-1">
                         <Phone className="w-3 h-3" aria-hidden="true" />
                         {patient.phone_primary}
@@ -296,15 +297,26 @@ export function PatientsClient({ initialPatients, canViewClinical, canManagePati
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-1">
+                    <div className="flex flex-wrap items-center justify-end gap-2">
                       {canViewClinical && (
                         <Link
                           href={`/pacientes/${patient.id}/historia`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+                          className="inline-flex min-h-11 items-center gap-2 rounded-lg px-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
                           aria-label={`Ver historia clínica de ${patient.full_name}`}
                           title="Historia clínica"
                         >
                           <FileText className="w-4 h-4" aria-hidden="true" />
+                          Historia clínica
+                        </Link>
+                      )}
+                      {canManagePatients && (
+                        <Link href={`/citas?patient=${patient.id}`} className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium underline">
+                          Agendar cita
+                        </Link>
+                      )}
+                      {canManagePatients && (
+                        <Link href={`/pacientes/${patient.id}/documentos`} className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium underline">
+                          Cargar PDF
                         </Link>
                       )}
                       {canManagePatients && (
@@ -324,7 +336,7 @@ export function PatientsClient({ initialPatients, canViewClinical, canManagePati
               ))}
             </TableBody>
           </Table>
-          <div className="border-t border-slate-200 px-4 py-2 text-xs text-slate-500">
+          <div className="border-t border-slate-200 dark:border-slate-700 px-4 py-2 text-xs text-slate-500 dark:text-slate-400">
             <Badge variant="secondary">{patients.length} registros</Badge>
           </div>
         </div>
@@ -483,7 +495,7 @@ export function PatientsClient({ initialPatients, canViewClinical, canManagePati
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+          <div className="flex justify-end gap-3 border-t border-slate-200 dark:border-slate-700 pt-4">
             <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
               Cancelar
             </Button>

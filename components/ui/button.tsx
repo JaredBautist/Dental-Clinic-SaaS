@@ -11,23 +11,23 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'md', isLoading, disabled, children, asChild, ...props }, ref) => {
     const buttonClassName = cn(
-      'inline-flex items-center justify-center rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
-      variant === 'default' && 'bg-slate-900 text-white hover:bg-slate-800 shadow-sm',
-      variant === 'secondary' && 'bg-slate-100 text-slate-900 hover:bg-slate-200',
-      variant === 'outline' && 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50',
-      variant === 'ghost' && 'text-slate-700 hover:bg-slate-100',
+      'inline-flex items-center justify-center rounded-lg font-medium transition-[background-color,color,box-shadow,scale] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-700 dark:focus-visible:ring-cyan-300 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
+      variant === 'default' && 'bg-slate-900 text-white hover:bg-slate-800 dark:bg-cyan-300 dark:text-slate-950 dark:hover:bg-cyan-200 shadow-sm',
+      variant === 'secondary' && 'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700',
+      variant === 'outline' && 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800',
+      variant === 'ghost' && 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800',
       variant === 'danger' && 'bg-rose-600 text-white hover:bg-rose-700 shadow-sm',
       variant === 'success' && 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm',
       size === 'sm' && 'h-8 px-3 text-xs',
-      size === 'md' && 'h-10 px-4 text-sm',
+      size === 'md' && 'min-h-11 px-4 text-sm',
       size === 'lg' && 'h-12 px-6 text-base',
-      size === 'icon' && 'h-10 w-10',
+      size === 'icon' && 'h-11 w-11',
       className
     );
 
-    if (asChild && React.isValidElement(children)) {
-      return React.cloneElement(children as React.ReactElement<any>, {
-        className: cn(buttonClassName, (children.props as any).className),
+    if (asChild && React.isValidElement<{ className?: string }>(children)) {
+      return React.cloneElement(children, {
+        className: cn(buttonClassName, children.props.className),
         ...props,
       });
     }

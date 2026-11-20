@@ -178,3 +178,90 @@ BEGIN
 END;
 $$;
 ROLLBACK;
+
+-- Clinical workspaces: two dentists in one clinic, separate tenant and explicit operator.
+BEGIN;
+INSERT INTO auth.users (id, email) VALUES
+  ('10000000-0000-4000-8000-000000000003', 'dentist-a1@example.test'),
+  ('10000000-0000-4000-8000-000000000004', 'dentist-a2@example.test');
+INSERT INTO public.users (id, clinic_id, role, full_name) VALUES
+  ('10000000-0000-4000-8000-000000000003', 'a0000000-0000-4000-8000-000000000001', 'odontologo', 'Dentist A1'),
+  ('10000000-0000-4000-8000-000000000004', 'a0000000-0000-4000-8000-000000000001', 'odontologo', 'Dentist A2');
+INSERT INTO public.appointments (clinic_id, patient_id, dentist_id, created_by, scheduled_at, duration_min, reason)
+VALUES
+  ('a0000000-0000-4000-8000-000000000001', 'a1000000-0000-4000-8000-000000000001',
+    '10000000-0000-4000-8000-000000000003', '10000000-0000-4000-8000-000000000002', '2026-11-20 14:00+00', 30, 'Control'),
+  ('a0000000-0000-4000-8000-000000000001', 'a1000000-0000-4000-8000-000000000001',
+    '10000000-0000-4000-8000-000000000004', '10000000-0000-4000-8000-000000000002', '2026-11-20 15:00+00', 30, 'Control');
+INSERT INTO private.platform_operators VALUES ('10000000-0000-4000-8000-000000000001');
+INSERT INTO public.clinical_documents
+  (clinic_id, patient_id, author_id, author_role, request_id, kind, file_name, file_size_bytes, storage_path)
+VALUES
+  ('a0000000-0000-4000-8000-000000000001', 'a1000000-0000-4000-8000-000000000001',
+    '10000000-0000-4000-8000-000000000002', 'recepcionista', gen_random_uuid(), 'external_pdf', 'example.pdf', 100, 'test/a.pdf');
+
+SET LOCAL ROLE authenticated;
+SELECT set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000003', true);
+SELECT set_config('request.jwt.claims', '{"aal":"aal2"}', true);
+DO $$
+BEGIN
+  IF (SELECT count(*) FROM public.appointments) <> 1 OR
+    EXISTS (SELECT FROM public.appointments WHERE dentist_id <> auth.uid()) THEN
+    RAISE EXCEPTION 'dentist can see assignments of another dentist';
+  END IF;
+  IF (SELECT count(*) FROM public.clinical_documents) <> 1 THEN
+    RAISE EXCEPTION 'authorized dentist cannot see clinic document';
+  END IF;
+END;
+$$;
+
+SELECT set_config('request.jwt.claims', '{"aal":"aal1"}', true);
+DO $$ BEGIN
+  IF EXISTS (SELECT FROM public.clinical_documents) THEN
+    RAISE EXCEPTION 'dentist without AAL2 can read documents';
+  END IF;
+END $$;
+
+SELECT set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000002', true);
+SELECT set_config('request.jwt.claims', '{"aal":"aal2"}', true);
+DO $$ BEGIN
+  IF EXISTS (SELECT FROM public.clinical_documents) THEN
+    RAISE EXCEPTION 'reception can read clinical documents';
+  END IF;
+END $$;
+
+SELECT set_config('request.jwt.claim.sub', '20000000-0000-4000-8000-000000000001', true);
+DO $$ BEGIN
+  IF public.has_platform_access() OR EXISTS (SELECT FROM public.clinical_documents) THEN
+    RAISE EXCEPTION 'foreign admin can access platform or clinical documents';
+  END IF;
+  BEGIN
+    UPDATE public.clinics SET subscription_plan = 'Unexpected' WHERE id = 'b0000000-0000-4000-8000-000000000001';
+    RAISE EXCEPTION 'tenant administrator can write plan directly';
+  EXCEPTION WHEN insufficient_privilege THEN NULL;
+  END;
+  BEGIN
+    PERFORM public.set_clinic_subscription('a0000000-0000-4000-8000-000000000001', 'Unexpected', 'active', '2026-11-20', '2026-12-20');
+    RAISE EXCEPTION 'tenant administrator can invoke subscription RPC';
+  EXCEPTION WHEN insufficient_privilege THEN NULL;
+  END;
+END $$;
+
+SELECT set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000001', true);
+SELECT set_config('request.jwt.claims', '{"aal":"aal1"}', true);
+DO $$ BEGIN
+  IF public.has_platform_access() THEN RAISE EXCEPTION 'operator bypassed AAL2'; END IF;
+END $$;
+SELECT set_config('request.jwt.claims', '{"aal":"aal2"}', true);
+DO $$ BEGIN
+  IF NOT public.set_clinic_subscription('b0000000-0000-4000-8000-000000000001', 'Annual', 'active', '2026-11-20', '2027-11-20') THEN
+    RAISE EXCEPTION 'operator could not update subscription';
+  END IF;
+END $$;
+RESET ROLE;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT FROM public.audit_logs WHERE clinic_id = 'b0000000-0000-4000-8000-000000000001' AND metadata ? 'subscription') THEN
+    RAISE EXCEPTION 'subscription change was not audited';
+  END IF;
+END $$;
+ROLLBACK;

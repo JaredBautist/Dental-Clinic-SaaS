@@ -1,24 +1,19 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
+import { currentReportMonth } from '@/lib/report-dates';
 import {
   getAttendedPatientsReportAction,
   type AttendedPatientsReportResult,
 } from '@/lib/actions/reports.actions';
 import { getShellProfile } from '@/lib/auth/shell-profile';
 import { PageHeader } from '@/components/ui/page-header';
-import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
 import { AttendedReportClient } from './attended-client';
 
 export const metadata = {
   title: 'Pacientes atendidos',
   description: 'Reporte de pacientes atendidos por odontólogo',
 };
-
-function monthRangeIso(): { start: string; end: string } {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-  return { start: start.toISOString(), end: end.toISOString() };
-}
 
 export default async function AttendedPatientsReportPage() {
   const profile = await getShellProfile();
@@ -31,36 +26,25 @@ export default async function AttendedPatientsReportPage() {
     redirect('/dashboard');
   }
 
-  const range = monthRangeIso();
-  const [reportResult, dentistsResult] = await Promise.all([
-    getAttendedPatientsReportAction({ startDate: range.start, endDate: range.end }),
-    createServerSupabaseClient().then((supabase) =>
-      supabase
-        .from('users')
-        .select('id, full_name')
-        .eq('clinic_id', profile.clinicId)
-        .eq('role', 'odontologo')
-        .order('full_name', { ascending: true })
-    ),
-  ]);
+  const range = currentReportMonth();
+  const reportResult = await getAttendedPatientsReportAction({
+    startDate: range.start,
+    endDate: range.end,
+  });
 
   if (!reportResult.success) {
     throw new Error(reportResult.error.message);
   }
 
   const report: AttendedPatientsReportResult = reportResult.data;
-  const dentists: Array<{ id: string; name: string }> = (dentistsResult.data ?? []).map((user) => ({
-    id: user.id,
-    name: user.full_name,
-  }));
-
   return (
     <div>
       <PageHeader
+        action={<Button asChild variant="outline"><Link href="/reportes/estado-citas">Estado de citas</Link></Button>}
         title="Reporte de Pacientes Atendidos"
-        description="Métricas de citas completadas por odontólogo en el rango seleccionado (máx. 12 meses)"
+        description="Citas completadas en el rango seleccionado"
       />
-      <AttendedReportClient initialReport={report} dentists={dentists} />
+      <AttendedReportClient initialReport={report} dentistName={profile.role === 'odontologo' ? profile.userName : undefined} />
     </div>
   );
 }

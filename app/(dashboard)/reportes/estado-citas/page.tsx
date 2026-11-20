@@ -1,4 +1,7 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
+import { currentReportMonth } from '@/lib/report-dates';
 import {
   getAppointmentStatusReportAction,
   type AppointmentStatusReportResult,
@@ -12,13 +15,6 @@ export const metadata = {
   description: 'Distribución de citas por estado',
 };
 
-function monthRangeIso(): { start: string; end: string } {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-  return { start: start.toISOString(), end: end.toISOString() };
-}
-
 export default async function AppointmentStatusReportPage() {
   const profile = await getShellProfile();
 
@@ -30,7 +26,7 @@ export default async function AppointmentStatusReportPage() {
     redirect('/dashboard');
   }
 
-  const range = monthRangeIso();
+  const range = currentReportMonth();
   const reportResult = await getAppointmentStatusReportAction({
     startDate: range.start,
     endDate: range.end,
@@ -45,10 +41,11 @@ export default async function AppointmentStatusReportPage() {
   return (
     <div>
       <PageHeader
+        action={<Button asChild variant="outline"><Link href="/reportes/pacientes-atendidos">Pacientes atendidos</Link></Button>}
         title="Reporte de Estado de Citas"
         description="Distribución de citas por estado en el rango seleccionado (máx. 12 meses)"
       />
-      <StatusReportClient initialReport={report} />
+      <StatusReportClient initialReport={report} dentistName={profile.role === 'odontologo' ? profile.userName : undefined} />
     </div>
   );
 }

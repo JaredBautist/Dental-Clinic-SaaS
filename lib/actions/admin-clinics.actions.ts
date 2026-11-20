@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { withErrorHandling, ServerActionResult } from '@/lib/server-action-wrapper';
+import { hasPlatformAccess, requireClinicAdminScope } from '@/lib/platform/access';
 import { requireRole } from '@/lib/auth/require-user';
 import { createAuditLog } from '@/lib/audit';
 import { DentalClinicError } from '@/errors/domain';
@@ -59,9 +60,11 @@ export type UpdateAdminClinicUserInput = z.infer<typeof updateAdminClinicUserSch
 /** Listado de los consultorios administrados por el usuario administrador. */
 export async function listAdminClinicsAction(): Promise<ServerActionResult<Clinic[]>> {
   return withErrorHandling(async () => {
-    await requireRole(['administrador'], 'consultorio');
+    const actor = await requireRole(['administrador'], 'consultorio');
     const admin = createAdminClient();
-    const { data, error } = await admin.from('clinics').select(CLINIC_FIELDS).order('name');
+    const clinics = admin.from('clinics').select(CLINIC_FIELDS);
+    if (!await hasPlatformAccess()) clinics.eq('id', actor.clinicId);
+    const { data, error } = await clinics.order('name');
 
     if (error) {
       throw new DentalClinicError('No se pudieron cargar los consultorios.', 'CLINICS_FETCH_FAILED', 500);
@@ -77,7 +80,8 @@ export async function getAdminClinicDetailAction(
 ): Promise<ServerActionResult<AdminClinicDetail>> {
   return withErrorHandling(async () => {
     const id = clinicIdSchema.parse(clinicId);
-    await requireRole(['administrador'], 'consultorio', id);
+    const actor = await requireRole(['administrador'], 'consultorio', id);
+    await requireClinicAdminScope(actor, id);
     const admin = createAdminClient();
 
     const [clinicResult, usersResult] = await Promise.all([
@@ -111,6 +115,7 @@ export async function updateAdminClinicAction(
   return withErrorHandling(async () => {
     const input = updateAdminClinicSchema.parse(rawInput);
     const authUser = await requireRole(['administrador'], 'consultorio', input.clinicId, 'update');
+    await requireClinicAdminScope(authUser, input.clinicId);
     const admin = createAdminClient();
 
     const { data, error } = await admin
@@ -151,6 +156,7 @@ export async function createClinicUserAction(
   return withErrorHandling(async () => {
     const input = createClinicUserSchema.parse(rawInput);
     const authUser = await requireRole(['administrador'], 'consultorio', input.clinicId, 'create');
+    await requireClinicAdminScope(authUser, input.clinicId);
     const admin = createAdminClient();
 
     const { data: clinic, error: clinicError } = await admin
@@ -223,6 +229,7 @@ export async function updateAdminClinicUserAction(
   return withErrorHandling(async () => {
     const input = updateAdminClinicUserSchema.parse(rawInput);
     const authUser = await requireRole(['administrador'], 'usuario', input.userId, 'update');
+    await requireClinicAdminScope(authUser, input.clinicId);
     const admin = createAdminClient();
 
     const { data: target, error: targetError } = await admin

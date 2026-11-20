@@ -1,10 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* The application always uses its light palette. */
+@custom-variant dark (&:not(*));
+
 :root {
+  color-scheme: light;
   --background: #f8fafc;
   --foreground: #0f172a;
   --accent: #06b6d4;
+  --focus-ring: #0e7490;
 }
 
 @theme inline {
@@ -26,7 +31,7 @@ body {
   aro cian (color de acento del sistema) con contraste AA sobre superficies claras y oscuras.
 */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 

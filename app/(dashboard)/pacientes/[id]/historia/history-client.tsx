@@ -11,6 +11,9 @@ import { Badge } from '@/components/ui/badge';
 import { saveClinicalEntryAction, getClinicalHistoryAction } from '@/lib/actions/clinical.actions';
 import { OdontogramClient } from './odontogram-client';
 import type { ClinicalEntry, ClinicalEntryType, ClinicalRecord, CustomToothStatus, OdontogramState, Patient } from '@/types/domain';
+import { reportCalendarDate } from '@/lib/report-dates';
+import { ClinicalDocuments, type EntryAttachment } from '@/components/patients/clinical-documents';
+import type { DocumentReceipt } from '@/lib/clinical-documents/service';
 import { cn } from '@/lib/utils';
 
 const ENTRY_TYPE_LABELS: Record<ClinicalEntryType, string> = {
@@ -44,16 +47,21 @@ function formatDate(iso: string): string {
   return new Intl.DateTimeFormat('es-CO', {
     dateStyle: 'medium',
     timeStyle: 'short',
+    timeZone: 'America/Bogota',
   }).format(new Date(iso));
 }
 
 function patientAge(birthDate: string): string {
-  const years = Math.floor((Date.now() - new Date(birthDate).getTime()) / (365.25 * 24 * 3600 * 1000));
+  const today = reportCalendarDate(new Date());
+  const years = Number(today.slice(0, 4)) - Number(birthDate.slice(0, 4)) - Number(today.slice(5) < birthDate.slice(5));
   return `${years} años`;
 }
 
 interface HistoryClientProps {
   patient: Patient;
+  documents?: DocumentReceipt[];
+  legacyAttachments: EntryAttachment[];
+  documentsUnavailable: boolean;
   record: ClinicalRecord | null;
   initialEntries: ClinicalEntry[];
   dentistNames: Record<string, string>;
@@ -63,13 +71,16 @@ interface HistoryClientProps {
 
 export function HistoryClient({
   patient,
+  documents,
+  legacyAttachments,
+  documentsUnavailable,
   record,
   initialEntries,
   dentistNames,
   odontogramStates,
   customStatuses,
 }: HistoryClientProps) {
-  const [activeTab, setActiveTab] = React.useState<'historia' | 'odontograma'>('historia');
+  const [activeTab, setActiveTab] = React.useState<'historia' | 'odontograma' | 'documentos'>('historia');
   const [entries, setEntries] = React.useState<ClinicalEntry[]>(initialEntries);
   const [version, setVersion] = React.useState<number>(record?.version ?? 1);
   const [isEntryModalOpen, setIsEntryModalOpen] = React.useState(false);
@@ -137,70 +148,60 @@ export function HistoryClient({
   return (
     <div className="space-y-6">
       {/* Resumen del paciente */}
-      <section aria-labelledby="paciente-resumen-heading" className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
+      <section aria-labelledby="paciente-resumen-heading" className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-sm">
         <h2 id="paciente-resumen-heading" className="sr-only">
           Resumen del paciente
         </h2>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-lg font-semibold text-slate-900">{patient.full_name}</p>
-            <p className="text-sm text-slate-500">
-              {patient.document_type} {patient.document_number} · {patientAge(patient.birth_date)} ·{' '}
-              {patient.phone_primary}
-            </p>
+        <p className="text-xl font-semibold">{patient.full_name}</p>
+        <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ['Documento', `${patient.document_type} ${patient.document_number}`],
+            ['Nacimiento', `${patient.birth_date} · ${patientAge(patient.birth_date)}`],
+            ['Teléfono', patient.phone_primary],
+            ['Correo', patient.email],
+            ['Dirección', patient.address],
+            ['Acudiente', [patient.guardian_name, patient.guardian_phone].filter(Boolean).join(' · ')],
+          ].map(([label, value]) => (
+            <div key={label} className="min-w-0">
+              <dt className="font-medium text-slate-600 dark:text-slate-300">{label}</dt>
+              <dd className="mt-1 break-words">{value || 'Sin registrar'}</dd>
+            </div>
+          ))}
+          <div className="sm:col-span-2 lg:col-span-3">
+            <dt className="font-medium text-slate-600 dark:text-slate-300">Antecedentes médicos</dt>
+            <dd className="mt-1 whitespace-pre-wrap break-words">{patient.medical_history || 'Sin antecedentes registrados'}</dd>
           </div>
-          <div className="text-right">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Versión de la historia</p>
-            <p className="text-sm font-semibold text-slate-900 tabular-nums">v{version}</p>
-          </div>
-        </div>
+        </dl>
       </section>
 
-      {/* Pestañas */}
-      <div role="tablist" aria-label="Secciones de la historia clínica" className="flex gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm w-fit">
-        <button
-          type="button"
-          role="tab"
-          id="tab-historia"
-          aria-selected={activeTab === 'historia'}
-          aria-controls="panel-historia"
-          onClick={() => setActiveTab('historia')}
-          className={cn(
-            'rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600',
-            activeTab === 'historia'
-              ? 'bg-slate-900 text-white'
-              : 'text-slate-600 hover:bg-slate-100'
-          )}
-        >
-          Historia clínica
-        </button>
-        <button
-          type="button"
-          role="tab"
-          id="tab-odontograma"
-          aria-selected={activeTab === 'odontograma'}
-          aria-controls="panel-odontograma"
-          onClick={() => setActiveTab('odontograma')}
-          className={cn(
-            'rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600',
-            activeTab === 'odontograma'
-              ? 'bg-slate-900 text-white'
-              : 'text-slate-600 hover:bg-slate-100'
-          )}
-        >
-          Odontograma
-        </button>
-      </div>
+      <nav aria-label="Secciones de la historia clínica" className="flex w-fit flex-wrap gap-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-1">
+        {([
+          ['historia', 'Entradas clínicas'],
+          ['odontograma', 'Odontograma'],
+          ...(documents ? [['documentos', 'Documentos'] as const] : []),
+        ] as const).map(([key, label]) => (
+          <button key={key} type="button" aria-pressed={activeTab === key}
+            onClick={() => setActiveTab(key)} className={cn(
+              'min-h-11 rounded-lg px-3 text-sm font-medium',
+              activeTab === key ? 'bg-slate-900 text-white' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+            )}>{label}</button>
+        ))}
+      </nav>
+
+      {activeTab === 'documentos' && documents && (
+        documentsUnavailable
+          ? <Alert tone="danger" title="No se pudieron cargar los documentos">Actualiza la página para volver a intentarlo.</Alert>
+          : <ClinicalDocuments patientId={patient.id} documents={documents} legacyAttachments={legacyAttachments}
+              authors={dentistNames} entryAuthors={Object.fromEntries(entries.map((entry) => [entry.id, entry.dentist_id]))} />
+      )}
 
       {activeTab === 'historia' && (
         <section
           id="panel-historia"
-          role="tabpanel"
-          aria-labelledby="tab-historia"
           className="space-y-4"
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-slate-900">Entradas clínicas</h2>
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Entradas clínicas</h2>
             <Button type="button" onClick={openEntryModal}>
               Nueva entrada clínica
             </Button>
@@ -221,9 +222,9 @@ export function HistoryClient({
           )}
 
           {entries.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
-              <p className="text-sm font-medium text-slate-900">Aún no hay entradas clínicas</p>
-              <p className="mt-1 text-sm text-slate-500">
+            <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 p-10 text-center">
+              <p className="text-sm font-medium text-slate-900 dark:text-slate-100">Aún no hay entradas clínicas</p>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                 Registra la primera entrada para iniciar la historia clínica del paciente.
               </p>
               <Button type="button" variant="outline" className="mt-4" onClick={openEntryModal}>
@@ -231,14 +232,14 @@ export function HistoryClient({
               </Button>
             </div>
           ) : (
-            <ol className="relative space-y-4 border-l border-slate-200 pl-6">
+            <ol className="relative space-y-4 border-l border-slate-200 dark:border-slate-700 pl-6">
               {entries.map((entry) => (
                 <li key={entry.id} className="relative">
                   <span
                     className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-cyan-600"
                     aria-hidden="true"
                   />
-                  <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                  <article className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 shadow-sm">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge variant={ENTRY_TYPE_VARIANTS[entry.entry_type]}>
                         {ENTRY_TYPE_LABELS[entry.entry_type]}
@@ -248,14 +249,14 @@ export function HistoryClient({
                           Corrige una entrada anterior
                         </span>
                       )}
-                      <time dateTime={entry.created_at} className="ml-auto text-xs text-slate-500">
+                      <time dateTime={entry.created_at} className="ml-auto text-xs text-slate-500 dark:text-slate-400">
                         {formatDate(entry.created_at)}
                       </time>
                     </div>
-                    <p className="mt-2 whitespace-pre-wrap text-sm text-slate-800">{entry.content}</p>
-                    <p className="mt-2 text-xs text-slate-500">
+                    <p className="mt-2 whitespace-pre-wrap text-sm text-slate-800 dark:text-slate-100">{entry.content}</p>
+                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                       Registrado por:{' '}
-                      <span className="font-medium text-slate-700">
+                      <span className="font-medium text-slate-700 dark:text-slate-200">
                         {dentistNames[entry.dentist_id] ?? 'Profesional'}
                       </span>
                     </p>
@@ -270,8 +271,6 @@ export function HistoryClient({
       {activeTab === 'odontograma' && (
         <section
           id="panel-odontograma"
-          role="tabpanel"
-          aria-labelledby="tab-odontograma"
         >
           <OdontogramClient
             patientId={patient.id}

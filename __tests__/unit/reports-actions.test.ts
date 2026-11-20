@@ -1,3 +1,4 @@
+import { reportCalendarDate, reportDateIso } from '@/lib/report-dates';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
@@ -16,6 +17,12 @@ import {
 describe('Reports Actions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  it('conserva el día de Bogotá al mostrar la hora final en UTC', () => {
+    const end = reportDateIso('2026-11-20', true);
+    expect(end).toBe('2026-11-21T04:59:59.999Z');
+    expect(reportCalendarDate(end)).toBe('2026-11-20');
   });
 
   describe('Validación de límite de rango (Requisito 9.3)', () => {
@@ -69,7 +76,7 @@ describe('Reports Actions', () => {
                 eq: () => ({
                   eq: () => ({
                     gte: () => ({
-                      lte: vi.fn().mockResolvedValue({
+                      lt: vi.fn().mockResolvedValue({
                         data: [
                           { id: 'app-1', status: 'completada' },
                           { id: 'app-2', status: 'completada' },
@@ -100,10 +107,15 @@ describe('Reports Actions', () => {
     it('debe retornar la distribución de citas por estado correctamente', async () => {
       const start = '2026-01-01T00:00:00.000Z';
       const end = '2026-01-31T23:59:59.000Z';
+      const dentistId = '11111111-1111-4111-8111-111111111111';
+      const eqDentist = vi.fn().mockResolvedValue({
+        data: [{ status: 'completada' }, { status: 'completada' }, { status: 'programada' }, { status: 'cancelada' }],
+        error: null,
+      });
 
       mocks.createServerClient.mockResolvedValue({
         auth: {
-          getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'dentist-uuid-1' } } }),
+          getUser: vi.fn().mockResolvedValue({ data: { user: { id: dentistId } } }),
         },
         from: (table: string) => {
           if (table === 'users') {
@@ -112,7 +124,7 @@ describe('Reports Actions', () => {
                 eq: () => ({
                   maybeSingle: vi.fn().mockResolvedValue({
                     data: {
-                      id: 'dentist-uuid-1',
+                      id: dentistId,
                       clinic_id: 'clinic-uuid-1',
                       role: 'odontologo',
                       full_name: 'Dr. Dentista',
@@ -129,15 +141,7 @@ describe('Reports Actions', () => {
               select: () => ({
                 eq: () => ({
                   gte: () => ({
-                    lte: vi.fn().mockResolvedValue({
-                      data: [
-                        { status: 'completada' },
-                        { status: 'completada' },
-                        { status: 'programada' },
-                        { status: 'cancelada' },
-                      ],
-                      error: null,
-                    }),
+                    lt: () => ({ eq: eqDentist }),
                   }),
                 }),
               }),
@@ -160,6 +164,11 @@ describe('Reports Actions', () => {
         expect(result.data.statusDistribution.cancelada).toBe(1);
         expect(result.data.statusDistribution.en_curso).toBe(0);
       }
+      expect(eqDentist).toHaveBeenCalledWith('dentist_id', dentistId);
+      const foreign = { startDate: start, endDate: end, dentistId: '22222222-2222-4222-8222-222222222222' };
+      expect((await getAppointmentStatusReportAction(foreign)).error?.code).toBe('REPORT_SCOPE_FORBIDDEN');
+      expect((await getAttendedPatientsReportAction(foreign)).error?.code).toBe('REPORT_SCOPE_FORBIDDEN');
+      expect(eqDentist).toHaveBeenCalledTimes(1);
     });
   });
 });

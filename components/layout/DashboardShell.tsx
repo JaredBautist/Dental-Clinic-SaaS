@@ -13,24 +13,28 @@ import type { ShellProfile } from '@/lib/auth/shell-profile';
 export function DashboardShell({
   profile,
   children,
+  platformAccess,
 }: {
   profile: ShellProfile;
+  platformAccess?: boolean;
   children: React.ReactNode;
 }) {
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
 
+  const menuButton = React.useRef<HTMLButtonElement>(null);
   function closeMobile() {
+    if (isMobileOpen) menuButton.current?.focus();
     setIsMobileOpen(false);
   }
 
   function handleKeyDown(event: React.KeyboardEvent) {
     if (event.key === 'Escape' && isMobileOpen) {
-      setIsMobileOpen(false);
+      closeMobile();
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50" onKeyDown={handleKeyDown}>
+    <div className="workspace-shell min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-100" onKeyDown={handleKeyDown}>
       <a href="#contenido-principal" className="skip-link">
         Saltar al contenido principal
       </a>
@@ -38,14 +42,15 @@ export function DashboardShell({
       <SessionTimer />
 
       {/* Barra superior móvil (solo < lg) */}
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-slate-200 bg-white px-4 lg:hidden">
+      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 lg:hidden">
         <button
+          ref={menuButton}
           type="button"
           onClick={() => setIsMobileOpen((open) => !open)}
           aria-expanded={isMobileOpen}
           aria-controls="sidebar-nav"
           aria-label={isMobileOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
-          className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="grid size-11 place-items-center rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
         >
           {isMobileOpen ? (
             <X className="w-5 h-5" aria-hidden="true" />
@@ -57,19 +62,20 @@ export function DashboardShell({
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shrink-0">
             <Stethoscope className="w-4 h-4 text-white" aria-hidden="true" />
           </div>
-          <span className="text-sm font-bold text-slate-900 truncate">{profile.clinicName}</span>
+          <span className="text-sm font-bold text-slate-900 dark:text-slate-100 truncate">{profile.clinicName}</span>
         </div>
       </header>
 
       <Sidebar
         userRole={profile.role}
+        platformAccess={platformAccess}
         userName={profile.userName}
         clinicName={profile.clinicName}
         mobileOpen={isMobileOpen}
         onCloseMobile={closeMobile}
       />
 
-      <main id="contenido-principal" className="min-h-screen lg:ml-64">
+      <main id="contenido-principal" className="min-h-screen scroll-mt-16 lg:ml-64">
         <div className="p-4 sm:p-6 lg:p-8">{children}</div>
       </main>
     </div>

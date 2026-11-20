@@ -16,9 +16,9 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, description, icon, trend, className }: StatsCardProps) {
   return (
-    <div className={cn('rounded-xl border border-slate-200 bg-white p-6 shadow-sm', className)}>
+    <div className={cn('rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm', className)}>
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-slate-500">{title}</p>
+        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{title}</p>
         {icon && (
           <div className="text-slate-400" aria-hidden="true">
             {icon}
@@ -26,7 +26,7 @@ export function StatsCard({ title, value, description, icon, trend, className }:
         )}
       </div>
       <div className="mt-2 flex items-baseline justify-between gap-2">
-        <h3 className="text-2xl font-bold text-slate-900 tabular-nums">{value}</h3>
+        <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">{value}</h3>
         {trend && (
           <span
             className={cn(
@@ -47,7 +47,7 @@ export function StatsCard({ title, value, description, icon, trend, className }:
           </span>
         )}
       </div>
-      {description && <p className="mt-1 text-xs text-slate-500">{description}</p>}
+      {description && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{description}</p>}
     </div>
   );
 }

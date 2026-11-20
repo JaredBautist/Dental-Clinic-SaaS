@@ -21,10 +21,17 @@ AS $$
   SELECT NULLIF(current_setting('request.jwt.claim.sub', TRUE), '')::UUID;
 $$;
 
+CREATE FUNCTION auth.jwt() RETURNS jsonb LANGUAGE sql STABLE SET search_path = ''
+AS $$ SELECT coalesce(nullif(current_setting('request.jwt.claims', true), '')::jsonb, '{}'::jsonb) $$;
+
+GRANT USAGE ON SCHEMA auth TO authenticated;
+
 CREATE TABLE storage.buckets (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
-  public BOOLEAN NOT NULL DEFAULT FALSE
+  public BOOLEAN NOT NULL DEFAULT FALSE,
+  file_size_limit BIGINT,
+  allowed_mime_types TEXT[]
 );
 
 CREATE TABLE storage.objects (

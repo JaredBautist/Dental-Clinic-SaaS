@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
 import { withErrorHandling, ServerActionResult } from '@/lib/server-action-wrapper';
+import { requirePlatformAccess } from '@/lib/platform/access';
 import { requireRole } from '@/lib/auth/require-user';
 import { createAuditLog } from '@/lib/audit';
 import { DentalClinicError } from '@/errors/domain';
@@ -69,7 +70,7 @@ export async function createClinicAction(
 ): Promise<ServerActionResult<{ clinicId: string; name: string; adminEmail: string }>> {
   return withErrorHandling(async () => {
     const input = createClinicSchema.parse(rawInput);
-    const authUser = await requireRole(['administrador'], 'consultorio', '', 'create');
+    const authUser = await requirePlatformAccess();
     const admin = createAdminClient();
 
     const clinicId = crypto.randomUUID();

@@ -38,6 +38,7 @@ describe('Clinic Actions', () => {
       const deleteUserMock = vi.fn().mockResolvedValue({ error: null });
 
       mocks.createServerClient.mockResolvedValue({
+        rpc: vi.fn().mockResolvedValue({ data: true, error: null }),
         auth: {
           getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'admin-uuid-1' } } }),
         },
@@ -100,6 +101,7 @@ describe('Clinic Actions', () => {
 
     it('debe rechazar la creación si el usuario no es administrador', async () => {
       mocks.createServerClient.mockResolvedValue({
+        rpc: vi.fn().mockResolvedValue({ data: true, error: null }),
         auth: {
           getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'recep-uuid-1' } } }),
         },

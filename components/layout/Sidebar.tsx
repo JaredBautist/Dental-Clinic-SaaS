@@ -16,6 +16,7 @@ import {
   Stethoscope,
   ShieldCheck,
   ScrollText,
+  X,
 } from 'lucide-react';
 import { logoutAction } from '@/lib/api/auth-api';
 
@@ -24,6 +25,7 @@ interface NavItem {
   href: string;
   icon: React.ReactNode;
   roles?: string[];
+  platformOnly?: boolean;
 }
 
 const navItems: NavItem[] = [
@@ -43,6 +45,12 @@ const navItems: NavItem[] = [
     href: '/citas',
     icon: <Calendar className="w-5 h-5" aria-hidden="true" />,
     roles: ['odontologo', 'recepcionista'],
+  },
+  {
+    title: 'Plataforma',
+    href: '/plataforma',
+    icon: <ShieldCheck className="size-5" aria-hidden="true" />,
+    platformOnly: true,
   },
   {
     title: 'Usuarios',
@@ -84,6 +92,7 @@ const ROLE_LABELS: Record<string, string> = {
 
 interface SidebarProps {
   userRole?: string;
+  platformAccess?: boolean;
   userName?: string;
   clinicName?: string;
   /** Estado del panel en móvil; en escritorio siempre visible. */
@@ -93,6 +102,7 @@ interface SidebarProps {
 
 export function Sidebar({
   userRole = 'administrador',
+  platformAccess = false,
   userName = 'Usuario',
   clinicName = 'Consultorio',
   mobileOpen = false,
@@ -100,12 +110,32 @@ export function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+  const closeButton = React.useRef<HTMLButtonElement>(null);
+  React.useEffect(() => {
+    if (!mobileOpen) return;
+    const frame = requestAnimationFrame(() => closeButton.current?.focus());
+    return () => cancelAnimationFrame(frame);
+  }, [mobileOpen]);
 
   const roleLabel = ROLE_LABELS[userRole] ?? userRole;
 
   const filteredNavItems = navItems.filter(
-    (item) => !item.roles || item.roles.includes(userRole)
+    (item) => (!item.platformOnly || platformAccess) && (!item.roles || item.roles.includes(userRole))
   );
+
+  function keepMobileFocus(event: React.KeyboardEvent<HTMLElement>) {
+    if (!mobileOpen || event.key !== 'Tab' || window.matchMedia('(min-width: 64rem)').matches) return;
+    const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)'));
+    const first = controls[0];
+    const last = controls.at(-1);
+    if (event.shiftKey && document.activeElement === first && last) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last && first) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
 
   async function handleLogout() {
     if (isLoggingOut) return;
@@ -133,10 +163,10 @@ export function Sidebar({
       <aside
         id="sidebar-nav"
         aria-label="Navegación principal"
+        onKeyDown={keepMobileFocus}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-100 flex flex-col shadow-xl transition-transform duration-200 ease-out lg:shadow-none',
-          mobileOpen ? 'translate-x-0' : '-translate-x-full',
-          'lg:translate-x-0'
+          'fixed inset-y-0 left-0 z-50 w-64 flex-col bg-slate-900 text-slate-100 shadow-xl lg:shadow-none',
+          mobileOpen ? 'flex' : 'hidden lg:flex'
         )}
       >
         {/* Logo */}
@@ -145,9 +175,15 @@ export function Sidebar({
             <Stethoscope className="w-5 h-5 text-white" aria-hidden="true" />
           </div>
           <div className="min-w-0">
-            <h1 className="text-sm font-bold text-white leading-tight">Dental Clinic</h1>
+            <p className="text-sm font-bold text-white leading-tight">Dental Clinic</p>
             <p className="text-[10px] text-slate-400 uppercase tracking-wider">SaaS Platform</p>
           </div>
+          {mobileOpen && (
+            <button ref={closeButton} type="button" onClick={onCloseMobile} aria-label="Cerrar menú"
+              className="ml-auto grid size-11 shrink-0 place-items-center rounded-lg text-slate-100 hover:bg-slate-800 lg:hidden">
+              <X className="size-5" aria-hidden="true" />
+            </button>
+          )}
         </div>
 
         {/* Clinic Info */}
@@ -164,7 +200,8 @@ export function Sidebar({
           <ul className="space-y-1">
             {filteredNavItems.map((item) => {
               const isActive =
-                pathname === item.href || pathname.startsWith(item.href + '/');
+                pathname === item.href || pathname.startsWith(item.href + '/') ||
+                (item.href.startsWith('/reportes/') && pathname.startsWith('/reportes/'));
               return (
                 <li key={item.href}>
                   <Link

@@ -21,6 +21,8 @@ function useFocusTrap(
   isOpen: boolean,
   onClose: () => void
 ) {
+  const closeOnEscape = React.useEffectEvent(onClose);
+
   React.useEffect(() => {
     if (!isOpen) return;
 
@@ -34,7 +36,7 @@ function useFocusTrap(
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         event.preventDefault();
-        onClose();
+        closeOnEscape();
         return;
       }
       if (event.key !== 'Tab' || !dialog) return;
@@ -68,7 +70,7 @@ function useFocusTrap(
       // Devuelve el foco al elemento que abrió el diálogo.
       previousFocus?.focus();
     };
-  }, [dialogRef, isOpen, onClose]);
+  }, [dialogRef, isOpen]);
 }
 
 export function Modal({ isOpen, onClose, title, description, children, size = 'md' }: ModalProps) {
@@ -106,22 +108,22 @@ export function Modal({ isOpen, onClose, title, description, children, size = 'm
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         className={cn(
-          'relative z-50 my-auto flex max-h-[calc(100dvh-2rem)] w-full min-w-0 max-w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl animate-in fade-in zoom-in-95 duration-200',
+          'relative z-50 my-auto flex max-h-[calc(100dvh-2rem)] w-full min-w-0 max-w-full flex-col overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xl animate-in fade-in zoom-in-95 duration-200',
           size === 'sm' && 'sm:max-w-sm',
           size === 'md' && 'sm:max-w-md',
           size === 'lg' && 'sm:max-w-lg',
           size === 'xl' && 'sm:max-w-xl'
         )}
       >
-        <div className="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 p-4 sm:p-6">
+        <div className="flex shrink-0 items-start justify-between gap-4 border-b border-slate-200 dark:border-slate-700 p-4 sm:p-6">
           <div className="min-w-0">
             {title && (
-              <h2 id={titleId} className="text-lg font-semibold text-slate-900">
+              <h2 id={titleId} className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                 {title}
               </h2>
             )}
             {description && (
-              <p id={descriptionId} className="mt-1 text-sm text-slate-500">
+              <p id={descriptionId} className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                 {description}
               </p>
             )}
@@ -130,7 +132,7 @@ export function Modal({ isOpen, onClose, title, description, children, size = 'm
             type="button"
             onClick={onClose}
             aria-label="Cerrar"
-            className="shrink-0 rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            className="shrink-0 rounded-lg p-1.5 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>

@@ -1,4 +1,5 @@
-import { redirect } from 'next/navigation';
+import { documentReceiptFields, type DocumentReceipt } from '@/lib/clinical-documents/service';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getPatientByIdAction } from '@/lib/actions/patients.actions';
@@ -37,16 +38,25 @@ export default async function ClinicalHistoryPage({
     if (patientResult.error.statusCode === 401 || patientResult.error.statusCode === 403) {
       redirect('/dashboard');
     }
+    if (patientResult.error.statusCode === 404) notFound();
     throw new Error(patientResult.error.message);
   }
 
-  const [historyResult, odontogramResult, customStatusesResult, usersResult] = await Promise.all([
+  const [historyResult, odontogramResult, customStatusesResult, usersResult, documentsResult, legacyResult] = await Promise.all([
     getClinicalHistoryAction(id),
     getOdontogramStateAction(id),
     listCustomToothStatusesAction(),
     createServerSupabaseClient().then((supabase) =>
       supabase.from('users').select('id, full_name').eq('clinic_id', profile.clinicId)
     ),
+    profile.role === 'odontologo' ? createServerSupabaseClient().then((supabase) =>
+      supabase.from('clinical_documents').select(documentReceiptFields)
+        .eq('clinic_id', profile.clinicId).eq('patient_id', id).order('created_at', { ascending: false })
+    ) : null,
+    profile.role === 'odontologo' ? createServerSupabaseClient().then((supabase) =>
+      supabase.from('clinical_attachments').select('id, file_name, file_type, created_at, entry_id')
+        .eq('clinic_id', profile.clinicId).eq('patient_id', id).order('created_at', { ascending: false })
+    ) : null,
   ]);
 
   if (!historyResult.success || !odontogramResult.success || !customStatusesResult.success) {
@@ -72,11 +82,14 @@ export default async function ClinicalHistoryPage({
 
       <PageHeader
         title="Historia clínica"
-        description="Registro inmutable (append-only) con control de concurrencia optimista"
+        description="Consulta el expediente y registra la atención del paciente."
       />
 
       <HistoryClient
         patient={patientResult.data}
+        documents={profile.role === 'odontologo' ? (documentsResult?.data ?? []) as DocumentReceipt[] : undefined}
+        legacyAttachments={legacyResult?.data ?? []}
+        documentsUnavailable={!!(documentsResult?.error || legacyResult?.error)}
         record={historyResult.data.record}
         initialEntries={historyResult.data.entries}
         dentistNames={dentistNames}

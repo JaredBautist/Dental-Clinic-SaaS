@@ -97,19 +97,20 @@ function formatDayLabel(date: Date): string {
 
 interface AppointmentsClientProps {
   role: UserRole;
+  initialPatientId?: string;
   initialAppointments: Appointment[];
   patients: Array<Pick<import('@/types/domain').Patient, 'id' | 'full_name' | 'document_number'>>;
   dentists: Array<{ id: string; name: string }>;
 }
 
-export function AppointmentsClient({ role, initialAppointments, patients, dentists }: AppointmentsClientProps) {
+export function AppointmentsClient({ role, initialAppointments, patients, dentists, initialPatientId }: AppointmentsClientProps) {
   const isRecepcionista = role === 'recepcionista';
   const [currentDate, setCurrentDate] = React.useState(() => new Date());
   const [appointments, setAppointments] = React.useState<Appointment[]>(initialAppointments);
   const [isRefetching, setIsRefetching] = React.useState(false);
   const [pageError, setPageError] = React.useState<string | null>(null);
 
-  const [isCreateOpen, setIsCreateOpen] = React.useState(false);
+  const [isCreateOpen, setIsCreateOpen] = React.useState(!!initialPatientId);
   const [createError, setCreateError] = React.useState<string | null>(null);
   const [suggestedSlots, setSuggestedSlots] = React.useState<SuggestedSlot[]>([]);
   const [isCreating, setIsCreating] = React.useState(false);
@@ -126,7 +127,7 @@ export function AppointmentsClient({ role, initialAppointments, patients, dentis
   const [rescheduleError, setRescheduleError] = React.useState<string | null>(null);
   const [isRescheduling, setIsRescheduling] = React.useState(false);
 
-  const [createPatientId, setCreatePatientId] = React.useState('');
+  const [createPatientId, setCreatePatientId] = React.useState(initialPatientId ?? '');
   const [createDentistId, setCreateDentistId] = React.useState('');
   const [createDate, setCreateDate] = React.useState(toLocalInputValue(new Date()).slice(0, 10));
   const [createTime, setCreateTime] = React.useState('');

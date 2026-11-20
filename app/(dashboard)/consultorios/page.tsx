@@ -1,6 +1,7 @@
+import { hasPlatformAccess } from '@/lib/platform/access';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { Building2 } from 'lucide-react';
+import { Building2, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
 import { getShellProfile } from '@/lib/auth/shell-profile';
@@ -15,7 +16,11 @@ export const metadata = {
   description: 'Administración de consultorios y sus usuarios',
 };
 
-export default async function ConsultoriosPage() {
+interface ConsultoriosPageProps {
+  searchParams: Promise<{ clinic?: string }>;
+}
+
+export default async function ConsultoriosPage({ searchParams }: ConsultoriosPageProps) {
   const profile = await getShellProfile();
 
   if (!profile) {
@@ -26,14 +31,17 @@ export default async function ConsultoriosPage() {
     redirect('/dashboard');
   }
 
-  const clinicsResult = await listAdminClinicsAction();
+  const [clinicsResult, platformAccess] = await Promise.all([listAdminClinicsAction(), hasPlatformAccess()]);
   if (!clinicsResult.success) {
     throw new Error(clinicsResult.error.message);
   }
 
-  const firstClinic = clinicsResult.data[0];
-  const detailResult = firstClinic
-    ? await getAdminClinicDetailAction(firstClinic.id)
+  const { clinic: requestedClinicId } = await searchParams;
+  const selectedClinic =
+    clinicsResult.data.find((clinic) => clinic.id === requestedClinicId) ??
+    clinicsResult.data[0];
+  const detailResult = selectedClinic
+    ? await getAdminClinicDetailAction(selectedClinic.id)
     : null;
 
   if (detailResult && !detailResult.success) {
@@ -44,14 +52,22 @@ export default async function ConsultoriosPage() {
     <div className="space-y-6">
       <PageHeader
         title="Consultorios"
-        description="Consulta la información y gestiona los usuarios de cada consultorio"
+        description="Consulta los datos del consultorio y administra su personal."
         action={
-          <Button asChild>
-            <Link href="/clinica/nueva">
-              <Building2 className="mr-2 h-4 w-4" aria-hidden="true" />
-              Nuevo consultorio
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button asChild>
+              <Link href="/consultorios/nuevo-usuario">
+                <UserPlus className="mr-2 h-4 w-4" aria-hidden="true" />
+                Nuevo usuario
+              </Link>
+            </Button>
+            {platformAccess && <Button variant="outline" asChild>
+              <Link href="/clinica/nueva">
+                <Building2 className="mr-2 h-4 w-4" aria-hidden="true" />
+                Nuevo consultorio
+              </Link>
+            </Button>}
+          </div>
         }
       />
       <ConsultoriosClient
