@@ -32,11 +32,13 @@ it('counts only the signed-in dentist’s Bogotá appointments, including visits
     lte(_: string, value: string) { rows = rows.filter((row) => Date.parse(row.scheduled_at) <= Date.parse(value)); return query; },
     order: async () => ({ data: rows, error: null }),
   };
-  mocks.createClient.mockResolvedValue({
-    from: (table: string) => table === 'appointments' ? query : { select: () => ({ eq: async () => ({ count: 2 }) }) },
-  });
+  const from = vi.fn((table: string) =>
+    table === 'appointments' ? query : { select: () => ({ eq: async () => ({ count: 2 }) }) },
+  );
+  mocks.createClient.mockResolvedValue({ from });
 
-  const result = await getDashboardStatsAction({ dentistId: 'dentist-b' });
+  const result = await getDashboardStatsAction({ dentistId: 'dentist-b', includePatientCount: false });
+  expect(from).not.toHaveBeenCalledWith('patients');
   expect(result.success).toBe(true);
   expect(result.data).toMatchObject({ todayAppointments: 2, pendingConfirmations: 0, pendingVisits: 1, completedToday: 1 });
   expect(result.data?.todayList.map((appointment) => appointment.id)).toEqual(['in-progress', 'completed']);

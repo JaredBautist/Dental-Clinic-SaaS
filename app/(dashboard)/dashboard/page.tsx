@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Select } from '@/components/ui/select';
 import {
   Users,
   Calendar,
@@ -29,8 +31,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { getDashboardStatsAction } from '@/lib/actions/dashboard.actions';
-import { getClinicAction } from '@/lib/actions/clinic.actions';
-import { listUsersAction } from '@/lib/actions/users.actions';
+import { getAdminClinicDetailAction, listAdminClinicsAction } from '@/lib/actions/admin-clinics.actions';
 import { getShellProfile } from '@/lib/auth/shell-profile';
 import type { AppointmentStatus, Clinic, UserProfile, UserRole } from '@/types/domain';
 
@@ -236,7 +237,14 @@ function QuickLinks({ role }: { role: UserRole }) {
   );
 }
 
-function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[] }) {
+function AdminDashboard({ clinic, users, clinics }: {
+  clinic: Clinic;
+  users: UserProfile[];
+  clinics: Clinic[];
+}) {
+  const canSwitchClinic = clinics.length > 1;
+  const managementHref = `/consultorios?clinic=${clinic.id}`;
+  const staffHref = canSwitchClinic ? managementHref : '/usuarios';
   const activeUsers = users.filter((user) => user.is_active);
   const activeByRole = (role: UserRole) =>
     activeUsers.filter((user) => user.role === role).length;
@@ -245,16 +253,28 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
     <div className="space-y-6">
       <PageHeader
         title="Administración de consultorios"
-        description="Gestiona los consultorios y los usuarios de cada uno"
+        description={`Vista administrativa de ${clinic.name}`}
         action={
           <Button asChild>
-            <Link href="/consultorios">
+            <Link href={managementHref}>
               <Building2 className="mr-2 h-4 w-4" aria-hidden="true" />
               Gestionar consultorio
             </Link>
           </Button>
         }
       />
+
+      {canSwitchClinic && (
+        <form action="/dashboard" method="get" className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-200 bg-white p-4">
+          <div className="min-w-0 flex-1 space-y-2 sm:max-w-sm">
+            <Label htmlFor="dashboard-clinic">Consultorio que estás consultando</Label>
+            <Select id="dashboard-clinic" name="clinic" defaultValue={clinic.id} key={clinic.id} className="min-h-11">
+              {clinics.map((option) => <option key={option.id} value={option.id}>{option.name}</option>)}
+            </Select>
+          </div>
+          <Button type="submit" variant="outline">Ver dashboard</Button>
+        </form>
+      )}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
@@ -286,7 +306,7 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Consultorio actual</CardTitle>
+            <CardTitle>Consultorio seleccionado</CardTitle>
             <CardDescription>Información administrativa, sin datos clínicos</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -317,7 +337,16 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
             <CardDescription>Funciones exclusivas de este rol</CardDescription>
           </CardHeader>
           <CardContent>
-            <QuickLinks role="administrador" />
+            {canSwitchClinic ? (
+              <div className="flex flex-col items-start gap-3">
+                <Button asChild variant="outline">
+                  <Link href={`/consultorios/nuevo-usuario?clinic=${clinic.id}`}>Nuevo usuario</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href={`/plataforma?clinic=${clinic.id}`}>Administrar suscripción</Link>
+                </Button>
+              </div>
+            ) : <QuickLinks role="administrador" />}
           </CardContent>
         </Card>
       </div>
@@ -329,7 +358,7 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
             <CardDescription>Odontólogos y recepcionistas creados por el administrador</CardDescription>
           </div>
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/usuarios" className="flex items-center gap-1">
+            <Link href={staffHref} className="flex items-center gap-1">
               Ver todos
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
@@ -340,7 +369,7 @@ function AdminDashboard({ clinic, users }: { clinic: Clinic; users: UserProfile[
             <div className="flex items-start gap-3 rounded-xl border border-dashed border-slate-300 dark:border-slate-600 p-6">
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" aria-hidden="true" />
               <p className="text-sm text-slate-600 dark:text-slate-300">
-                Aún no hay usuarios registrados. Gestiona el personal desde la sección Usuarios.
+                Aún no hay usuarios registrados en este consultorio. Gestiona el personal desde «Ver todos».
               </p>
             </div>
           ) : (
@@ -574,7 +603,9 @@ function DentistDashboard({
   );
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: { searchParams: Promise<{ clinic?: string | string[] }> }) {
   const profile = await getShellProfile();
 
   if (!profile) {
@@ -582,23 +613,27 @@ export default async function DashboardPage() {
   }
 
   if (profile.role === 'administrador') {
-    const [clinicResult, usersResult] = await Promise.all([
-      getClinicAction(),
-      listUsersAction(),
+    const [{ clinic: requestedClinicId }, clinicsResult] = await Promise.all([
+      searchParams,
+      listAdminClinicsAction(),
     ]);
+    if (!clinicsResult.success) throw new Error(clinicsResult.error.message);
 
-    if (!clinicResult.success) {
-      throw new Error(clinicResult.error.message);
-    }
+    const clinics = clinicsResult.data;
+    const selectedClinic = clinics.find(({ id }) => id === requestedClinicId)
+      ?? clinics.find(({ id }) => id === profile.clinicId)
+      ?? clinics[0];
+    if (!selectedClinic) throw new Error('No hay consultorios disponibles para tu cuenta.');
 
-    if (!usersResult.success) {
-      throw new Error(usersResult.error.message);
-    }
+    const detail = await getAdminClinicDetailAction(selectedClinic.id);
+    if (!detail.success) throw new Error(detail.error.message);
 
-    return <AdminDashboard clinic={clinicResult.data} users={usersResult.data} />;
+    return <AdminDashboard clinic={detail.data.clinic} users={detail.data.users} clinics={clinics} />;
   }
 
-  const statsResult = await getDashboardStatsAction();
+  const statsResult = await getDashboardStatsAction({
+    includePatientCount: profile.role === 'recepcionista',
+  });
 
   if (!statsResult.success) {
     throw new Error(statsResult.error.message);

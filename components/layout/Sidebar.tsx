@@ -188,7 +188,7 @@ export function Sidebar({
 
         {/* Clinic Info */}
         <div className="px-6 py-4 border-b border-slate-800">
-          <p className="text-xs text-slate-400">Consultorio</p>
+          <p className="text-xs text-slate-400">{platformAccess ? 'Consultorio de tu cuenta' : 'Consultorio'}</p>
           <p className="text-sm font-medium text-slate-200 truncate">{clinicName}</p>
         </div>
 

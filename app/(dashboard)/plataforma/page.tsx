@@ -45,6 +45,7 @@ export default async function PlatformPage({ searchParams }: { searchParams: Pro
             <CardHeader className="space-y-2">
               <CardTitle>{selected.name}</CardTitle>
               <div className="flex flex-wrap gap-2">
+                <Button asChild variant="outline"><Link href={`/dashboard?clinic=${selected.id}`}>Ver dashboard</Link></Button>
                 <Button asChild variant="outline"><Link href={`/consultorios?clinic=${selected.id}`}>Datos y personal</Link></Button>
                 <Button asChild variant="outline"><Link href={`/consultorios/nuevo-usuario?clinic=${selected.id}`}>Nuevo usuario</Link></Button>
               </div>

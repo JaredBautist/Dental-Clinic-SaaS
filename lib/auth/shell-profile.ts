@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { requireAuthUser } from '@/lib/auth/require-user';
 import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
 import type { UserRole } from '@/types/domain';
@@ -14,8 +15,9 @@ export interface ShellProfile {
 /**
  * Obtiene el perfil mínimo para el shell del dashboard (sidebar + layout).
  * Devuelve null si la sesión o el perfil no son utilizables.
+ * React reutiliza el resultado entre el layout y la página del mismo render.
  */
-export async function getShellProfile(): Promise<ShellProfile | null> {
+export const getShellProfile = cache(async (): Promise<ShellProfile | null> => {
   try {
     const authUser = await requireAuthUser();
     const supabase = await createServerSupabaseClient();
@@ -37,4 +39,4 @@ export async function getShellProfile(): Promise<ShellProfile | null> {
   } catch {
     return null;
   }
-}
+});

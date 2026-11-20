@@ -31,7 +31,7 @@ export interface DashboardStats {
  * El rango del día se calcula en la zona horaria de Colombia (America/Bogota).
  */
 export async function getDashboardStatsAction(
-  rawInput?: { date?: string; dentistId?: string }
+  rawInput?: { date?: string; dentistId?: string; includePatientCount?: boolean }
 ): Promise<ServerActionResult<DashboardStats>> {
   return withErrorHandling(async () => {
     const authUser = await requireRole(
@@ -65,10 +65,10 @@ export async function getDashboardStatsAction(
     }
 
     const [patientsResult, appointmentsResult] = await Promise.all([
-      supabase
-        .from('patients')
-        .select('id', { count: 'exact', head: true })
-        .eq('clinic_id', authUser.clinicId),
+      rawInput?.includePatientCount === false
+        ? { count: null, error: null }
+        : supabase.from('patients').select('id', { count: 'exact', head: true })
+          .eq('clinic_id', authUser.clinicId),
       appointmentsQuery.order('scheduled_at', { ascending: true }),
     ]);
 
