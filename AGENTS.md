@@ -37,8 +37,8 @@ and skill(name="emil-design-eng").
 - FastAPI service that owns the auth/MFA flows (login, lockout, MFA enroll/verify/cancel, logout); port of `lib/actions/auth.actions.ts` using `supabase-py`.
 - Frontend calls it via `lib/api/auth-api.ts` (same `ServerActionResult` contract); browser session is synced with `supabase.auth.setSession()` so `proxy.ts` keeps working unchanged.
 - Env: `NEXT_PUBLIC_AUTH_API_URL` (frontend) and `backend/.env` (SUPABASE_URL / ANON_KEY / SERVICE_ROLE_KEY — service role only here).
-- Run: `cd backend && .venv/Scripts/python.exe -m uvicorn app.main:app --reload --port 8000`
-- Tests: `cd backend && .venv/Scripts/python.exe -m pytest`
+- Run: `cd backend && .venv/bin/python -m uvicorn app.main:app --reload --port 8000`
+- Tests: `cd backend && .venv/bin/python -m pytest`
 
 ## Key Architectural Principles
 - Multi-tenant isolation via `clinic_id` + PostgreSQL RLS

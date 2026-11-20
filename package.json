@@ -10,7 +10,10 @@
     "test": "vitest",
     "test:run": "vitest --run",
     "test:db": "sh supabase/tests/run_migrations.sh",
-    "seed:users": "node scripts/seed-users.mjs"
+    "seed:users": "node scripts/seed-users.mjs",
+    "seed:staff": "node scripts/seed-staff.mjs",
+    "seed:clinical": "node scripts/seed-clinical.mjs",
+    "keep-alive": "node scripts/keep-alive.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

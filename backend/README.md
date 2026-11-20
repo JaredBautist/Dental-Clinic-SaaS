@@ -78,8 +78,8 @@ source .venv/bin/activate       # En Windows: .venv\Scripts\activate
 # 2. Instalar dependencias
 pip install -r requirements.txt
 
-# 3. Iniciar servidor de desarrollo en puerto 8001
-uvicorn app.main:app --reload --port 8001
+# 3. Iniciar servidor de desarrollo en puerto 8000
+uvicorn app.main:app --reload --port 8000
 ```
 
 ---

@@ -60,6 +60,8 @@ def _error_payload(code: str, message: str, status_code: int) -> JSONResponse:
 
 @app.exception_handler(DentalClinicError)
 async def domain_error_handler(_: Request, exc: DentalClinicError) -> JSONResponse:
+    if exc.status_code >= 500:
+        logger.error("[Domain Error %d]: %s | Causa: %s", exc.status_code, exc.message, exc.__cause__)
     return _error_payload(exc.code, exc.message, exc.status_code)
 
 

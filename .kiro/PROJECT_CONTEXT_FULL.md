@@ -468,7 +468,7 @@ Todas las tablas en `public` tienen RLS habilitado (`ENABLE ROW LEVEL SECURITY`)
 * **`lib/supabase/client.ts`:** Inicializador del cliente Supabase para componentes del navegador (`createBrowserClient`).
 * **`lib/supabase/server.ts`:** Inicializador del cliente Supabase para Server Components y Server Actions con gestión de cookies de sesión (`createServerClient`).
 * **`lib/supabase/admin.ts`:** Cliente administrador con `SUPABASE_SERVICE_ROLE_KEY` protegido contra ejecuciones en el cliente; utilizado únicamente para auditoría y operaciones administrativas internas.
-* **`lib/api/auth-api.ts`:** Adaptador cliente del frontend para el microservicio de autenticación FastAPI (`http://localhost:8001`). Expone `loginAction`, `logoutAction`, `enrollMfaAction`, `verifyMfaSetupAction`, `verifyMfaLoginAction`, `resetMfaAction` y `cancelMfaAction`. Sincroniza tokens con cookies `@supabase/ssr` y provee cierre de sesión a prueba de fallos.
+* **`lib/api/auth-api.ts`:** Adaptador cliente del frontend para el microservicio de autenticación FastAPI (`http://localhost:8000`). Expone `loginAction`, `logoutAction`, `enrollMfaAction`, `verifyMfaSetupAction`, `verifyMfaLoginAction`, `resetMfaAction` y `cancelMfaAction`. Sincroniza tokens con cookies `@supabase/ssr` y provee cierre de sesión a prueba de fallos.
 * **`lib/utils.ts`:** Utilidades de mezcla de clases CSS con `clsx` y `tailwind-merge` (`cn`).
 
 ---

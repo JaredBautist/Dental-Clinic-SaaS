@@ -427,10 +427,9 @@ dental-clinic-saas/
 git clone <repo-url>
 cd dental-clinic-saas
 
-# Frontend (.env.local)
-cp .env.example .env.local
+# Frontend: crear .env.local con las variables de la sección siguiente
 # Configurar NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY,
-# NEXT_PUBLIC_AUTH_API_URL=http://localhost:8001 y SUPABASE_SERVICE_ROLE_KEY
+# NEXT_PUBLIC_AUTH_API_URL=http://localhost:8000 y SUPABASE_SERVICE_ROLE_KEY
 
 # Backend (backend/.env)
 # Configurar SUPABASE_URL, SUPABASE_ANON_KEY y SUPABASE_SERVICE_ROLE_KEY
@@ -443,8 +442,8 @@ python3 -m venv .venv
 source .venv/bin/activate       # En Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# Iniciar servidor FastAPI en el puerto 8001
-uvicorn app.main:app --reload --port 8001
+# Iniciar servidor FastAPI en el puerto 8000
+uvicorn app.main:app --reload --port 8000
 ```
 
 #### 3. Configurar y levantar la aplicación Next.js (Frontend)
@@ -465,7 +464,7 @@ npm run dev
 # ✅ Públicas (accesibles en el navegador)
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
-NEXT_PUBLIC_AUTH_API_URL=http://localhost:8001
+NEXT_PUBLIC_AUTH_API_URL=http://localhost:8000
 
 # 🔒 Privadas (NUNCA prefijadas con NEXT_PUBLIC_)
 SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
@@ -476,11 +475,49 @@ SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
 SUPABASE_URL=https://tu-proyecto.supabase.co
 SUPABASE_ANON_KEY=tu_anon_key
 SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
-PORT=8001
+PORT=8000
 ENVIRONMENT=development
 ```
 
 > ⚠️ **Importante:** `SUPABASE_SERVICE_ROLE_KEY` jamás debe estar prefijada con `NEXT_PUBLIC_`. Su exposición en el cliente comprometería el aislamiento RLS y la seguridad de todos los consultorios.
+
+---
+
+## 🌱 Datos de prueba y keep-alive
+
+### Inyectar personal de prueba
+
+El script `scripts/seed-staff.mjs` crea odontólogos y recepcionistas de forma idempotente (si el correo ya existe, no lo duplica) en uno o todos los consultorios:
+
+```bash
+# Vista previa sin escribir en Supabase
+SEED_DRY_RUN=1 npm run seed:staff
+
+# Configura SEED_PASSWORD en tu entorno antes de crear cuentas.
+# Crear 5 odontólogos y 2 recepcionistas por consultorio
+npm run seed:staff
+
+# Personalizar el seed
+SEED_DOCTORS=8 SEED_RECEPTIONISTS=3 npm run seed:staff
+SEED_CLINIC_ID='<uuid-del-consultorio>' npm run seed:staff
+```
+
+Los correos generados siguen el patrón `medico1.<slug-consultorio>@clinicadental.com` y `recepcion1.<slug-consultorio>@clinicadental.com`. El script también registra cada alta en `audit_logs`.
+
+### Evitar la pausa de Supabase
+
+Supabase pausa los proyectos gratuitos después de **7 días sin actividad**. Crear usuarios una sola vez no evita la pausa; hace falta una petición periódica:
+
+```bash
+npm run keep-alive
+```
+
+Para automatizarlo, el repositorio incluye `.github/workflows/supabase-keepalive.yml`, que hace una petición diaria al endpoint de salud de Auth. Configura en GitHub → Settings → Secrets and variables → Actions:
+
+- `SUPABASE_URL` → `https://<project-ref>.supabase.co`
+- `SUPABASE_ANON_KEY` → la anon key del proyecto
+
+También puedes programar `npm run keep-alive` con `cron` en el servidor donde corra la app.
 
 ---
 
