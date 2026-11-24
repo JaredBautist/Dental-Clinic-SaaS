@@ -4,7 +4,7 @@ Status: Approved and implemented locally.
 
 ## Landing
 
-Use an editorial two-column hero on desktop and a single column on phones. Headline direction: “Tu consultorio dental, en orden.” Use warm off-white, ink navy and deep teal, with the current Dental Clinic name and system typography. The primary action is “Iniciar sesión.” A secondary “Ver funciones” link scrolls to the existing product capabilities.
+Use an editorial two-column hero on desktop and a single column on phones. Headline direction: “Tu consultorio dental, en orden.” Use the application’s light slate surfaces, blue actions and cyan accent, with the current Dental Clinic name and system typography. Match the cyan-to-blue brand mark in the dashboard shell and sidebar. The primary action is “Iniciar sesión.” A secondary “Ver funciones” link scrolls to the existing product capabilities.
 
 Use two original photographic assets. The hero shows a clinician at a workstation in a contemporary dental practice. The secondary image shows two staff members coordinating reception and the agenda. Use natural light and a consistent color treatment. Show no patient information, readable screen contents, brand marks, testimonials or simulated product screenshots.
 
@@ -52,4 +52,4 @@ The hero WebP selected at this viewport is 33,414 bytes at 768 px. The photos ad
 
 In the authenticated fixture, the dentist dashboard made six Supabase requests instead of seven after dropping the patient count unused by that view. Reception keeps its count. The Patients route stayed at six requests because the framework already deduplicated the relevant HTTP reads. Shell profile computation is now shared per render. Authenticated, anonymous, inactive and AAL1 states, root redirects, and clinic-scoped queries were verified using two synthetic tenant identities.
 
-Chromium passed the checks for 320, 375, 768 and 1440 px with a dark system preference and reduced motion, including the skip link, anchors, enabled login route, loaded hero and no page overflow. Key palette ratios ranged from 5.32:1 to 14.68:1. Targeted lint, the Next.js production build and 93 tests passed.
+Chromium passed the checks for 320, 375, 768 and 1440 px with a dark system preference and reduced motion, including the skip link, anchors, enabled login route, loaded hero and no page overflow. The initial palette ratios ranged from 5.32:1 to 14.68:1. Targeted lint, the Next.js production build and 93 tests passed.
