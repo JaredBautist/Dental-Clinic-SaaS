@@ -49,6 +49,19 @@ describe('P25: Propiedad de Headers de Seguridad HTTP', () => {
     }
   });
 
+  it('allows only the configured HTTPS auth API origin in production', () => {
+    const csp = createSecurityHeaders('production', 'https://auth.example.test/api/')
+      .find((header) => header.key === 'Content-Security-Policy')?.value;
+    expect(csp?.split('; ').find((directive) => directive.startsWith('connect-src ')))
+      .toContain('https://auth.example.test');
+    expect(csp).not.toContain('https://auth.example.test/api');
+
+    for (const value of ['http://auth.example.test', '*', 'https://user:pass@auth.example.test']) {
+      const headers = createSecurityHeaders('production', value);
+      expect(headers).toEqual(createSecurityHeaders('production', undefined));
+    }
+  });
+
   it('debe aplicar los headers requeridos para cualquier ruta arbitraria generada', async () => {
     const headersFn = nextConfig.headers;
     if (!headersFn) throw new Error('nextConfig.headers no está definido');

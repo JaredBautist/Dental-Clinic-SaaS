@@ -1,8 +1,12 @@
 import type { NextConfig } from 'next';
 
-export function createSecurityHeaders(nodeEnvironment: string | undefined) {
+export function createSecurityHeaders(nodeEnvironment: string | undefined, authApiUrl?: string) {
   const scriptSources = ["'self'", "'unsafe-inline'"];
   const connectSources = ["'self'", "https://*.supabase.co", "wss://*.supabase.co"];
+  const authApi = authApiUrl ? URL.parse(authApiUrl) : null;
+  if (authApi?.protocol === 'https:' && !authApi.username && !authApi.password) {
+    connectSources.push(authApi.origin);
+  }
   if (nodeEnvironment === 'development') {
     scriptSources.push("'unsafe-eval'");
     connectSources.push("http://localhost:*", "http://127.0.0.1:*", "ws://localhost:*");
@@ -47,7 +51,7 @@ export function createSecurityHeaders(nodeEnvironment: string | undefined) {
   ];
 }
 
-export const securityHeaders = createSecurityHeaders(process.env.NODE_ENV);
+export const securityHeaders = createSecurityHeaders(process.env.NODE_ENV, process.env.NEXT_PUBLIC_AUTH_API_URL);
 
 const nextConfig: NextConfig = {
   agentRules: false,
