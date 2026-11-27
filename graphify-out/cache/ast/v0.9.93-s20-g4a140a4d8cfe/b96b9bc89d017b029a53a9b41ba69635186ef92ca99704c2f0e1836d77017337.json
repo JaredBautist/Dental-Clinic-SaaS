@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_supabase_migrations_014_reception_patient_appointment_ownership_sql", "label": "014_reception_patient_appointment_ownership.sql", "file_type": "code", "source_file": "supabase/migrations/014_reception_patient_appointment_ownership.sql", "source_location": null}], "edges": []}

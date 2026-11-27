@@ -427,7 +427,8 @@ dental-clinic-saas/
 git clone <repo-url>
 cd dental-clinic-saas
 
-# Frontend: crear .env.local con las variables de la sección siguiente
+# Frontend (.env.local)
+touch .env.local
 # Configurar NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY,
 # NEXT_PUBLIC_AUTH_API_URL=http://localhost:8000 y SUPABASE_SERVICE_ROLE_KEY
 
@@ -493,7 +494,7 @@ El script `scripts/seed-staff.mjs` crea odontólogos y recepcionistas de forma i
 # Vista previa sin escribir en Supabase
 SEED_DRY_RUN=1 npm run seed:staff
 
-# Configura SEED_PASSWORD en tu entorno antes de crear cuentas.
+# Define SEED_PASSWORD en tu entorno antes de crear cuentas.
 # Crear 5 odontólogos y 2 recepcionistas por consultorio
 npm run seed:staff
 

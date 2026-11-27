@@ -834,7 +834,7 @@ async function uploadAttachment(clinicId, patient, entry, fileName, fileType, bu
 }
 
 async function ensureAttachments(clinicId, patient, entries, clinicName, doctorName, skipStorage, dryRun) {
-  if (skipStorage) return { created: 0, skipped: true };
+  if (skipStorage) return { created: [], skipped: true };
 
   const { data: existing, error } = await admin
     .from('clinical_attachments')
@@ -1228,9 +1228,9 @@ async function main() {
         skipStorage,
         dryRun
       );
-      summary.attachmentsCreated += attachmentResult.created;
+      summary.attachmentsCreated += Array.isArray(attachmentResult.created) ? attachmentResult.created.length : 0;
 
-      if (!dryRun && attachmentResult.created > 0) {
+      if (!dryRun && Array.isArray(attachmentResult.created) && attachmentResult.created.length > 0) {
         for (const attachment of attachmentResult.created) {
           auditRows.push(
             auditRow({
