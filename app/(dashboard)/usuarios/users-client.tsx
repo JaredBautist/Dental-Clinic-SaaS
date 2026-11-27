@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { PlatformUserEditor } from '@/components/users/platform-user-editor';
 import { Modal } from '@/components/ui/modal';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
@@ -49,11 +50,13 @@ const roleConfig: Record<UserRole, { label: string; icon: React.ReactNode; color
 };
 
 interface UsersClientProps {
+  platformAccess: boolean;
+  clinicName: string;
   initialUsers: UserProfile[];
   currentUserId: string;
 }
 
-export function UsersClient({ initialUsers, currentUserId }: UsersClientProps) {
+export function UsersClient({ initialUsers, currentUserId, platformAccess, clinicName }: UsersClientProps) {
   const [users, setUsers] = React.useState<UserProfile[]>(initialUsers);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [editingUser, setEditingUser] = React.useState<UserProfile | null>(null);
@@ -263,7 +266,7 @@ export function UsersClient({ initialUsers, currentUserId }: UsersClientProps) {
                         <Button
                           variant="ghost"
                           size="icon"
-                          title="Editar"
+                          aria-label={`Editar a ${user.full_name}`}
                           onClick={() => handleEditUser(user)}
                         >
                           <Edit2 className="w-4 h-4" aria-hidden="true" />
@@ -337,6 +340,7 @@ export function UsersClient({ initialUsers, currentUserId }: UsersClientProps) {
                       <Badge variant="danger">Inactivo</Badge>
                     </TableCell>
                     <TableCell className="text-right">
+                      {platformAccess && <Button variant="ghost" size="icon" aria-label={`Editar a ${user.full_name}`} onClick={() => handleEditUser(user)}><Edit2 className="size-4" aria-hidden="true" /></Button>}
                       <Button
                         variant="outline"
                         size="sm"
@@ -358,7 +362,15 @@ export function UsersClient({ initialUsers, currentUserId }: UsersClientProps) {
         </Card>
       )}
 
-      <Modal
+      {platformAccess && editingUser && isModalOpen ? (
+        <PlatformUserEditor key={editingUser.id} user={editingUser} clinicName={clinicName}
+          onClose={() => setIsModalOpen(false)}
+          onProfileSaved={updated => {
+            setEditingUser(updated);
+            setUsers(current => current.map(user => user.id === updated.id ? updated : user));
+          }}
+        />
+      ) : <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingUser ? 'Editar Usuario' : 'Invitar Nuevo Usuario'}
@@ -378,7 +390,7 @@ export function UsersClient({ initialUsers, currentUserId }: UsersClientProps) {
           }}
           onError={setActionError}
         />
-      </Modal>
+      </Modal>}
     </div>
   );
 }

@@ -50,6 +50,7 @@ const createClinicUserSchema = z.object({
 export type CreateClinicUserInput = z.infer<typeof createClinicUserSchema>;
 
 const updateAdminClinicUserSchema = z.object({
+  fullName: z.string().trim().min(1).max(200).optional(),
   clinicId: clinicIdSchema,
   userId: z.string().uuid('ID de usuario inválido'),
   role: z.enum(['administrador', 'odontologo', 'recepcionista']).optional(),
@@ -256,7 +257,7 @@ export async function updateAdminClinicUserAction(
         .eq('role', 'administrador')
         .eq('is_active', true);
 
-      if (count !== null && count <= 1) {
+      if (count === null || count === undefined || count <= 1) {
         throw new DentalClinicError(
           'El consultorio debe conservar al menos un administrador activo.',
           'CANNOT_DEMOTE_LAST_ADMIN',
@@ -265,7 +266,8 @@ export async function updateAdminClinicUserAction(
       }
     }
 
-    const updates: { role?: UserRole; is_active?: boolean } = {};
+    const updates: { role?: UserRole; is_active?: boolean; full_name?: string } = {};
+    if (input.fullName !== undefined) updates.full_name = input.fullName;
     if (input.role !== undefined) updates.role = input.role;
     if (input.isActive !== undefined) updates.is_active = input.isActive;
 

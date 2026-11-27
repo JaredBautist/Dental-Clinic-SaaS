@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { createAuditLog } from '@/lib/audit';
+import { getPlatformUserEmailAction, updatePlatformCredentialsAction } from '@/lib/platform/user-credentials.actions';
 
 const mocks = vi.hoisted(() => ({
   createServerClient: vi.fn(),
@@ -144,5 +146,76 @@ describe('Administración de consultorios y su personal', () => {
       expect(result.error.statusCode).toBe(400);
       expect(result.error.code).toBe('CANNOT_DEMOTE_LAST_ADMIN');
     }
+  });
+});
+
+describe('platform user credentials', () => {
+  const clinicId = '11111111-1111-4111-8111-111111111111';
+  const userId = '22222222-2222-4222-8222-222222222222';
+  const target = { clinicId, userId };
+  const getUserById = vi.fn();
+  const updateUserById = vi.fn();
+  function setup(member = true, platform = true) {
+    mockSignedIn('administrador', platform);
+    const filters: Record<string, string> = {};
+    const query = {
+      select: vi.fn().mockReturnThis(),
+      eq(key: string, value: string) { filters[key] = value; return this; },
+      maybeSingle: async () => ({ data: member && filters.id === userId && filters.clinic_id === clinicId ? { id: userId } : null }),
+    };
+    mocks.createAdminClient.mockReturnValue({ from: () => query, auth: { admin: { getUserById, updateUserById } } });
+    getUserById.mockResolvedValue({ data: { user: { email: 'old@example.org', privateField: 'private' } } });
+    updateUserById.mockResolvedValue({ error: null });
+  }
+  beforeEach(() => vi.clearAllMocks());
+  it('reads only the email of the selected clinic member', async () => {
+    setup();
+    expect(await getPlatformUserEmailAction(target)).toEqual({ success: true, data: 'old@example.org' });
+  });
+  it.each([[false,true], [true,false]])('denies both operations for member=%s platform=%s', async (member, platform) => {
+    setup(member, platform);
+    expect((await getPlatformUserEmailAction(target)).success).toBe(false);
+    expect((await updatePlatformCredentialsAction({ ...target, email: 'new@example.org' })).success).toBe(false);
+    expect(getUserById).not.toHaveBeenCalled();
+    expect(updateUserById).not.toHaveBeenCalled();
+  });
+  it.each([
+    [{ email: 'new@example.org' }, { email: 'new@example.org', email_confirm: true }],
+    [{ password: 'synthetic-test' }, { password: 'synthetic-test' }],
+    [{ email: 'new@example.org', password: 'synthetic-test' }, { email: 'new@example.org', email_confirm: true, password: 'synthetic-test' }],
+  ])('sends exactly the requested credential changes', async (input, expected) => {
+    setup();
+    expect((await updatePlatformCredentialsAction({ ...target, ...input })).success).toBe(true);
+    expect(updateUserById).toHaveBeenCalledWith(userId, expected);
+    expect(JSON.stringify(vi.mocked(createAuditLog).mock.calls)).not.toMatch(/synthetic-test|new@example.org/);
+  });
+  it.each([{}, { password: 'short' }, { email: 'bad' }])('rejects invalid or empty updates', async (input) => {
+    setup();
+    expect((await updatePlatformCredentialsAction({ ...target, ...input })).success).toBe(false);
+    expect(updateUserById).not.toHaveBeenCalled();
+  });
+  it.each(['odontologo', 'recepcionista'] as const)('blocks credential access for %s', async role => {
+    setup();
+    mockSignedIn(role);
+    expect((await getPlatformUserEmailAction(target)).error?.statusCode).toBe(403);
+    expect((await updatePlatformCredentialsAction({ ...target, password: 'synthetic-test' })).error?.statusCode).toBe(403);
+    expect(getUserById).not.toHaveBeenCalled();
+    expect(updateUserById).not.toHaveBeenCalled();
+  });
+  it('reports a failed email lookup', async () => {
+    setup();
+    getUserById.mockResolvedValue({ data: { user: null }, error: { code: 'user_not_found' } });
+    expect((await getPlatformUserEmailAction(target)).error?.code).toBe('EMAIL_FETCH_FAILED');
+  });
+  it('distinguishes a committed update from an audit failure', async () => {
+    setup();
+    vi.mocked(createAuditLog).mockRejectedValueOnce(new Error('audit unavailable'));
+    expect((await updatePlatformCredentialsAction({ ...target, password: 'synthetic-test' })).error?.code).toBe('CREDENTIAL_AUDIT_FAILED');
+    expect(updateUserById).toHaveBeenCalledTimes(1);
+  });
+  it('explains duplicate email without returning provider details', async () => {
+    setup();
+    updateUserById.mockResolvedValue({ error: { code: 'email_exists', message: 'private detail' } });
+    expect((await updatePlatformCredentialsAction({ ...target, email: 'new@example.org' })).error?.code).toBe('EMAIL_IN_USE');
   });
 });

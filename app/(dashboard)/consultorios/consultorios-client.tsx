@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { clinicViewHref } from '@/lib/platform/clinic-selection';
 import { Building2, ChevronRight, Plus, UserPlus, Users } from 'lucide-react';
+import { PlatformUserEditor } from '@/components/users/platform-user-editor';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -59,15 +60,17 @@ function clinicToForm(clinic: Clinic): ClinicFormState {
 }
 
 interface ConsultoriosClientProps {
+  platformAccess: boolean;
   initialClinics: Clinic[];
   initialDetail: AdminClinicDetail | null;
 }
 
-export function ConsultoriosClient({ initialClinics, initialDetail }: ConsultoriosClientProps) {
+export function ConsultoriosClient({ initialClinics, initialDetail, platformAccess }: ConsultoriosClientProps) {
   const [clinics, setClinics] = React.useState(initialClinics);
   const selectedId = initialDetail?.clinic.id ?? '';
   const router = useRouter();
   const [detail, setDetail] = React.useState(initialDetail);
+  const [editingUser, setEditingUser] = React.useState<UserProfile | null>(null);
   const [clinicForm, setClinicForm] = React.useState<ClinicFormState | null>(
     initialDetail ? clinicToForm(initialDetail.clinic) : null
   );
@@ -188,6 +191,13 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
 
   return (
     <div className="grid min-w-0 grid-cols-1 items-start gap-6 xl:grid-cols-3">
+      {platformAccess && editingUser && detail && <PlatformUserEditor key={editingUser.id} user={editingUser} clinicName={detail.clinic.name}
+        onClose={() => setEditingUser(null)}
+        onProfileSaved={updated => {
+          setEditingUser(updated);
+          setDetail(current => current && ({ ...current, users: current.users.map(user => user.id === updated.id ? updated : user) }));
+        }}
+      />}
       <Card className="min-w-0 xl:col-span-1">
         <CardHeader>
           <CardTitle>Consultorios registrados</CardTitle>
@@ -472,7 +482,7 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
                           </div>
                         </div>
                         <div className="flex flex-wrap items-end gap-2">
-                          <div className="space-y-1.5">
+                          {platformAccess ? <Button variant="outline" size="sm" aria-label={`Editar a ${user.full_name}`} onClick={() => setEditingUser(user)}>Editar usuario</Button> : <div className="space-y-1.5">
                             <Label htmlFor={`role-${user.id}`} className="text-xs">
                               Rol asignado
                             </Label>
@@ -494,7 +504,7 @@ export function ConsultoriosClient({ initialClinics, initialDetail }: Consultori
                                 )
                               )}
                             </Select>
-                          </div>
+                          </div>}
                           <Button
                             type="button"
                             variant="outline"

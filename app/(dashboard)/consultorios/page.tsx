@@ -69,6 +69,7 @@ export default async function ConsultoriosPage({ searchParams }: ConsultoriosPag
       />
       <ConsultoriosClient
         key={selectedClinic?.id}
+        platformAccess={platformAccess}
         initialClinics={clinicsResult.data}
         initialDetail={detailResult?.success ? detailResult.data : null}
       />
