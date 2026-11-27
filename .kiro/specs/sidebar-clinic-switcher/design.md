@@ -14,3 +14,7 @@
 2. Add an accessible native select to the sidebar shared by desktop and mobile. On mobile, close the drawer after navigation.
 3. Scope Usuarios reads and mutations, including refresh, creation and activation, before enabling same-section switching there.
 4. Test switching between two clinics, browser Back, invalid clinic IDs, non-platform access and keyboard interaction in both layouts.
+
+## Presentation
+
+Use one full-width control with a clinic icon, a compact context label and the selected name beneath it. Keep the native picker and keyboard behavior, with a visible focus outline around the whole control. Allow long names to truncate inside the sidebar.

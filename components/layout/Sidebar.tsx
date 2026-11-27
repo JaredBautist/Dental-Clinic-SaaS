@@ -11,6 +11,7 @@ import {
   Calendar,
   UserCog,
   Building2,
+  ChevronsUpDown,
   Settings,
   BarChart3,
   LogOut,
@@ -193,27 +194,37 @@ export function Sidebar({
         </div>
 
         {/* Clinic Info */}
-        <div className="px-6 py-4 border-b border-slate-800">
+        <div className={cn("border-b border-slate-800 py-3", platformAccess && platformClinics.length ? "px-3" : "px-6")}>
           {platformAccess && platformClinics.length > 0 ? (
-            <>
-              <label htmlFor="sidebar-clinic" className="text-xs font-medium text-slate-300">
-                {activeClinicId ? 'Consultorio activo' : 'Abrir ficha de consultorio'}
-              </label>
+            <div className="group relative grid grid-cols-[2rem_minmax(0,1fr)_1rem] items-center gap-2.5 rounded-xl border border-slate-600 bg-slate-800 px-3 py-2.5 hover:border-cyan-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-cyan-400 motion-safe:transition-colors">
+              <span className="grid size-8 place-items-center rounded-lg bg-cyan-400/10 text-cyan-300">
+                <Building2 className="size-[18px]" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <label htmlFor="sidebar-clinic" className="block text-xs leading-4 text-slate-300">
+                  {activeClinicId ? 'Consultorio activo' : 'Abrir ficha de consultorio'}
+                </label>
+                <span aria-hidden="true" className="block truncate text-sm font-semibold leading-5 text-white">
+                  {clinicName}
+                </span>
+              </div>
+              <ChevronsUpDown aria-hidden="true" className="size-4 text-slate-400 group-hover:text-cyan-300" />
               <select
                 id="sidebar-clinic"
+                title={clinicName}
                 value={activeClinicId ?? ''}
                 onChange={event => {
                   router.push(clinicSwitchHref(pathname, event.target.value));
                   onCloseMobile?.();
                 }}
-                className="mt-1 min-h-11 w-full truncate rounded-lg border border-slate-600 bg-slate-800 px-2 text-sm font-medium text-white focus-visible:outline-2 focus-visible:outline-cyan-400"
+                className="absolute inset-0 size-full cursor-pointer opacity-0"
               >
                 {!activeClinicId && <option value="" disabled>{clinicName} (tu cuenta)</option>}
                 {platformClinics.map(clinic => (
                   <option key={clinic.id} value={clinic.id}>{clinic.name}</option>
                 ))}
               </select>
-            </>
+            </div>
           ) : (
             <>
               <p className="text-xs text-slate-400">Consultorio</p>
