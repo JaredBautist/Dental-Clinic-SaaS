@@ -17,3 +17,7 @@ Use one dialog with independent profile and credential saves. Profile data belon
 2. Add scoped credential actions and extend the existing profile action to accept full name, retaining last-administrator protection.
 3. Connect both lists to the same accessible light-mode modal. Check opening, typing, saving, error recovery and cancel.
 4. Run the regression suite, type/build checks and targeted lint. Use synthetic users only.
+
+## Dialog presentation
+
+When space permits, place name and role on the same row. Stack fields on small screens. Identify the clinic in the header and group each save button with its fields. Keep both forms keyboard accessible and use the existing light blue and slate palette.
