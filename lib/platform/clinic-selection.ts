@@ -9,7 +9,7 @@ export function selectClinicForView<T extends { id: string }>(
     ?? clinics[0];
 }
 
-const clinicViews = new Set(['/dashboard', '/consultorios', '/plataforma']);
+const clinicViews = new Set(['/dashboard', '/consultorios', '/plataforma', '/usuarios']);
 
 export function isClinicView(pathname: string): boolean {
   return clinicViews.has(pathname);
@@ -19,4 +19,9 @@ export function clinicViewHref(pathname: string, clinicId?: string): string {
   return clinicId && isClinicView(pathname)
     ? `${pathname}?clinic=${encodeURIComponent(clinicId)}`
     : pathname;
+}
+
+/** Keep the current section when it can display the selected clinic. */
+export function clinicSwitchHref(pathname: string, clinicId: string): string {
+  return clinicViewHref(isClinicView(pathname) ? pathname : '/consultorios', clinicId);
 }

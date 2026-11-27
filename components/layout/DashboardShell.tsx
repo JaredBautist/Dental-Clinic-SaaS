@@ -81,6 +81,7 @@ export function DashboardShell({
         userRole={profile.role}
         platformAccess={platformAccess}
         userName={profile.userName}
+        platformClinics={platformClinics}
         clinicName={clinicName}
         activeClinicId={activeClinic?.id}
         mobileOpen={isMobileOpen}

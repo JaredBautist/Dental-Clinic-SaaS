@@ -26,9 +26,9 @@ import {
 import {
   createUserAction,
   updateUserAction,
-  deactivateUserAction,
   listUsersAction,
 } from '@/lib/actions/users.actions';
+import { updateAdminClinicUserAction } from '@/lib/actions/admin-clinics.actions';
 import type { UserProfile, UserRole } from '@/types/domain';
 
 const roleConfig: Record<UserRole, { label: string; icon: React.ReactNode; color: string }> = {
@@ -50,13 +50,14 @@ const roleConfig: Record<UserRole, { label: string; icon: React.ReactNode; color
 };
 
 interface UsersClientProps {
+  clinicId: string;
   platformAccess: boolean;
   clinicName: string;
   initialUsers: UserProfile[];
   currentUserId: string;
 }
 
-export function UsersClient({ initialUsers, currentUserId, platformAccess, clinicName }: UsersClientProps) {
+export function UsersClient({ initialUsers, currentUserId, platformAccess, clinicName, clinicId }: UsersClientProps) {
   const [users, setUsers] = React.useState<UserProfile[]>(initialUsers);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [editingUser, setEditingUser] = React.useState<UserProfile | null>(null);
@@ -70,10 +71,10 @@ export function UsersClient({ initialUsers, currentUserId, platformAccess, clini
   async function refreshUsers() {
     setIsRefreshing(true);
     try {
-      const result = await listUsersAction();
+      const result = await listUsersAction(clinicId);
       if (result.success) {
         setUsers(result.data);
-      }
+      } else setActionError(result.error.message);
     } finally {
       setIsRefreshing(false);
     }
@@ -95,13 +96,13 @@ export function UsersClient({ initialUsers, currentUserId, platformAccess, clini
     setActionError(null);
     setPendingToggleId(user.id);
     try {
-      const result = await deactivateUserAction(user.id);
+      const result = await updateAdminClinicUserAction({ clinicId, userId: user.id, isActive: !user.is_active });
       if (!result.success) {
         setActionError(result.error.message);
         return;
       }
       setUsers((prev) =>
-        prev.map((u) => (u.id === user.id ? { ...u, is_active: !u.is_active } : u))
+        prev.map((u) => (u.id === user.id ? result.data : u))
       );
     } catch {
       setActionError('No se pudo actualizar el estado del usuario.');
@@ -114,7 +115,7 @@ export function UsersClient({ initialUsers, currentUserId, platformAccess, clini
     <div className="space-y-6">
       <PageHeader
         title="Gestión de Usuarios"
-        description="Administración del equipo del consultorio y asignación de roles"
+        description={`Equipo de ${clinicName}`}
         action={
           <div className="flex gap-2">
             <Button variant="outline" onClick={refreshUsers} disabled={isRefreshing}>
@@ -382,6 +383,7 @@ export function UsersClient({ initialUsers, currentUserId, platformAccess, clini
         size="md"
       >
         <UserForm
+          clinicId={clinicId}
           user={editingUser}
           onClose={() => setIsModalOpen(false)}
           onSaved={() => {
@@ -396,11 +398,13 @@ export function UsersClient({ initialUsers, currentUserId, platformAccess, clini
 }
 
 function UserForm({
+  clinicId,
   user,
   onClose,
   onSaved,
   onError,
 }: {
+  clinicId: string;
   user: UserProfile | null;
   onClose: () => void;
   onSaved: () => void;
@@ -435,6 +439,7 @@ function UserForm({
           return;
         }
         const result = await createUserAction({
+          clinicId,
           fullName: fullName.trim(),
           email: email.trim(),
           role,

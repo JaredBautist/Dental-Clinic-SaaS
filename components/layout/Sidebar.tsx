@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { clinicViewHref } from '@/lib/platform/clinic-selection';
+import { usePathname, useRouter } from 'next/navigation';
+import { clinicSwitchHref, clinicViewHref } from '@/lib/platform/clinic-selection';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
@@ -97,6 +97,7 @@ interface SidebarProps {
   userName?: string;
   clinicName?: string;
   activeClinicId?: string;
+  platformClinics?: { id: string; name: string }[];
   /** Estado del panel en móvil; en escritorio siempre visible. */
   mobileOpen?: boolean;
   onCloseMobile?: () => void;
@@ -108,10 +109,12 @@ export function Sidebar({
   userName = 'Usuario',
   clinicName = 'Consultorio',
   activeClinicId,
+  platformClinics = [],
   mobileOpen = false,
   onCloseMobile,
 }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
   const closeButton = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
@@ -128,7 +131,7 @@ export function Sidebar({
 
   function keepMobileFocus(event: React.KeyboardEvent<HTMLElement>) {
     if (!mobileOpen || event.key !== 'Tab' || window.matchMedia('(min-width: 64rem)').matches) return;
-    const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)'));
+    const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), select:not(:disabled)'));
     const first = controls[0];
     const last = controls.at(-1);
     if (event.shiftKey && document.activeElement === first && last) {
@@ -191,8 +194,32 @@ export function Sidebar({
 
         {/* Clinic Info */}
         <div className="px-6 py-4 border-b border-slate-800">
-          <p className="text-xs text-slate-400">{activeClinicId ? 'Consultorio activo' : platformAccess ? 'Consultorio de tu cuenta' : 'Consultorio'}</p>
-          <p className="text-sm font-medium text-slate-200 truncate">{clinicName}</p>
+          {platformAccess && platformClinics.length > 0 ? (
+            <>
+              <label htmlFor="sidebar-clinic" className="text-xs font-medium text-slate-300">
+                {activeClinicId ? 'Consultorio activo' : 'Abrir ficha de consultorio'}
+              </label>
+              <select
+                id="sidebar-clinic"
+                value={activeClinicId ?? ''}
+                onChange={event => {
+                  router.push(clinicSwitchHref(pathname, event.target.value));
+                  onCloseMobile?.();
+                }}
+                className="mt-1 min-h-11 w-full truncate rounded-lg border border-slate-600 bg-slate-800 px-2 text-sm font-medium text-white focus-visible:outline-2 focus-visible:outline-cyan-400"
+              >
+                {!activeClinicId && <option value="" disabled>{clinicName} (tu cuenta)</option>}
+                {platformClinics.map(clinic => (
+                  <option key={clinic.id} value={clinic.id}>{clinic.name}</option>
+                ))}
+              </select>
+            </>
+          ) : (
+            <>
+              <p className="text-xs text-slate-400">Consultorio</p>
+              <p className="truncate text-sm font-medium text-slate-200">{clinicName}</p>
+            </>
+          )}
         </div>
 
         {/* Navigation */}

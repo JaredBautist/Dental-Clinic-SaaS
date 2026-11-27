@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { listUsersAction, createUserAction } from '@/lib/actions/users.actions';
 import { createAuditLog } from '@/lib/audit';
 import { getPlatformUserEmailAction, updatePlatformCredentialsAction } from '@/lib/platform/user-credentials.actions';
 
@@ -217,5 +218,46 @@ describe('platform user credentials', () => {
     setup();
     updateUserById.mockResolvedValue({ error: { code: 'email_exists', message: 'private detail' } });
     expect((await updatePlatformCredentialsAction({ ...target, email: 'new@example.org' })).error?.code).toBe('EMAIL_IN_USE');
+  });
+});
+
+describe('Selected clinic in Usuarios', () => {
+  const clinicId = '33333333-3333-4333-8333-333333333333';
+  const invite = { clinicId, fullName: 'Staff', email: 'staff@example.org', role: 'odontologo' as const };
+
+  beforeEach(() => vi.clearAllMocks());
+
+  it('rejects foreign lists, invitations and status changes for a clinic administrator', async () => {
+    mockSignedIn('administrador', false);
+    for (const result of [
+      await listUsersAction(clinicId),
+      await createUserAction(invite),
+      await updateAdminClinicUserAction({ clinicId, userId: '22222222-2222-4222-8222-222222222222', isActive: true }),
+    ]) expect(result.error?.code).toBe('CLINIC_SCOPE_FORBIDDEN');
+    expect(mocks.createAdminClient).not.toHaveBeenCalled();
+  });
+
+  it('filters the staff list by the selected clinic for an operator', async () => {
+    mockSignedIn('administrador');
+    const eq = vi.fn().mockReturnValue({ order: async () => ({ data: [], error: null }) });
+    mocks.createAdminClient.mockReturnValue({ from: () => ({ select: () => ({ eq }) }) });
+    expect((await listUsersAction(clinicId)).success).toBe(true);
+    expect(eq).toHaveBeenCalledWith('clinic_id', clinicId);
+  });
+
+  it('uses the selected clinic for the invitation, staff profile and audit record', async () => {
+    mockSignedIn('administrador');
+    const inviteUserByEmail = vi.fn().mockResolvedValue({ data: { user: { id: 'new-member' } } });
+    const insert = vi.fn().mockReturnValue({ select: () => ({ single: async () => ({ data: { clinic_id: clinicId } }) }) });
+    mocks.createAdminClient.mockReturnValue({
+      auth: { admin: { inviteUserByEmail } },
+      from: (table: string) => table === 'clinics'
+        ? { select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: { id: clinicId } }) }) }) }
+        : { insert },
+    });
+    expect((await createUserAction(invite)).success).toBe(true);
+    expect(inviteUserByEmail).toHaveBeenCalledWith(invite.email, { data: { clinic_id: clinicId, full_name: invite.fullName, role: invite.role } });
+    expect(insert).toHaveBeenCalledWith(expect.objectContaining({ clinic_id: clinicId }));
+    expect(createAuditLog).toHaveBeenCalledWith(expect.objectContaining({ clinic_id: clinicId }));
   });
 });

@@ -4,12 +4,14 @@ import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
 import { withErrorHandling, ServerActionResult } from '@/lib/server-action-wrapper';
+import { requireClinicAdminScope } from '@/lib/platform/access';
 import { requireRole } from '@/lib/auth/require-user';
 import { createAuditLog } from '@/lib/audit';
-import { DentalClinicError, RoleAuthorizationError } from '@/errors/domain';
-import type { UserProfile, UserRole } from '@/types/domain';
+import { DentalClinicError } from '@/errors/domain';
+import type { UserProfile } from '@/types/domain';
 
 const createUserSchema = z.object({
+  clinicId: z.uuid().optional(),
   fullName: z.string().trim().min(1, 'El nombre completo es obligatorio').max(200, 'El nombre no puede exceder 200 caracteres'),
   email: z.string().trim().email('El correo electrónico no es válido').max(254),
   role: z.enum(['administrador', 'odontologo', 'recepcionista'], {
@@ -38,14 +40,21 @@ export async function createUserAction(
   return withErrorHandling(async () => {
     const input = createUserSchema.parse(rawInput);
     const authAdmin = await requireRole(['administrador'], 'usuario', '', 'create');
+    const clinicId = input.clinicId ?? authAdmin.clinicId;
+    await requireClinicAdminScope(authAdmin, clinicId);
     const admin = createAdminClient();
+
+    if (clinicId !== authAdmin.clinicId) {
+      const { data, error } = await admin.from('clinics').select('id').eq('id', clinicId).maybeSingle();
+      if (error || !data) throw new DentalClinicError('No se pudo verificar el consultorio.', 'CLINIC_NOT_FOUND', 404);
+    }
 
     // 1. Invitar al usuario en Supabase Auth
     const { data: authData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(
       input.email,
       {
         data: {
-          clinic_id: authAdmin.clinicId,
+          clinic_id: clinicId,
           full_name: input.fullName,
           role: input.role,
         },
@@ -67,7 +76,7 @@ export async function createUserAction(
       .from('users')
       .insert({
         id: newUserId,
-        clinic_id: authAdmin.clinicId,
+        clinic_id: clinicId,
         role: input.role,
         full_name: input.fullName,
         is_active: true,
@@ -88,7 +97,7 @@ export async function createUserAction(
 
     // 3. Auditoría
     await createAuditLog({
-      clinic_id: authAdmin.clinicId,
+      clinic_id: clinicId,
       user_id: authAdmin.userId,
       role: authAdmin.role,
       entity_type: 'usuario',
@@ -256,15 +265,17 @@ export async function deactivateUserAction(
 /**
  * Server Action: Listado de usuarios del consultorio.
  */
-export async function listUsersAction(): Promise<ServerActionResult<UserProfile[]>> {
+export async function listUsersAction(requestedClinicId?: string): Promise<ServerActionResult<UserProfile[]>> {
   return withErrorHandling(async () => {
     const authUser = await requireRole(['administrador'], 'usuario');
-    const supabase = await createServerSupabaseClient();
+    const clinicId = z.uuid().optional().parse(requestedClinicId) ?? authUser.clinicId;
+    await requireClinicAdminScope(authUser, clinicId);
+    const supabase = clinicId === authUser.clinicId ? await createServerSupabaseClient() : createAdminClient();
 
     const { data: users, error } = await supabase
       .from('users')
       .select('id, clinic_id, role, full_name, is_active, mfa_enabled, created_at, updated_at')
-      .eq('clinic_id', authUser.clinicId)
+      .eq('clinic_id', clinicId)
       .order('full_name', { ascending: true });
 
     if (error) {
